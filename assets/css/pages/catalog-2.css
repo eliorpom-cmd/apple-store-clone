@@ -259,10 +259,8 @@
 .cat2-tiles-live .cat2-tile-image { height: 267px; }
 
 /* ---------- Live mode: upgrade page order and blocks taken from the source ---------- */
-.cat2-live-select { padding-top: 229px; } /* measured: gap between the last explanatory block and the selector title */
+.cat2-live-select { padding-top: 0; } /* the selector title follows the last explanatory block directly */
 .cat2-live-select .cat2-tabs { margin-inline: 0; }
-.cat2-start { padding: 80px 0; text-align: center; }
-.cat2-start .btn { margin-top: 24px; }
 .cat2-feature { flex: none; }
 .cat2-feature .card-media img { max-height: 180px; }
 .live-hero .cat2-step { padding-top: 60px; }
@@ -271,9 +269,10 @@
 .live-hero .cat2-steps { margin-top: 6px; min-height: 187px; }
 .live-hero .cat2-up-cta { margin-top: 0; height: 199px; }
 .live-hero .cat2-up-cta { padding-bottom: 0; }
-.cat2-live-sec { padding: 0; }
-.cat2-live-select .cat2-tabs { margin-top: 0; }
-.cat2-live-shelf { padding: 0 0 52px; } /* measured: the shelf ends 109 px below its cards */
+.cat2-live-select .cat2-tabs { margin-top: 61px; margin-bottom: 94px; } /* title 88 px, tab bar 61 px below it, panels 94 px below the bar (measured) */
+.cat2-live-select h2 { margin: 0; max-width: 420px; } /* the source title wraps to two lines */
+.live-track { padding-bottom: 153px; } /* measured: panel ends 89 px lower than the cards */
+.cat2-live-shelf { padding: 0 0 155px; } /* measured: the shelf ends 155 px below its cards */
 .live-faq { padding: 564px 0 0; } /* measured: the FAQ groups start 403 px after the start block */
 .live-faq-title { padding: 24px 0 16px; font: 600 21px/1.1905 var(--font); letter-spacing: .011em; }
 .live-faq .acc-btn { padding: 20px 0; }
@@ -295,8 +294,6 @@
 /* Phone width: the source stacks its blocks, so the desktop heights do not apply. */
 @media (max-width: 734px) {
   /* Heights measured on the source at 390 px: the desktop values do not apply. */
-  .cat2-live-sec { min-height: 0 !important; padding: 64px 0; }
-  .cat2-live-sec .cat2-sec-visual img { width: 80%; }
   .cat2-start.live-start { min-height: 536px !important; padding: 64px 0; }
   .live-hero .cat2-up-visual { height: auto !important; }
   .live-hero-video { width: 100% !important; height: auto !important; }
@@ -311,3 +308,78 @@
 .cat2-buystrip-grid .cat2-bento-card { grid-column: span 1; min-height: 230px; }
 @media (max-width: 734px) { .cat2-buystrip-grid { grid-template-columns: 1fr; } }
 .live-shelf-head { padding: 24px 0 20px; text-align: left; }
+
+/* ---------- Live upgrade blocks: layout per source block (positions measured on the source, 1440 px) ---------- */
+/* Each block is a 980 px container; offsets below are relative to that container's left and top edge. */
+.live-sec { position: relative; padding: 0; display: block; }
+.live-sec-inner { position: relative; display: block; height: 100%; }
+.live-sec-text, .live-sec-visual { position: absolute; }
+.live-sec-visual { display: block; }
+.live-sec-visual img { position: absolute; max-width: none; width: auto; height: auto; }
+.live-sec h2 { font: 600 40px/44px var(--font); letter-spacing: 0; }
+.live-sec p { font: 400 17px/25px var(--font); letter-spacing: -.022em; }
+
+/* Products: purple-to-red gradient title, text left, product group right */
+.live-sec-products { min-height: 701px; background: #fff; }
+.live-sec-products .live-sec-inner { height: 701px; }
+.live-sec-products .live-sec-text { left: 0; top: 210px; width: 396px; }
+.live-sec-products h2 { background: linear-gradient(90deg, #7230c1 0%, #f10000 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.live-sec-products p { margin-top: 24px; }
+.live-sec-products .live-sec-visual { left: 0; top: 0; width: 980px; height: 701px; }
+.live-sec-products .live-sec-visual img { left: 433px; top: 46px; width: 859px; height: 555px; }
+
+/* Lease: black, photo bleeds from the left edge, white text */
+.live-sec-lease { min-height: 700px; background: #000; color: #fff; }
+.live-sec-lease .live-sec-inner { height: 700px; }
+.live-sec-lease h2 { color: #fff; }
+.live-sec-lease p { color: #f5f5f7; margin-top: 24px; }
+.live-sec-lease .live-sec-text { left: 0; top: 155px; width: 408px; }
+.live-sec-lease .live-sec-visual { left: -359px; top: 0; width: 1698px; height: 700px; }
+.live-sec-lease .live-sec-visual img { left: 0; top: 0; width: 1698px; height: 700px; object-fit: cover; }
+
+/* Process: magenta-to-purple gradient, photo left, text right */
+.live-sec-process { min-height: 702px; background: linear-gradient(45deg, #a4257d 0%, #762fbc 100%); color: #fff; }
+.live-sec-process .live-sec-inner { height: 702px; }
+.live-sec-process h2 { color: #fff; }
+.live-sec-process p { color: #fff; margin-top: 24px; }
+.live-sec-process .live-sec-text { left: 556px; top: 137px; width: 392px; }
+.live-sec-process .live-sec-visual { left: 0; top: 0; width: 980px; height: 702px; }
+.live-sec-process .live-sec-visual img { left: 18px; top: 200px; width: 377px; height: 502px; }
+
+/* AppleCare: grey band, product group left, text right */
+.live-sec-applecare { min-height: 501px; background: #f5f5f7; }
+.live-sec-applecare .live-sec-inner { height: 501px; }
+.live-sec-applecare .live-sec-text { left: 556px; top: 140px; width: 408px; }
+.live-sec-applecare .live-sec-visual { left: 0; top: 0; width: 980px; height: 501px; }
+.live-sec-applecare .live-sec-visual img { left: -2px; top: 141px; width: 461px; height: 219px; }
+
+/* iPhone program note: white, centred narrow text block */
+.live-sec-iphone { min-height: 350px; background: #fff; }
+.live-sec-iphone .live-sec-inner { height: 350px; }
+.live-sec-iphone .live-sec-text { left: 196px; top: 115px; width: 588px; text-align: center; }
+.live-sec-iphone .live-sec-link { display: block; margin-top: 16px; font: 400 14px/20px var(--font); letter-spacing: -.016em; }
+.live-sec-iphone h2 { font: 600 27px/38px var(--font); letter-spacing: 0; }
+.live-sec-iphone p { margin-top: 12px; }
+.live-sec-iphone p { font-size: 17px; line-height: 25px; }
+
+/* Stacked layout below 734 px: no measured offsets apply */
+@media (max-width: 734px) {
+  .live-sec { min-height: 0 !important; padding: 64px 0; }
+  .live-sec-inner { height: auto !important; }
+  .live-sec-text, .live-sec-visual { position: static; width: auto !important; height: auto !important; left: auto !important; top: auto !important; }
+  .live-sec-visual img { position: static; width: 80% !important; height: auto !important; left: auto !important; top: auto !important; margin: 16px auto 0; }
+  .live-sec-products .live-sec-visual img, .live-sec-process .live-sec-visual img, .live-sec-applecare .live-sec-visual img { width: 90% !important; }
+  .live-sec-lease .live-sec-visual img { width: 100% !important; }
+  .live-sec-inner { padding: 0 var(--gutter); }
+}
+
+/* Closing block: gradient band, logo, 64 px title and button at measured offsets (container-relative, 1440 px) */
+.live-start { position: relative; height: 700px; background: linear-gradient(180deg, rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, 0) 50%), linear-gradient(45deg, #7230c1 0%, #ff0300 100%); color: #fff; }
+.live-start-logo { position: absolute; left: 431px; top: 225px; width: 118px; height: 26px; }
+.live-start-title { position: absolute; left: 245px; top: 251px; width: 490px; font: 600 64px/68px var(--font); letter-spacing: -.009em; color: #fff; text-align: center; }
+.live-start-cta { position: absolute; left: 405px; top: 419px; width: 170px; height: 56px; padding: 0; line-height: 56px; font: 400 21px/56px var(--font); border-radius: var(--r-pill); }
+@media (max-width: 734px) {
+  .live-start { height: auto; min-height: 536px; padding: 64px var(--gutter); }
+  .live-start-logo, .live-start-title, .live-start-cta { position: static; width: auto; height: auto; margin-bottom: 24px; font-size: 40px; line-height: 44px; }
+  .live-start-cta { display: inline-block; width: auto; padding: 12px 24px; font-size: 17px; line-height: 1.2; }
+}

@@ -141,3 +141,13 @@
   .cfg-gallery .gallery-slide { flex: 0 0 87.5%; scroll-snap-align: start; border-radius: 20px; background: var(--page); }
   .cfg-gallery .dots { bottom: 8px; }
 }
+
+/* ---------- What's in the box (live): centred title, items as half-width columns (source measures) ---------- */
+.cfg-witb { padding: 0 0 80px; text-align: center; }
+.cfg-witb-title { font: 600 40px/44px var(--font); letter-spacing: .005em; margin-bottom: 40px; }
+.cfg-witb-items { display: flex; justify-content: center; gap: 0; background: var(--page); padding: 0; }
+.cfg-witb-items li { flex: 1 1 50%; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.cfg-witb-image { height: 339px; display: flex; align-items: flex-end; justify-content: center; }
+.cfg-witb-image img { display: block; height: 339px; width: auto; max-width: 100%; object-fit: contain; }
+.cfg-witb-label { font: 400 17px/22px var(--font); letter-spacing: -.022em; padding-top: 14px; margin-bottom: 36px; }
+.cfg-witb-note { font: 400 12px/16px var(--font); letter-spacing: -.01em; color: var(--text); max-width: 980px; margin: 36px auto 0; }

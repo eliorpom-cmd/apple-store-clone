@@ -108,12 +108,13 @@ Live.register("configurator-2", (data, L) => {
         ${gallery}
         <div class="cfg2-rail">${stepsHTML}
           <section class="summary cfg2-summary" aria-label="Summary">
-            <div>${summary.title ? `<h2 class="summary-title">${esc(summary.title)}</h2>` : ""}</div>
-            <div>
-              ${summary.price ? `<p class="summary-price-label">${esc(summary.price.replace(/\$[\d,.]+$/, "").trim())}</p>` : `<p class="summary-price-label">Total</p>`}
-              <p class="summary-price" data-total>${fmt(base)}</p>
-              ${summary.monthly ? `<p class="summary-fin">${esc(summary.monthly)}</p>` : ""}
-              <button class="btn btn-block" type="button" data-add-to-bag="bag.html" disabled>${esc(summary.cta || "Continue")}</button>
+            <div class="cfg2-sum-head"><h2 class="summary-title"><span class="cfg2-sum-ink">${esc(summary.title || "")}</span>${summary.subheader ? ` <span class="cfg2-sum-sub">${esc(summary.subheader)}</span>` : ""}</h2></div>
+            <div class="cfg2-sum-body">
+              ${(summary.priceBlocks?.length ? summary.priceBlocks : [summary.price || ""]).filter(Boolean).map((b) => `<p class="cfg2-sum-price-block">${esc(b)}</p>`).join("")}
+              <span class="visuallyhidden" data-total>${fmt(base)}</span>
+              ${summary.cashback ? `<p class="cfg2-sum-cash">${esc(summary.cashback)}</p>` : ""}
+              <button class="btn btn-block cfg2-sum-cta" type="button" data-add-to-bag="bag.html" disabled>${esc(summary.cta || "Continue")}</button>
+              ${summary.saveTitle ? `<div class="cfg2-sum-save"><h3>${esc(summary.saveTitle)}</h3>${summary.saveText ? `<p>${esc(summary.saveText)}</p>` : ""}<div class="cfg2-sum-links">${(summary.saveLinks || []).map((l) => `<span>${esc(l)}</span>`).join("")}</div></div>` : ""}
             </div>
           </section>
         </div>

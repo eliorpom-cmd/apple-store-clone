@@ -115,6 +115,8 @@ export default function extract() {
       title: txt(q("h1.store-search-heading")),
       placeholder: txt(q(".form-textbox-label")),
       complete: link(q(".store-search-section-storelist a")),
+      // Promo ribbon under the search bar: text and optional link.
+      ribbon: q(".ribbon p") ? { text: txt(q(".ribbon p")), link: link(q(".ribbon p a")) } : null,
       headline: txt(q("h2.headline")),
       stores: qa(".storecard .store-card").map((a) => ({
         href: abs(a.getAttribute("href")),

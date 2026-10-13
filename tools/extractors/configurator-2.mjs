@@ -143,12 +143,32 @@ export default function extract() {
   const lines = priceBlock ? [clean(priceBlock)].filter(Boolean) : [];
 
   const summaryRoot = document.querySelector(".rf-bfe-summary-price-content, .rf-bfe-summary");
+  // Visible text only: skips screen-reader text, footnote marks and hidden nodes.
+  const visibleText = (root) => {
+    if (!root) return "";
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const parts = [];
+    let n;
+    while ((n = w.nextNode())) {
+      const el = n.parentElement;
+      if (!el || el.closest(".visuallyhidden, [class*='visuallyhidden'], sup, as-footnote") || getComputedStyle(el).display === "none") continue;
+      parts.push(n.textContent);
+    }
+    return parts.join(" ").replace(/\s+/g, " ").replace(/\s+\//g, "/").trim();
+  };
   const summary = {
     title: clean(document.querySelector(".rf-bfe-summary h2, .rf-bfe-summary h3")),
     price: clean(summaryRoot?.querySelector(".as-pricepoint-fullprice")),
     priceAmount: priceOf(clean(summaryRoot?.querySelector(".as-pricepoint-fullprice"))),
     monthly: clean(summaryRoot?.querySelector(".as-pricepoint-installmentprice-comparative")),
     cta: clean(document.querySelector(".rc-summary-button")) || "Continue",
+    subheader: clean(document.querySelector(".rf-bfe-summary-subheader")),
+    priceBlocks: visibleText(document.querySelector(".rf-bfe-summary-price-content .rf-bfe-summary-price, .rf-bfe-summary-price"))
+      .split(/(?= Lease from| Lease from)/).map((x) => x.trim()).filter(Boolean),
+    cashback: clean(document.querySelector(".rf-bfe-summary .rf-ac-messages")),
+    saveTitle: clean(document.querySelector(".rf-saveditem-content-header")),
+    saveText: clean(document.querySelector(".rf-saveditem-content-description")),
+    saveLinks: [...document.querySelectorAll(".rf-bfe-summary .rf-bfe-summary-buttons-container button, .rf-bfe-summary .rf-shareitem-content a, .rf-bfe-summary .rf-shareitem-content button")].map(clean).filter(Boolean),
   };
 
   const faqRoot = document.querySelector("[data-analytics-section='buyflow-faq']") || document;

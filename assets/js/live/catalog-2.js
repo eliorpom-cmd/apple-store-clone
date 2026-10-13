@@ -87,15 +87,17 @@ Live.register("catalog-2", (data, L) => {
           <a class="btn cat2-model-btn" href="${esc(link(m.href))}">${esc(m.button || "Select")}</a>
         </article>`).join("");
       return `<div class="tab-panel" role="tabpanel" id="panel-${i}" aria-labelledby="tab-${i}"${i ? " hidden" : ""}>
-        <div class="scroller" data-scroller><div class="scroller-track cat2-track">${cards}</div></div></div>`;
+        <div class="scroller" data-scroller><div class="scroller-track cat2-track live-track">${cards}</div></div></div>`;
     }).join("");
     // Section tone from the source background; height kept at the measured value.
     const toneOf = (bg) => (/rgb\(0, 0, 0\)|rgb\(29, 29, 31\)/.test(bg || "") ? " cat2-sec--dark" : /245, 245, 247/.test(bg || "") ? " cat2-sec--page" : " cat2-sec--light");
+    // Each source block gets a key from its class name; its layout lives in catalog-2.css (live-sec-<key>).
+    const keyOf = (sct) => sct.name.replace(/^dd-apple-upgrade-overview-/, "").replace(/[^a-z]/g, "");
     const block = (sct) => `
-      <section class="cat2-sec${toneOf(sct.bg)} cat2-live-sec" style="min-height:${sct.height}px">
-        <div class="container cat2-sec-inner">
-          <div><h2>${esc(sct.title)}</h2>${(sct.text || []).map((p) => `<p>${esc(p)}</p>`).join("")}</div>
-          <div class="cat2-sec-visual">${(sct.images || []).slice(0, 3).map((i) => im(i, "is-m")).join("")}</div>
+      <section class="cat2-sec live-sec live-sec-${keyOf(sct)}">
+        <div class="container cat2-sec-inner live-sec-inner">
+          <div class="live-sec-text"><h2>${esc(sct.title)}</h2>${(sct.text || []).map((p) => `<p>${esc(p)}</p>`).join("")}${(sct.links || []).slice(0, 1).map((l) => `<a class="more live-sec-link" href="${esc(link(l.href))}">${esc(l.text)}</a>`).join("")}</div>
+          <div class="cat2-sec-visual live-sec-visual">${(sct.images || []).slice(0, 3).map((i) => im(i)).join("")}</div>
         </div>
       </section>`;
     const sectionsBefore = (data.sections || []).filter((x) => !/-iphone$/.test(x.name)).map(block).join("");
@@ -108,12 +110,11 @@ Live.register("catalog-2", (data, L) => {
         ${c.img ? `<div class="card-media">${im(c.img)}</div>` : ""}</a>`;
     }).join("");
     const shelf = shelfCards ? `<section class="shelf cat2-live-shelf"><div class="scroller" data-scroller><div class="scroller-track">${shelfCards}</div></div></section>` : "";
-    const start = data.start ? `<section class="cat2-start live-start container" style="min-height:700px">
-        ${data.start.logo ? im(data.start.logo, "live-logo") : ""}
-        <h2 class="cat2-h40">${esc(data.start.title)}</h2>
-        ${data.start.cta ? `<a class="btn btn-lg" href="${esc(link(data.start.cta.href))}">${esc(data.start.cta.text)}</a>` : ""}
+    const start = data.start ? `<section class="live-start container">
+        ${data.start.logo ? `<img class="live-start-logo" src="${esc(data.start.logo.src)}" alt="">` : ""}
+        <h2 class="live-start-title">${esc(data.start.title)}</h2>
+        ${data.start.cta ? `<a class="btn live-start-cta" href="${esc(link(data.start.cta.href))}">${esc(data.start.cta.text)}</a>` : ""}
       </section>` : "";
-    // FAQ: each source group with its title ("Getting started", "Managing my lease", ...), then its questions.
     const faqItems = (items) => items.map((f) => `
       <div class="acc-item">
         <button class="acc-btn" aria-expanded="false">${esc(f.q)}</button>

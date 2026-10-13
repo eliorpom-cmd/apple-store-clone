@@ -82,6 +82,7 @@ export default function extract() {
         name: el.className.split(" ").find((c) => c.startsWith("dd-apple-upgrade-overview-")),
         title: txt(el.querySelector("h2")),
         text: [...el.querySelectorAll("p")].map(txt).filter(Boolean),
+        links: [...el.querySelectorAll("a")].map((l) => ({ text: txt(l), href: abs(l.getAttribute("href")) })).filter((l) => l.text),
         images: [...el.querySelectorAll("img")].filter((i) => i.getBoundingClientRect().width > 60).map((i) => ({ src: i.currentSrc || i.src, alt: i.alt || "" })),
         bg: tone(el),
         dark: /dark|tertiary/.test(el.className) || tone(el) === "rgb(29, 29, 31)" || tone(el) === "rgb(0, 0, 0)",

@@ -128,6 +128,8 @@ Live.register("service", (data, L) => {
               ${img(c.img, "stores-program-img")}
             </li>`).join("")}</ul>
         </section>`).join("");
+      // Promo ribbon under the search row (full width, as on the source page).
+      const ribbon = data.ribbon && data.ribbon.text ? `<div class="stores-ribbon"><p>${esc(data.ribbon.text)}${data.ribbon.link ? ` <a href="${esc(link(data.ribbon.link.href))}">${esc(data.ribbon.link.text)}</a>` : ""}</p></div>` : "";
       return `<div class="container">
         <div class="stores-search">
           <h1 class="stores-label">${esc(data.title)}</h1>
@@ -137,6 +139,7 @@ Live.register("service", (data, L) => {
           </div>
           ${linkEl(data.complete, "more stores-complete")}
         </div>
+        ${ribbon}
         <h2 class="stores-heading">${esc(data.headline)}</h2>
         <div class="stores-list scroller" data-scroller><div class="scroller-track">${cards}</div></div>
         <p class="svc-empty stores-empty" data-store-empty hidden>No stores match that search.</p>

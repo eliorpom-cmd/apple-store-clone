@@ -10,7 +10,7 @@
 
 /* Personal setup: grey band, centred copy and picture */
 /* Band height measured on the source: 565 px (spec-level padding fitted to the content). */
-.dd-live-setup { background: var(--page); padding: 180px 0; }
+.dd-live-setup { background: var(--page); padding: 224px 0; }
 .dd-live-setup-img { display: block; width: min(708px, 100%); height: auto; margin: 24px auto 0; }
 
 /* Services: picture band with the copy over it */

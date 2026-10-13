@@ -113,7 +113,7 @@ export default function extract() {
     const swatches = uniqueBy(within(".colornav-link").map((l) => ({ label: text(l) || l.getAttribute("title") || "", img: best(l) })), (x) => x.label);
 
     // Option cards: title, subline (left column only), price lines and the price used for the total.
-    const options = uniqueBy(within("label.form-selector-label").map((label) => {
+    const options = uniqueBy(within("label.form-selector-label, label.form-selector-list-header").map((label) => {
       const input = document.getElementById(label.htmlFor) || label.previousElementSibling;
       const full = text(label);
       // Price starts at the first "Buy from", "Lease from" or dollar amount; the title ends there too.
@@ -125,7 +125,18 @@ export default function extract() {
       title = title.split(/Buy from|Lease from/)[0].trim();
       if (sub && title.endsWith(sub)) title = title.slice(0, -sub.length).trim();
       const right = text(label.querySelector(".form-selector-right-col")) || (tailAt >= 0 ? full.slice(tailAt) : "");
-      return { title, sub, lines: priceLines(right), price: priceOf(right), disabled: !!input?.disabled };
+      // List cards (AppleCare): the subline and price sit in their own elements, and the bullets follow the label.
+      const listSub = text(label.querySelector(".rf-applecare-subheader"));
+      const listPrice = text(label.querySelector(".rf-applecare-price"));
+      const bullets = [...(label.parentElement?.querySelectorAll("li") || [])].filter((li) => !li.closest("label")).map(text).filter(Boolean);
+      return {
+        title,
+        sub: sub || listSub,
+        lines: priceLines(right || listPrice),
+        price: priceOf(right || listPrice),
+        disabled: !!input?.disabled,
+        bullets,
+      };
     }), (o) => o.title);
 
     // Help cards ("Need help choosing...") with their image when present.
@@ -156,6 +167,8 @@ export default function extract() {
   const witb = {
     title: text(witbSec?.querySelector("h2")),
     items: uniqueBy([...document.querySelectorAll(".rc-witb-item")].map((li) => ({ label: text(li.querySelector(".rc-witb-item-label")), img: best(li) })), (i) => i.label).filter((i) => i.label || i.img),
+    // Note under the items ("Our environmental goals ..."): the block after the footer paragraph.
+    note: text(document.querySelector(".rf-flagship-buyflow-witbfooter")?.nextElementSibling),
   };
 
   // ---------- FAQ ----------

@@ -3,6 +3,8 @@
 // behaviors ([data-configurator], [data-gallery], [data-accordion], [data-pbar]) attach to the new markup.
 Live.register("configurator", (data, L) => {
   const { esc } = L;
+  // Images are eager: the visual capture is a full-page screenshot, and lazy images would stay empty.
+  const eimg = (i, cls = "") => (i && i.src ? `<img src="${esc(i.src)}" alt="${esc(i.alt || "")}"${cls ? ` class="${cls}"` : ""}>` : "");
 
   // ---------- Prices (components.js sums the checked data-price of every step) ----------
   // The first step with prices (the model, or storage when there is no model) carries absolute prices.
@@ -29,12 +31,18 @@ Live.register("configurator", (data, L) => {
     // Payment cards show their description, not prices (as in the source).
     const right = o.lines?.length && !noPrice ? `<span class="option-price">${o.lines.map(esc).join("<br>")}</span>` : "";
     const tall = o.lines?.length > 1 ? " cfg-tall" : "";
+    // Cards with a bullet list (AppleCare plans) use the component's rich layout: head, price, then the list.
+    if (o.bullets?.length) {
+      const top = `<span class="option-top">${body}${right}</span>`;
+      const list = `<ul>${o.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`;
+      return `<label class="option option-rich"><input type="radio" name="${name}" data-price="${price}" data-label="${esc(o.title)}"${checked ? " checked" : ""}><span class="option-label">${top}${list}</span></label>`;
+    }
     return `<label class="option${tall}"><input type="radio" name="${name}" data-price="${price}" data-label="${esc(o.title)}"${checked ? " checked" : ""}><span class="option-label">${body}${right}</span></label>`;
   };
 
   // Help cards open the source overlay in a new tab; those with a picture show it as a 120 x 125 thumbnail.
   const helpcard = (h) => {
-    const inner = `${h.img ? `<span class="helpcard-thumb">${L.img(h.img)}</span>` : ""}<span class="helpcard-text"><strong>${esc(h.title)}</strong>${esc(h.text)}</span><span class="more-plus" aria-hidden="true"></span>`;
+    const inner = `${h.img ? `<span class="helpcard-thumb">${eimg(h.img)}</span>` : ""}<span class="helpcard-text"><strong>${esc(h.title)}</strong>${esc(h.text)}</span><span class="more-plus" aria-hidden="true"></span>`;
     return h.href
       ? `<a class="helpcard${h.img ? " helpcard-img" : ""}" href="${esc(h.href)}" target="_blank" rel="noopener">${inner}</a>`
       : `<button type="button" class="helpcard${h.img ? " helpcard-img" : ""}">${inner}</button>`;
@@ -42,7 +50,9 @@ Live.register("configurator", (data, L) => {
   const helps = (s) => s.helpcards.map(helpcard).join("");
 
   // Steps that the source lays out full width under the gallery (trade-in, payment, carrier, AppleCare).
-  const WIDE = /^(tradein|paymentOptions|carrierModel|applecare)$/;
+  // iPhone pages lay these out full width under the gallery; iPad and Vision keep every step in the rail.
+  const WIDE_KEYS = /^(tradein|paymentOptions|carrierModel|applecare)$/;
+  const WIDE = { test: (k) => WIDE_KEYS.test(k) && /iphone/.test(data.source || "") };
   // The source opens with the first choice (the model) unlocked but not chosen, so the next step is open.
   // That step is optional for the chain, and a gate on the form keeps Add to Bag off until it is chosen.
   const firstChoice = data.steps[0]?.options.length ? data.steps[0] : null;
@@ -58,7 +68,7 @@ Live.register("configurator", (data, L) => {
     let body = "";
     if (s.swatches.length) {
       // data-finish is the first word of the finish name, the key of its photo in the summary.
-      const sw = s.swatches.map((c) => `<label class="swatch swatch-live"><input type="radio" name="${id}" data-price="0" data-label="${esc(c.label)}" data-finish="${esc((c.label.split(" ")[0] || "").toLowerCase())}" aria-label="${esc(c.label)}"><span>${L.img(c.img)}</span></label>`).join("");
+      const sw = s.swatches.map((c) => `<label class="swatch swatch-live"><input type="radio" name="${id}" data-price="0" data-label="${esc(c.label)}" data-finish="${esc((c.label.split(" ")[0] || "").toLowerCase())}" aria-label="${esc(c.label)}"><span>${eimg(c.img)}</span></label>`).join("");
       body += `<div class="swatches" role="radiogroup" aria-labelledby="${id}-title">${sw}</div><p class="swatch-label" aria-live="polite"></p>`;
     }
     if (s.options.length) {
@@ -80,7 +90,7 @@ Live.register("configurator", (data, L) => {
   // ---------- Gallery: real images, or the video of the first slide ----------
   const slides = data.gallery.map((g) => g.type === "video"
     ? `<div class="gallery-slide"><video class="cfg-live-media cfg-live-video" src="${esc(g.src)}"${g.poster ? ` poster="${esc(g.poster)}"` : ""} autoplay muted loop playsinline></video><button type="button" class="fold-replay" aria-label="Replay video" onclick="const v=this.previousElementSibling;v.currentTime=0;v.play()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19.5 4.5v4h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>`
-    : `<div class="gallery-slide"><img class="cfg-live-media" src="${esc(g.src)}" alt="${esc(g.alt || "")}" loading="lazy"></div>`).join("");
+    : `<div class="gallery-slide"><img class="cfg-live-media" src="${esc(g.src)}" alt="${esc(g.alt || "")}"></div>`).join("");
 
   // ---------- Header ----------
   const h = data.head;
@@ -108,15 +118,19 @@ Live.register("configurator", (data, L) => {
 
   const sum = data.summary;
   // The summary shows the photo of the chosen finish; the first one is shown until a finish is chosen.
-  const finishPhotos = (sum.finishImages || []).map((f, k) => `<img class="cfg-finish-img" data-finish="${esc(f.color)}" src="${esc(f.src)}" alt="" loading="lazy"${k === 0 && !sum.image ? "" : " hidden"}>`).join("");
-  const summaryMedia = sum.image || finishPhotos ? `<div class="cfg-summary-media">${sum.image ? `<img class="cfg-finish-img" src="${esc(sum.image.src)}" alt="${esc(sum.image.alt || "")}" loading="lazy">` : ""}${finishPhotos}</div>` : "";
+  const finishPhotos = (sum.finishImages || []).map((f, k) => `<img class="cfg-finish-img" data-finish="${esc(f.color)}" src="${esc(f.src)}" alt=""${k === 0 && !sum.image ? "" : " hidden"}>`).join("");
+  const summaryMedia = sum.image || finishPhotos ? `<div class="cfg-summary-media">${sum.image ? `<img class="cfg-finish-img" src="${esc(sum.image.src)}" alt="${esc(sum.image.alt || "")}">` : ""}${finishPhotos}</div>` : "";
   const summary = `<section class="summary cfg-summary"><div><h2 class="summary-title">${esc(sum.title)}</h2>${summaryMedia}</div>
     <div><p class="summary-price-label">Total</p><p class="summary-price" data-total>$0</p>
     <p class="summary-fin">or <span data-monthly>$0</span>/mo. for 24 mo.</p>
     <button type="button" class="btn btn-lg btn-block" data-add-to-bag="bag.html" disabled>${esc(sum.button || "Continue")}</button></div></section>`;
 
-  const witb = data.witb?.items?.length ? `<section class="cfg-box"><h2 class="step-title"><strong>${esc(data.witb.title)}</strong></h2>
-    <ul class="cfg-box-list cfg-box-live">${data.witb.items.map((i) => `<li>${L.img(i.img)}<span class="cfg-box-name">${esc(i.label)}</span></li>`).join("")}</ul></section>` : "";
+  // What's in the box: centred title, one half-width column per item (picture, then label), then the note.
+  const witb = data.witb?.items?.length ? `<section class="cfg-witb" aria-labelledby="witb-title">
+    <h2 class="cfg-witb-title" id="witb-title">${esc(data.witb.title)}</h2>
+    <ul class="cfg-witb-items">${data.witb.items.map((i) => `<li><div class="cfg-witb-image">${eimg(i.img)}</div><p class="cfg-witb-label">${esc(i.label)}</p></li>`).join("")}</ul>
+    ${data.witb.note ? `<p class="cfg-witb-note">${esc(data.witb.note)}</p>` : ""}
+  </section>` : "";
 
   const faq = data.faq?.items?.length ? `<section class="cfg-faq"><h2 class="cfg-faq-title">${esc(data.faq.title)}</h2>
     <div class="accordion accordion-compact" data-accordion>${data.faq.items.map((it, k) => `<div class="acc-item">

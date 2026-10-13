@@ -3,7 +3,9 @@
 // The comparison is a grid: one row per feature group, one cell per product, so every group is as tall as its tallest cell.
 Live.ddBlocksHTML = (dd, L) => {
   const { esc } = L;
-  const img = (i, cls) => (i ? `<img class="${cls}" src="${esc(i.src)}" alt="${esc(i.alt || "")}" loading="lazy">` : "");
+  // Images are eager (no lazy loading): see configurator.js.
+  const eimg = (i, cls = "") => (i && i.src ? `<img src="${esc(i.src)}" alt="${esc(i.alt || "")}"${cls ? ` class="${cls}"` : ""}>` : "");
+  const img = (i, cls) => (i ? `<img class="${cls}" src="${esc(i.src)}" alt="${esc(i.alt || "")}">` : "");
   const more = (l) => (l ? `<a class="more-plus dd-live-link" href="${esc(l.href || "#")}" target="_blank" rel="noopener">${esc(l.text)}</a>` : "");
 
   const setup = (b) => `<section class="dd-live-block dd-live-setup"><div class="dd-live-plate dd-live-centered">

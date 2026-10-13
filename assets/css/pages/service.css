@@ -175,9 +175,10 @@
 }
 
 /* ---------- Stores (find a store) ---------- */
-.stores-search { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 139px 0 16px; }
-.stores-label { font: 600 34px/50px var(--font); letter-spacing: -.374px; /* spec 06 §5.1 */ white-space: nowrap; }
-.stores-field { position: relative; flex: 0 1 509px; min-width: 0; }
+.stores-search { position: relative; height: 72px; margin-top: 70px; }
+/* Positions measured on the source page at 1440 px: label x211, field x504 (432 wide), link ends x1229 */
+.stores-label { position: absolute; left: -19px; top: 23px; font: 600 21px/25px var(--font); letter-spacing: var(--tr-card); white-space: nowrap; }
+.stores-field { position: absolute; left: 274px; top: 8px; width: 432px; height: 56px; }
 .stores-field input {
   width: 100%; height: 56px; padding: 0 20px 0 52px;
   border: 1px solid var(--text-3); border-radius: var(--r-md); background: var(--surface);
@@ -186,7 +187,11 @@
 .stores-field input::placeholder { color: var(--text-2); }
 .stores-field input:focus { outline: none; border-color: var(--action); box-shadow: var(--focus-ring); }
 .stores-field svg { position: absolute; left: 18px; top: 50%; translate: 0 -50%; width: 20px; height: 20px; color: var(--text-2); }
-.stores-complete { font: var(--t-body); letter-spacing: var(--tr-body); white-space: nowrap; }
+.stores-complete { position: absolute; right: -19px; top: 28px; font: 400 14px/20px var(--font); letter-spacing: var(--tr-small); white-space: nowrap; }
+/* Promo ribbon: full width, blue band, white text */
+.stores-ribbon { margin: 0 calc(50% - 50vw); height: 52px; display: flex; align-items: center; justify-content: center; background: var(--action); color: #fff; text-align: center; }
+.stores-ribbon p { font: 400 14px/20px var(--font); letter-spacing: var(--tr-small); }
+.stores-ribbon a { color: #fff; text-decoration: underline; }
 
 .stores-heading { font: 600 40px/44px var(--font); letter-spacing: 0; text-align: center; padding: 118px 0 0; }
 /* Live program sections: centred heads, as on the source page */
@@ -389,24 +394,39 @@
 .gift-icon-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px 30px; padding: 48px 0 0; }
 .gift-icon-grid li { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 80px; font: 600 12px/16px var(--font); letter-spacing: var(--tr-note); text-align: center; }
 .gift-icon-img { width: 60px; height: 60px; object-fit: contain; }
-.gift-ftc { padding: 40px 0 88px; }
+.gift-ftc { padding: 40px 0 82px; }
 .gift-ftc p { font: 400 12px/16px var(--font); letter-spacing: var(--tr-note); color: var(--text-2); padding-bottom: 8px; }
-.gift-account { padding-top: 120px; }
-.gift-account > h2 { font: 600 64px/68px var(--font); letter-spacing: -.576px; /* spec 06 §5.4 */ text-align: center; padding-bottom: 72px; }
-.gift-row { display: flex; align-items: stretch; gap: 0; height: 564px; margin-top: 0; overflow: hidden; background: var(--page); border-radius: var(--r-card); }
+.gift-account {
+  /* Full-bleed dark band, as on the source page: 118 px above the heading, 132 px below the rows */
+  margin: 0 calc(50% - 50vw); padding: 118px calc(50vw - 50%) 64px; background: #000; color: #fff;
+}
+.gift-account > * { max-width: 980px; margin-inline: auto; }
+.gift-account > h2 { font: 600 64px/68px var(--font); letter-spacing: -.576px; /* spec 06 §5.4 */ text-align: center; color: #fff; padding-bottom: 72px; }
+.gift-row { display: flex; align-items: stretch; gap: 0; height: 564px; margin-top: 0; background: transparent; }
+/* Row images bleed into the side padding of the dark band, as on the source page */
+.gift-row-info { flex: 0 0 585px; }
+.gift-row-img { flex: 0 0 625px; width: 625px; height: auto; align-self: flex-start; margin-right: -230px; }
+.gift-row.is-reversed .gift-row-info { flex: 0 0 490px; margin-left: auto; }
+.gift-row.is-reversed .gift-row-img { flex: 0 0 504px; width: 504px; height: auto; margin: 0 0 0 -230px; }
+/* Visual offset measured on the source page: the photo sits further right inside its box */
+.gift-row.is-reversed .gift-row-img { position: relative; left: 140px; }
 .gift-row + .gift-row { height: 923px; }
 .gift-row.is-reversed { flex-direction: row-reverse; }
-.gift-row-info { flex: 1; min-width: 0; padding: 56px; display: flex; flex-direction: column; justify-content: center; }
-.gift-row-info h3 { font: 600 48px/52px var(--font); letter-spacing: 0; }
-.gift-row-info p { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 12px; }
+.gift-row-info { min-width: 0; padding: 56px; display: flex; flex-direction: column; justify-content: center; }
+.gift-row-info h3 { font: 600 48px/52px var(--font); letter-spacing: 0; color: #fff; }
+.gift-row-info p { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 12px; color: #fff; }
+.gift-account .more { color: var(--link-on-dark); }
 .gift-row-info .more { display: inline-block; padding-top: 12px; font: var(--t-body); }
-.gift-row-img { width: 50%; height: 100%; object-fit: cover; }
-.gift-business { position: relative; display: flex; justify-content: flex-end; min-height: 654px; margin-top: 120px; border-radius: var(--r-card); overflow: hidden; background: var(--page); }
+/* Business block: full-bleed photo band, text on the left in white, as on the source page */
+.gift-business {
+  position: relative; display: flex; align-items: flex-start; height: 654px; margin: 20px calc(50% - 50vw) 0;
+  padding: 0 calc(50vw - 50%); overflow: hidden; background: #000; color: #fff;
+}
 .gift-business-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.gift-business-info { position: relative; width: 490px; padding: 56px; background: var(--surface); }
-.gift-business-info h2 { font: 600 40px/44px var(--font); letter-spacing: 0; }
+.gift-business-info { position: relative; width: 490px; padding-top: 183px; color: #fff; }
+.gift-business-info h2 { font: 600 48px/52px var(--font); letter-spacing: 0; color: #fff; width: 417px; }
 .gift-business-info p { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 12px; }
-.gift-business-info .more { display: inline-block; padding-top: 12px; font: var(--t-body); }
+.gift-business-info .more { display: inline-block; padding-top: 12px; font: var(--t-body); color: var(--link-on-dark); }
 
 @media (max-width: 1068px) {
   .gift-hero h1 { font-size: 48px; line-height: 52px; letter-spacing: 0; }
