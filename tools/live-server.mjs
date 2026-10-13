@@ -41,8 +41,8 @@ let browserP = null;
 const browser = () => (browserP ??= chromium.launch({ headless: true }));
 const inflight = new Map();
 
-async function extract(src) {
-  if (routes[src] && existsSync(join(CACHE, routes[src].key + ".json"))) return routes[src];
+async function extract(src, fresh = false) {
+  if (!fresh && routes[src] && existsSync(join(CACHE, routes[src].key + ".json"))) return routes[src];
   if (inflight.has(src)) return inflight.get(src);
   const job = (async () => {
     const b = await browser();
@@ -54,7 +54,9 @@ async function extract(src) {
       const found = await page.evaluate(detect);
       const route = { key: keyOf(src), template: found.template, file: found.file || null };
       if (found.template) {
-        const mod = await import(`./extractors/${found.template}.mjs`).catch(() => null);
+        // Cache-busting import: extractors are edited while the server runs.
+        const xfile = join(ROOT, "tools/extractors", found.template + ".mjs");
+        const mod = existsSync(xfile) ? await import(`./extractors/${found.template}.mjs?v=${statSync(xfile).mtimeMs}`).catch((e) => { console.error(e); return null; }) : null;
         if (!mod) { console.log(`no extractor yet for ${found.template} (${src})`); return { ...route, template: null, file: null }; }
         else {
           const data = await page.evaluate(mod.default);
@@ -79,7 +81,7 @@ createServer(async (req, res) => {
     if (url.pathname === "/__ping") { res.end("live"); return; }
     if (url.pathname === "/__go" || url.pathname === "/__live") {
       const src = cleanSrc(url.searchParams.get("src"));
-      const route = await extract(src);
+      const route = await extract(src, url.searchParams.has("fresh"));
       if (url.pathname === "/__go") {
         const to = route.template ? `/${route.file}?src=${encodeURIComponent(src)}` : ORIGIN + src;
         res.writeHead(302, { Location: to }); res.end(); return;
