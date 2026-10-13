@@ -143,14 +143,6 @@
 }
 
 /* ---------- What's in the box (live): centred title, items as half-width columns (source measures) ---------- */
-.cfg-witb { padding: 0 0 80px; text-align: center; }
-.cfg-witb-title { font: 600 40px/44px var(--font); letter-spacing: .005em; margin-bottom: 40px; }
-.cfg-witb-items { display: flex; justify-content: center; gap: 0; background: var(--page); padding: 0; }
-.cfg-witb-items li { flex: 1 1 50%; display: flex; flex-direction: column; align-items: center; min-width: 0; }
-.cfg-witb-image { height: 339px; display: flex; align-items: flex-end; justify-content: center; }
-.cfg-witb-image img { display: block; height: 339px; width: auto; max-width: 100%; object-fit: contain; }
-.cfg-witb-label { font: 400 17px/22px var(--font); letter-spacing: -.022em; padding-top: 14px; margin-bottom: 36px; }
-.cfg-witb-note { font: 400 12px/16px var(--font); letter-spacing: -.01em; color: var(--text); max-width: 980px; margin: 36px auto 0; }
 
 /* Live: the rail offset depends on the first step (measured on the source). */
 .cfg-rail--single { padding-top: 0; }
@@ -173,7 +165,7 @@
 
 /* Summary, full width (iPhone): three columns at x 100 / 531 / 1012 in the source (380 / 400 / 328 px). */
 .cfg-sum-full { display: grid; grid-template-columns: 380px 400px 328px; justify-content: space-between; max-width: 1240px; margin: 0 auto; padding: 39px 0 60px; border-top: 1px solid var(--line); }
-.cfg-sum-headline { font: 600 38px/1.21 var(--font); letter-spacing: .004em; margin-bottom: 40px; } /* 38/46 measured */
+.cfg-sum-headline { font: 600 38px/1.21 var(--font-display); letter-spacing: .004em; margin-bottom: 40px; } /* 38/46 measured */
 .cfg-sum-full .cfg-summary-media img { width: 380px; height: auto; }
 .cfg-sum-price p { font: var(--t-body-tight); letter-spacing: var(--tr-body); }
 .cfg-sum-full .cfg-sum-price p + p { margin-top: 5px; }
@@ -190,7 +182,7 @@
 .cfg-sum-rail { padding-top: 0; }
 .cfg-sum-product { font: 600 17px/1.47 var(--font); letter-spacing: -.022em; }
 .cfg-sum-rail .cfg-sum-price { margin-top: 54px; }
-.cfg-sum-rail .cfg-sum-price p { font: 600 28px/1.1429 var(--font); letter-spacing: .007em; }
+.cfg-sum-rail .cfg-sum-price p { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; }
 .cfg-sum-rail .cfg-sum-btn { margin-top: 45px; height: 44px; padding: 0; font: 400 14px/44px var(--font); }
 .cfg-sum-rail .cfg-sum-save { margin-top: 32px; }
 .cfg-sum-rail:has(.cfg-sum-btn:disabled) .cfg-sum-product, .cfg-sum-rail:has(.cfg-sum-btn:disabled) .cfg-sum-price, .cfg-sum-rail:has(.cfg-sum-btn:disabled) .cfg-sum-save { opacity: .32; }

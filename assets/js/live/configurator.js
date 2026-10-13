@@ -150,12 +150,8 @@ Live.register("configurator", (data, L) => {
         <div class="cfg-sum-col3">${(sum.availability || []).length ? `<ul class="cfg-sum-avail">${sum.availability.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}${button}</div>
       </section>`;
 
-  // What's in the box: centred title, one half-width column per item (picture, then label), then the note.
-  const witb = data.witb?.items?.length ? `<section class="cfg-witb" aria-labelledby="witb-title">
-    <h2 class="cfg-witb-title" id="witb-title">${esc(data.witb.title)}</h2>
-    <ul class="cfg-witb-items">${data.witb.items.map((i) => `<li><div class="cfg-witb-image">${eimg(i.img)}</div><p class="cfg-witb-label">${esc(i.label)}</p></li>`).join("")}</ul>
-    ${data.witb.note ? `<p class="cfg-witb-note">${esc(data.witb.note)}</p>` : ""}
-  </section>` : "";
+  // What's in the box: shared block (live/dd-blocks.js).
+  const witb = Live.witbHTML(data.witb, L);
 
   const faq = data.faq?.items?.length ? `<section class="cfg-faq"><h2 class="cfg-faq-title">${esc(data.faq.title)}</h2>
     <div class="accordion accordion-compact" data-accordion>${data.faq.items.map((it, k) => `<div class="acc-item">

@@ -24,12 +24,13 @@
 
   /* Type */
   --font: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --t-display: 600 80px/1.05 var(--font);      --tr-display: -.015em;
-  --t-hero: 600 48px/1.0835 var(--font);       --tr-hero: -.003em;
-  --t-section: 600 28px/1.1429 var(--font);    --tr-section: .007em;
-  --t-step: 600 24px/1.1667 var(--font);       --tr-step: .009em;
-  --t-card: 600 21px/1.1905 var(--font);       --tr-card: .011em;
-  --t-intro: 400 21px/1.381 var(--font);       --tr-intro: .011em;
+  --font-display: var(--font);                  /* 20 px and up; live mode swaps in the reference's display face */
+  --t-display: 600 80px/1.05 var(--font-display);      --tr-display: -.015em;
+  --t-hero: 600 48px/1.0835 var(--font-display);       --tr-hero: -.003em;
+  --t-section: 600 28px/1.1429 var(--font-display);    --tr-section: .007em;
+  --t-step: 600 24px/1.1667 var(--font-display);       --tr-step: .009em;
+  --t-card: 600 21px/1.1905 var(--font-display);       --tr-card: .011em;
+  --t-intro: 400 21px/1.381 var(--font-display);       --tr-intro: .011em;
   --t-body: 400 17px/1.4706 var(--font);       --tr-body: -.022em;
   --t-body-tight: 400 17px/1.2353 var(--font);
   --t-small: 400 14px/1.4286 var(--font);      --tr-small: -.016em;

@@ -64,7 +64,7 @@
   display: inline-block; margin: 0 -11px -6px; padding: 7px 11px;
   color: var(--nav-ink-2); font: 600 12px/1.3334 var(--font); letter-spacing: -.01em;
 }
-.gnav-group-elevated a { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; padding-block: 11px 11px; margin-bottom: -10px; }
+.gnav-group-elevated a { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; padding-block: 11px 11px; margin-bottom: -10px; }
 .gnav-flyout a:hover { color: #000; text-decoration: none; }
 .gnav-flyout li { display: block; }
 /* Staggered entrance: delay set inline per item (--d) by shell.js */
@@ -91,7 +91,7 @@
 /* ---------- Search and bag panels ---------- */
 .gnav-search-field {
   display: flex; align-items: center; gap: 10px; margin: 0 0 32px -2px;
-  font: 600 24px/1.1667 var(--font); letter-spacing: .009em;
+  font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em;
 }
 .gnav-search-field svg { width: 30px; height: 30px; color: var(--text-2); flex: none; }
 .gnav-search-field input {
@@ -104,7 +104,7 @@
 .gnav-quicklinks svg { width: 10px; height: 10px; color: var(--text-2); }
 .gnav-panel-wide { flex-direction: column; max-width: 1024px; }
 .gnav-panel-wide .gnav-group { max-width: none; padding: 0; }
-.gnav-bag-empty { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; color: var(--nav-ink-2); margin-bottom: 16px; }
+.gnav-bag-empty { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; color: var(--nav-ink-2); margin-bottom: 16px; }
 .gnav-bag-note { color: var(--text-2); font: var(--t-small); margin-bottom: 32px; }
 
 /* ---------- Mobile ---------- */
@@ -123,9 +123,9 @@
   .gnav-flyout-inner { flex-direction: column; padding: 18px 48px 60px; }
   .gnav-group, .gnav-group-elevated { max-width: none; padding: 0 0 32px; }
   .gnav.is-menu .gnav-flyout { height: 100dvh !important; overflow-y: auto; }
-  .gnav-mobile-list a { font: 600 28px/1.1429 var(--font); letter-spacing: .007em; padding: 7.5px 0; margin: 0; display: block; }
+  .gnav-mobile-list a { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; padding: 7.5px 0; margin: 0; display: block; }
   .gnav-group a { font: 600 17px/1.4706 var(--font); letter-spacing: -.022em; }
-  .gnav-group-elevated a { font: 600 28px/1.1429 var(--font); }
+  .gnav-group-elevated a { font: 600 28px/1.1429 var(--font-display); }
   .gnav-group-title { font-size: 17px; }
 }
 

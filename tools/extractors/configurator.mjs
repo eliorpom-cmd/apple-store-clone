@@ -224,12 +224,28 @@ export default function extract() {
 
   // ---------- What's in the box ----------
   const witbSec = document.querySelector("[data-analytics-section='witb'], .rf-flagship-buyflow-witb");
-  const witb = {
-    title: text(witbSec?.querySelector("h2")),
-    items: uniqueBy([...document.querySelectorAll(".rc-witb-item")].map((li) => ({ label: text(li.querySelector(".rc-witb-item-label")), img: best(li) })), (i) => i.label).filter((i) => i.label || i.img),
-    // Note under the items ("Our environmental goals ..."): the block after the footer paragraph.
-    note: text(document.querySelector(".rf-flagship-buyflow-witbfooter")?.nextElementSibling),
-  };
+  // Same shape as configurator-2 (rendered by Live.witbHTML in live/dd-blocks.js).
+  const witb = witbSec ? {
+    title: text(witbSec.querySelector("h2")),
+    wrapped: !!witbSec.querySelector(".rf-flagship-buyflow-witbheadercontainer"),
+    pair: (() => {
+      // Two items pushed together at the centre by a side padding on each picture tile (iPhone).
+      const w = witbSec.querySelector(".rc-witb-image-wrapper");
+      return !!w && parseFloat(getComputedStyle(w).paddingLeft) + parseFloat(getComputedStyle(w).paddingRight) > 0;
+    })(),
+    note: (() => {
+      // Note under the items (iPhone: "Our environmental goals." and two paragraphs split by blank lines).
+      const f = document.querySelector(".rf-flagship-buyflow-witbfooter");
+      if (!f || !f.getClientRects().length) return null;
+      const c = f.cloneNode(true);
+      const title = text(c.querySelector("h2, h3, strong"));
+      c.querySelectorAll("h2, h3, .visuallyhidden, sup, as-footnote").forEach((n) => n.remove());
+      c.querySelectorAll("br").forEach((n) => n.replaceWith("\n"));
+      const paras = c.textContent.split(/\n\s*\n/).map((t) => t.replace(/\s+/g, " ").trim()).filter(Boolean);
+      return title || paras.length ? { title, paras } : null;
+    })(),
+    items: uniqueBy([...witbSec.querySelectorAll(".rc-witb-item")].filter((li) => li.getClientRects().length).map((li) => ({ label: text(li.querySelector(".rc-witb-item-label")), img: best(li), row: 0 })), (i) => i.label).filter((i) => i.label || i.img),
+  } : null;
 
   // ---------- FAQ ----------
   const faqSec = document.querySelector("[data-analytics-section='buyflow-faq']");

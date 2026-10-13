@@ -205,7 +205,7 @@ html.modal-open { overflow: hidden; }
 .tabs-pill .tab { border: 1px solid var(--line); color: var(--text); font: var(--t-body); letter-spacing: var(--tr-body); }
 .tabs-pill .tab[aria-selected="true"] { background: #000; border-color: #000; color: #fff; }
 .tabs-segmented { display: inline-flex; background: var(--surface); border-radius: 48px; padding: 0; }
-.tabs-segmented .tab { padding: 20px 32px; border-radius: 48px; font: 600 24px/1.1667 var(--font); letter-spacing: .009em; color: #000; }
+.tabs-segmented .tab { padding: 20px 32px; border-radius: 48px; font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; color: #000; }
 .tabs-segmented .tab[aria-selected="true"] { background: #000; color: #fff; }
 .tab-panel { animation: fade .3s ease; }
 .tab-panel[hidden] { display: none; }
@@ -240,7 +240,7 @@ html.modal-open { overflow: hidden; }
 .option input:disabled + .option-label { opacity: .42; cursor: default; }
 .option-name { font-weight: 600; }
 .option-sub { display: block; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); margin-top: 4px; }
-.option-big { font: 600 28px/1.1429 var(--font); letter-spacing: .007em; }
+.option-big { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; }
 .option-big small { font-size: 17px; font-weight: 600; }
 .option-price { width: 150px; text-align: right; font: var(--t-note); letter-spacing: var(--tr-note); }
 .option-rich .option-label { flex-direction: column; align-items: stretch; padding: 22px 16px; }
@@ -259,6 +259,30 @@ html.modal-open { overflow: hidden; }
 .swatch input:checked + span { border-color: var(--action); }
 .swatch input:focus-visible + span { outline: 2px solid var(--action); outline-offset: 1px; }
 .swatch-label { font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); min-height: 20px; }
+/* What's in the box (measured on the source): 980 px column, 40/44 title 64/41 px apart, items share the row
+   by their content (picture 339 px high on a grey tile), 14/20 label with 20/15/50 padding. */
+.witb { width: min(var(--container), 100% - 2 * var(--gutter)); margin: 0 auto; padding-bottom: 48px; }
+.witb-title { padding: 64px 0 41px; font: 600 40px/44px var(--font-display); letter-spacing: normal; text-align: center; }
+.witb-items { display: flex; justify-content: space-around; }
+.witb-item { flex: 1 1 auto; min-width: 0; }
+.witb-image { display: flex; justify-content: center; height: 339px; background: var(--page); }
+.witb-image img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+.witb-label { padding: 20px 15px 50px; font: var(--t-small); letter-spacing: var(--tr-small); text-align: center; }
+/* Several rows (Vision): 20 px between rows, labels in a 220 px column with 24 px above and below. */
+/* Two items (iPhone): each picture tile padded 245 px on its outer side, labels 260 px; then the note,
+   14/20 centred, 50 px under the items. */
+.witb-pair .witb-item:first-child .witb-image { padding-left: 245px; }
+.witb-pair .witb-item:last-child .witb-image { padding-right: 245px; }
+.witb-pair .witb-item:first-child .witb-label { padding-left: 260px; }
+.witb-pair .witb-item:last-child .witb-label { padding-right: 260px; }
+.witb-note { margin-top: 11px; padding-top: 50px; font: var(--t-small); letter-spacing: var(--tr-small); text-align: center; }
+.witb-note h3 { font: inherit; font-weight: 600; }
+.witb-note p { margin-top: 20px; }
+.witb-head { padding: 64px 0 41px; }
+.witb-head .witb-title { padding: 0; }
+.witb-rows .witb-items + .witb-items { margin-top: 20px; }
+.witb-rows .witb-label { max-width: 220px; margin-inline: auto; padding: 24px 0; }
+
 /* Drop-down field: label inside the box, it moves up once a value is chosen (source: 56 px box, 12 px radius). */
 .select-field { position: relative; display: block; margin-top: 20px; padding-bottom: 14px; } /* padding: the 14 px stays inside the step, as on the source */
 .select-field select {
@@ -291,7 +315,7 @@ html.modal-open { overflow: hidden; }
 .summary { display: grid; grid-template-columns: 1fr minmax(360px, 420px); gap: 40px; align-items: start; padding: 64px 0; border-top: 1px solid var(--line); }
 .summary-title { font: var(--t-hero); letter-spacing: var(--tr-hero); }
 .summary-price-label { font: var(--t-body); padding-bottom: 7px; }
-.summary-price { font: 600 28px/1.1429 var(--font); letter-spacing: .007em; }
+.summary-price { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; }
 .summary-fin { font: var(--t-note); color: var(--text-2); margin-top: 6px; }
 .summary .btn-block { margin-top: 48px; }
 .availability { display: flex; flex-direction: column; gap: 12px; font: var(--t-small); }
