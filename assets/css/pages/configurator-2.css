@@ -32,6 +32,25 @@
 .cfg2-gallery .gallery-caption { padding: 30px; max-width: 404px; }
 .cfg2-rail { min-width: 0; padding-bottom: 40px; }
 .cfg2 .step { scroll-margin-top: 80px; }
+/* Source: 20 px between the step title and its first choice. */
+.cfg2 .step-title ~ .options, .cfg2 .step-title ~ .swatches { margin-top: 20px; }
+/* Trade-in and AppleCare steps: 14 px before the help card (and before the trade-in choices). */
+.cfg2 .step[data-kind="tradeup"] .step-title ~ .options, .cfg2 .step[data-kind="tradeup"] .helpcard-media,
+.cfg2 .step[data-kind="applecare"] .helpcard-media { margin-top: 14px; }
+.cfg2 .step[data-kind="applecare"] .step-title ~ .options { margin-top: 22px; }
+.cfg2 .step[data-kind="applecare"] { padding-bottom: 6px; } /* the help card margin stays inside, as on the source */
+
+/* AppleCare plans (measured on the source): mark + 17/20 title, 14/20 sub-line, list 18 px under a rule. */
+.cfg2 .step[data-kind="applecare"] .option-top { padding: 0 0 21px 3px; }
+.cfg2 .step[data-kind="applecare"] .option-name { display: flex; align-items: center; line-height: 20px; }
+.cfg2 .option-icon { display: inline-flex; width: 18px; height: 20px; color: var(--promo); fill: currentColor; } /* source: red mark */
+.cfg2 .step[data-kind="applecare"] .option-label { gap: 0; }
+.cfg2 .option-icon svg { width: 25px; height: 25px; margin: -3px -7px 0 -7px; }
+.cfg2 .step[data-kind="applecare"] .option-sub { margin: 0; padding-top: 4px; font: 400 14px/20px var(--font); letter-spacing: -.016em; color: var(--text); }
+.cfg2 .step[data-kind="applecare"] .option-rich ul { margin: 0 0 0 6px; padding: 18px 0 0 6px; border-top-color: var(--line-2); }
+.cfg2 .step[data-kind="applecare"] .option-rich li { margin: 0 0 0 5px; padding: 0 15px 12px 0; }
+.cfg2 .step[data-kind="applecare"] .option-rich li::before { left: -12px; }
+.cfg2 .option-note { display: block; margin: 0 0 0 6px; padding: 0 15px 0 6px; font: var(--t-note); letter-spacing: var(--tr-note); }
 
 /* Compact gallery variant: arrows and dots share one pill under the image (spec 03 §4.1).
    configurator-2.js moves the controls into .gallery-pill. */
@@ -47,6 +66,13 @@
 }
 .cfg2 .gallery-pill .paddle svg { width: 9px; height: 15px; }
 .cfg2 .gallery-pill .dots { position: static; translate: none; padding: 0 6px; background: none; gap: 10px; }
+
+/* Split variant (source Mac gallery): 36 px arrows 20 px either side of a 78 x 38 dot pill, 30 px from the bottom. */
+.cfg2 .gallery-ctrl { position: absolute; left: 50%; bottom: 30px; translate: -50% 0; z-index: 2; display: flex; align-items: center; gap: 20px; }
+.cfg2 .gallery-ctrl .paddle { position: static; translate: none; transform: none; width: 36px; height: 36px; pointer-events: auto; }
+.cfg2 .gallery-ctrl .paddle:disabled { opacity: .42; }
+.cfg2 .gallery-ctrl .paddle svg { width: 9px; height: 15px; }
+.cfg2 .gallery-ctrl .dots { position: static; translate: none; gap: 16px; padding: 15px 23px; border-radius: var(--r-pill); background: rgba(210, 210, 215, .64); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
 
 /* Vertical progress indicator (spec 03 §4.12): visible from 1069 px, one dot per step. */
 .cfg2-progress { position: absolute; top: 0; bottom: 0; right: 10px; width: 4px; }
@@ -101,6 +127,22 @@
 /* Help card: the text takes the free width and the link stays on one line. */
 .cfg2 .helpcard > span { flex: 1 1 auto; min-width: 0; }
 .cfg2 .helpcard .more-plus { flex: none; white-space: nowrap; }
+/* Help card with a photo (measured on the source): 100 px photo on top, copy 17 px in, play mark 12 px from the corner. */
+.cfg2 .helpcard-media, .cfg2 .helpcard-text { position: relative; display: block; margin: 20px 0 6px; padding: 0; overflow: hidden; }
+.cfg2 .cfg2-help-plus { position: absolute; top: 12px; right: 12px; color: var(--text-3); }
+.cfg2 .step[data-kind="purchase"] .helpcard { margin: 20px 0 0; }
+.cfg2 .helpcard-media > img { display: block; width: 100%; height: 100px; object-fit: cover; }
+.cfg2 .cfg2-help-body { padding: 17px 16px; }
+.cfg2 .cfg2-help-text { display: block; font: 400 14px/18px var(--font); letter-spacing: -.016em; }
+.cfg2 .cfg2-help-text strong { margin: 0; padding-right: 22px; font: 600 14px/18px var(--font); }
+/* Side variant (Watch trade-in): 120 px photo on the left, play mark centred on it, copy beside it. */
+.cfg2 .helpcard-side { display: flex; }
+.cfg2 .helpcard-side > img { flex: none; width: 120px; height: auto; align-self: stretch; }
+.cfg2 .helpcard-side .cfg2-help-body { flex: 1; min-width: 0; }
+.cfg2 .helpcard-side .cfg2-help-play { top: 50%; right: auto; left: 60px; translate: -50% -50%; width: 20px; height: 20px; }
+.cfg2 .helpcard-side .cfg2-help-play::after { left: 8px; top: 6px; border-left-width: 6px; border-block-width: 4px; }
+.cfg2 .cfg2-help-play { position: absolute; top: 12px; right: 12px; width: 14px; height: 14px; border-radius: 50%; background: var(--text); opacity: .56; }
+.cfg2 .cfg2-help-play::after { content: ""; position: absolute; left: 5px; top: 4px; border-left: 5px solid var(--surface); border-block: 3px solid transparent; }
 
 /* ---------- Summary and FAQ ---------- */
 .cfg2-summary { width: min(1260px, 100% - 180px); margin: 0 auto; }
@@ -114,21 +156,58 @@
 /* ---------- Live mode (content.js sets data-content="live"): layout of the source page ---------- */
 /* The source configurator sits on white; the grey is only the gallery. */
 html[data-content="live"] body { background: #fff; }
-html[data-content="live"] .cfg2-head { padding-bottom: 19px; }
+html[data-content="live"] .cfg2-head { padding: 52px 0 22px; }
+html[data-content="live"] .cfg2-head-main { flex: 1; }
+/* Source badge ("New"): 17 px on a 25 px line, then the title 7 px lower; pills 12 px apart. */
+html[data-content="live"] .cfg2-head-main .eyebrow { padding: 0; font: 600 17px/25px var(--font); letter-spacing: -.022em; }
+html[data-content="live"] .cfg2-head-main .eyebrow + h1 { padding-top: 7px; }
+html[data-content="live"] .cfg2-pills { gap: 12px; }
+/* Source pill: 12/16 padding, no icon, 10 px below the top of the title block. */
+html[data-content="live"] .cfg2-pills { padding-top: 10px; }
+html[data-content="live"] .cfg2-pill { height: auto; padding: 12px 16px; border-radius: var(--r-card); }
+html[data-content="live"] .cfg2-pill.more-plus::after { color: var(--text); }
 html[data-content="live"] .cfg2-gallery { margin-top: 116px; }
 html[data-content="live"] .cfg2-gallery .gallery { height: 560px; }
 /* Summary in the right rail, under the last step. */
 html[data-content="live"] .cfg2-rail .cfg2-summary { width: auto; margin: 0; grid-template-columns: 1fr; padding: 40px 0 0; border-top: 0; }
 html[data-content="live"] .cfg2-rail .cfg2-summary .summary-title { font: var(--t-card); letter-spacing: var(--tr-card); }
 html[data-content="live"] .cfg2-rail .cfg2-summary .btn-block { margin-top: 24px; padding: 8px 20px; }
-html[data-content="live"] .cfg2-price-line { padding-top: 24px; max-width: 425px; font: 400 17px/25px var(--font); letter-spacing: -.022em; }
+html[data-content="live"] .cfg2-price-line { max-width: 640px; font: 400 17px/25px var(--font); letter-spacing: -.022em; }
 html[data-content="live"] .cfg2-pill { font: var(--t-note); letter-spacing: var(--tr-note); }
 /* Live mode: rich cards use the source padding (1 px border + 15 px). */
 html[data-content="live"] .cfg2 .option-rich .option-label { padding: 15px; }
-/* Live layout constants (desktop): the source rail starts lower than the gallery and its steps are spaced wider. */
+/* Rich cards with prices (Watch case, measured on the source): tag 10 px, name 17/21, sub 12/16 in the left
+   column centred against a 118 px right-aligned price column; lease block 10 px lower; foot line under a rule. */
+html[data-content="live"] .cfg2 .option-rich .option-top { flex-wrap: nowrap; align-items: center; gap: 0; }
+html[data-content="live"] .cfg2 .option-rich .option-title { padding-right: 9px; }
+html[data-content="live"] .cfg2 .option-rich .option-price { width: 118px; padding-top: 4px; align-self: flex-start; }
+.cfg2 .option-price-line { display: block; }
+.cfg2 .option-price-lease { margin-top: 10px; }
+html[data-content="live"] .cfg2 .option-tag { padding: 0; font: 600 10px/21px var(--font); letter-spacing: -.006em; color: var(--badge-new); }
+.cfg2 .option-sub { white-space: pre-line; }
+html[data-content="live"] .cfg2 .option-rich .option-sub { margin-top: 0; color: var(--text); }
+html[data-content="live"] .cfg2 .option-rich .option-sub-block { margin-top: 4px; }
+html[data-content="live"] .cfg2 .option-rich .option-foot { margin-top: 15px; padding-top: 15px; color: var(--text); }
+html[data-content="live"] .cfg2 .option-rich .option-label { gap: 0; }
+
+/* Step footer (Watch carriers, measured on the source): 600 16.38/23.4 title, logos 41 px high in a wrapping row. */
+.cfg2-step-foot { margin-top: 20px; }
+.cfg2-step-foot h3 { font: 600 16.38px/23.4px var(--font); letter-spacing: -.016em; }
+.cfg2-step-foot ul { display: flex; flex-wrap: wrap; margin-top: 16px; }
+.cfg2-step-foot li { height: 46px; margin-right: 21px; }
+.cfg2-step-foot img { height: 41px; width: auto; }
+
+/* Payment cards (source): 22/16 padding, sub-line with a 16 px logo, detail under a rule like the bullet list. */
+html[data-content="live"] .cfg2 .option-po .option-label { padding: 22px 16px; gap: 0; }
+.cfg2 .option-po .option-name { display: block; }
+.cfg2 .option-po .option-sub { display: flex; align-items: center; gap: 4px; margin: 0; padding-top: 4px; color: var(--text); }
+.cfg2 .option-po .option-sub { line-height: 20px; }
+.cfg2 .option-po li:last-child { margin-bottom: 0; }
+.cfg2 .option-sub-icon { width: 16px; height: 16px; }
+.cfg2 .option-detail { display: block; margin-top: 20px; padding-top: 24px; border-top: 1px solid var(--line); font: var(--t-note); letter-spacing: var(--tr-note); }
+/* Live layout (desktop): each step carries the source's own inline margin (configurator-2.js). */
 @media (min-width: 1024px) {
-  html[data-content="live"] .cfg2-rail { padding-top: 223px; }
-  html[data-content="live"] .cfg2 .step { margin-bottom: 148px; }
+  html[data-content="live"] .cfg2-rail { padding-top: 0; }
 }
 /* Per-step galleries (phone pass): shown below 1024 px in place of the single gallery. */
 .cfg2-step-gallery { display: none; }
@@ -147,22 +226,35 @@ html[data-content="live"] .cfg2 .option-rich .option-label { padding: 15px; }
 .cfg2-recon p { font: 400 14px/18px var(--font); letter-spacing: -.016em; margin-top: 6px; }
 .cfg2-recon p.cfg2-recon-foot { font: 400 12px/16px var(--font); letter-spacing: -.01em; margin-top: 8px; }
 
-/* Live summary (measured on the source): two-tone title over a rule, 28/32 price blocks, cashback, CTA, save/share. */
-html[data-content="live"] .cfg2-rail .cfg2-summary .cfg2-sum-head { border-bottom: 1px solid var(--line); padding-bottom: 16px; }
-html[data-content="live"] .cfg2-rail .cfg2-summary .summary-title { font: 600 24px/28px var(--font); letter-spacing: 0; margin: 0; white-space: nowrap; }
-html[data-content="live"] .cfg2-rail .cfg2-sum-sub { display: block; color: var(--text-2); }
-html[data-content="live"] .cfg2-sum-price-block { font: 600 28px/32px var(--font); letter-spacing: .007em; margin-top: 40px; max-width: 300px; }
-html[data-content="live"] .cfg2-sum-price-block:first-child { margin-top: 0; }
-html[data-content="live"] .cfg2-rail .cfg2-summary { padding-top: 0; }
-html[data-content="live"] .cfg2-sum-cash { font: 400 14px/20px var(--font); letter-spacing: -.016em; color: var(--link); margin-top: 14px; }
-html[data-content="live"] .cfg2-rail .cfg2-summary .cfg2-sum-cta { margin-top: 24px; padding: 10px 20px; font: 400 14px/16px var(--font); letter-spacing: -.016em; }
-html[data-content="live"] .cfg2-sum-save { margin-top: 32px; font: 400 14px/20px var(--font); letter-spacing: -.016em; color: var(--text); }
+/* Live summary (measured on the source, MacBook Neo): title and grey sub-line 24/28 over a rule 22 px below,
+   price 28/32 22 + 9 px under the rule, cashback 14/18, 36 px button 32 px below, then "Still deciding?". */
+html[data-content="live"] .cfg2-rail .cfg2-summary .cfg2-sum-head { border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+html[data-content="live"] .cfg2-rail .cfg2-summary .summary-title { font: 600 24px/28px var(--font); letter-spacing: .009em; margin: 0; }
+html[data-content="live"] .cfg2-rail .cfg2-sum-sub { display: block; color: var(--text-3); }
+html[data-content="live"] .cfg2-sum-body { padding-top: 31px; }
+html[data-content="live"] .cfg2-sum-price-block { font: 600 28px/32px var(--font); letter-spacing: .007em; max-width: 328px; }
+html[data-content="live"] .cfg2-sum-price-block:has(+ :not(.cfg2-sum-price-block)) { margin-bottom: 14px; }
+html[data-content="live"] .cfg2-rail .cfg2-summary { padding-top: 0; gap: 0; }
+html[data-content="live"] .cfg2-sum-cash { font: 400 14px/18px var(--font); letter-spacing: -.016em; color: var(--link); }
+html[data-content="live"] .cfg2-rail .cfg2-summary .cfg2-sum-cta { margin-top: 32px; padding: 8px 15px; font: 400 14px/18px var(--font); letter-spacing: -.016em; }
+html[data-content="live"] .cfg2-sum-save { margin-top: 24px; padding-bottom: 7px; font: 400 14px/20px var(--font); letter-spacing: -.016em; color: var(--text); }
 html[data-content="live"] .cfg2-sum-save h3 { font: 600 14px/20px var(--font); letter-spacing: -.016em; }
-html[data-content="live"] .cfg2-sum-save p { margin-top: 2px; color: var(--text-2); }
-html[data-content="live"] .cfg2-sum-links { display: flex; gap: 20px; margin-top: 16px; color: var(--link); }
+html[data-content="live"] .cfg2-sum-save p { max-width: 308px; }
+html[data-content="live"] .cfg2-sum-links { display: flex; gap: 28px; margin-top: 8px; color: var(--link); line-height: 21px; }
+@media (min-width: 1024px) { html[data-content="live"] .cfg2-rail { padding-bottom: 0; } }
 
 /* Source slide images are on white: blend them into the grey gallery box (live mode). */
 html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: multiply; }
+/* Live: each slide image is the whole 18 px rounded tile, as wide as the column (source 872 x 559); the caption
+   sits over it, 30 px in, 600 17/21 grey. Watch: 56 px arrows 18 px from the sides (none before the first
+   image), bare dots 12 px from the bottom. */
+html[data-content="live"] .cfg2-gallery { height: auto; min-height: 0; }
+html[data-content="live"] .cfg2-gallery .gallery { height: auto; background: none; }
+html[data-content="live"] .cfg2-gallery .gallery-slide { padding: 0; }
+html[data-content="live"] .cfg2-gallery .gallery-slide > img { width: 100%; max-width: none; max-height: none; height: auto; border-radius: var(--r-card); mix-blend-mode: normal; }
+html[data-content="live"] .cfg2-gallery .gallery-caption { z-index: 1; font: 600 17px/21px var(--font); letter-spacing: -.022em; color: var(--text-2); }
+html[data-content="live"] .cfg2-gallery [data-gallery="default"] .paddle:disabled { visibility: hidden; }
+html[data-content="live"] .cfg2-gallery [data-gallery="default"] .dots { bottom: 12px; gap: 16px; padding: 8px; }
 
 /* ---------- Narrow screens: one column, gallery above the steps ---------- */
 @media (max-width: 1023px) {
@@ -178,8 +270,6 @@ html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: m
 @media (max-width: 734px) {
   .cfg2-pill { white-space: normal; max-width: 100%; }
   .cfg2 .option-price, .cfg2 .option-price-line { white-space: normal; max-width: 100%; }
-  .cfg2 .helpcard.helpcard-media { flex-direction: column; }
-  .cfg2 .helpcard-media > img { width: 100%; height: 125px; }
   .cfg2-head, .cfg2-layout, .cfg2-summary, .cfg2-faq { width: 87.5%; }
   .cfg2 .option-big { font-size: 24px; }
   .cfg2-faq .t-section { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; }

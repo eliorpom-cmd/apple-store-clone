@@ -1,4 +1,4 @@
-// Configurator pages (Mac and Watch buy flows). Runs in the source page: must stay self-contained.
+// Configurator pages with every step in the right rail (Mac, Watch and iPad buy flows). Runs in the source page: must stay self-contained.
 // Returns the visible content of the step-by-step configurator; assets/js/live/configurator-2.js rebuilds it.
 export default function extract() {
   // Visible text only: drop screen-reader helpers, footnote markers and superscripts.
@@ -9,6 +9,20 @@ export default function extract() {
     return (c.textContent || "").replace(/\s+/g, " ").replace(/‍/g, "").trim();
   };
   const abs = (h) => (h ? new URL(h, location.href).href : null);
+  // Rendered text only: skips screen-reader text, footnote marks and hidden nodes.
+  const shown = (root) => {
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const parts = [];
+    let n;
+    while ((n = w.nextNode())) {
+      const el = n.parentElement;
+      if (!el || el.closest(".visuallyhidden, sup, as-footnote") || !el.getClientRects().length || getComputedStyle(el).display === "none") continue;
+      // Keep the source's unbreakable groups ("for 12 mo.") together.
+      parts.push(el.closest(".nowrap") ? n.textContent.replace(/ /g, "\u00a0") : n.textContent);
+    }
+    return parts.join("").replace(/[ \t\n\r]+/g, " ").trim();
+  };
+
   // Best image of a root: the widest one that has a source.
   const img = (root) => {
     if (!root) return null;
@@ -25,28 +39,58 @@ export default function extract() {
     const label = (input.id && document.querySelector(`label[for="${CSS.escape(input.id)}"]`)) || input.closest("label");
     const root = label || input.parentElement;
     const titleEl = root.querySelector(".form-selector-title");
-    const subEl = titleEl?.querySelector(".form-label-small") || root.querySelector(".form-label-small");
+    // Sub-line: in the title or the left column only (the right column's small text is the price).
+    const subEl = titleEl?.querySelector(".form-label-small") || root.querySelector(".form-selector-left-col .form-label-small");
     let name;
     let sub = "";
     if (titleEl) {
       const c = titleEl.cloneNode(true);
-      c.querySelectorAll(".form-label-small").forEach((n) => n.remove());
+      c.querySelectorAll(".form-label-small, .badge").forEach((n) => n.remove());
       name = clean(c);
-      sub = clean(subEl);
+      // Line breaks of the sub-line are kept ("Choice of GPS / or GPS + Cellular").
+      if (subEl) {
+        const c2 = subEl.cloneNode(true);
+        c2.querySelectorAll(".visuallyhidden, [class*='visuallyhidden'], .a11y, sup, as-footnote").forEach((n) => n.remove());
+        c2.querySelectorAll("br").forEach((n) => n.replaceWith("\n"));
+        sub = c2.textContent.split("\n").map((l) => l.replace(/[ \t\r]+/g, " ").trim()).filter(Boolean).join("\n");
+      }
     } else {
       const swatchName = clean(root.querySelector(".colornav-label"));
       const lines = (root.innerText || "").split("\n").map((l) => l.replace(/Footnote\s*\S*/g, "").trim()).filter(Boolean);
       name = swatchName || lines[0] || clean(root);
       sub = swatchName ? "" : lines.slice(1).join(" ");
     }
+    // Payment cards: title, optional sub-line with a logo, then a detail block (list or one line).
+    const poTitle = root.querySelector(".rf-po-bfe-dimension-base-title");
+    if (poTitle) {
+      const subEl = root.querySelector(".rf-po-bfe-dimension-base-subtitle");
+      const items = [...root.querySelectorAll(".rf-po-bfe-dimension-base-detail li")].map(clean).filter(Boolean);
+      return {
+        value: input.value,
+        name: clean(poTitle),
+        sub: clean(subEl),
+        subIcon: subEl?.querySelector("img") ? { src: subEl.querySelector("img").currentSrc || subEl.querySelector("img").src, alt: "" } : null,
+        bullets: items,
+        detail: items.length ? "" : clean(root.querySelector(".rf-po-bfe-dimension-base-detail")),
+        price: "",
+        amount: null,
+        po: true,
+      };
+    }
     const priceEl = root.querySelector(".form-selector-right-col, .rf-bfe-selector-right-col, [class*='right-col']");
     const pointEls = [...root.querySelectorAll(".price-point")].filter((el) => !el.parentElement.closest(".price-point"));
-    const pointLines = pointEls.filter((el) => el.getBoundingClientRect().width > 0).map(clean).filter(Boolean);
-    const full = pointLines.length ? pointLines[0] : clean(root.querySelector(".as-pricepoint-fullprice")) || clean(priceEl);
+    const pointLines = pointEls.filter((el) => el.getBoundingClientRect().width > 0).map(shown).filter(Boolean);
+    const fullEl = root.querySelector(".as-pricepoint-fullprice") || priceEl;
+    const full = pointLines.length ? pointLines[0] : (fullEl && fullEl.getClientRects().length ? shown(fullEl) : "");
     const bullets = [...root.querySelectorAll("li")].map(clean).filter(Boolean).slice(0, 6);
     const swatch = root.querySelector(".colornav-swatch");
     return {
       value: input.value,
+      // Small orange tag above the name ("New finish") and the line under the card's rule.
+      tag: clean(titleEl?.querySelector(".badge")),
+      // A block sub-line (div) sits 4 px under the name; an inline one (span) right under it.
+      subBlock: subEl?.tagName === "DIV",
+      foot: clean(root.querySelector(".rf-bfe-selector-subtext")),
       name,
       sub,
       price: pointLines.length ? pointLines.join("|") : full,
@@ -54,7 +98,7 @@ export default function extract() {
       bullets,
       disabled: input.disabled,
       swatch: swatch ? { src: swatch.currentSrc || swatch.src, alt: swatch.alt || "" } : null,
-      rich: !!titleEl && !!subEl && !!priceEl,
+      rich: !!titleEl && !!priceEl && (!!subEl || pointLines.length > 0),
     };
   };
   // Step header: keyword (first span) and complement (second span), separated like the source.
@@ -101,13 +145,19 @@ export default function extract() {
       const link = card.querySelector("a, button");
       const linkText = clean(link);
       const full = clean(card);
-      const title = clean(card.querySelector("h3, h4, strong, [class*='title']"));
+      const title = clean(card.querySelector(".rc-decisionsection-header, h3, h4, strong, [class*='title']"));
       const desc = linkText && full.endsWith(linkText) ? full.slice(0, -linkText.length) : full;
-      return { title, desc: title && desc.startsWith(title) ? desc.slice(title.length).trim() : desc, link: linkText, image: img(card) };
+      // The photo sits on top (Mac) or on the left (Watch trade-in).
+      const photo = card.querySelector(".rc-decisionsection-image");
+      const side = !!photo && photo.getBoundingClientRect().width < card.getBoundingClientRect().width / 2;
+      const descEl = card.querySelector(".rc-decisionsection-desc");
+      return { title, desc: descEl ? clean(descEl) : title && desc.startsWith(title) ? desc.slice(title.length).trim() : desc, link: linkText, image: img(card), side };
     });
     return {
       kind,
       hidden,
+      // The source centres each step in the viewport with an inline margin it computes itself.
+      margin: step.style.margin || "",
       keyword: h.keyword,
       complement: h.complement,
       swatches: swatches.map(option),
@@ -115,6 +165,19 @@ export default function extract() {
       options: groups.length ? [] : cards.map(option),
       groups,
       helpcards,
+      // Footer under the choices (Watch connectivity: "Supported carriers" and their logos).
+      footer: (() => {
+        const f = step.querySelector(".rf-bfe-dimension-footer");
+        if (!f) return null;
+        return { title: clean(f.querySelector("h3")), images: [...f.querySelectorAll("img")].map((i) => ({ src: i.currentSrc || i.src, alt: i.alt || "" })) };
+      })(),
+      // Drop-down choice (keyboard language): its floating label and option texts.
+      select: (() => {
+        const sel = step.querySelector("select");
+        if (!sel) return null;
+        const label = clean(sel.parentElement.querySelector("label"));
+        return { label, options: [...sel.options].filter((o) => o.value && o.value !== "none").map((o) => ({ value: o.value, text: o.text.trim() })) };
+      })(),
       note: kind === "tradeup" ? clean(step.querySelector(".rf-bfe-tradeup-description, [class*='tradeup'] p")) : "",
     };
   });
@@ -132,15 +195,29 @@ export default function extract() {
   }
 
   const pills = [...document.querySelectorAll("[class*='rf-bfe-header-rightsection'] a, [class*='rf-bfe-header-rightsection'] button")]
-    .map((a) => ({ text: clean(a), href: abs(a.getAttribute("href")) }))
+    // Plus-icon pills open an overlay; the Apple Card pill on Mac has no icon.
+    .map((a) => ({ text: clean(a), href: abs(a.getAttribute("href")), icon: a.classList.contains("rf-bfe-header-plusicon") }))
     .filter((p) => p.text);
 
   const headerRoot = document.querySelector("[class*='rf-bfe-header-text-wrapper']") || document.querySelector("[class*='rf-bfe-header']");
   const title = clean(document.querySelector("h1")) || clean(headerRoot?.querySelector("[class*='title']"));
-  const eyebrow = clean(document.querySelector("[class*='rf-bfe-header'] [class*='eyebrow'], [class*='rf-bfe-header'] [class*='msgtag']"));
-  // Header price: the first price block outside the sticky bar and the summary.
+  const eyebrow = clean(document.querySelector(".rf-bfe-header .badge, [class*='rf-bfe-header'] [class*='eyebrow'], [class*='rf-bfe-header'] [class*='msgtag']"));
+  // Header price: the first price block outside the sticky bar and the summary, one entry per rendered line.
   const priceBlock = [...document.querySelectorAll(".rc-prices")].find((e) => !e.closest(".rf-bfe-stickybar, .rf-bfe-summary, .rf-bfe-summary-price-content"));
-  const lines = priceBlock ? [clean(priceBlock)].filter(Boolean) : [];
+  const lines = [];
+  if (priceBlock) {
+    const points = [...priceBlock.querySelectorAll(".price-point")].filter((el) => !el.parentElement.closest(".price-point"));
+    let top = null;
+    for (const el of points) {
+      const t = shown(el);
+      if (!t) continue;
+      const y = Math.round(el.getBoundingClientRect().top);
+      if (top !== null && Math.abs(y - top) < 4) lines[lines.length - 1] += " " + t;
+      else lines.push(t);
+      top = y;
+    }
+    if (!lines.length) lines.push(clean(priceBlock));
+  }
 
   const summaryRoot = document.querySelector(".rf-bfe-summary-price-content, .rf-bfe-summary");
   // Visible text only: skips screen-reader text, footnote marks and hidden nodes.
@@ -165,9 +242,10 @@ export default function extract() {
     subheader: clean(document.querySelector(".rf-bfe-summary-subheader")),
     priceBlocks: visibleText(document.querySelector(".rf-bfe-summary-price-content .rf-bfe-summary-price, .rf-bfe-summary-price"))
       .split(/(?= Lease from| Lease from)/).map((x) => x.trim()).filter(Boolean),
-    cashback: clean(document.querySelector(".rf-bfe-summary .rf-ac-messages")),
+    cashback: (() => { const m = document.querySelector(".rf-bfe-summary .rf-ac-messages"); return m && m.getClientRects().length ? shown(m) : ""; })(),
     saveTitle: clean(document.querySelector(".rf-saveditem-content-header")),
     saveText: clean(document.querySelector(".rf-saveditem-content-description")),
+    margin: document.querySelector(".rf-bfe-summary")?.style.margin || "",
     saveLinks: [...document.querySelectorAll(".rf-bfe-summary .rf-bfe-summary-buttons-container button, .rf-bfe-summary .rf-shareitem-content a, .rf-bfe-summary .rf-shareitem-content button")].map(clean).filter(Boolean),
   };
 
@@ -195,14 +273,22 @@ export default function extract() {
         price: "",
         amount: null,
         bullets: [...row.querySelectorAll("li")].map(clean).filter(Boolean).slice(0, 6),
+        // Plan mark (inline SVG of the source) and the closing line under the list.
+        icon: row.querySelector(".as-svgicon-container svg")?.outerHTML || null,
+        foot: (() => {
+          const box = row.querySelector("div.as-form-choiceselectordesc-list");
+          if (!box) return "";
+          const c = box.cloneNode(true);
+          c.querySelectorAll("ul").forEach((n) => n.remove());
+          return clean(c);
+        })(),
         disabled: false,
         swatch: null,
         rich: true,
       };
     });
   });
-  // Later steps are locked at load: the source shows no price text on them, so only the amounts are kept.
-  steps.forEach((st, i) => { if (i > 0) for (const o of [...st.options, ...st.groups.flatMap((g) => g.options)]) o.price = ""; });
+  // Locked steps show prices on Watch but not on Mac: option() keeps only the price text that is rendered.
   const stickyName = clean(document.querySelector(".rf-bfe-stickybar h2, .rf-bfe-stickybar [class*='name'], .rf-bfe-stickybar"))
     .split(" ").slice(0, 3).join(" ");
   return {

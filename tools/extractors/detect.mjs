@@ -10,8 +10,9 @@ export default function detect() {
   if (has("[class*='rf-modelselector']")) return { template: "catalog-2", file: "pages/upgrade.html" };
   if (has("[class*='rf-refurb']")) return { template: "catalog-2", file: "pages/refurbished.html" };
   if (has(".rf-po-bfe, [class*='rf-bfe-']")) {
-    const file = /buy-mac/.test(path) ? "pages/config-computer.html" : /buy-watch/.test(path) ? "pages/config-watch.html" : /iphone-duo/.test(path) ? "pages/config-phone-duo.html" : "pages/config-phone.html";
-    return { template: /buy-mac|buy-watch/.test(path) ? "configurator-2" : "configurator", file };
+    // Rail layout (every step beside the gallery): Mac, Watch, iPad. iPhone and Vision put some steps full width.
+    const file = /buy-mac|buy-ipad/.test(path) ? "pages/config-computer.html" : /buy-watch/.test(path) ? "pages/config-watch.html" : /iphone-duo/.test(path) ? "pages/config-phone-duo.html" : "pages/config-phone.html";
+    return { template: /buy-mac|buy-watch|buy-ipad/.test(path) ? "configurator-2" : "configurator", file };
   }
   if (has("[class*='rf-flagship'], .rc-witb-item")) return { template: "flagship", file: /buy-tv/.test(path) ? "pages/buy-tvbox.html" : /buy-mac/.test(path) ? "pages/buy-display.html" : "pages/buy-earbuds.html" };
   if (has("[class*='rf-giftcard']")) return { template: "product", file: "pages/giftcard.html" };

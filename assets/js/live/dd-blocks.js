@@ -8,17 +8,24 @@ Live.ddBlocksHTML = (dd, L) => {
   const img = (i, cls) => (i ? `<img class="${cls}" src="${esc(i.src)}" alt="${esc(i.alt || "")}">` : "");
   const more = (l) => (l ? `<a class="more-plus dd-live-link" href="${esc(l.href || "#")}" target="_blank" rel="noopener">${esc(l.text)}</a>` : "");
 
-  const setup = (b) => `<section class="dd-live-block dd-live-setup"><div class="dd-live-plate dd-live-centered">
+  const setup = (b) => `<section class="dd-live-block dd-live-setup${b.large ? " dd-live-setup-lg" : ""}"><div class="dd-live-plate dd-live-centered">
     <h2 class="dd-live-h2">${esc(b.title)}</h2>
     ${img(b.img, "dd-live-setup-img")}
-    <p class="dd-live-intro">${esc(b.text)}</p>
-    ${more(b.link)}
+    <p class="dd-live-setup-text">${esc(b.text)}</p>
+    ${b.link ? `<p class="dd-live-setup-text dd-live-setup-more">${more(b.link)}</p>` : ""}
   </div></section>`;
 
-  const services = (b) => `<section class="dd-live-block dd-live-services">
+  const services = (b) => `<section class="dd-live-block dd-live-services"${b.bg ? ` style="background:${esc(b.bg)}"` : ""}>
     ${img(b.img, "dd-live-services-art")}
     <div class="dd-live-plate dd-live-services-info"><h2 class="dd-live-h2">${esc(b.title)}</h2><p class="dd-live-intro">${esc(b.text)}</p></div>
   </section>`;
+
+  // Centred billboard on a grey band: title, line, "more" link.
+  const billboard = (b) => `<section class="dd-live-block dd-live-billboard"><div class="dd-live-plate dd-live-centered">
+    <h2 class="dd-live-billboard-title">${esc(b.title)}</h2>
+    <p class="dd-live-billboard-text">${esc(b.text)}</p>
+    ${b.link ? `<p class="dd-live-billboard-text"><a class="more" href="${esc(b.link.href || "#")}" target="_blank" rel="noopener">${esc(b.link.text)}</a></p>` : ""}
+  </div></section>`;
 
   // Column header: hero, finish swatches, badge, name, subtitle, price.
   const headCell = (c) => `<div class="dd-live-cell dd-live-col">
@@ -52,7 +59,7 @@ Live.ddBlocksHTML = (dd, L) => {
     </div></section>`;
   };
 
-  return dd.blocks.map((b) => (b.type === "setup" ? setup(b) : b.type === "services" ? services(b) : b.type === "compare" ? compare(b) : "")).join("");
+  return dd.blocks.map((b) => (b.type === "setup" ? setup(b) : b.type === "services" ? services(b) : b.type === "compare" ? compare(b) : b.type === "billboard" ? billboard(b) : "")).join("");
 };
 
 // Blocks are inserted by content.js once the page renderer has run; the call is a no-op before that.

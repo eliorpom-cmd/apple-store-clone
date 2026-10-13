@@ -1,15 +1,16 @@
 // Extras for the configurator pages (Laptop Pro, Watch Ultra). Load after components.js.
 //   [data-gallery="compact"]  moves arrows and dots into one pill under the image
+//   [data-gallery="split"]    same row, but each arrow is its own circle beside the dot pill
 //   .cfg2-dots               one dot per .step; hidden steps hide their dot; the current step is stretched
 (() => {
-  // ---------- Compact gallery: arrows and dots in one pill ----------
-  document.querySelectorAll('[data-gallery="compact"]').forEach((g) => {
+  // ---------- Compact gallery: arrows and dots in one pill; split: one row, arrows apart from the dots ----------
+  document.querySelectorAll('[data-gallery="compact"], [data-gallery="split"]').forEach((g) => {
     const prev = g.querySelector(":scope > .paddle-prev");
     const next = g.querySelector(":scope > .paddle-next");
     const dots = g.querySelector(":scope > .dots");
     if (!prev || !next || !dots) return;
     const pill = document.createElement("div");
-    pill.className = "gallery-pill";
+    pill.className = g.dataset.gallery === "split" ? "gallery-ctrl" : "gallery-pill";
     // Event listeners stay on the moved elements, so the gallery keeps working.
     pill.append(prev, dots, next);
     g.append(pill);

@@ -1,5 +1,5 @@
-// Shared marketing blocks of buy flows: personal setup, services, and the model comparison
-// (columns for iPhone, iPad and Watch). Runs in the source page: must stay self-contained.
+// Shared marketing blocks of buy flows: personal setup, services, the model comparison
+// (columns for iPhone, iPad and Watch) and the centred billboard (education offer on Mac). Runs in the source page: must stay self-contained.
 // Output feeds assets/js/live/dd-blocks.js. Blocks come back in page order.
 export default function extract() {
   // Visible text only: drop visually hidden labels, footnote markers and superscripts.
@@ -31,7 +31,7 @@ export default function extract() {
 
   const blocks = [];
   // Document order: one entry per block as it appears on the page.
-  const ordered = [...document.querySelectorAll(".dd-shared-personal-setup, .dd-services, .dd-compare")];
+  const ordered = [...document.querySelectorAll(".dd-shared-personal-setup, .dd-services, .dd-compare, .dd-fill-tertiary:has(.dd-billboard-link)")];
 
   for (const el of ordered) {
     if (el.classList.contains("dd-shared-personal-setup")) {
@@ -41,6 +41,8 @@ export default function extract() {
         text: text(el.querySelector("p.t-intro-elevated, p")),
         img: img(el.querySelector("img.dd-hero, .dd-image img")),
         link: link(el.querySelector(".dd-link a, a[href]")),
+        // Copy size changes per page (17 px on iPhone, 24 px on Mac).
+        large: parseFloat(getComputedStyle(el.querySelector("p.t-intro-elevated, p") || el).fontSize) >= 24,
       });
     } else if (el.classList.contains("dd-services")) {
       blocks.push({
@@ -48,6 +50,15 @@ export default function extract() {
         title: text(el.querySelector("h2")),
         text: text(el.querySelector(".dd-subcopy, p")),
         img: img(el.querySelector("img.dd-hero, .dd-image img")),
+        // The band colour changes per product family (grey on iPhone, tinted on Mac).
+        bg: getComputedStyle(el).backgroundColor,
+      });
+    } else if (el.querySelector(".dd-billboard-link")) {
+      blocks.push({
+        type: "billboard",
+        title: text(el.querySelector("h2, .dd-headline")),
+        text: text(el.querySelector("p.t-body, p:not(.dd-billboard-link)")),
+        link: link(el.querySelector(".dd-billboard-link a")),
       });
     } else if (el.classList.contains("dd-compare")) {
       // Columns: one per product. Feature groups are matched across columns by their class (display, camera, ...).

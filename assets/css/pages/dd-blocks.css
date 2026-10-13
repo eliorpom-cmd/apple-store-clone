@@ -8,19 +8,32 @@
 .dd-live-intro { font: var(--t-intro); letter-spacing: var(--tr-intro); margin-top: 12px; }
 .dd-live-link { display: inline-flex; margin-top: 20px; }
 
-/* Personal setup: grey band, centred copy and picture */
-/* Band height measured on the source: 565 px (spec-level padding fitted to the content). */
-.dd-live-setup { background: var(--page); padding: 224px 0; }
-.dd-live-setup-img { display: block; width: min(708px, 100%); height: auto; margin: 24px auto 0; }
+/* Personal setup: grey band, centred copy and picture. Measured on the source: padding 60/70, 980 px
+   plate, title in a 745 px column, picture 708 px 40 px below, copy in a 706 px column, link 40 px below.
+   Copy is 17/25 on iPhone and 24/32 on Mac (data.large). */
+.dd-live-setup { background: var(--page); padding: 60px 0 70px; }
+.dd-live-setup .dd-live-plate { width: min(var(--container), 100% - 2 * var(--gutter)); }
+.dd-live-setup .dd-live-h2 { max-width: 745px; margin-inline: auto; letter-spacing: normal; }
+.dd-live-setup-img { display: block; width: min(708px, 100%); height: auto; margin: 40px auto; }
+.dd-live-setup-text { max-width: 706px; margin-inline: auto; font: var(--t-body); letter-spacing: var(--tr-body); }
+.dd-live-setup-lg .dd-live-setup-text { font: 400 24px/32px var(--font); letter-spacing: .009em; }
+.dd-live-setup-more { margin-top: 40px; }
+.dd-live-setup-more .dd-live-link { margin: 0; font: inherit; letter-spacing: inherit; }
 
 /* Services: picture band with the copy over it */
-/* Measured on the source: full-width band 481 px, picture 1070 px centred, copy on a 980 px plate,
-   22 px in, 173 px from the top; title 32/36 600 in a 430 px column, subcopy 17/25 14 px below. */
-.dd-live-services { position: relative; height: 481px; overflow: hidden; background: var(--page); }
-.dd-live-services-art { position: absolute; top: 0; left: 50%; width: 1070px; max-width: none; height: 481px; translate: -50% 0; object-fit: cover; }
-.dd-live-services-info { position: relative; max-width: 980px; margin: 0 auto; padding: 173px 22px 0; text-align: left; }
+/* Measured on the source: full-width band as tall as its picture (iPhone 481, Mac 480; colour from the
+   data), picture 1070 px centred, copy on a 980 px plate, 22 px in, 173 px from the top; title 32/36 600
+   in a 430 px column, subcopy 17/25 14 px below. */
+.dd-live-services { position: relative; overflow: hidden; background: var(--page); }
+.dd-live-services-art { display: block; width: 1070px; max-width: none; height: auto; margin-inline: auto; position: relative; left: 50%; translate: -50% 0; }
+.dd-live-services-info { position: absolute; inset: 0 0 auto; max-width: 980px; margin: 0 auto; padding: 173px 22px 0; text-align: left; }
 .dd-live-services-info .dd-live-h2 { max-width: 430px; font: 600 32px/36px var(--font); letter-spacing: .004em; }
 .dd-live-services-info .dd-live-intro { max-width: 430px; margin-top: 14px; font: var(--t-body); letter-spacing: var(--tr-body); }
+
+/* Billboard: centred copy on a grey band (Mac education offer). Source: padding 59/63, 25 px below. */
+.dd-live-billboard { background: var(--page); padding: 59px 0 63px; margin-bottom: 25px; }
+.dd-live-billboard-title { font: var(--t-section); letter-spacing: var(--tr-section); }
+.dd-live-billboard-text { font: var(--t-body); letter-spacing: var(--tr-body); margin-top: 14px; }
 
 /* Comparison */
 .dd-live-compare { padding: 50px 0 30px; }
@@ -53,8 +66,7 @@
 
 @media (max-width: 1023px) {
   .dd-live-h2 { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
-  .dd-live-services { height: auto; min-height: 420px; }
-  .dd-live-services-art { position: absolute; }
+  .dd-live-services { min-height: 420px; }
 }
 .dd-live-compare-foot { padding-top: 36px; text-align: center; }
 
