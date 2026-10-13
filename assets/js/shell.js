@@ -2,7 +2,7 @@
 // Every page includes <div data-shell="nav"></div> at the top and <div data-shell="footer"></div> at the bottom.
 (() => {
   const root = document.currentScript?.src.replace(/assets\/js\/shell\.js.*$/, "") || "/";
-  const url = (p) => root + p;
+  const url = (p) => (/^(https?:|#)/.test(p) ? p : root + p);
 
   // Navigation model: label, flyout groups (first group is "elevated": large links).
   const NAV = [
@@ -18,6 +18,15 @@
     ["Accessories", [["Shop accessories", [["All accessories", "pages/accessories.html"], ["Cases", "pages/product-case.html"], ["Chargers", "pages/product-charger.html"], ["Watch bands", "pages/watch-bands.html"]]]]],
     ["Support", [["Explore support", [["Help", "pages/help.html"], ["Shipping & pickup", "pages/shipping.html"], ["Find a store", "pages/stores.html"]]], ["More", [["Site map", "pages/sitemap.html"]]]]],
   ];
+
+  // Live content mode: real nav labels and footer directory (content/live/_nav.json, see content.js).
+  const liveNav = window.Live?.on && window.Live.nav;
+  const rel = (href) => { const l = window.Live.link(href); return window.Live.root && l.startsWith(window.Live.root) ? l.slice(window.Live.root.length) : l; };
+  if (liveNav?.items?.length) {
+    NAV.splice(0, NAV.length, ...liveNav.items.map((it) => [it.label, it.groups.length
+      ? it.groups.map((g) => [g.title || it.label, g.links.map(([t, h]) => [t, rel(h)])])
+      : [[it.label, [[it.label, rel(it.href)]]]]]));
+  }
 
   const ICON = {
     logo: '<svg viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6.2" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="7" r="2.4" fill="currentColor"/></svg>',
@@ -66,13 +75,14 @@
 <div class="gnav-curtain"></div>
 <div class="gnav-placeholder"></div>`;
 
-  const FOOT = [
+  let FOOT = [
     [["Shop and Learn", ["Store", "Computers", "Tablets", "Phones", "Watches", "Spatial", "Audio", "Home", "Accessories", "Gift cards"]]],
     [["Account", ["Manage your account", "Store account", "Cloud"]], ["Entertainment", ["Music", "TV", "Arcade", "Podcasts"]]],
     [["Store", ["Find a store", "Events", "Trade in", "Financing", "Carrier deals", "Order status", "Shopping help"]]],
     [["For Business", ["Business", "Shop for business"]], ["For Education", ["Education", "Shop for college"]], ["For Healthcare", ["Health"]]],
     [["Values", ["Accessibility", "Environment", "Privacy", "Supply chain"]], ["About", ["Newsroom", "Leadership", "Careers", "Contact"]]],
   ];
+  if (liveNav?.footer?.length) FOOT = liveNav.footer.map((col) => col.map(([t, links]) => [t, links]));
   const footHTML = (notes) => `
 <footer class="gfoot">
   <div class="gfoot-inner">
@@ -80,7 +90,7 @@
     <nav class="gfoot-crumbs" aria-label="Breadcrumbs"><a href="${url("index.html")}" aria-label="Home">${ICON.logo}</a>${ICON.sep}<span>${document.title.split(" — ")[0]}</span></nav>
     <nav class="gfoot-dir" aria-label="Directory">${FOOT.map((col) => `<div class="gfoot-col">${col.map(([t, links]) => `<div class="gfoot-section"><button class="gfoot-title" aria-expanded="false">${t}${ICON.chevD}</button><ul class="gfoot-list">${links.map((l) => `<li><a href="${url("pages/sitemap.html")}">${l}</a></li>`).join("")}</ul></div>`).join("")}</div>`).join("")}</nav>
     <p class="gfoot-shop">More ways to shop: <a href="${url("pages/stores.html")}">Find a store</a> or other retailer near you. Or call 0-000-000-0000.</p>
-    <div class="gfoot-legal"><span class="gfoot-copy">Demo store. Design study, not affiliated with any brand.</span>
+    <div class="gfoot-legal"><span class="gfoot-copy">${liveNav?.legal ? window.Live.esc(liveNav.legal) : "Demo store. Design study, not affiliated with any brand."}</span>
       <ul><li><a href="${url("pages/sitemap.html")}">Privacy Policy</a></li><li><a href="${url("pages/sitemap.html")}">Terms of Use</a></li><li><a href="${url("pages/sitemap.html")}">Sales Policy</a></li><li><a href="${url("pages/sitemap.html")}">Site Map</a></li></ul>
       <span class="gfoot-locale">United States</span></div>
   </div>

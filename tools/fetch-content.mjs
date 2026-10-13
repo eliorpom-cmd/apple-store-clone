@@ -5,114 +5,110 @@
 //
 // Usage: node tools/fetch-content.mjs [slug ...]     (default: every page in PAGES)
 // Needs Playwright: npm i -D playwright && npx playwright install chromium
+//
+// Each page names an extractor in tools/extractors/<name>.mjs. An extractor default-exports one
+// self-contained function that runs in the page and returns { template: "<name>", ... }.
+// The matching renderer is assets/js/live/<name>.js (see assets/js/content.js).
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 
 const require = createRequire(import.meta.url);
 let chromium;
 try { ({ chromium } = require("playwright")); }
 catch { ({ chromium } = createRequire(join(homedir(), ".cache", "adn-design", "noop.js"))("playwright")); }
 
-// Local slug -> source path. Shelf pages share one extractor.
 const ORIGIN = "https://www.apple.com";
-const PAGES = {
-  "index": "/store",
-  "buy-phone": "/shop/buy-iphone",
-  "buy-computer": "/shop/buy-mac",
-  "buy-watch": "/shop/buy-watch",
-  "buy-headset": "/shop/buy-vision",
-  "education": "/shop/education-pricing",
+// Local slug -> [source path, extractor name]
+export const PAGES = {
+  "index": ["/store", "shelves"],
+  "buy-phone": ["/shop/buy-iphone", "shelves"],
+  "buy-computer": ["/shop/buy-mac", "shelves"],
+  "buy-watch": ["/shop/buy-watch", "shelves"],
+  "buy-headset": ["/shop/buy-vision", "shelves"],
+  "education": ["/shop/education-pricing", "shelves"],
+  "config-phone": ["/shop/buy-iphone/iphone-18-pro", "configurator"],
+  "config-phone-duo": ["/shop/buy-iphone/iphone-duo", "configurator"],
+  "config-computer": ["/shop/buy-mac/macbook-pro", "configurator-2"],
+  "config-watch": ["/shop/buy-watch/apple-watch-ultra", "configurator-2"],
+  "buy-earbuds": ["/shop/buy-airpods/airpods-5", "flagship"],
+  "buy-display": ["/shop/buy-mac/studio-display", "flagship"],
+  "buy-tvbox": ["/shop/buy-tv/apple-tv-4k", "flagship"],
+  "product-case": ["/shop/product/mk944zm/a/iphone-18-pro-max-silicone-case-with-magsafe-navy-blue", "product"],
+  "product-charger": ["/shop/product/mwvv3am/a/20w-usb-c-power-adapter", "product"],
+  "giftcard": ["/shop/buy-giftcard/giftcard", "product"],
+  "accessories": ["/shop/accessories/all", "catalog"],
+  "watch-bands": ["/shop/watch/bands", "catalog"],
+  "refurbished": ["/shop/refurbished", "catalog-2"],
+  "upgrade": ["/shop/apple-upgrade", "catalog-2"],
+  "trade-in": ["/shop/trade-in", "content"],
+  "carrier-offers": ["/shop/buy-iphone/carrier-offers", "content"],
+  "shipping": ["/shop/shipping-pickup", "content"],
+  "help": ["/shop/help", "service"],
+  "bag": ["/shop/bag", "service"],
+  "sitemap": ["/shop/browse/sitemap", "service"],
+  "stores": ["/retail/", "service"],
+  "today": ["/today/", "service"],
+  "gift-cards": ["/shop/gift-cards", "service"],
 };
 
-// Runs in the page: turns the shelf layout into plain data.
-function extractShelves() {
-  // Visible text only: drop screen-reader helpers ("opens in a new window", footnote labels).
-  const txt = (el) => {
-    if (!el) return "";
-    const c = el.cloneNode(true);
-    c.querySelectorAll(".a11y, .visuallyhidden, [class*='visuallyhidden'], sup").forEach((n) => n.remove());
-    return (c.textContent || "").replace(/\s+/g, " ").replace(/\u200d/g, "").trim();
-  };
-  const img = (root) => {
-    const list = [...root.querySelectorAll("img")].filter((i) => i.currentSrc || i.src);
-    const best = list.sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width)[0];
-    return best ? { src: best.currentSrc || best.src, alt: best.alt || "" } : null;
-  };
-  const width = (w) => [230, 313, 400, 480, 646, 980].reduce((a, b) => (Math.abs(b - w) < Math.abs(a - w) ? b : a));
-  const abs = (h) => (h ? new URL(h, location.href).href : null);
-
-  const ribbon = [...document.querySelectorAll(".rc-ribbon .rc-ribbon-content-item, .rc-ribbon [class*='ribbon-content'] p")].map((el) => {
-    const a = el.querySelector("a");
-    const c = el.cloneNode(true);
-    c.querySelectorAll("a").forEach((n) => n.remove());
-    return { text: txt(c), link: a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null };
-  }).filter((r) => r.text).slice(0, 4);
-
-  const head = {
-    title: txt(document.querySelector("h1")),
-    subtitle: txt(document.querySelector(".rs-shop-subheader")),
-    links: [...document.querySelectorAll(".rs-shop-neareststore a, .rs-shop-header-section a")].map((a) => ({ text: txt(a), href: abs(a.getAttribute("href")) })).filter((l) => l.text).slice(0, 3),
-  };
-
-  const tabs = [...document.querySelectorAll(".rf-navbar-item a")].map((a) => ({ text: txt(a), href: abs(a.getAttribute("href")), active: a.className.includes("active") }));
-
-  const pnav = [...document.querySelectorAll(".rf-productnav-card")].map((c) => ({ title: txt(c.querySelector("[class*='title']")), href: abs(c.querySelector("a")?.getAttribute("href")), img: img(c) })).filter((p) => p.title);
-
-  const shelves = [...document.querySelectorAll(".rs-cardsshelf")].filter((s) => !s.className.includes("productnav")).map((s) => {
-    const main = txt(s.querySelector(".rs-cards-shelf-mainheader"));
-    const secondary = txt(s.querySelector(".rs-cards-shelf-secondaryheader"));
-    const cards = [...s.querySelectorAll(".rf-ccard, .rf-recommcard, .rf-hcard")].filter((c) => !c.parentElement.closest(".rf-ccard, .rf-recommcard, .rf-hcard")).map((card) => {
-      const box = (card.querySelector("[class*='-content']") || card).getBoundingClientRect();
-      const cls = card.className + " " + (card.querySelector("[class*='-content']")?.className || "");
-      const bg = getComputedStyle(card.querySelector("[class*='-content']") || card).backgroundColor;
-      const q = (sel) => txt(card.querySelector(sel));
-      return {
-        kind: /hcard/.test(cls) ? "product" : /recommcard/.test(cls) ? "recomm" : "card",
-        width: width(box.width),
-        short: box.height > 0 && box.height < 300,
-        dark: /darkbg|bgblack/.test(cls) || bg === "rgb(0, 0, 0)" || bg === "rgb(29, 29, 31)",
-        black: /bgblack/.test(cls) || bg === "rgb(0, 0, 0)",
-        full: /withfullimg/.test(cls),
-        bg,
-        eyebrow: q("[class*='eyebrow']"),
-        eyebrowNew: !!card.querySelector("[class*='msgtag-orange'], [class*='violator']"),
-        title: (() => {
-          const el = card.querySelector("[class*='headerlink'], [class*='content-title']") || card.querySelector("[class*='content-header']:not([class*='eyebrow']), [class*='card-title'], h3:not([class*='eyebrow'])");
-          if (!el) return "";
-          const c = el.cloneNode(true);
-          c.querySelectorAll("[class*='eyebrow']").forEach((n) => n.remove());
-          return txt(c);
-        })(),
-        desc: q("[class*='desccontent']") || (card.querySelector("[class*='descprice']") ? "" : q("[class*='content-desc'], [class*='description']")),
-        price: q("[class*='descprice'], [class*='content-price'], [class*='scrim-price']"),
-        imgFull: !!card.querySelector("img[class*='img-full'], [class*='withfullimg']"),
-        cta: q("[class*='cta']"),
-        swatches: [...card.querySelectorAll("[class*='swatch'] img, [class*='colorimage']")].map((i) => i.currentSrc || i.src).slice(0, 8),
-        href: abs(card.querySelector("a")?.getAttribute("href")),
-        img: img(card),
-      };
-    }).filter((c) => c && (c.title || c.img));
-    return { main, secondary, cards };
-  }).filter((s) => s.cards.length);
-
-  return { url: location.href, fetched: new Date().toISOString(), ribbon, head, tabs, pnav, shelves };
+// Global nav labels and links, shared by every page (content/live/_nav.json).
+function extractNav() {
+  const txt = (el) => (el?.textContent || "").replace(/\s+/g, " ").trim();
+  const items = [...document.querySelectorAll(".globalnav-list > .globalnav-item")].map((li) => {
+    const a = li.querySelector("a.globalnav-link");
+    if (!a || li.matches(".globalnav-item-apple, .globalnav-search, .globalnav-bag, .globalnav-menu")) return null;
+    const groups = [...li.querySelectorAll(".globalnav-submenu-group")].map((g) => ({
+      title: txt(g.querySelector(".globalnav-submenu-header")),
+      links: [...g.querySelectorAll("a.globalnav-submenu-link")].map((l) => [txt(l), l.href]),
+    })).filter((g) => g.links.length);
+    return { label: txt(a.querySelector(".globalnav-link-text-container") || a), href: a.href, groups };
+  }).filter(Boolean);
+  const footer = [...document.querySelectorAll(".ac-gf-directory-column")].map((col) =>
+    [...col.querySelectorAll(".ac-gf-directory-column-section")].map((s) => [
+      txt(s.querySelector(".ac-gf-directory-column-section-title-text, .ac-gf-directory-column-section-title")),
+      [...s.querySelectorAll("a.ac-gf-directory-column-section-link")].map((l) => txt(l)),
+    ]));
+  const legal = txt(document.querySelector(".ac-gf-footer-legal-copyright"));
+  const shop = txt(document.querySelector(".ac-gf-footer-shop"));
+  return { items, footer, legal, shop };
 }
 
-const slugs = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(PAGES);
-mkdirSync("content/live", { recursive: true });
-const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, locale: "en-US" });
-for (const slug of slugs) {
-  await page.goto(ORIGIN + PAGES[slug], { waitUntil: "load", timeout: 90000 }).catch(() => {});
-  // Scroll once so lazy images resolve their final source.
+export async function scrollThrough(page) {
+  // Wheel scrolling triggers the lazy shelves; "networkidle" is never reached on these pages.
   for (let i = 0; i < 40; i++) { await page.mouse.wheel(0, 500); await page.waitForTimeout(150); }
-  await page.waitForSelector(".rf-cards-scroller-itemview", { timeout: 15000 }).catch(() => {});
+  await page.mouse.wheel(0, -100000);
   await page.waitForTimeout(800);
-  const data = await page.evaluate(extractShelves);
-  writeFileSync(`content/live/${slug}.json`, JSON.stringify(data, null, 1));
-  console.log(slug, `${data.shelves.length} shelves, ${data.shelves.reduce((n, s) => n + s.cards.length, 0)} cards, ${data.pnav.length} nav items`);
 }
-await browser.close();
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isMain) {
+  const slugs = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(PAGES);
+  mkdirSync("content/live", { recursive: true });
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, locale: "en-US" });
+  let navDone = false;
+  for (const slug of slugs) {
+    const [path, name] = PAGES[slug] || [];
+    if (!path) { console.log(slug, "unknown slug"); continue; }
+    try {
+      const { default: extract } = await import(`./extractors/${name}.mjs`);
+      await page.goto(ORIGIN + path, { waitUntil: "load", timeout: 90000 });
+      await page.waitForTimeout(1500);
+      await scrollThrough(page);
+      if (!navDone) { writeFileSync("content/live/_nav.json", JSON.stringify(await page.evaluate(extractNav), null, 1)); navDone = true; }
+      const data = await page.evaluate(extract);
+      data.template ??= name;
+      data.source = ORIGIN + path;
+      data.fetched = new Date().toISOString();
+      writeFileSync(`content/live/${slug}.json`, JSON.stringify(data, null, 1));
+      console.log(slug.padEnd(18), name.padEnd(15), `${Math.round(JSON.stringify(data).length / 1024)} KB`);
+    } catch (e) {
+      console.log(slug.padEnd(18), name.padEnd(15), "FAILED", String(e.message || e).split("\n")[0].slice(0, 120));
+    }
+  }
+  await browser.close();
+}

@@ -319,3 +319,53 @@ html.modal-open { overflow: hidden; }
 .live-pcard .card-media img { height: 100%; max-height: 230px; }
 .live-pcard-title { padding-top: 40px; font-size: 17px; line-height: 1.2353; letter-spacing: -.022em; }
 .live-pcard .pcard-price { margin-top: auto; }
+
+/* ---------- Timed dotnav: autoplay carousel controls (dots + progress dash + play/pause) ----------
+   Measured on the product marketing pages (interactions/dotnav-progress). Values: dot 8px, active dash 48px,
+   fill linear over --autoplay-duration (6.25s), dots fade in at 740ms, play button scales in at 940ms. */
+.autoplay { --autoplay-duration: 6.25s; position: relative; }
+.autoplay-viewport { overflow: hidden; border-radius: var(--r-card); }
+.autoplay-track { display: flex; transition: transform .8s cubic-bezier(.4, 0, .25, 1); }
+.autoplay-slide { flex: none; width: 100%; }
+.dotnav-controls { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 28px; }
+.dotnav-bubble {
+  --h: 56px;
+  display: flex; align-items: center; justify-content: center; height: var(--h); min-width: var(--h); padding: 0 24px;
+  border-radius: var(--h); background: rgba(232, 232, 237, .72); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  clip-path: inset(0 calc(50% - var(--h) / 2) round var(--h));
+  transform: scale(.6); opacity: 0;
+}
+.dotnav-controls.is-in .dotnav-bubble { animation: bubble-in .3s cubic-bezier(.4, 0, .6, 1) forwards, bubble-open .5s cubic-bezier(.4, 0, .25, 1) .3s forwards; }
+@keyframes bubble-in { to { transform: scale(1); opacity: 1; } }
+@keyframes bubble-open { to { clip-path: inset(0 0 round var(--h)); } }
+.dotnav-list { display: flex; align-items: center; gap: 16px; }
+.dotnav-list button {
+  position: relative; width: 8px; height: 8px; border-radius: 10px; overflow: hidden;
+  background: rgba(0, 0, 0, .42); opacity: 0; scale: 0;
+  transition: width .38s cubic-bezier(.4, 0, .25, 1), background-color .25s linear;
+}
+.dotnav-list button:hover:not([aria-current="true"]) { background: rgba(0, 0, 0, .54); }
+.dotnav-controls.is-in .dotnav-list button { animation: dot-in .1s ease-in calc(740ms + var(--i) * 40ms) forwards; }
+@keyframes dot-in { to { opacity: 1; scale: 1; } }
+.dotnav-list button[aria-current="true"] { width: 48px; cursor: default; }
+.dotnav-list button::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit; background: var(--text); }
+.dotnav-list button[aria-current="true"]::after { animation: dot-fill var(--autoplay-duration) linear forwards; }
+.autoplay.is-paused .dotnav-list button[aria-current="true"]::after { animation-play-state: paused; }
+@keyframes dot-fill { from { width: 8px; } to { width: 100%; } }
+.dotnav-play {
+  width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(232, 232, 237, .72); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); color: var(--text);
+  transform: scale(0); transition: background-color .25s linear;
+}
+.dotnav-controls.is-in .dotnav-play { animation: play-in .2s cubic-bezier(.4, 0, .6, 1) 940ms forwards; }
+@keyframes play-in { to { transform: scale(1); } }
+.dotnav-play:hover { background: rgba(220, 220, 226, .8); }
+.dotnav-play:active { transform: scale(.95); }
+.dotnav-play svg { width: 18px; height: 18px; }
+.dotnav-play .i-play, .autoplay.is-paused .dotnav-play .i-pause { display: none; }
+.autoplay.is-paused .dotnav-play .i-play { display: block; }
+@media (prefers-reduced-motion: reduce) { .dotnav-list button[aria-current="true"]::after { animation: none; width: 100%; } }
+/* The first fill waits for the controls' entrance. */
+.dotnav-controls:not(.is-in) .dotnav-list button::after { animation-play-state: paused; }
+.dotnav-controls.is-in .dotnav-list button[aria-current="true"]::after { animation-delay: 1s; }
+.dotnav-controls.is-in.is-running .dotnav-list button[aria-current="true"]::after { animation-delay: 0s; }

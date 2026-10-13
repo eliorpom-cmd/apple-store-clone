@@ -121,6 +121,44 @@
     go(0);
   });
 
+
+  // ---------- Autoplay carousel with timed dotnav ----------
+  // <div class="autoplay" data-autoplay><div class="autoplay-viewport"><div class="autoplay-track">
+  //   <div class="autoplay-slide">…</div>…</div></div></div>  (controls are added here)
+  document.querySelectorAll("[data-autoplay]").forEach((root) => {
+    const track = root.querySelector(".autoplay-track");
+    const slides = [...track.children];
+    const ctrls = document.createElement("div");
+    ctrls.className = "dotnav-controls";
+    ctrls.innerHTML = `<div class="dotnav-bubble"><div class="dotnav-list">${slides.map((_, i) => `<button style="--i:${i}" aria-label="Item ${i + 1}"></button>`).join("")}</div></div>
+      <button class="dotnav-play" aria-label="Pause"><svg class="i-pause" viewBox="0 0 18 18"><rect x="4" y="3" width="3.4" height="12" rx="1.2" fill="currentColor"/><rect x="10.6" y="3" width="3.4" height="12" rx="1.2" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 18 18"><path d="M5 3.2v11.6c0 .7.8 1.1 1.4.7l8.4-5.8a.85.85 0 0 0 0-1.4L6.4 2.5C5.8 2.1 5 2.5 5 3.2z" fill="currentColor"/></svg></button>`;
+    root.append(ctrls);
+    const dots = [...ctrls.querySelectorAll(".dotnav-list button")];
+    let i = 0;
+    const go = (n) => {
+      if (ctrls.classList.contains("is-in") && n !== 0) ctrls.classList.add("is-running");
+      i = (n + slides.length) % slides.length;
+      track.style.transform = `translateX(${-100 * i}%)`;
+      dots.forEach((d, k) => {
+        d.setAttribute("aria-current", k === i);
+        // Restart the fill animation on the new current dot.
+        if (k === i) { d.style.animation = "none"; void d.offsetWidth; d.style.animation = ""; }
+      });
+    };
+    dots.forEach((d, k) => d.addEventListener("click", () => go(k)));
+    // Advance when the current dot finishes filling.
+    dots.forEach((d) => d.addEventListener("animationend", (e) => { if (e.animationName === "dot-fill" && !root.classList.contains("is-paused")) go(i + 1); }));
+    const play = ctrls.querySelector(".dotnav-play");
+    play.addEventListener("click", () => {
+      const paused = root.classList.toggle("is-paused");
+      play.setAttribute("aria-label", paused ? "Play" : "Pause");
+    });
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) root.classList.add("is-paused");
+    // Controls make their entrance when the carousel scrolls into view.
+    new IntersectionObserver(([e], obs) => { if (e.isIntersecting) { ctrls.classList.add("is-in"); obs.disconnect(); } }, { threshold: .4 }).observe(root);
+    go(0);
+  });
+
   // ---------- Sticky category bar ----------
   document.querySelectorAll("[data-catbar]").forEach((bar) => {
     const sentinel = document.createElement("div");

@@ -1,14 +1,14 @@
-// Live content mode (local study only): replaces the demo content of shelf pages with the JSON
-// produced by tools/fetch-content.mjs (content/live/<slug>.json, git-ignored).
-// Turn on with ?content=live, back to demo with ?content=demo. The choice is remembered per browser.
+// Live content mode (local study only). Loads content/live/<slug>.json (made by tools/fetch-content.mjs,
+// git-ignored) and lets the page's renderer rewrite the demo content before shell.js and components.js run.
+// Turn on with ?content=live, back with ?content=demo. The choice is remembered per browser.
+//
+// Script order on a page:
+//   content.js  ->  live/<template>.js (calls Live.register)  ->  shell.js  ->  components.js
 (() => {
   const params = new URLSearchParams(location.search);
-  try {
-    if (params.get("content")) localStorage.setItem("content-mode", params.get("content"));
-  } catch {}
+  try { if (params.get("content")) localStorage.setItem("content-mode", params.get("content")); } catch {}
   let mode = "demo";
   try { mode = localStorage.getItem("content-mode") || "demo"; } catch {}
-  if (mode !== "live") return;
 
   const inPages = location.pathname.includes("/pages/");
   const root = inPages ? "../" : "";
@@ -26,65 +26,54 @@
     "/shop/refurbished": "pages/refurbished.html", "/shop/apple-upgrade": "pages/upgrade.html",
     "/shop/trade-in": "pages/trade-in.html", "/shop/buy-iphone/carrier-offers": "pages/carrier-offers.html",
     "/shop/shipping-pickup": "pages/shipping.html", "/shop/help": "pages/help.html", "/shop/bag": "pages/bag.html",
-    "/shop/gift-cards": "pages/gift-cards.html", "/retail": "pages/stores.html", "/today": "pages/today.html",
-  };
-  const link = (href) => {
-    if (!href) return "#";
-    try {
-      const u = new URL(href);
-      const path = u.pathname.replace(/^\/us/, "").replace(/\/$/, "");
-      return LOCAL[path] ? root + LOCAL[path] : href;
-    } catch { return href; }
-  };
-  const esc = (s) => String(s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const isNew = (s) => /new|pre-?order/i.test(s || "");
-
-  const card = (c) => {
-    const w = { 230: " card-w230", 313: " card-w313", 400: "", 480: " card-w480", 646: " card-w646" }[c.width] || "";
-    const tone = c.black ? " card-black" : c.dark ? " card-dark" : "";
-    const short = c.short ? " card-short" : "";
-    const eyebrow = c.eyebrow ? `<p class="eyebrow${isNew(c.eyebrow) ? " eyebrow-new" : ""}">${esc(c.eyebrow)}</p>` : "";
-    if (c.kind === "recomm" || c.kind === "product") {
-      return `<a class="card card-w313 pcard live-pcard${tone}" href="${esc(link(c.href))}">
-        ${eyebrow}<div class="card-media">${c.img ? `<img src="${esc(c.img.src)}" alt="${esc(c.img.alt)}" loading="lazy">` : ""}</div>
-        <h3 class="t-card live-pcard-title">${esc(c.title)}</h3><p class="pcard-price">${esc(c.price)}</p></a>`;
-    }
-    const body = `<div class="card-body">${eyebrow}<h3 class="card-title${c.short ? " t-card" : ""}">${esc(c.title)}</h3>${c.desc ? `<p class="card-desc">${esc(c.desc)}</p>` : ""}${c.price ? `<p class="card-desc">${esc(c.price)}</p>` : ""}</div>`;
-    const media = c.img ? `<div class="card-media live-full"><img src="${esc(c.img.src)}" alt="${esc(c.img.alt)}" loading="lazy"></div>` : "";
-    return `<a class="card live-card${w}${tone}${short}" href="${esc(link(c.href))}" style="${c.bg && !c.dark && c.bg !== "rgb(255, 255, 255)" && c.bg !== "rgba(0, 0, 0, 0)" ? `background:${c.bg}` : ""}">${media}${body}</a>`;
+    "/shop/gift-cards": "pages/gift-cards.html", "/shop/buy-giftcard/giftcard": "pages/giftcard.html",
+    "/retail": "pages/stores.html", "/today": "pages/today.html", "/shop/browse/sitemap": "pages/sitemap.html",
+    "/shop/product/mk944zm/a/iphone-18-pro-max-silicone-case-with-magsafe-navy-blue": "pages/product-case.html",
+    "/shop/product/mwvv3am/a/20w-usb-c-power-adapter": "pages/product-charger.html",
   };
 
-  const shelf = (s) => `<section class="shelf live-shelf">
-    <div class="shelf-head"><h2><strong>${esc(s.main)}</strong> ${esc(s.secondary)}</h2></div>
-    <div class="scroller" data-scroller><div class="scroller-track">${s.cards.map(card).join("")}</div></div></section>`;
+  const getJSON = (url) => {
+    const req = new XMLHttpRequest();
+    req.open("GET", url, false); // synchronous on purpose: the DOM must be rewritten before shell.js runs
+    try { req.send(); } catch { return null; }
+    return req.status === 200 ? JSON.parse(req.responseText) : null;
+  };
 
-  const pnav = (items) => `<section class="shelf live-shelf" aria-label="Shop by category" style="padding-bottom:62px">
-    <div class="scroller" data-scroller><div class="scroller-track pnav-track">${items.map((p) => `<a class="pnav-item" href="${esc(link(p.href))}"><span class="pnav-img">${p.img ? `<img src="${esc(p.img.src)}" alt="">` : ""}</span><span>${esc(p.title)}</span></a>`).join("")}</div></div></section>`;
+  const Live = {
+    on: false,
+    data: null,
+    nav: null,
+    root,
+    slug,
+    // Map a source URL to the local page when one exists.
+    link(href) {
+      if (!href) return "#";
+      try {
+        const u = new URL(href, "https://www.apple.com");
+        const path = u.pathname.replace(/^\/us/, "").replace(/\/$/, "") || "/";
+        return LOCAL[path] ? root + LOCAL[path] : u.href;
+      } catch { return href; }
+    },
+    esc(s) { return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); },
+    img(i, attrs = "") { return i && i.src ? `<img src="${Live.esc(i.src)}" alt="${Live.esc(i.alt || "")}" loading="lazy" ${attrs}>` : ""; },
+    // Set text of the first element matching sel (inside scope) when value is non-empty.
+    text(sel, value, scope = document) { const el = scope.querySelector(sel); if (el && value) el.textContent = value; return el; },
+    renderers: {},
+    register(name, fn) {
+      Live.renderers[name] = fn;
+      if (Live.on && Live.data?.template === name) {
+        try { fn(Live.data, Live); document.documentElement.dataset.liveRendered = name; }
+        catch (e) { console.error("live renderer failed:", name, e); }
+      }
+    },
+  };
+  window.Live = Live;
+  if (mode !== "live") return;
 
-  // Runs before shell.js and components.js: rewrite the DOM synchronously from a blocking request,
-  // so the shared scripts wire the new markup as if it were static.
-  const req = new XMLHttpRequest();
-  req.open("GET", `${root}content/live/${slug}.json`, false);
-  try { req.send(); } catch { return; }
-  if (req.status !== 200) return;
-  const data = JSON.parse(req.responseText);
+  const data = getJSON(`${root}content/live/${slug}.json`);
+  if (!data) return;
+  Live.on = true;
+  Live.data = data;
+  Live.nav = getJSON(`${root}content/live/_nav.json`);
   document.documentElement.dataset.content = "live";
-
-  const nav = document.querySelector('[data-shell="nav"]');
-  if (nav && data.ribbon?.length) {
-    nav.dataset.ribbon = [...new Map(data.ribbon.map((r) => [r.text, r])).values()]
-      .map((r) => `${esc(r.text)} ${r.link ? `<a class="more" href="${esc(link(r.link.href))}">${esc(r.link.text)}</a>` : ""}`).join("||");
-  }
-  const h1 = document.querySelector(".page-head h1");
-  if (h1 && data.head?.title) h1.textContent = data.head.title;
-  const sub = document.querySelector(".page-head-aside h2");
-  if (sub && data.head?.subtitle) sub.textContent = data.head.subtitle;
-
-  const main = document.querySelector("main");
-  const oldShelves = [...main.querySelectorAll(":scope > .shelf, :scope > section.shelf")];
-  const anchor = oldShelves[0];
-  if (!anchor) return;
-  const html = (data.pnav?.length ? pnav(data.pnav) : "") + data.shelves.map(shelf).join("");
-  anchor.insertAdjacentHTML("beforebegin", html);
-  oldShelves.forEach((s) => s.remove());
 })();

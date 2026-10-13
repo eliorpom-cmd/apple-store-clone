@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Components — Demo Store</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <style>
+    .demo-slide { height: 560px; display: grid; place-items: center; background: linear-gradient(160deg, #eef1f6, #dfe5ee); }
+    .demo-slide:nth-child(2) { background: linear-gradient(160deg, #e9f0ea, #d5e3d8); }
+    .demo-slide:nth-child(3) { background: linear-gradient(160deg, #f4ede6, #e8dccf); }
+    .demo-slide:nth-child(4) { background: linear-gradient(160deg, #eceaf4, #dcd8ea); }
+    .demo-slide:nth-child(5) { background: linear-gradient(160deg, #f1f1f1, #e2e2e4); }
+    .demo-slide img { height: 380px; width: auto; }
+  </style>
+</head>
+<body>
+  <div data-shell="nav"></div>
+  <main class="container" style="padding:80px 0">
+    <h1 class="t-hero" style="margin-bottom:40px">Components</h1>
+    <h2 class="t-section" style="margin-bottom:24px">Autoplay carousel with timed dotnav</h2>
+    <div class="autoplay" data-autoplay>
+      <div class="autoplay-viewport"><div class="autoplay-track">
+        <div class="autoplay-slide demo-slide"><img src="../assets/img/products/speaker.svg" alt=""></div>
+        <div class="autoplay-slide demo-slide"><img src="../assets/img/products/earbuds.svg" alt=""></div>
+        <div class="autoplay-slide demo-slide"><img src="../assets/img/products/headphones.svg" alt=""></div>
+        <div class="autoplay-slide demo-slide"><img src="../assets/img/products/tvbox.svg" alt=""></div>
+        <div class="autoplay-slide demo-slide"><img src="../assets/img/products/tag.svg" alt=""></div>
+      </div></div>
+    </div>
+  </main>
+  <div data-shell="footer"></div>
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>
