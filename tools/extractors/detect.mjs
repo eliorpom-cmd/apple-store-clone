@@ -16,6 +16,7 @@ export default function detect() {
   if (has("[class*='rf-flagship'], .rc-witb-item")) return { template: "flagship", file: /buy-tv/.test(path) ? "pages/buy-tvbox.html" : /buy-mac/.test(path) ? "pages/buy-display.html" : "pages/buy-earbuds.html" };
   if (has("[class*='rf-giftcard']")) return { template: "product", file: "pages/giftcard.html" };
   if (has("[class*='rf-pdp']")) return { template: "product", file: /case|cover|band|loop/i.test(path) ? "pages/product-case.html" : "pages/product-charger.html" };
+  if (has("[class*='re-productgrid'], [class*='rf-productgrid']")) return { template: "catalog", file: "pages/accessories.html" };
   if (has("[class*='rf-accessory'], .rf-producttile, [class*='rf-producttile']")) return { template: "catalog", file: "pages/accessories.html" };
   if (has("[class*='rf-dcm']")) return { template: "content", file: /carrier/.test(path) ? "pages/carrier-offers.html" : /shipping/.test(path) ? "pages/shipping.html" : "pages/trade-in.html" };
   if (has("[class*='rf-help']")) return { template: "service", file: "pages/help.html" };
