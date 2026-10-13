@@ -1,0 +1,24 @@
+/* Live shelves (mode ?content=live): media kinds that the demo markup does not need.
+   Product and card widths come from components.css; only the new kinds are styled here. */
+
+/* Videos fill the media block and are cropped like the original card images. */
+.live-video { width: 100%; height: 100%; object-fit: cover; }
+.card-full .live-media { position: absolute; inset: 0; }
+.card-full .live-media video, .card-full .live-media img { width: 100%; height: 100%; object-fit: cover; max-height: none; }
+
+/* Pictograms in short cards: the glyph is drawn at its original size, in the card colour. */
+.live-icon { position: absolute; top: 22px; left: 28px; z-index: 1; }
+.live-icon svg { display: block; width: auto; height: auto; max-width: none; max-height: 60px; }
+.card-icon .card-body { padding-top: 70px; }
+
+/* Colour swatches: small round images, as on the original product cards. */
+.live-swatches img { width: 12px; height: 12px; border-radius: 50%; }
+.live-swatches { justify-content: center; }
+.recomm .live-swatches, .live-pcard .live-swatches { padding-top: 19px; }
+
+/* Stacked cards of one grid column (short icon cards on the original): two 240 px cards and a 20 px gap. */
+.live-col { display: flex; flex-direction: column; gap: 20px; flex: none; }
+.live-col > .card { flex: none; }
+
+/* Titles of the short pictogram cards: the original sets them at about 17 px, not the 21 px card title. */
+.card-icon .card-title { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }

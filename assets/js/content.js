@@ -74,6 +74,19 @@
         catch (e) { console.error("live renderer failed:", name, e); }
       }
       Live.flushExtras();
+      Live.flushLegal();
+    },
+    // Legal notes go into the footer slot (shell.js wraps it in the footer) unless the renderer filled it.
+    flushLegal() {
+      const d = Live.data;
+      if (!Live.on || Live.legalDone || !d?.legal || !document.documentElement.dataset.liveRendered) return;
+      const slot = document.querySelector('[data-shell="footer"]');
+      if (!slot || slot.innerHTML.trim()) { Live.legalDone = true; return; }
+      const box = document.createElement("div");
+      box.innerHTML = d.legal;
+      box.querySelectorAll("a[href]").forEach((a) => a.setAttribute("href", Live.link(a.getAttribute("href"))));
+      slot.innerHTML = `<div class="live-legal">${box.innerHTML}</div>`;
+      Live.legalDone = true;
     },
     // Shelf rows found under a non-shelf page (data.extraShelves) are appended to <main> once both the
     // page renderer and the shelf markup builder (Live.shelvesHTML, from live/shelves.js) are available.

@@ -174,7 +174,9 @@ export default async function extract() {
             const w = cell.getBoundingClientRect().width;
             // Position from the rendered box: full width, left column or right column.
             const pos = w > 900 ? "full" : cell.getBoundingClientRect().left - gridR.left < 100 ? "left" : "right";
-            return { kind: "marketing", pos, img: img(cell) };
+            // Intrinsic size from the markup: lets the full-width image keep its height before it loads.
+            const mi = cell.querySelector("img");
+            return { kind: "marketing", pos, img: img(cell), w: Number(mi?.getAttribute("width")) || 0, h: Number(mi?.getAttribute("height")) || 0 };
           }
           const wu = cell.querySelector(".rf-wuipselect-wuip");
           return wu ? { kind: "tile", ...tile(wu) } : null;

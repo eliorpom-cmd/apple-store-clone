@@ -228,3 +228,70 @@
   .cat2-faq { padding: 64px 0 80px; }
   .cat2-faq h2 { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
 }
+
+/* ---------- Refurbished: promo cards under the tiles (live mode renders them from the source) ---------- */
+.cat2-bento { padding: 0 0 45px; background: var(--page); }
+.cat2-bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; width: min(980px, 100% - 2 * var(--gutter)); margin: 0 auto; }
+.cat2-bento-card {
+  grid-column: span 2; position: relative; display: flex; flex-direction: column; min-height: 293px; /* spec-free: measured on source */
+  padding: 28px; overflow: hidden; background: var(--surface); border-radius: var(--r-card);
+}
+.cat2-bento-card.is-large { grid-column: span 3; min-height: 620px; }
+.cat2-bento-card.is-dark { background: #000; color: #fff; }
+.cat2-bento-title { font: var(--t-section); letter-spacing: var(--tr-section); }
+.cat2-bento-text { padding-top: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.cat2-bento-img { display: block; width: 100%; height: auto; max-height: 300px; margin-top: auto; object-fit: contain; }
+.cat2-bento-link { padding-top: 12px; font: var(--t-small); color: var(--link); }
+.cat2-legal { padding: 24px var(--gutter) 8px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
+.cat2-legal p + p { margin-top: 8px; }
+@media (max-width: 734px) {
+  .cat2-bento-grid { grid-template-columns: 1fr; }
+  .cat2-bento-card, .cat2-bento-card.is-large { grid-column: auto; min-height: 0; }
+}
+
+/* ---------- Live mode: source banner strip is centred and clipped, icon keeps its source size ---------- */
+.live-strip-wrap { display: flex; justify-content: center; overflow: hidden; }
+.live-strip { flex: none; max-width: none; }
+.live-icon { margin: 0 auto; }
+.live-banner { padding-top: 0; padding-bottom: 44px; }
+.live-banner .cat2-display { margin-top: 20px; }
+.live-icon { margin-top: 20px; }
+.cat2-tiles-live .cat2-tile-image { height: 267px; }
+
+/* ---------- Live mode: upgrade page order and blocks taken from the source ---------- */
+.cat2-live-select { padding-top: 229px; } /* measured: gap between the last explanatory block and the selector title */
+.cat2-live-select .cat2-tabs { margin-inline: 0; }
+.cat2-start { padding: 80px 0; text-align: center; }
+.cat2-start .btn { margin-top: 24px; }
+.cat2-feature { flex: none; }
+.cat2-feature .card-media img { max-height: 180px; }
+.live-hero .cat2-step { padding-top: 60px; }
+.live-hero .cat2-up-cta { padding-bottom: 150px; }
+.live-hero { padding-bottom: 150px; }
+.live-hero .cat2-steps { margin-top: 6px; min-height: 187px; }
+.live-hero .cat2-up-cta { margin-top: 0; height: 199px; }
+.live-hero .cat2-up-cta { padding-bottom: 0; }
+.cat2-live-sec { padding: 0; }
+.cat2-live-select .cat2-tabs { margin-top: 0; }
+.cat2-live-shelf { padding-top: 176px; } /* measured: gap before the feature-card shelf (its heading is not extracted) */
+.live-faq { padding: 403px 0 0; } /* measured: the FAQ groups start 403 px after the start block */
+.live-faq-title { padding: 16px 0 8px; font: 600 21px/1.1905 var(--font); letter-spacing: .011em; }
+.live-faq .acc-btn { padding: 16px 0; }
+/* Listing pages (Mac, iPad): five columns and shorter tiles, as measured on the source. */
+.cat2-tiles-listing { grid-template-columns: repeat(5, 1fr); }
+.cat2-tiles-listing .cat2-tile { padding: 40px 0 30px; }
+.cat2-tiles-listing .cat2-tile-image { height: 220px; }
+.cat2-tiles-listing .cat2-tile-title { padding: 24px 16px 0; }
+@media (max-width: 1023px) {
+  .cat2-tiles-listing { grid-template-columns: repeat(2, 1fr); }
+  .cat2-tiles-listing .cat2-tile { padding: 20px 0 28px; }
+  .cat2-tiles-listing .cat2-tile-image { height: auto; }
+}
+/* Listing pages: the hero band starts at the top of the page, under the navigation (measured). */
+.live-banner--listing { margin-top: -96px; padding-bottom: 0; }
+.live-banner--listing .cat2-display { margin-top: 0; }
+/* Phone width: the source stacks its blocks, so the desktop heights do not apply. */
+@media (max-width: 734px) {
+  .cat2-live-sec { min-height: 0 !important; padding: 56px 0; }
+  .cat2-start.live-start { min-height: 0 !important; padding: 64px 0; }
+}

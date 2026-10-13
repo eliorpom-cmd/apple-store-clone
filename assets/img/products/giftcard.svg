@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <!-- Card body: soft diagonal gradient, no brand colours -->
+    <linearGradient id="giftcard-body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dfe3ea"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(6 -12.6) scale(0.6)">
+  <!-- Soft ground shadow -->
+  <ellipse cx="240" cy="438" rx="150" ry="14" fill="#000" opacity=".12"/>
+  <!-- Card -->
+  <rect x="120" y="150" width="240" height="150" rx="16" fill="url(#giftcard-body)" stroke="#c9ced8" stroke-width="2"/>
+  <!-- Ribbon across the card -->
+  <rect x="222" y="150" width="36" height="150" fill="#6e7fa0"/>
+  <rect x="120" y="215" width="240" height="20" fill="#6e7fa0"/>
+  <!-- Bow -->
+  <path d="M240 150 C200 105 165 110 178 138 C186 156 222 152 240 150 Z" fill="#8c9cbc"/>
+  <path d="M240 150 C280 105 315 110 302 138 C294 156 258 152 240 150 Z" fill="#8c9cbc"/>
+  <circle cx="240" cy="150" r="9" fill="#6e7fa0"/>
+  </g>
+</svg>

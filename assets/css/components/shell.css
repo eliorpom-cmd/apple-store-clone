@@ -192,3 +192,8 @@
 /* ---------- Footnotes ---------- */
 .footnotes { max-width: 980px; margin: 0 auto; padding: 40px 22px 0; color: var(--text-2); font: var(--t-note); letter-spacing: var(--tr-note); }
 .footnotes li { padding-bottom: .8em; }
+
+/* Live mode legal notes (content.js): long terms above the footer directory. */
+.live-legal p, .live-legal li { margin-bottom: .8em; }
+.live-legal ol { list-style: decimal; padding-left: 17px; }
+.live-legal a { text-decoration: underline; }

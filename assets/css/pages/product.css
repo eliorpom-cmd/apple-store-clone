@@ -13,7 +13,7 @@
 /* Local bar under the global nav: category title on the left, one link on the right. spec 04 §0 */
 .product-localbar {
   position: sticky; top: 0; z-index: 1000; height: 52px;
-  background: var(--nav-bg); border-bottom: 1px solid var(--line-2);
+  background: rgba(255, 255, 255, .8); border-bottom: 1px solid var(--line-2);
   -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
 }
 .product-localbar-row { display: flex; justify-content: space-between; align-items: center; height: 100%; }
@@ -28,14 +28,15 @@
 /* Thin rule between the buy block and the details. */
 .product-rule { border: 0; border-top: 1px solid var(--line); margin: 64px 0 0; }
 
-/* ---------- Main block: gallery left, buy column right (980 px) ---------- */
+/* ---------- Main block: text column left (327 px at x 230), gallery right (605 px column, 512 px image). spec 04 §3.1 ---------- */
 .product-main {
-  display: grid; grid-template-columns: 512px 327px; justify-content: space-between; align-items: start;
-  column-gap: 40px; padding-top: 64px;
+  display: grid; grid-template-columns: 327px 605px; justify-content: space-between; align-items: start;
+  padding-top: 64px;
 }
-.product-media { width: 512px; padding-bottom: 52px; /* room for the dots under the image */ }
+.product-info { grid-column: 1; grid-row: 1; }
+.product-media { grid-column: 2; grid-row: 1; width: 605px; justify-self: end; padding-bottom: 52px; /* room for the dots under the image */ }
 .product-gallery {
-  position: relative; aspect-ratio: 1 / 1; background: transparent; border-radius: 0;
+  position: relative; width: 512px; max-width: 100%; margin-inline: auto; aspect-ratio: 1 / 1; background: transparent; border-radius: 0;
   /* Clip the slides sideways only, so the dots below the image stay visible. */
   overflow-x: clip; overflow-y: visible;
 }
@@ -48,8 +49,8 @@
 .product-info .eyebrow { padding-bottom: 4px; }
 .product-title { font: 600 32px/1.125 var(--font); letter-spacing: .004em; color: var(--text); } /* spec 04 §0 */
 .product-price { font: var(--t-body); padding-top: 14px; }
-.product-price-sub { font: var(--t-body); padding-top: 2px; }
-.product-finance { padding-top: 14px; }
+.product-price-sub { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 32px; }
+.product-finance { padding-top: 20px; }
 
 /* Group titles above swatches and options: 17 / 1.471 / 600. spec 04 §0 */
 .product-group-title {
@@ -86,6 +87,8 @@
 .product-details .accordion { border-bottom: 1px solid var(--line); }
 .product-details .acc-btn { font: 600 32px/1.125 var(--font); letter-spacing: .004em; padding: 32px 0; color: var(--text); }
 .product-details .acc-panel-inner { max-width: none; padding: 0 0 45px 245px; }
+/* Live pages: each panel has its own title column, so the inner block has no offset. */
+.product-details .acc-panel-inner.product-panels { padding: 0 0 20px; }
 .product-details .acc-panel-inner p + p { margin-top: 1em; }
 
 /* Compatibility list in 235 px columns. spec 04 §3.2 */
@@ -95,7 +98,7 @@
 .product-list li { position: relative; padding-bottom: 8px; padding-left: 0; }
 
 /* ---------- Recommendations: centered title, 313 px cards in a scroller that bleeds to the right ---------- */
-.product-recs { --shelf-edge: max(22px, calc(50% - 490px)); /* left edge = container edge (230 px at 1440) */ margin-top: 96px; }
+.product-recs { --shelf-edge: max(22px, calc(50% - 490px)); /* left edge = container edge (230 px at 1440) */ margin-top: 40px; }
 .product-recs-title { font: var(--t-section); letter-spacing: var(--tr-section); text-align: center; padding-bottom: 32px; }
 
 /* ---------- Gift card page ---------- */
@@ -130,6 +133,8 @@
 .gc-intro { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 16px; }
 .gc-form { margin: 0; }
 .gc-form .product-step { margin-top: 36px; }
+.gc-form > .product-step:first-of-type { margin-top: 52px; }
+.gc-form > .product-step:nth-of-type(2) { margin-top: 73px; }
 .gc-options .option-label { flex-direction: column; justify-content: center; align-items: center; gap: 4px; text-align: center; }
 .gc-options .option-name { display: block; }
 .gc-wide { grid-column: 1 / -1; }
@@ -189,12 +194,13 @@
 
 /* ---------- Responsive: stacked layout under 1024 px ---------- */
 @media (max-width: 1023px) {
-  .product-main { grid-template-columns: 1fr; column-gap: 0; padding-top: 32px; }
-  .product-media { width: 100%; max-width: 512px; margin-inline: auto; }
+  .product-main { grid-template-columns: minmax(0, 1fr); padding-top: 32px; }
+  .product-info { grid-column: 1; grid-row: 1; width: 100%; }
+  .product-media { grid-column: 1; grid-row: 2; width: 100%; max-width: 512px; justify-self: center; }
   .product-info { width: 100%; }
   .product-details .acc-panel-inner { padding-left: 0; }
   .product-compat { grid-template-columns: 1fr; }
-  .gc-main { grid-template-columns: 1fr; column-gap: 0; padding-top: 24px; }
+  .gc-main { grid-template-columns: minmax(0, 1fr); column-gap: 0; padding-top: 24px; }
   .gc-stage { position: static; height: auto; padding: 16px 0 24px; }
   .gc-card { width: min(340px, 100%); }
 }
@@ -211,4 +217,126 @@
   .gc-title { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
   .gc-options { grid-template-columns: 1fr; }
   .gc-card-amount { font-size: 32px; }
+}
+
+/* ---------- Page background: the source product and gift card pages are white ---------- */
+body.product-page { background: #fff; }
+
+/* ---------- Live pages (rendered by assets/js/live/product.js) ---------- */
+/* Thumbnails under the image replace the dots, as on the source page. */
+.product-thumbed .dots { display: none; }
+.product-thumbed .gallery-slide { padding: 0; }
+.product-thumbed .gallery-slide > img { width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; }
+.product-thumbs { display: flex; justify-content: center; gap: 16px; padding-top: 4px; }
+.product-thumb { width: 46px; padding: 15px 4px 0; border-bottom: 2px solid transparent; }
+.product-thumb img { width: 38px; height: auto; margin: 0 auto; }
+.product-thumb:hover { border-bottom-color: rgba(0, 0, 0, .64); }
+.product-thumb.is-current { border-bottom-color: var(--text-2); }
+
+/* Size and model dropdown: 12 px label above the value, 12 px radius, 1 px border. spec 04 §3.2 */
+.product-field { margin-top: 52px; }
+.product-select { position: relative; display: block; height: 55px; border: 1px solid var(--text-3); border-radius: var(--r-md); background: var(--surface); }
+.product-select:focus-within { border-color: var(--action); box-shadow: 0 0 0 1px var(--action); }
+.product-select-label { position: absolute; left: 15px; top: 8px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); pointer-events: none; }
+.product-select-input {
+  position: absolute; inset: 0; width: 100%; height: 100%; padding: 20px 40px 0 15px; border: 0; outline: none;
+  background: transparent; appearance: none; -webkit-appearance: none; cursor: pointer;
+  font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text);
+}
+.product-select-chevron { position: absolute; right: 16px; top: 50%; translate: 0 -50%; color: var(--text-2); pointer-events: none; }
+.product-select-chevron svg { width: 17px; height: 10px; }
+
+/* Color swatches made of images: the image is the swatch fill. */
+.swatch .product-swatch-img::before { background: var(--swatch) center / cover no-repeat; }
+
+/* Accordion panels: title column 245 px, content column 735 px, rule between panels. spec 04 §4 */
+.product-panel { display: grid; grid-template-columns: 245px 735px; padding: 44px 0; border-bottom: 1px solid var(--line); }
+.product-panel:last-child { border-bottom: 0; }
+.product-panel-title { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; color: var(--text); }
+.product-details .product-panel-body p + p { margin-top: 35px; }
+.product-panel-body p { font: var(--t-body); letter-spacing: var(--tr-body); }
+.product-panel-body .product-subhead { padding-top: 12px; font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
+.product-panel-body .product-subhead:first-child { padding-top: 0; }
+.product-panel .product-compat { grid-template-columns: repeat(3, 235px); }
+.product-panel .product-compat li { font: var(--t-body); letter-spacing: var(--tr-body); }
+
+/* Recommendation cards: 248 px wide, swatches as 28 px round images. spec 04 §3.2 */
+.product-recs .card { width: 248px; }
+.product-rec-title { padding-top: 16px; font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+.product-rec-swatches { display: flex; justify-content: center; gap: 8px; padding-top: 12px; }
+.product-rec-swatches i { width: 28px; height: 28px; border-radius: 50%; background: var(--swatch) center / cover no-repeat; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); }
+
+/* Gift card (live): main image in the sticky column, five design tiles in a row. */
+.gc-hero { width: 100%; height: auto; max-width: 390px; }
+.gc-stage .gc-hero { margin-inline: auto; }
+.gc-designs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 8px; }
+.gc-design .option-label { display: block; min-height: 0; padding: 0; aspect-ratio: 1 / 1; overflow: hidden; }
+.gc-design input:checked + .option-label { padding: 0; }
+.gc-design .option-label img { width: 100%; height: 100%; object-fit: cover; }
+.gc-form .product-step[data-optional] .product-group-title { margin-top: 36px; }
+
+/* Cross-sell banner (live): grey platter, heading 40 px, text left of the image. spec 04 §3.2 */
+.product-banner { margin: 167px 0 -46px; background: var(--page); }
+.product-banner-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; min-height: 480px; }
+.product-banner-text { text-align: center; padding: 48px 24px; }
+.product-banner-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
+.product-banner-body { font: var(--t-body); letter-spacing: var(--tr-body); max-width: 300px; margin: 16px auto 0; }
+.product-banner-text .more { display: inline-block; margin-top: 16px; font: var(--t-body); letter-spacing: var(--tr-body); }
+.product-banner-media img { width: 100%; height: auto; max-width: 440px; margin-inline: auto; }
+@media (max-width: 734px) {
+  .product-banner-row { grid-template-columns: 1fr; min-height: 0; }
+  .product-banner-title { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+}
+
+/* Recommendations title: 40 px, centered, as on the source page. */
+.product-recs-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; }
+
+/* Gallery arrows appear on hover only, as on the source page (live pages). */
+.product-thumbed .paddle { opacity: 0; pointer-events: none; }
+.product-thumbed:hover .paddle:not(:disabled) { opacity: 1; pointer-events: auto; }
+
+/* Live: the color group sits closer to the size dropdown, as on the source page. */
+.product-field + .product-step .product-group-title { margin-top: 9px; }
+
+/* Gift card (live): "Where can I use" band, full width, grey, icons with labels. */
+.product-where { background: var(--page); padding: 130px 0 80px; text-align: center; }
+.product-where-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
+.product-where-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 40px 36px; margin-top: 40px; }
+.product-where-row li { display: flex; flex-direction: column; align-items: center; gap: 12px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text); }
+.product-where-row img { height: 56px; width: auto; max-width: 110px; object-fit: contain; }
+.product-where-row + .product-where-row img { height: 50px; }
+
+/* Phone width (live): panels stack, title above content; sizes as on the source page. */
+@media (max-width: 734px) {
+  .product-panel { grid-template-columns: minmax(0, 1fr); padding: 30px 0; gap: 16px; }
+  .product-panel-title { font-size: 21px; line-height: 1.1905; letter-spacing: .011em; }
+  .product-panel .product-compat { grid-template-columns: minmax(0, 1fr); }
+  .product-recs-title { font-size: 28px; line-height: 1.1429; letter-spacing: .007em; }
+}
+
+/* Recommendations pager: three dots under the row, first one current (source: dot navigation). */
+.product-recs-dots { display: flex; justify-content: center; gap: 12px; padding: 4px 0 0; }
+.product-recs-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(0, 0, 0, .24); }
+.product-recs-dots i.is-current { background: var(--text); }
+
+/* Legal footnotes at the foot of the page (live). */
+.product-legal { padding: 48px 0 40px; background: var(--page); }
+.product-legal p { font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); padding-bottom: .9em; }
+
+/* Phone width (live): the buy column is dissolved so the gallery sits between the size dropdown and the colors. */
+@media (max-width: 1023px) {
+  .product-info { display: contents; }
+  .product-info > * { grid-column: 1; }
+  .product-main > .product-media { grid-row: auto; order: 7; }
+  .product-info > .eyebrow { order: 1; }
+  .product-info > .product-title { order: 2; }
+  .product-info > .product-price { order: 3; }
+  .product-info > .product-price-sub { order: 4; }
+  .product-info > .product-finance { order: 5; }
+  .product-info > .product-field { order: 6; }
+  .product-info > .product-step:nth-of-type(1) { order: 8; }
+  .product-info > .product-actions { order: 9; }
+  .product-info > .product-save { order: 10; }
+  .product-info > .product-help { order: 11; }
+  .product-main { row-gap: 0; }
 }

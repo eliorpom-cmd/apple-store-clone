@@ -60,8 +60,23 @@ export default function extract() {
     intro: clean(ownText(headBlock)),
     title: text(h1),
     price: priceLines(text(document.querySelector(".rf-bfe-header-price"))),
-    pills: uniqueBy([...document.querySelectorAll("[class*='rf-bfe-header-rightsection'] a, [class*='rf-bfe-header-rightsection'] button")].map(text), (t) => t),
+    // Pills are links to the source overlays (opened in a new tab by the renderer).
+    pills: uniqueBy([...document.querySelectorAll("[class*='rf-bfe-header-rightsection'] a, [class*='rf-bfe-header-rightsection'] button")].map((el) => ({ text: text(el), href: abs(el.getAttribute("href")) })), (p) => p.text),
   };
+
+  // The page script defines each decision step's overlay URL: window.decisionSection[key].overlayLink.url.
+  const html = document.documentElement.innerHTML.replace(/&amp;/g, "&").replace(/\\\//g, "/");
+  const overlayOf = {};
+  for (const m of html.matchAll(/decisionSection\["([^"]+)"\]\s*=\s*\{[\s\S]{0,800}?"overlayLink":\{"url":"([^"]+)"/g)) {
+    overlayOf[m[1]] = abs(m[2]);
+  }
+
+  // ---------- Finish photos: the summary shows the photo of the chosen finish (one source URL per finish) ----------
+  // Lazy images are not loaded yet, so the URLs are read from the page markup, not from <img> elements.
+  const finishImages = uniqueBy([...html.matchAll(/https:\/\/[^"'\s<>\\]*?-finish-select-([a-z]+)-[^"'\s<>\\]*/g)]
+    .filter((m) => !/-max-finish-select-/.test(m[0]))
+    .map((m) => ({ color: m[1], src: m[0] })), (f) => f.color);
+  const summaryImage = best(document.querySelector(".rf-bfe-summary-image-wrapper"));
 
   // ---------- Gallery slides: real images, or the video of the first slide (Duo) ----------
   const gallery = [...document.querySelectorAll(".rc-inline-gallery-item")].map((s) => {
@@ -114,11 +129,16 @@ export default function extract() {
     }), (o) => o.title);
 
     // Help cards ("Need help choosing...") with their image when present.
-    const helpcards = uniqueBy(within(".rc-decisionsection").map((c) => ({
-      title: text(c.querySelector(".rc-decisionsection-header")),
-      text: text(c.querySelector(".rc-decisionsection-desc")),
-      img: best(c),
-    })), (h) => h.title);
+    // Help cards link to their source overlay (the link sits in the card or right after it).
+    const helpcards = uniqueBy(within(".rc-decisionsection").map((c) => {
+      const link = c.querySelector("a[href]") || c.parentElement?.querySelector("a[href*='/browse/overlay/']") || c.closest("[data-trigger-click]")?.querySelector("a[href*='/browse/overlay/']");
+      return {
+        title: text(c.querySelector(".rc-decisionsection-header")),
+        text: text(c.querySelector(".rc-decisionsection-desc")),
+        img: best(c),
+        href: abs(link?.getAttribute("href")) || overlayOf[key] || null,
+      };
+    }), (h) => h.title);
 
     const step = { key, keyword, rest, swatches, options, helpcards, optional: /applecare|tradein/.test(key) };
     if (keyword || rest || swatches.length || options.length || helpcards.length) steps.push(step);
@@ -148,5 +168,5 @@ export default function extract() {
     })), (i) => i.q).filter((i) => i.q),
   };
 
-  return { template: "configurator", ribbon, head, gallery, steps, summary, witb, faq };
+  return { template: "configurator", ribbon, head, gallery, steps, summary: { ...summary, image: summaryImage, finishImages }, witb, faq };
 }

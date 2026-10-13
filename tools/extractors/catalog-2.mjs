@@ -77,6 +77,17 @@ export default function extract() {
       const content = item?.querySelector(".rc-accordion-content");
       return [txt(b), { q: txt(b), a: [...(content?.querySelectorAll("p") || [])].map(txt).filter(Boolean).join(" ") || txt(content) }];
     }).filter(([q]) => q)).values()];
+    // Further FAQ groups: each has its own title and list (the first list above is the "All" group).
+    // Each group is repeated per tab; keep the visible copy of each title once.
+    const faqGroups = [...new Map([...document.querySelectorAll(".rc-group-faq-sections")].filter((g) => visibleOnly(g) && g.getBoundingClientRect().height > 0).map((g) => [txt(g.querySelector("h2, h3, h4, [class*='title'], [class*='header']") || g.firstElementChild), g])).values()].map((g) => g).map((g) => {
+      const title = txt(g.querySelector("h2, h3, h4, [class*='title'], [class*='header']") || g.firstElementChild);
+      const items = [...g.querySelectorAll(".rc-accordion-button")].map((b) => {
+        const item = b.closest(".rc-accordion-item, li, [class*='accordion-item']") || b.parentElement;
+        const content = item?.querySelector(".rc-accordion-content");
+        return { q: txt(b), a: [...(content?.querySelectorAll("p") || [])].map(txt).filter(Boolean).join(" ") || txt(content) };
+      }).filter((f) => f.q);
+      return { title, items };
+    }).filter((g) => g.items.length);
     // Selector title, the feature-card shelf under the selector, and the closing "start" block.
     const selectorTitle = txt(document.querySelector(".rf-modelselector-product-selection-title"));
     const shelfEl = document.querySelector(".re-feature-card-shelf-scroller");
@@ -99,7 +110,7 @@ export default function extract() {
       logo: img(startEl.querySelector(".dd-logo")),
       cta: (() => { const a = startEl.querySelector("a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
     } : null;
-    return { kind: "upgrade", localnav, intro, tabs, models: models.flat(), sections, faq, selectorTitle, shelf: { head: shelfHead, cards: shelf }, start };
+    return { kind: "upgrade", localnav, intro, tabs, models: models.flat(), sections, faq, faqGroups, selectorTitle, shelf: { head: shelfHead, cards: shelf }, start };
   }
 
   // Certified refurbished listing: banner, category list, featured tiles.

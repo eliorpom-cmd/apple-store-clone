@@ -45,7 +45,8 @@ function signature() {
     }
   }
   const top = (m, n = 14) => [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, n);
-  return { height: document.documentElement.scrollHeight, type: top(type, 18), radii: top(radii), colors: top(colors, 10), bgs: top(bgs, 10), shadows: top(shadows, 6), heads: heads.slice(0, 40) };
+  const main = document.querySelector("main, #main, .main, [role='main']");
+  return { mainHeight: main ? Math.round(main.getBoundingClientRect().height) : 0, height: document.documentElement.scrollHeight, type: top(type, 18), radii: top(radii), colors: top(colors, 10), bgs: top(bgs, 10), shadows: top(shadows, 6), heads: heads.slice(0, 40) };
 }
 
 async function grab(url) {
@@ -90,7 +91,7 @@ const diff = (s, l) => {
   const ls = new Set(l.map(([k]) => k)), ss = new Set(s.map(([k]) => k));
   return { missing: s.filter(([k]) => !ls.has(k)), extra: l.filter(([k]) => !ss.has(k)) };
 };
-const lines = [`# Comparaison ${W}px`, "", `- Source : ${source}`, `- Local : ${local}`, `- Hauteur : source ${src.sig.height}px · local ${loc.sig.height}px (${Math.round(loc.sig.height / src.sig.height * 100)} %)`, `- Erreurs JS locales : ${loc.errors.length ? loc.errors.join(" | ") : "aucune"}`, `- Tuiles : ${n} images side-NN.png (gauche source, droite local, échelle 1/2)`, ""];
+const lines = [`# Comparaison ${W}px`, "", `- Source : ${source}`, `- Local : ${local}`, `- Hauteur : source ${src.sig.height}px · local ${loc.sig.height}px (${Math.round(loc.sig.height / src.sig.height * 100)} %)`, `- Hauteur du contenu principal (main) : source ${src.sig.mainHeight}px · local ${loc.sig.mainHeight}px (${src.sig.mainHeight ? Math.round(loc.sig.mainHeight / src.sig.mainHeight * 100) : "?"} %)`, `- Erreurs JS locales : ${loc.errors.length ? loc.errors.join(" | ") : "aucune"}`, `- Tuiles : ${n} images side-NN.png (gauche source, droite local, échelle 1/2)`, ""];
 for (const k of ["type", "radii", "colors", "bgs", "shadows"]) {
   const d = diff(src.sig[k], loc.sig[k]);
   lines.push(`## ${k}`, "", "| Source (×) | Local (×) |", "|---|---|");

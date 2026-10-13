@@ -5,12 +5,22 @@
   const bar = document.querySelector("[data-band-filter]");
   if (!bar) return;
 
+  // Mobile toggle first: it works in demo and live mode.
+  const toggle = bar.querySelector("[data-filter-toggle]");
+  toggle.addEventListener("click", () => {
+    const open = !bar.classList.contains("is-open");
+    bar.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+
+  // Live mode renders static dimension labels (no checkboxes): nothing to filter.
   const boxes = [...bar.querySelectorAll('input[type="checkbox"]')];
+  if (!boxes.length) return;
+
   const tiles = [...document.querySelectorAll("[data-band]")];
   const sections = [...document.querySelectorAll("[data-collection]")];
   const count = bar.querySelector("[data-count]");
   const reset = bar.querySelector("[data-reset]");
-  const toggle = bar.querySelector("[data-filter-toggle]");
   const empty = document.querySelector("[data-empty]");
 
   // Values checked in one dimension, e.g. "size" -> ["40", "48"].
@@ -43,13 +53,6 @@
   reset.addEventListener("click", () => {
     boxes.forEach((b) => { b.checked = false; });
     apply();
-  });
-
-  // Mobile only: the toggle opens the dimension list under the bar.
-  toggle.addEventListener("click", () => {
-    const open = !bar.classList.contains("is-open");
-    bar.classList.toggle("is-open", open);
-    toggle.setAttribute("aria-expanded", String(open));
   });
 
   apply();

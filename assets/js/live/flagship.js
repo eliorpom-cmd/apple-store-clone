@@ -1,0 +1,195 @@
+// Live renderer for flagship buy pages (HomePod, AirPods, Studio Display, Apple TV, ...).
+// Data: tools/extractors/flagship.mjs. Rebuilds <main> from the extracted content, using the page's own
+// layout classes (flagship.css) and shared components (configurator, accordion, gallery, modal).
+Live.register("flagship", (data, L) => {
+  const { esc, link } = L;
+
+  // First dollar amount of a price line; the yearly figure wins for plans ("$14.99/yr.").
+  const priceNum = (t) => {
+    const yr = String(t || "").match(/\$([\d,]+(?:\.\d+)?)\s*\/\s*yr/);
+    const any = String(t || "").match(/\$([\d,]+(?:\.\d+)?)/);
+    const m = yr || any;
+    return m ? Number(m[1].replace(/,/g, "")) : 0;
+  };
+  // "$129.00 or $21.50/mo. for 6 mo.*" -> ["$129.00", "or $21.50/mo. for 6 mo.*"]
+  const splitPrice = (t) => {
+    const m = String(t || "").match(/^(\s*(?:From\s+|Buy from\s+)?\$[\d,.]+)\s*(.*)$/);
+    return m ? [m[1].trim(), m[2].trim()] : [String(t || "").trim(), ""];
+  };
+
+  // ---- Ribbon ----
+  const nav = document.querySelector('[data-shell="nav"]');
+  if (nav) {
+    nav.dataset.ribbon = (data.ribbon || []).map((r) => `${esc(r.text)}${r.link ? ` <a class="more" href="${esc(link(r.link.href))}">${esc(r.link.text)}</a>` : ""}`).join("||");
+  }
+  document.body.classList.add("live-flagship");
+
+  const hasSlides = (data.media?.slides || []).length > 1;
+  const split = !!data.head?.centered && hasSlides;
+
+  // ---- Option markup ----
+  const optionHTML = (o, kind, name, dim) => {
+    const attrs = `type="${o.type === "checkbox" ? "checkbox" : "radio"}" name="${esc(name)}" value="${esc(o.value)}" data-price="${priceNum(o.priceText)}" data-label="${esc(o.title)}"${o.checked ? " checked" : ""}`;
+    if (kind === "applecare") {
+      const bullets = o.bullets?.length ? `<ul>${o.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
+      const price = o.priceText ? `<span class="option-price">${esc(o.priceText)}</span>` : "";
+      return `<label class="option option-rich"><input ${attrs}><span class="option-label">
+        <span class="option-top"><span class="option-plan">${esc(o.title)}</span>${price}</span>
+        ${o.sub ? `<span class="option-desc">${esc(o.sub)}</span>` : ""}${bullets}</span></label>`;
+    }
+    if (o.img) {
+      return `<label class="option option-swatch"><input ${attrs}><span class="option-label">
+        <span class="live-option-swatch"><img src="${esc(o.img.src)}" alt=""></span>
+        <span class="option-name">${esc(o.title)}</span></span></label>`;
+    }
+    const [first, rest] = splitPrice(o.priceText);
+    const price = first ? `<span class="option-price">${esc(first)}${rest ? `<span class="option-sub">${esc(rest)}</span>` : ""}</span>` : "";
+    return `<label class="option"><input ${attrs}><span class="option-label">
+      <span><span class="option-name">${esc(o.title)}</span>${o.sub ? `<span class="option-sub">${esc(o.sub)}</span>` : ""}</span>${price}</span></label>`;
+  };
+
+  const decisionHTML = (d) => (d && (d.header || d.desc))
+    ? `<div class="helpcard"><span class="flagship-decision-text"><strong>${esc(d.header)}</strong>${esc(d.desc)}</span>${d.link ? `<a class="more-plus" href="${esc(link(d.link))}">More</a>` : ""}</div>`
+    : "";
+
+  // Steps: one fieldset per configurator group, in source order.
+  const stepHTML = (s, i) => {
+    const name = `step${i}`;
+    const allChecks = s.options.length && s.options.every((o) => o.type === "checkbox");
+    const optional = allChecks || /personal|accessor|engrav/i.test(s.title || "") && !s.applecare;
+    const kind = s.applecare ? "applecare" : s.options.some((o) => o.img) ? "swatch" : "options";
+    const cls = s.applecare ? "step flagship-plan" : "step";
+    const title = s.title || (s.applecare ? data.applecare?.title || "AppleCare" : "");
+    return `<fieldset class="${cls}"${optional ? ' data-optional="true"' : ""}>
+      <legend class="step-title">${esc(title)}<span data-step-choice></span></legend>
+      ${decisionHTML(s.decision)}
+      <div class="options${kind === "swatch" ? " options-2" : ""}">${s.options.map((o) => optionHTML(o, kind, name, s)).join("")}</div>
+    </fieldset>`;
+  };
+
+  // The configurator form (steps, then AppleCare as the last step, as on the source).
+  const form = `<form class="flagship-steps" data-configurator data-base="0">
+      ${(data.steps || []).map(stepHTML).join("")}
+      ${data.applecare?.decision ? decisionHTML(data.applecare.decision) : ""}
+    </form>`;
+
+  // Summary card: static price text (no JS total on live pages), CTA as on the source.
+  const sm = data.summary || {};
+  const summary = `<div class="flagship-card">
+      <p class="summary-price live-price">${esc(sm.price || "")}</p>
+      <button class="btn btn-block" type="button" disabled>${esc(sm.cta || "Continue")}</button>
+      ${sm.moment?.title ? `<div class="live-moment"><h3>${esc(sm.moment.title)}</h3><p>${esc(sm.moment.text)}</p><span class="more">${esc(sm.moment.link)}</span></div>` : ""}
+    </div>${data.purchaseNote ? `<p class="live-purchase-note">${esc(data.purchaseNote)}</p>` : ""}`;
+
+  // ---- Media ----
+  const media = split
+    ? `<div class="gallery display-gallery" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
+    : `<div class="live-main">${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}">` : ""}</div>`;
+  const perks = (data.buystrip || []).length
+    ? `<ul class="flagship-perks">${data.buystrip.map((b) => `<li class="flagship-perk">${b.icon ? `<span class="live-icon">${b.icon}</span>` : ""}<span>${esc(b.text)}</span></li>`).join("")}</ul>` : "";
+  const chat = data.chat?.text ? `<p class="flagship-help"><span><strong>${esc(data.chat.text)}</strong>${data.chat.link ? `<a href="${esc(link(data.chat.link.href))}" class="more-ext">${esc(data.chat.link.text)}</a>` : ""}</span></p>` : "";
+
+  // ---- Zoomable gallery: thumbnails under the buy area, viewer on click ----
+  const thumbs = data.media?.thumbs || [];
+  const slides = data.media?.slides || [];
+  const zoom = thumbs.length && slides.length ? `<section class="zoom-strip" aria-label="Gallery">
+      ${thumbs.map((t, i) => `<button type="button" class="zoom-thumb" data-zoom-open="${i}" aria-label="Open image ${i + 1}"><img src="${esc(t.src)}" alt="${esc(t.alt)}"></button>`).join("")}
+    </section>
+    <div class="zoom-viewer" hidden role="dialog" aria-modal="true" aria-label="Gallery">
+      <button type="button" class="zoom-close" aria-label="Close"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <div class="zoom-track">${slides.map((im) => `<div class="zoom-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div>
+      <button type="button" class="zoom-arrow zoom-prev" aria-label="Previous gallery image"><svg viewBox="0 0 10 16" aria-hidden="true"><path d="M8 1.5L1.8 8 8 14.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="zoom-arrow zoom-next" aria-label="Next gallery image"><svg viewBox="0 0 10 16" aria-hidden="true"><path d="M2 1.5L8.2 8 2 14.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>` : "";
+
+  // ---- Header ----
+  const header = `${data.head?.badge ? `<p class="eyebrow eyebrow-new">${esc(data.head.badge)}</p>` : ""}
+      <h1 class="flagship-h1">${esc(data.head?.title || "")}</h1>
+      ${data.head?.subtitle ? `<p class="flagship-sub">${esc(data.head.subtitle)}</p>` : ""}`;
+
+  const grid = split
+    ? `<div class="flagship-split"><div class="flagship-media">${media}</div><div class="flagship-side">${form}${summary}</div></div>`
+    : `<div class="flagship-grid"><div class="flagship-media">${media}${perks}${chat}</div><div class="flagship-side">${header}${form}${summary}</div></div>`;
+  const top = split ? `<header class="flagship-head-center">${header}</header>` : "";
+
+  // ---- Product information (rows: title left, text right) ----
+  const info = (data.productInfo?.rows || []).length ? `<section class="details live-info" id="details" aria-label="Product information">
+      ${data.productInfo.title ? `<h2 class="details-title">${esc(data.productInfo.title)}</h2>` : ""}
+      ${data.productInfo.rows.map((r) => `<div class="live-info-row"><h3 class="live-info-title">${esc(r.title)}</h3><div class="live-info-body">${r.paragraphs.map((p) => `<p>${esc(p)}</p>`).join("")}</div></div>`).join("")}
+    </section>` : "";
+
+  // ---- In the box ----
+  const witb = (data.witb?.items || []).length ? `<section class="witb" aria-label="What's in the box">
+      ${data.witb.title ? `<h2 class="witb-title">${esc(data.witb.title)}</h2>` : ""}
+      ${data.witb.sub ? `<p class="witb-sub">${esc(data.witb.sub)}</p>` : ""}
+      <div class="witb-row" style="grid-template-columns:repeat(${Math.min(4, data.witb.items.length)},1fr)">
+        ${data.witb.items.map((it) => `<div class="witb-item"><div class="witb-visual">${it.img ? `<img src="${esc(it.img.src)}" alt="">` : ""}</div><p class="witb-label">${esc(it.label)}</p></div>`).join("")}
+      </div></section>` : "";
+
+  // ---- FAQ accordion ----
+  const faq = (data.faq || []).length ? `<section class="details live-faq"><div class="accordion accordion-compact" data-accordion>
+      ${data.faq.map((f, i) => `<div class="acc-item"><button class="acc-btn" aria-expanded="${i === 0 ? "true" : "false"}">${esc(f.title)}</button>
+        <div class="acc-panel"><div class="acc-panel-inner"><p>${esc(f.body)}</p></div></div></div>`).join("")}
+    </div></section>` : "";
+
+  // ---- Comparison table: device columns with picture, size, then icon rows ----
+  const c = data.compare;
+  const compare = c && c.columns?.length ? `<section class="compare-live" id="compare" aria-label="Compare">
+      ${c.title ? `<h2 class="compare-title">${esc(c.title)}</h2>` : ""}
+      <div class="compare-cols" style="--n:${c.columns.length}">${c.columns.map((col) => `<div class="compare-col">
+        <div class="compare-img">${col.img ? `<img src="${esc(col.img.src)}" alt="${esc(col.img.alt)}">` : ""}</div>
+        <div class="compare-device">${col.badge ? `<p class="eyebrow eyebrow-new">${esc(col.badge)}</p>` : ""}<h3>${esc(col.name)}</h3><p class="compare-price">${esc(col.price)}</p></div>
+        ${col.height ? `<div class="compare-dims"><p class="compare-dim-value">${esc(col.height)}</p><p class="compare-dim-label">${esc(col.heightLabel)}</p></div>` : ""}
+        ${col.rows.map((r) => `<div class="compare-row">
+          <div class="compare-row-head">${r.icon ? `<span class="live-icon">${r.icon}</span>` : ""}${r.stat ? `<p class="compare-stat">${esc(r.stat)}</p>` : ""}<p>${esc(r.title)}</p></div>
+          <ul>${r.items.map((it) => `<li>${esc(it)}</li>`).join("")}</ul></div>`).join("")}
+      </div>`).join("")}</div>
+      ${c.link ? `<p class="compare-link"><a href="${esc(link(c.link.href))}" class="more">${esc(c.link.text)}</a></p>` : ""}
+    </section>` : "";
+
+  // ---- Promo band (between the comparison and the footer, or after the zoom gallery) ----
+  const pr = data.promo;
+  const headline = pr ? (pr.header || pr.title || pr.text || "") : "";
+  const promo = pr && headline ? `<section class="live-promo${pr.flip ? " live-promo-flip" : ""}">
+      <div class="live-promo-text"><p class="live-promo-title">${esc(headline)}</p>${pr.header && pr.text ? `<p class="live-promo-body">${esc(pr.text)}</p>` : ""}${pr.link ? `<a class="more-ext" href="${esc(link(pr.link.href))}">${esc(pr.link.text)}</a>` : ""}</div>
+      <div class="live-promo-img">${pr.img ? `<img src="${esc(pr.img.src)}" alt="${esc(pr.img.alt)}">` : ""}</div>
+    </section>` : "";
+
+  // ---- Footnotes ----
+  const notes = (data.footnotes || []).length ? `<ol class="footnotes">${data.footnotes.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : "";
+
+  const main = document.querySelector("main");
+  main.className = "flagship";
+  // Local bar: product name on the left, two anchors on the right (sticky under the global nav).
+  const barTitle = String(data.head?.title || "").replace(/^(Pre-order|Buy)\s+/i, "");
+  const localBar = `<nav class="live-localnav" aria-label="Local"><div class="container"><span class="live-localnav-title">${esc(barTitle)}</span>
+      <span class="live-localnav-links"><a href="#details">Overview</a><a href="#compare">Tech Specs</a></span></div></nav>`;
+  // Source order: billboard (Apple TV) before the box, Apple Music band after the comparison.
+  const billboard = pr?.flip ? promo : "";
+  const band = pr?.flip ? "" : promo;
+  main.innerHTML = `${localBar}<div class="container">${top}${grid}${zoom}${billboard}${witb}${info}${faq}${compare}</div>${band}<div class="container">${notes}</div>`;
+
+  // ---- Zoomable viewer (opens from the thumbnails, arrows and keys move through the slides) ----
+  const viewer = main.querySelector(".zoom-viewer");
+  if (viewer) {
+    const track = viewer.querySelector(".zoom-track");
+    const count = slides.length;
+    let index = 0;
+    const show = (n) => {
+      index = (n + count) % count;
+      track.style.transform = `translateX(${-index * 73}vw)`;
+    };
+    const open = (n) => { show(n); viewer.hidden = false; document.documentElement.classList.add("modal-open"); viewer.querySelector(".zoom-close").focus({ preventScroll: true }); };
+    const close = () => { viewer.hidden = true; document.documentElement.classList.remove("modal-open"); };
+    main.querySelectorAll("[data-zoom-open]").forEach((b) => b.addEventListener("click", () => open(Number(b.dataset.zoomOpen))));
+    viewer.querySelector(".zoom-close").addEventListener("click", close);
+    viewer.querySelector(".zoom-prev").addEventListener("click", () => show(index - 1));
+    viewer.querySelector(".zoom-next").addEventListener("click", () => show(index + 1));
+    document.addEventListener("keydown", (e) => {
+      if (viewer.hidden) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") show(index + 1);
+      if (e.key === "ArrowLeft") show(index - 1);
+    });
+  }
+});

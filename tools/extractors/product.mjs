@@ -133,6 +133,8 @@ export default function extract() {
       help: chat ? { title: txt(chat.querySelector(".as-chat-title")), link: chatLink ? { text: txt(chatLink), href: abs(chatLink.getAttribute("href")) } : null } : null,
       accordions,
       banner,
+      // Legal footnotes at the foot of the page (text only, one entry per paragraph).
+      legal: [...document.querySelectorAll(".footnotes p, .footnotes li")].map((el) => txt(el)).filter(Boolean),
       recsTitle: txt(document.querySelector(".rf-recommendations-title")),
       recs,
     };
@@ -174,6 +176,7 @@ export default function extract() {
       selectButton: txt(selectBtn),
       save: sum ? { title: txt(sum.querySelector("[class*='saveditem-content-header'], h3, span")), text: txt(sum.querySelector("[class*='saveditem-content-description'], .rf-saveditem-content-description")), link: txt(findText(/^Save for later$/)) } : null,
       help: txt(findText(/Need some help/)) || txt(findText(/1.800.MY.APPLE/)?.parentElement),
+      legal: [...document.querySelectorAll(".footnotes p, .footnotes li")].map((el) => txt(el)).filter(Boolean),
       // "Where can I use" band: one row of devices, one row of apps, each item an icon and a label.
       where: (() => {
         const sec = document.querySelector(".dd-gift-cards-pdp-where");

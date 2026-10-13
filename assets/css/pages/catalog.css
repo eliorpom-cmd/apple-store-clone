@@ -6,8 +6,8 @@
 
 /* ---------- Shared layout ---------- */
 .cat-wrap { width: min(1260px, 100% - 2 * var(--gutter)); margin-inline: auto; }
-.cat-head { padding: 80px 0 48px; }
-.cat-head.cat-wrap { padding-inline: 0; }
+.cat-head { padding: 80px 0 0; }
+.cat-head.cat-wrap { padding-inline: 0; position: relative; }
 .cat-h1, .cat-head h1 { font: var(--t-hero); letter-spacing: var(--tr-hero); }
 .cat-head h1 { font: var(--t-display); letter-spacing: var(--tr-display); }
 .cat-lede { font: var(--t-intro); letter-spacing: var(--tr-intro); color: var(--text-2); padding-top: 12px; max-width: 620px; }
@@ -20,7 +20,7 @@
 
 /* Pill tabs: a grey track with dark pills; the row scrolls sideways on narrow screens. */
 .cat-pills {
-  display: inline-flex; max-width: 100%; margin-top: 48px; padding: 4px; gap: 0;
+  display: inline-flex; max-width: 100%; margin-top: 48px; padding: 6px; gap: 0;
   overflow-x: auto; scrollbar-width: none; background: var(--line-2); border-radius: var(--r-pill);
 }
 .cat-pills::-webkit-scrollbar { display: none; }
@@ -75,7 +75,7 @@
 .cat-tile-fin { display: block; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
 
 /* ---------- Watch bands: hero ---------- */
-.cat-bands-hero { background: var(--page); height: 510px; overflow: hidden; }
+.cat-bands-hero { background: var(--page); height: 480px; overflow: hidden; } /* measured: filter bar starts 524 px from the top, nav 44 px */
 .cat-bands-hero-inner {
   width: min(1260px, 100% - 2 * var(--gutter)); height: 100%; margin-inline: auto;
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; gap: 24px;
@@ -204,3 +204,90 @@
   .cat-collection-head { padding: 20px 0 16px; }
   .cat-collection-sub { font-size: 19px; }
 }
+
+/* ---------- Live mode: source images and static filter labels ---------- */
+.cat-tile-media > img, .cat-band-media > img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+.cat-dots i img { width: 100%; height: 100%; border-radius: 50%; }
+.cat-dots i { background: none; }
+.cat-opt-static { padding: 5px 9px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+
+/* ---------- Live mode: header links, chapter icons, gallery, value props, index ---------- */
+.cat-head-links { position: absolute; right: 0; top: 96px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font: var(--t-small); letter-spacing: var(--tr-small); }
+
+/* Chapter icons: centred row, icon 78 px max (60 px on small screens). */
+.cat-chapters { margin: 64px 0 60px; height: 154px; display: flex; align-items: center; }
+.cat-chapters-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px 36px; }
+.cat-chapter { display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text); text-decoration: none; font: var(--t-note); letter-spacing: var(--tr-note); }
+.cat-chapter:hover { text-decoration: none; color: var(--text); }
+.cat-chapter-icon { height: 78px; display: flex; align-items: center; }
+.cat-chapter-icon img { height: 78px; width: auto; max-width: none; }
+
+/* Gallery: wide media cards, text top left, image bottom right. */
+.cat-gallery { padding: 0 0 144px; }
+.cat-gallery .cat-h2 { padding: 60px 0 62px; }
+.cat-gallery .scroller-track { padding-bottom: 0; }
+.cat-media-card { position: relative; width: 1260px; height: 680px; flex: none; }
+.cat-media-img { position: absolute; right: 0; bottom: 0; width: 62%; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.cat-media-img img { width: auto; height: auto; max-height: 100%; max-width: 100%; }
+.cat-media-body { position: relative; z-index: 1; max-width: 420px; padding: 48px 56px; }
+.cat-media-title { padding-top: 6px; font: var(--t-section); letter-spacing: var(--tr-section); }
+.cat-media-desc { padding-top: 12px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); }
+.cat-media-body .more { display: inline-block; padding-top: 12px; }
+
+/* Value props: white band with a card row. */
+.cat-value { background: var(--surface); padding: 120px 0; }
+.cat-value .cat-h2 { padding-bottom: 61px; }
+.cat-value .card { width: 372px; height: 293px; }
+
+/* Index: link lists by category. */
+.cat-index { background: var(--page); padding: 225px 0 120px; }
+.cat-index-groups { display: grid; grid-template-columns: repeat(3, 293px); gap: 0; }
+.cat-index-title { font: 600 17px/1.2353 var(--font); letter-spacing: var(--tr-body); color: var(--text); padding-bottom: 12px; }
+.cat-index-group ul { display: flex; flex-direction: column; }
+.cat-index-group li { height: 34px; display: flex; align-items: center; }
+.cat-index-group a { font: var(--t-body-tight); letter-spacing: var(--tr-body); color: var(--link); }
+
+@media (max-width: 1023px) {
+  .cat-index-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 734px) {
+  .cat-head-links { position: static; align-items: flex-start; padding-top: 16px; }
+  .cat-chapters { padding: 56px 0 28px; }
+  .cat-chapter-icon, .cat-chapter-icon img { height: 60px; }
+  .cat-chapters-row { gap: 16px 22px; }
+  .cat-media-card { width: 320px; height: 420px; }
+  .cat-media-img { width: 70%; }
+  .cat-media-body { padding: 24px; }
+  .cat-media-title { font: var(--t-card); letter-spacing: var(--tr-card); }
+  .cat-value { padding: 80px 0; }
+  .cat-index { padding: 56px 0 80px; }
+  .cat-index-groups { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* Promo tiles: full-bleed image, eyebrow and headline over it. */
+.cat-tile--promo { padding: 0; color: var(--text); }
+.cat-tile--promo.is-dark { color: #fff; background: var(--dark); }
+.cat-promo-media { position: absolute; inset: 0; }
+.cat-promo-media img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; }
+.cat-promo-text { position: absolute; left: 28px; right: 28px; top: 28px; z-index: 1; }
+.cat-promo-eyebrow { font: var(--t-note); letter-spacing: var(--tr-note); font-weight: 600; }
+.cat-promo-title { padding-top: 4px; font: var(--t-section); letter-spacing: var(--tr-section); }
+.cat-tile--wide .cat-promo-title { font: var(--t-card); letter-spacing: var(--tr-card); }
+@media (max-width: 734px) {
+  .cat-promo-text { left: 20px; right: 20px; top: 20px; }
+  .cat-tile--wide .cat-promo-title, .cat-tile--promo .cat-promo-title { font: var(--t-card); letter-spacing: var(--tr-card); }
+}
+.cat-grid-more { margin-top: 44px; text-align: center; font: var(--t-body); letter-spacing: var(--tr-body); }
+
+/* Watch bands live grid: 1080 px wide, three 360 px columns, header and marketing among the tiles. */
+.cat-section .cat-wrap { width: min(1080px, 100% - 2 * var(--gutter)); }
+.cat-section .cat-band-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 0; padding: 0; }
+.cat-section .cat-band { margin: 0 5px; min-height: 512px; }
+.cat-band-head { margin: 0 5px; padding: 28px 16px 24px; text-align: center; background: var(--surface); border-radius: var(--r-card); }
+.cat-band-head .cat-collection-title { font: var(--t-step); letter-spacing: var(--tr-step); }
+.cat-band-head .cat-collection-sub { font: var(--t-small); letter-spacing: var(--tr-small); }
+.cat-band-mkt { height: 837px; margin: 0 5px; overflow: hidden; border-radius: var(--r-card); }
+.cat-band-mkt--left, .cat-band-mkt--right { grid-column: span 2; grid-row: span 2; }
+.cat-band-mkt--full { grid-column: span 3; height: 535px; margin: 0; border-radius: 0; }
+.cat-band-mkt img { width: 100%; height: 100%; object-fit: cover; }
+.cat-section .cat-band-media { height: 335px; }

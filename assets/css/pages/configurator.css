@@ -7,7 +7,8 @@
 .cfg-wrap { width: min(1260px, 100% - 2 * var(--gutter)); margin-inline: auto; } /* spec 03 §2.1: 1260 px zone */
 
 /* ---------- Header (spec 03 §3.1) ---------- */
-.cfg-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-top: 56px; }
+/* Offsets measured on the source (spec 03 §2.1): the source ribbon sits in the page, our ribbon sits in the shell. */
+.cfg-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-top: 102px; }
 .cfg-head-main { max-width: 640px; min-width: 0; }
 .cfg-eyebrow { font: 600 13px/1.2 var(--font); letter-spacing: -.01em; color: var(--badge-new); }
 .cfg-title { font: var(--t-hero); letter-spacing: var(--tr-hero); max-width: 540px; padding: 6px 0 13px; }
@@ -27,7 +28,7 @@
 }
 
 /* ---------- Configurator grid (spec 03 §2.2) ---------- */
-.cfg-grid { display: grid; grid-template-columns: minmax(0, 1fr) 328px; column-gap: 60px; align-items: start; margin-top: 56px; }
+.cfg-grid { display: grid; grid-template-columns: minmax(0, 1fr) 328px; column-gap: 60px; align-items: start; margin-top: 124px; }
 
 /* Left column: sticky from 109 px, as tall as the viewport allows (spec 03 §2.2, §2.4) */
 .cfg-stage { position: sticky; top: 109px; align-self: start; height: calc(100vh - 109px); min-height: 540px; }
@@ -37,7 +38,8 @@
 .gallery-slide > .cfg-art { height: 100%; width: auto; max-width: 100%; max-height: 100%; aspect-ratio: 400 / 500; }
 
 /* Right column: 328 px rail (spec 03 §2.2) */
-.cfg-rail { min-width: 0; }
+/* The source rail starts about 139 px below the gallery top: its first title sits lower (measured). */
+.cfg-rail { min-width: 0; padding-top: 139px; }
 .cfg-rail .helpcard { margin-top: 14px; }
 
 /* Option cards: 140-141 px tall for layout A (spec 03 §4.3) */
@@ -85,11 +87,57 @@
 /* ---------- Mobile (spec 03 §6.2): gallery first, then one column ---------- */
 @media (max-width: 1023px) {
   .cfg-head { flex-direction: column; gap: 16px; padding-top: 32px; }
+  .cfg-rail { padding-top: 0; }
   .cfg-pills { width: 100%; }
   .cfg-title { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
   .cfg-grid { grid-template-columns: minmax(0, 1fr); row-gap: 32px; margin-top: 32px; }
+  .cfg-wide-aside { margin-top: 0; }
   .cfg-stage { position: static; height: auto; min-height: 0; }
   .cfg-gallery { height: 360px; border-radius: 20px; } /* spec 03 §6.2: 360 px, 20 px radius */
+  .cfg-gallery .paddle { display: none; } /* source shows dots only on mobile (spec 03 §6.2) */
   .cfg-rail .step-title { font-size: 21px; }
   .cfg-box-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- Live mode (assets/js/live/configurator.js): source images instead of drawn visuals ---------- */
+/* Source photos fill the 711 px box edge to edge (cover), so live slides drop the 40 px padding. */
+.cfg-gallery .gallery-slide:has(.cfg-live-media) { padding: 0; }
+.cfg-gallery .gallery-slide > img.cfg-live-media, .cfg-gallery .gallery-slide > video.cfg-live-media {
+  width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover;
+}
+.swatch-live span::before { display: none; }
+.swatch-live span img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.cfg-box-live li img { display: block; height: 140px; width: auto; max-width: 100%; margin: 0 auto 12px; object-fit: contain; }
+.cfg-info { margin: 0 0 40px; }
+
+/* ---------- Wide steps (live mode): full-width choices in the left column, help cards on the right ---------- */
+.cfg-wide-step { min-width: 0; }
+.cfg-wide-aside { align-self: start; margin-top: 56px; min-width: 0; }
+.cfg-wide-aside .helpcard { margin-top: 0; }
+.cfg-wide-step .options.cfg-cards-c .option-label { min-height: 153px; }
+.cfg-wide-step { padding-bottom: 62px; }
+.cfg-wide-step .options.options-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } /* gap between wide sections, measured on the source */
+.cfg-swatch-step { margin-bottom: 256px; } /* live: the source leaves this space under the finish step */
+.cfg-rail-end { margin-bottom: 262px; } /* live: gap between the rail and the first wide section */
+.cfg-intro { max-width: 540px; margin-top: 12px; font: var(--t-body-tight); letter-spacing: var(--tr-body); }
+/* Live video: the source frame is landscape and shown whole, centred in the box. */
+.cfg-gallery .gallery-slide > video.cfg-live-video { width: 100%; height: auto; max-height: 100%; object-fit: contain; }
+
+/* ---------- Live mode: links, thumbnails and the summary photo ---------- */
+.helpcard, .cfg-pill { text-decoration: none; color: var(--text); } /* live links keep the text color */
+.helpcard-img { padding: 0 16px 0 0; align-items: center; }
+.helpcard-thumb { flex: none; width: 120px; height: 125px; border-radius: var(--r-md); overflow: hidden; background: var(--surface); }
+.helpcard-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.helpcard-text { flex: 1; min-width: 0; display: block; }
+.cfg-summary-media { margin-top: 24px; max-width: 320px; }
+.cfg-summary-media img { width: 100%; height: auto; }
+.cfg-finish-img[hidden] { display: none; }
+
+/* ---------- Mobile gallery: horizontal scroll with snap, next slide peeking (spec 03 §6.2) ---------- */
+@media (max-width: 1023px) {
+  .cfg-gallery { overflow: visible; background: none; border-radius: 0; }
+  .cfg-gallery .gallery-track { transform: none !important; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; gap: 12px; scrollbar-width: none; }
+  .cfg-gallery .gallery-track::-webkit-scrollbar { display: none; }
+  .cfg-gallery .gallery-slide { flex: 0 0 87.5%; scroll-snap-align: start; border-radius: 20px; background: var(--page); }
+  .cfg-gallery .dots { bottom: 8px; }
 }

@@ -167,17 +167,19 @@ export default function extract() {
   } : null;
 
   // ---- Footnotes (page footer block) ----
-  // Footnotes: every numbered note of the page footer block, in order.
+  // Footnotes: the numbered notes of the page footer (one copy of each).
+  const footnotes = [...new Set([...document.querySelectorAll(".as-globalfooter-sosumi .rc-footnotelist li, .as-globalfooter-sosumi .rc-footnotelist-disclaimer")].map((p) => txt(p)))].filter(Boolean);
   // Purchase note under the summary card ("You can change the quantity of items in your bag").
   const purchaseNote = txt(document.querySelector(".rf-flagship-purchaseinfo-footernotes"));
-  const footnotes = [...new Set([...document.querySelectorAll(".as-globalfooter-sosumi .footnotes > *, .as-globalfooter-sosumi .footnotes li, .rc-footnotelist-disclaimer")].map((p) => txt(p)))].filter(Boolean);
-  // Promo band (Apple Music style): title, lead line, link and picture, between the comparison and the footer.
-  const promoEl = document.querySelector("[class*='apple-music'] .dd-l-plate, [class*='apple-music']");
+  // Promo band: the Apple Music block (comparison page) or the billboard (Apple TV), text and picture.
+  const promoEl = document.querySelector("[class*='apple-music'] .dd-l-plate, [class*='apple-music'], .billboard");
   const promo = promoEl ? {
-    title: txt(promoEl.querySelector("h2")),
+    title: txt(promoEl.querySelector("h2, h3, .dd-header")),
     header: txt(promoEl.querySelector(".dd-header")),
+    text: [...promoEl.querySelectorAll("p")].map((p) => txt(p)).filter((t) => t && t !== txt(promoEl.querySelector(".dd-header"))).join(" ").slice(0, 400),
     link: (() => { const a = promoEl.querySelector("a[href]"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
-    img: imgOf(promoEl.querySelector(".dd-image")),
+    img: imgOf(promoEl.querySelector(".dd-image, picture, img")?.closest("div, picture") || promoEl),
+    flip: promoEl.classList.contains("billboard"),
   } : null;
 
   // ---- Witness: What's in the box ----
@@ -189,8 +191,8 @@ export default function extract() {
 
   // ---- Product information: rows (title + paragraphs) ----
   const productInfo = {
-    title: txt(document.querySelector(".rs-productinfosection-header")),
-    rows: [...document.querySelectorAll(".rs-productinfosection .rc-pdsection-panel")].map((p) => ({
+    title: txt(document.querySelector(".rs-productinfosection-header, .rc-productinfosection .rc-accordion-title")),
+    rows: [...document.querySelectorAll(".rs-productinfosection .rc-pdsection-panel, .rc-productinfosection .rc-pdsection-panel")].map((p) => ({
       title: txt(p.querySelector(".rc-pdsection-title")),
       // List items when the panel has a list (What's in the box), else the panel text as paragraphs.
       paragraphs: (() => {
@@ -199,11 +201,11 @@ export default function extract() {
         const items = [...new Set([...(main?.querySelectorAll("li") || [])].filter(visible).map((n) => txt(n)).filter(Boolean))];
         return items.length ? items : [txt(main)].filter(Boolean);
       })(),
-    })).filter((r) => r.title),
+    })).filter((r, i, all) => r.title && all.findIndex((x) => x.title === r.title) === i), // one copy per title
   };
 
   // ---- FAQ accordion ----
-  const faq = [...document.querySelectorAll(".rc-accordion-item")].map((li) => ({
+  const faq = [...document.querySelectorAll(".rc-accordion-item")].filter((li) => !li.classList.contains("rc-productinfosection")).map((li) => ({
     title: txt(li.querySelector(".rc-accordion-header, .rc-accordion-title")),
     body: txt(li.querySelector(".rc-accordion-content, .rc-accordion-box-content")),
   })).filter((f) => f.title);

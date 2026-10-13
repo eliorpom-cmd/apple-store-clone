@@ -82,6 +82,16 @@ async function extract(src, fresh = false) {
             const shelves = await import(`./extractors/shelves.mjs?v=${statSync(join(ROOT, "tools/extractors/shelves.mjs")).mtimeMs}`);
             data.extraShelves = (await page.evaluate(shelves.default)).shelves;
           }
+          // Legal notes above the footer (footnotes, offers terms): same markup on every page.
+          if (!data.legal) data.legal = await page.evaluate(() => {
+            const box = document.querySelector(".as-globalfooter-sosumi, .ac-gf-sosumi, [class*='footnotes'] .rc-footnotelist, .rc-footnotes");
+            if (!box) return "";
+            const c = box.cloneNode(true);
+            c.querySelectorAll("script, style, button, [aria-hidden='true']").forEach((n) => n.remove());
+            // Keep text structure only: paragraphs, lists, links, superscripts.
+            c.querySelectorAll("*").forEach((n) => { for (const a of [...n.attributes]) if (a.name !== "href") n.removeAttribute(a.name); });
+            return c.innerHTML.replace(/\s+/g, " ").trim();
+          });
           const navFile = join(ROOT, "content/live/_nav.json");
           if (!existsSync(navFile)) writeFileSync(navFile, JSON.stringify(await page.evaluate(extractNav), null, 1));
           Object.assign(data, { template: found.template, source: ORIGIN + src, fetched: new Date().toISOString() });

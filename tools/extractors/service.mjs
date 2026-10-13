@@ -17,6 +17,12 @@ export default function extract() {
     const best = list.sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width)[0];
     return best ? { src: best.currentSrc || best.src, alt: best.alt || "" } : null;
   };
+  // Image given as a CSS background on an element (store program figures): best url, or null.
+  const bgImg = (el) => {
+    if (!el) return null;
+    const m = getComputedStyle(el).backgroundImage.match(/url\("?([^")]+)"?\)/);
+    return m ? { src: new URL(m[1], location.href).href, alt: "" } : null;
+  };
   // Local navigation bar: source pages use either the store bar or the today bar.
   const localnav = () => {
     const bar = document.querySelector(".as-localnav");
@@ -127,7 +133,7 @@ export default function extract() {
           headline: txt(q("[class*='content__headline']", c)),
           body: txt(q("[class*='body-copy']", c)),
           links: qa("a[class*='cms-link']", c).map((a) => link(a)),
-          img: img(c),
+          img: img(c) || bgImg(q("figure", c)),
         })),
       })),
     };
