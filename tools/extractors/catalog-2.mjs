@@ -25,6 +25,25 @@ export default function extract() {
       const r = svg.getBoundingClientRect();
       if (r.width) { c.setAttribute("width", Math.round(r.width)); c.setAttribute("height", Math.round(r.height)); }
       if (!c.getAttribute("xmlns")) c.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      c.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+      // Gradient fills come from page CSS (fill: url(#id)); copy them into the clone with their definitions.
+      const origShapes = [...svg.querySelectorAll("path, circle, rect, ellipse")];
+      const defs = new Set();
+      [...c.querySelectorAll("path, circle, rect, ellipse")].forEach((n, i) => {
+        const f = origShapes[i] && getComputedStyle(origShapes[i]).fill;
+        const m = f && f.match(/url\(["']?#([^"')]+)/);
+        const g = m && document.getElementById(m[1]);
+        if (g) {
+          n.setAttribute("fill", `url(#${m[1]})`);
+          // A gradient may inherit its stops from another one (xlink:href chain).
+          for (let cur = g, k = 0; cur && k < 4; k++) {
+            defs.add(cur.outerHTML);
+            const ref = (cur.getAttribute("xlink:href") || cur.getAttribute("href") || "").replace(/^#/, "");
+            cur = ref ? document.getElementById(ref) : null;
+          }
+        }
+      });
+      if (defs.size) c.insertAdjacentHTML("afterbegin", `<defs>${[...defs].join("")}</defs>`);
       return { src: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(c.outerHTML), width: Math.round(r.width), height: Math.round(r.height) };
     }
     const cs = getComputedStyle(el);
@@ -49,7 +68,7 @@ export default function extract() {
     // Upgrade program: intro, tabs with model cards, explanatory blocks, FAQ.
     const header = document.querySelector(".dd-apple-upgrade-overview-header");
     const intro = {
-      logo: img(header?.querySelector(".dd-logo")),
+      logo: img(header?.querySelector("h1")),
       title: txt(header?.querySelector("h2")),
       // The poster is the video frame; the reduced-motion image is hidden on desktop, so read the video itself.
       poster: (() => { const v = header?.querySelector("video"); const src = v?.poster || header?.querySelector(".dd-hero-reduced-motion")?.src; return src ? { src: new URL(src, location.href).href, alt: "" } : null; })(),
@@ -58,7 +77,7 @@ export default function extract() {
       steps: [...(header?.querySelectorAll(".dd-grid li") || [])].map((li) => ({ text: txt(li.querySelector("p")), icon: iconOf(li.querySelector(".dd-icon")) })),
       video: (() => { const v = header?.querySelector("video"); if (!v) return null; const r = v.getBoundingClientRect(); return { src: abs(v.currentSrc || v.querySelector("source")?.getAttribute("src")), poster: abs(v.poster), width: Math.round(r.width), height: Math.round(r.height) }; })(),
       cta: (() => { const a = header?.querySelector(".dd-button a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
-      more: (() => { const a = header?.querySelector(".dd-info a, .dd-cta a.more, a.more"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
+      more: (() => { const a = header?.querySelector(".dd-cta .dd-link a, .dd-info a, .dd-cta a.more, a.more"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
     };
     const tabs = [...document.querySelectorAll(".rf-modelselector-tabs .tabnav-link")].map((t) => ({ text: txt(t), active: t.getAttribute("aria-selected") === "true" }));
     // One scroller per tab; cards are .rf-modelselector-scroller-itemview.
@@ -82,6 +101,12 @@ export default function extract() {
         name: el.className.split(" ").find((c) => c.startsWith("dd-apple-upgrade-overview-")),
         title: txt(el.querySelector("h2")),
         text: [...el.querySelectorAll("p")].map(txt).filter(Boolean),
+        // Same paragraphs as safe markup: only line breaks and bold runs survive.
+        html: [...el.querySelectorAll("p")].filter((p) => txt(p)).map((p) => {
+          const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+          const walk = (n) => [...n.childNodes].map((c) => c.nodeType === 3 ? esc(c.textContent.replace(/[ \t\n\r]+/g, " ")) : c.tagName === "BR" ? "<br>" : /^(B|STRONG)$/.test(c.tagName) || c.classList.contains("tw-semibold") ? `<b>${walk(c)}</b>` : walk(c)).join("");
+          return walk(p).trim();
+        }),
         links: [...el.querySelectorAll("a")].map((l) => ({ text: txt(l), href: abs(l.getAttribute("href")) })).filter((l) => l.text),
         images: [...el.querySelectorAll("img")].filter((i) => i.getBoundingClientRect().width > 60).map((i) => ({ src: i.currentSrc || i.src, alt: i.alt || "" })),
         bg: tone(el),
@@ -128,7 +153,7 @@ export default function extract() {
       logo: img(startEl.querySelector(".dd-logo")),
       cta: (() => { const a = startEl.querySelector("a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
     } : null;
-    return { kind: "upgrade", localnav, intro, tabs, models: models.flat(), sections, faq, faqGroups, selectorTitle, shelf: { head: txt(document.querySelector(".rf-feature-shelf-header")) || shelfHead, cards: shelf }, start };
+    return { kind: "upgrade", localnav, intro, tabs, models: models.flat(), sections, faq, faqGroups, faqTitle: txt(document.querySelector(".rc-group-faq-header")), selectorTitle, shelf: { head: txt(document.querySelector(".rf-feature-shelf-header")) || shelfHead, cards: shelf }, start };
   }
 
   // Certified refurbished listing: banner, category list, featured tiles.
@@ -154,7 +179,8 @@ export default function extract() {
       href: abs((t.querySelector(".rf-refurb-featured-product-link, .rf-refurb-producttile-link") || t.querySelector("a"))?.getAttribute("href")),
       title: txt(t.querySelector(".rf-refurb-featured-product-link, .rf-refurb-producttile-title, .rf-refurb-producttile-link")),
       img: img(t.querySelector(".rf-refurb-featured-product-tilehero, .rf-refurb-producttile-tilehero") || t),
-      price: txt(t.querySelector(".rf-refurb-featured-product-currentprice, .rf-refurb-producttile-currentprice")),
+      // Listing tiles hold an empty div and the real price span under the same class: take the one with text.
+      price: txt([...t.querySelectorAll(".rf-refurb-featured-product-currentprice, .rf-refurb-producttile-currentprice")].find((e) => txt(e))),
       was: txt(t.querySelector(".rf-refurb-featured-product-previousprice, .rf-refurb-price-previousprice")),
       saving: txt(t.querySelector(".rf-refurb-featured-product-savingsprice, .rf-refurb-price-savingsprice")),
       monthly: lines.find((l) => /\/mo|per month|mo\./.test(l) && !/\$[\d,.]+$/.test(l)) || "",
@@ -192,8 +218,19 @@ export default function extract() {
     strip: (() => { const i = catHeader.querySelector("img"); return i ? { src: i.currentSrc || i.src, width: Math.round(i.getBoundingClientRect().width), height: Math.round(i.getBoundingClientRect().height) } : null; })(),
     sort: [...document.querySelectorAll(".rf-refurb-category-sort-option")].map(txt).filter(Boolean),
   } : null;
+  // Listing filter column: the sort label, the filter toggle and one accordion per facet (the open one lists its values).
+  const facetRoot = document.querySelector(".rf-refurb-filter");
+  const filters = facetRoot ? {
+    toggle: txt(document.querySelector(".rf-accessories-filter-button")),
+    sort: txt(document.querySelector(".rf-refurb-category-sort-select")),
+    groups: [...facetRoot.querySelectorAll("li.rc-accordion-item")].map((li) => ({
+      title: txt(li.querySelector(".rc-accordion-title")),
+      items: [...li.querySelectorAll(".rf-facetlist-item label")].map((l) => ({ text: txt(l), off: parseFloat(getComputedStyle(l).opacity) < 1 })),
+    })).filter((g) => g.title),
+  } : null;
   return {
     kind: "refurb",
+    filters,
     listingHead,
     bento,
     buystrip,

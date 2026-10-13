@@ -8,6 +8,14 @@ export default function extract() {
     c.querySelectorAll(".visuallyhidden, .a11y, [class*='visuallyhidden'], sup, script, style").forEach((n) => n.remove());
     return (c.textContent || "").replace(/ /g, " ").replace(/\s+/g, " ").trim();
   };
+  // Text of a block that uses <br> for line breaks: blank-line breaks split paragraphs, single breaks stay as "\n".
+  const blocks = (el) => {
+    if (!el) return [];
+    const c = el.cloneNode(true);
+    c.querySelectorAll(".visuallyhidden, .a11y, [class*='visuallyhidden'], sup, script, style").forEach((n) => n.remove());
+    c.querySelectorAll("br").forEach((n) => n.replaceWith("\n"));
+    return (c.textContent || "").replace(/ /g, " ").split(/\n[ \t]*\n+/).map((t) => t.split("\n").map((l) => l.replace(/[ \t]+/g, " ").trim()).filter(Boolean).join("\n")).filter(Boolean);
+  };
   const abs = (h) => (h ? new URL(h, location.href).href : null);
   // Best image of a block: the largest rendered one, with its resolved URL.
   const imgOf = (root) => {
@@ -32,7 +40,7 @@ export default function extract() {
   const inBuy = (el) => !el.closest(".dd-compare, .as-globalfooter, .rs-productinfosection, .product-selection-area.noscript, .rc-accordion, .rc-witb-items, .rc-witb");
 
   // ---- Ribbon (promo messages above the nav) ----
-  const ribbon = [...document.querySelectorAll(".rc-ribbon .rc-ribbon-content-item, .rc-ribbon [class*='ribbon-content'] p")].map((el) => {
+  const ribbon = [...document.querySelectorAll(".rc-ribbon .rc-ribbon-content-item, .rc-ribbon [class*='ribbon-content'] p, [class*='rc-ribbon-content-item-base']")].filter((el) => visible(el.closest(".rc-ribbon") || el)).map((el) => {
     const a = el.querySelector("a");
     const c = el.cloneNode(true);
     c.querySelectorAll("a").forEach((n) => n.remove());
@@ -43,9 +51,19 @@ export default function extract() {
   const h1 = document.querySelector(".rf-flagship-product-header-h1, .rf-flagship h1, h1.fwl");
   const headerEl = document.querySelector(".rf-flagship-product-header");
   let subtitle = "";
+  // Note row under the subtitle (picture, short text, link), e.g. "Siri AI  Learn more".
+  let note = null;
   if (headerEl) {
     const c = headerEl.cloneNode(true);
     c.querySelectorAll(".badge, h1, .rf-flagship-product-header-h1").forEach((n) => n.remove());
+    const row = headerEl.querySelector(".form-label-small");
+    if (row) {
+      const a = row.querySelector("a[href]");
+      const t = row.cloneNode(true);
+      t.querySelectorAll("a, img").forEach((n) => n.remove());
+      note = { img: imgOf(row), text: txt(t), link: a ? { text: txt(a.cloneNode(true)).replace(/\s*Siri AI$/, ""), href: abs(a.getAttribute("href")) } : null };
+      c.querySelectorAll(".form-label-small").forEach((n) => n.remove());
+    }
     subtitle = txt(c);
   }
   // Centered title (Studio Display style): the H1 sits near the middle of a 1440 px viewport.
@@ -54,6 +72,9 @@ export default function extract() {
     badge: txt(document.querySelector(".rf-flagship-product-header .badge")),
     title: txt(h1) || txt(document.querySelector("h1")),
     subtitle,
+    note,
+    // Subtitle set in the small body size (Apple TV: 14 px instead of 17 px).
+    compactSub: !!headerEl && parseFloat(getComputedStyle(headerEl).fontSize) < 16,
     centered: !!h1box && Math.abs(h1box.left + h1box.width / 2 - innerWidth / 2) < 80,
   };
 
@@ -65,9 +86,12 @@ export default function extract() {
   const mainImg = imgOf(document.querySelector(".rf-flagship-image-wrapper, .rf-flagship-media"));
   // Box of the main picture as rendered on the source (height kept for the local layout).
   const mainBox = (() => { const w = document.querySelector(".rf-flagship-image-wrapper, .rf-flagship-media"); const r = w?.getBoundingClientRect(); return r ? { w: Math.round(r.width), h: Math.round(r.height) } : null; })();
+  // Rendered width of the main picture (the source sizes it with script, so it cannot come from the CSS alone).
+  const mainImgBox = (() => { const i = document.querySelector(".rf-flagship-main-image"); const r = i?.getBoundingClientRect(); return r && r.width ? { w: Math.round(r.width) } : null; })();
   const media = {
     main: mainImg,
     mainBox,
+    mainImgBox,
     thumbs: thumbs.length ? thumbs : [],
     slides: slides.length ? slides : (mainImg ? [mainImg] : []),
   };
@@ -165,9 +189,23 @@ export default function extract() {
   const summary = sum ? {
     price: txt(sum.querySelector(".rc-prices-fullprice")),
     priceLine: (() => { const t = txt(sum.querySelector(".rc-prices-fullprice")); return t; })(),
+    title: txt(sum.querySelector(".rc-summary-title")),
+    installments: txt(sum.querySelector(".rc-prices-acinstallments")),
+    monthly: txt(sum.querySelector(".rc-monthly-price")),
+    financing: txt(sum.querySelector(".rc-financing-message")),
     cta: txt(sum.querySelector(".rc-summary-button button, .rc-summary-button")),
     moment: { title: txt(sum.querySelector(".rf-saveditem-content-header")), text: txt(sum.querySelector(".rf-saveditem-content-description")), link: txt(sum.querySelector(".rf-saveditem-button")) },
   } : null;
+
+  // Requirement line under the summary card ("Compatible with HD and 4K HD. More details.").
+  const requirement = (() => {
+    const el = document.querySelector(".rf-flagship-productrequirement-text");
+    if (!el) return null;
+    const a = el.querySelector("a");
+    const t = el.cloneNode(true);
+    t.querySelectorAll("a").forEach((n) => n.remove());
+    return { text: txt(t), link: a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null };
+  })();
 
   // ---- Footnotes (page footer block) ----
   // Footnotes: the numbered notes of the page footer (one copy of each).
@@ -183,6 +221,13 @@ export default function extract() {
     link: (() => { const a = promoEl.querySelector("a[href]"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
     img: imgOf(promoEl.querySelector(".dd-image, picture, img")?.closest("div, picture") || promoEl),
     flip: promoEl.classList.contains("billboard"),
+    // Billboard (Apple TV): full-bleed picture, logo, headline and stacked links.
+    board: promoEl.classList.contains("billboard") && promoEl.querySelector(".dd-hero") ? {
+      hero: imgOf(promoEl.querySelector(".dd-image")),
+      logo: imgOf(promoEl.querySelector(".dd-header")),
+      headline: txt(promoEl.querySelector(".dd-headline")),
+      links: [...promoEl.querySelectorAll(".links-stacked a")].map((a) => ({ text: txt(a), href: abs(a.getAttribute("href")), external: a.classList.contains("icon-after") })),
+    } : null,
   } : null;
 
   // ---- Witness: What's in the box ----
@@ -197,15 +242,29 @@ export default function extract() {
     title: txt(document.querySelector(".rs-productinfosection-header, .rc-productinfosection .rc-accordion-title")),
     rows: [...document.querySelectorAll(".rs-productinfosection .rc-pdsection-panel, .rc-productinfosection .rc-pdsection-panel")].map((p) => ({
       title: txt(p.querySelector(".rc-pdsection-title")),
-      // List items when the panel has a list (What's in the box), else the panel text as paragraphs.
-      paragraphs: (() => {
+      // One item per rendered list item: optional bold lead line, then its paragraphs (or the item text).
+      // Hidden duplicates (one copy per model) are skipped: only rendered items count.
+      items: (() => {
         const main = p.querySelector(".rc-pdsection-mainpanel");
-        // Hidden duplicates (one copy per model) are skipped: only rendered items count.
-        const items = [...new Set([...(main?.querySelectorAll("li") || [])].filter(visible).map((n) => txt(n)).filter(Boolean))];
-        return items.length ? items : [txt(main)].filter(Boolean);
+        const seen = new Set();
+        const out = [];
+        for (const li of main?.querySelectorAll("li") || []) {
+          if (!visible(li)) continue;
+          const paras = [...li.querySelectorAll("p")].map((n) => txt(n)).filter(Boolean);
+          const lead = paras.length ? txt(li.querySelector("strong")) : "";
+          const item = { lead, paras: paras.length ? paras : blocks(li) };
+          const key = lead + "|" + item.paras.join("|");
+          if (!item.paras.length || seen.has(key)) continue;
+          seen.add(key);
+          out.push(item);
+        }
+        return out.length ? out : [{ lead: "", paras: blocks(main) }];
       })(),
     })).filter((r, i, all) => r.title && all.findIndex((x) => x.title === r.title) === i), // one copy per title
   };
+
+  // Note under the product information ("AirPods Pro 3 do not include a USB-C Charge Cable ...").
+  const witbFooter = [...document.querySelectorAll(".rs-buyflow-witbfooter > div")].map((n) => txt(n)).filter(Boolean);
 
   // ---- FAQ accordion ----
   const faq = [...document.querySelectorAll(".rc-accordion-item")].filter((li) => !li.classList.contains("rc-productinfosection")).map((li) => ({
@@ -270,5 +329,5 @@ export default function extract() {
     };
   });
 
-  return { template: "flagship", ribbon, head, media, buystrip, chat, steps, applecare, summary, purchaseNote, footnotes, witb, productInfo, faq, compare, promo, bands };
+  return { template: "flagship", ribbon, head, media, buystrip, chat, steps, applecare, summary, requirement, purchaseNote, footnotes, witb, productInfo, witbFooter, faq, compare, promo, bands };
 }

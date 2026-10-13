@@ -19,6 +19,20 @@
 }
 .cfg2-pill:hover { text-decoration: none; background: var(--line-2); }
 
+/* ---------- Carrier deals box (iPhone, live; measured on the source) ----------
+   26 px above a 980 px grey box (4 px radius, 12 px padding); heading 600 14/18 + link, then logo 25 px + 12/16 line. */
+.cfg2-promo { padding-top: 26px; }
+.cfg2-promo-box {
+  width: min(var(--container), 100% - 2 * var(--gutter)); margin: 0 auto; padding: 12px 0;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 16px;
+  background: var(--page); border-radius: 4px; font: var(--t-small); letter-spacing: var(--tr-small);
+}
+.cfg2-promo-head { display: flex; flex-direction: column; padding-left: 20px; }
+.cfg2-promo-head strong { font: 600 14px/18px var(--font); }
+.cfg2-promo-head .more-plus { line-height: 20px; }
+.cfg2-promo-item { display: flex; align-items: center; gap: 12px; font: var(--t-note); letter-spacing: var(--tr-note); }
+.cfg2-promo-item img { width: 25px; height: 25px; }
+
 /* ---------- Two-column body: sticky gallery on the left, steps on the right ---------- */
 .cfg2-wrap { position: relative; }
 .cfg2-layout {
@@ -316,3 +330,48 @@ html[data-content="live"] [data-fit="cover"] .cfg2-gallery [data-gallery="defaul
   .cfg2 .option-big { font-size: 24px; }
   .cfg2-faq .t-section { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; }
 }
+
+/* ---------- Full-width steps (iPhone, live; measured on the source) ----------
+   Title and choices in an 886 px column, help card in the 328 px column 46 px to the right; choices in as many
+   columns as the source shows on one row (--cols), 14 px apart. --wide-top and --help-top come from the data. */
+.cfg2-wide { width: min(1260px, 100% - 180px); margin: 0 auto; }
+.cfg2-wide-step { display: grid; grid-template-columns: minmax(0, 886px) 328px; column-gap: 46px; align-items: start; margin: var(--wide-top, 60px) 0 0; }
+.cfg2-wide-step > .step-title, .cfg2-wide-step > .cfg2-step-body { grid-column: 1; }
+.cfg2-wide-help { grid-column: 2; grid-row: 1 / span 2; margin-top: var(--help-top, 0px); }
+.cfg2 .cfg2-wide-help .helpcard { margin-top: 0; }
+.cfg2-wide-step .options { grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr)); gap: 14px; }
+.cfg2-trade-ribbon { display: flex; align-items: center; gap: 26px; margin-top: 16px; padding: 20px 32px 20px 52px; border-radius: var(--r-card); background: var(--page); font: var(--t-small); letter-spacing: var(--tr-small); }
+.cfg2-trade-ribbon p { flex: 1 1 auto; }
+.cfg2-trade-logos { display: flex; gap: 10px; flex: none; }
+.cfg2-trade-logos img { width: 25px; height: 25px; }
+
+/* ---------- Full-width summary (iPhone): 1240 px grid of 380 / 420 / 328 px columns, 39 px from the top ---------- */
+.cfg2-summary-full { margin-top: 73px; padding: 39px 0 0; }
+.cfg2-sumf-grid { display: grid; grid-template-columns: 380px 420px 328px; justify-content: space-between; width: min(1240px, 100% - 2 * var(--gutter)); margin: 0 auto; }
+.cfg2-sumf-headline, .cfg2-sumf-sub { font: 600 38px/46px var(--font-display); letter-spacing: .004em; }
+.cfg2-sumf-sub { color: var(--text-3); }
+.cfg2-sumf-image { padding-top: 42px; }
+.cfg2-sumf-image img { width: 380px; height: auto; }
+.cfg2-sumf-price { padding-bottom: 35px; font: var(--t-body); letter-spacing: var(--tr-body); }
+.cfg2-sumf-card { padding-top: 26px; font: 400 14px/18px var(--font); letter-spacing: -.016em; }
+.cfg2-summary-full .cfg2-sum-save { padding: 21px 0 21px; border-top: 1px solid var(--line); font: var(--t-small); letter-spacing: var(--tr-small); }
+.cfg2-summary-full .cfg2-sum-save h3 { font: 600 14px/20px var(--font); }
+.cfg2-summary-full .cfg2-sum-save p { max-width: 400px; }
+.cfg2-summary-full .cfg2-sum-links { display: flex; gap: 28px; margin-top: 8px; color: var(--link); }
+.cfg2-sumf-avail li { position: relative; padding: 5px 0 10px 30px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.cfg2-sumf-avail li::before { content: ""; position: absolute; left: 0; top: 4px; width: 22px; height: 22px; border: 1.2px solid var(--text); border-radius: 4px; }
+.cfg2-summary-full .cfg2-sum-cta { margin-top: 48px; min-height: 44px; }
+@media (max-width: 1023px) {
+  .cfg2-wide { width: calc(100% - 2 * var(--gutter)); }
+  .cfg2-wide-step { grid-template-columns: minmax(0, 1fr); }
+  .cfg2-wide-help { grid-column: 1; grid-row: auto; margin-top: 20px; }
+  .cfg2-wide-step .options { grid-template-columns: minmax(0, 1fr); }
+  .cfg2-sumf-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .cfg2-sumf-image img { width: 100%; max-width: 380px; }
+}
+
+/* Full-width payment cards (iPhone, measured on the source): 22/18 padding, 17 px title line, detail 46 px lower
+   with 18 px above its text, in a 260 px column. */
+html[data-content="live"] .cfg2 .cfg2-wide-step .option-po .option-label { padding: 22px 18px; }
+.cfg2 .cfg2-wide-step .option-po .option-name { line-height: 17px; margin-bottom: 10px; }
+.cfg2 .cfg2-wide-step .option-po :is(.option-detail, ul) { max-width: 260px; margin-top: 36px; padding-top: 18px; }

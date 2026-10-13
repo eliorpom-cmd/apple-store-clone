@@ -18,10 +18,9 @@ Live.register("flagship", (data, L) => {
   };
 
   // ---- Ribbon ----
-  const nav = document.querySelector('[data-shell="nav"]');
-  if (nav) {
-    nav.dataset.ribbon = (data.ribbon || []).map((r) => `${esc(r.text)}${r.link ? ` <a class="more" href="${esc(link(r.link.href))}">${esc(r.link.text)}</a>` : ""}`).join("||");
-  }
+  // Ribbon: the source shows it under the local bar, so it is rendered in <main> (the shell puts it above the bar).
+  const ribbon = (data.ribbon || [])[0];
+  const ribbonHTML = ribbon ? `<div class="live-ribbon"><p>${esc(ribbon.text)}${ribbon.link ? ` <a class="more-plus" href="${esc(link(ribbon.link.href))}">${esc(ribbon.link.text)}</a>` : ""}</p></div>` : "";
   document.body.classList.add("live-flagship");
 
   const hasSlides = (data.media?.slides || []).length > 1;
@@ -99,19 +98,21 @@ Live.register("flagship", (data, L) => {
   };
   document.addEventListener("DOMContentLoaded", restorePrice);
   const summary = `<div class="flagship-card">
-      <p class="live-card-name">${esc(String(data.head?.title || "").replace(/^(Pre-order|Buy)\s+/i, ""))}</p>
+      <p class="live-card-name">${esc(sm.title || String(data.head?.title || "").replace(/^(Pre.order|Buy)\s+/i, ""))}</p>
       <p class="summary-price live-price"><span data-total>${esc(sumFirst || "")}</span></p>
       ${sumRest ? `<p class="live-price-rest">${esc(sumRest)}</p>` : ""}
+      ${sm.monthly ? `<p class="live-price-or">${esc(sm.installments || "or")}</p><p class="live-price-monthly">${esc(sm.monthly)}</p>` : ""}
+      ${sm.financing ? `<p class="live-price-financing"><span class="more-plus">${esc(sm.financing)}</span></p>` : ""}
       <button class="btn btn-block" type="button" data-add-to-bag="bag.html" disabled>${esc(sm.cta || "Continue")}</button>
       ${sm.moment?.title ? `<div class="live-moment"><h3>${esc(sm.moment.title)}</h3><p>${esc(sm.moment.text)}</p><span class="more">${esc(sm.moment.link)}</span></div>` : ""}
-    </div>${data.purchaseNote ? `<p class="live-purchase-note">${esc(data.purchaseNote)}</p>` : ""}`;
+    </div>${data.requirement?.text ? `<p class="live-requirement">${esc(data.requirement.text)} ${data.requirement.link ? `<a href="${esc(link(data.requirement.link.href))}">${esc(data.requirement.link.text)}</a>` : ""}</p>` : ""}${data.purchaseNote ? `<p class="live-purchase-note">${esc(data.purchaseNote)}</p>` : ""}`;
 
   // ---- Media ----
   const media = split
     ? `<div class="gallery display-gallery" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
-    : hasSlides
+    : hasSlides && !data.media?.main
       ? `<div class="gallery live-main" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
-      : `<div class="live-main">${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}"${data.media.mainBox?.h ? ` style="height:${data.media.mainBox.h}px"` : ""}>` : ""}</div>`;
+      : `<div class="live-main"${data.media?.mainBox?.h ? ` style="min-height:${data.media.mainBox.h}px"` : ""}>${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}"${data.media.mainImgBox?.w ? ` style="width:${data.media.mainImgBox.w}px"` : ""}>` : ""}</div>`;
   const perks = (data.buystrip || []).length
     ? `<ul class="flagship-perks">${data.buystrip.map((b) => `<li class="flagship-perk">${b.icon ? `<span class="live-icon">${b.icon}</span>` : ""}<span>${esc(b.text)}</span></li>`).join("")}</ul>` : "";
   const chat = data.chat?.text ? `<p class="flagship-help"><span><strong>${esc(data.chat.text)}</strong>${data.chat.link ? `<a href="${esc(link(data.chat.link.href))}" class="more-ext">${esc(data.chat.link.text)}</a>` : ""}</span></p>` : "";
@@ -132,7 +133,8 @@ Live.register("flagship", (data, L) => {
   // ---- Header ----
   const header = `${data.head?.badge ? `<p class="eyebrow eyebrow-new">${esc(data.head.badge)}</p>` : ""}
       <h1 class="flagship-h1">${esc(data.head?.title || "")}</h1>
-      ${data.head?.subtitle ? `<p class="flagship-sub">${esc(data.head.subtitle)}</p>` : ""}`;
+      ${data.head?.subtitle ? `<p class="flagship-sub${data.head.compactSub ? " flagship-sub-small" : ""}">${esc(data.head.subtitle)}</p>` : ""}
+      ${data.head?.note ? `<p class="flagship-note">${data.head.note.img ? `<img src="${esc(data.head.note.img.src)}" alt="">` : ""}<span>${esc(data.head.note.text)}</span>${data.head.note.link ? ` <a class="more-plus" href="${esc(link(data.head.note.link.href))}">${esc(data.head.note.link.text)}</a>` : ""}</p>` : ""}`;
 
   const grid = split
     ? `<div class="flagship-split"><div class="flagship-media">${media}</div><div class="flagship-side">${form}${summary}</div></div>`
@@ -142,16 +144,18 @@ Live.register("flagship", (data, L) => {
   // ---- Product information (rows: title left, text right) ----
   const info = (data.productInfo?.rows || []).length ? `<section class="details live-info" id="details" aria-label="Product information">
       ${data.productInfo.title ? `<h2 class="details-title">${esc(data.productInfo.title)}</h2>` : ""}
-      ${data.productInfo.rows.map((r) => `<div class="live-info-row"><h3 class="live-info-title">${esc(r.title)}</h3><div class="live-info-body">${r.paragraphs.map((p) => `<p>${esc(p)}</p>`).join("")}</div></div>`).join("")}
+      ${data.productInfo.rows.map((r) => `<div class="live-info-row"><h3 class="live-info-title">${esc(r.title)}</h3><div class="live-info-body">${(r.items || [{ lead: "", paras: r.paragraphs || [] }]).map((it) => `<div class="live-info-item">${it.lead ? `<strong>${esc(it.lead)}</strong>` : ""}${it.paras.map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("")}</div>`).join("")}</div></div>`).join("")}
+      ${(data.witbFooter || []).length ? `<div class="live-info-note">${data.witbFooter.map((t) => `<p>${esc(t)}</p>`).join("")}</div>` : ""}
     </section>` : "";
 
   // ---- In the box ----
+  // Markup and classes of the shared What's in the box component (components.css).
   const witb = (data.witb?.items || []).length ? `<section class="witb" aria-label="What's in the box">
-      ${data.witb.title ? `<h2 class="witb-title">${esc(data.witb.title)}</h2>` : ""}
-      ${data.witb.sub ? `<p class="witb-sub">${esc(data.witb.sub)}</p>` : ""}
-      <div class="witb-row" style="grid-template-columns:repeat(${Math.min(4, data.witb.items.length)},1fr)">
-        ${data.witb.items.map((it) => `<div class="witb-item"><div class="witb-visual">${it.img ? `<img src="${esc(it.img.src)}" alt="">` : ""}</div><p class="witb-label">${esc(it.label)}</p></div>`).join("")}
-      </div></section>` : "";
+      <div class="witb-head">${data.witb.title ? `<h2 class="witb-title">${esc(data.witb.title)}</h2>` : ""}
+      ${data.witb.sub ? `<p class="witb-sub">${esc(data.witb.sub)}</p>` : ""}</div>
+      <ul class="witb-items">
+        ${data.witb.items.map((it) => `<li class="witb-item"><div class="witb-image">${it.img ? `<img src="${esc(it.img.src)}" alt="">` : ""}</div><p class="witb-label">${esc(it.label)}</p></li>`).join("")}
+      </ul></section>` : "";
 
   // ---- FAQ accordion ----
   const faq = (data.faq || []).length ? `<section class="details live-faq"><div class="accordion accordion-compact" data-accordion>
@@ -180,7 +184,14 @@ Live.register("flagship", (data, L) => {
   // ---- Promo band (between the comparison and the footer, or after the zoom gallery) ----
   const pr = data.promo;
   const headline = pr ? (pr.header || pr.title || pr.text || "") : "";
-  const promo = pr && headline ? `<section class="live-promo${pr.flip ? " live-promo-flip" : ""}">
+  const board = pr?.board;
+  const boardHTML = board ? `<section class="live-board"><div class="live-board-plate">
+      <div class="live-board-img">${board.hero ? `<img src="${esc(board.hero.src)}" alt="${esc(board.hero.alt)}">` : ""}</div>
+      <div class="live-board-info">${board.logo ? `<img class="live-board-logo" src="${esc(board.logo.src)}" alt="">` : ""}
+        <p class="live-board-headline">${esc(board.headline)}</p>
+        <ul>${(board.links || []).map((l) => `<li><a class="${l.external ? "more-ext" : "more"}" href="${esc(link(l.href))}">${esc(l.text)}</a></li>`).join("")}</ul></div>
+    </div></section>` : "";
+  const promo = boardHTML ? boardHTML : pr && headline ? `<section class="live-promo${pr.flip ? " live-promo-flip" : ""}">
       <div class="live-promo-text"><p class="live-promo-title">${esc(headline)}</p>${pr.header && pr.text ? `<p class="live-promo-body">${esc(pr.text)}</p>` : ""}${pr.link ? `<a class="more-ext" href="${esc(link(pr.link.href))}">${esc(pr.link.text)}</a>` : ""}</div>
       <div class="live-promo-img">${pr.img ? `<img src="${esc(pr.img.src)}" alt="${esc(pr.img.alt)}">` : ""}</div>
     </section>` : "";
@@ -196,7 +207,7 @@ Live.register("flagship", (data, L) => {
   const main = document.querySelector("main");
   main.className = "flagship";
   // Local bar: product name on the left, two anchors on the right (sticky under the global nav).
-  const barTitle = String(data.head?.title || "").replace(/^(Pre-order|Buy)\s+/i, "");
+  const barTitle = String(data.head?.title || "").replace(/^(Pre.order|Buy)\s+/i, "");
   const localBar = `<nav class="live-localnav" aria-label="Local"><div class="container"><span class="live-localnav-title">${esc(barTitle)}</span>
       <span class="live-localnav-links"><a href="#details">Overview</a><a href="#compare">Tech Specs</a></span></div></nav>`;
   // Feature bands: text and picture, same layout as the promo band.
@@ -212,7 +223,7 @@ Live.register("flagship", (data, L) => {
   const billboard = pr?.flip ? promo : "";
   const band = pr?.flip ? "" : promo;
   const faqHTML = faq;
-  main.innerHTML = `${localBar}<div class="container">${top}${grid}${zoom}${billboard}${bandsBefore}${witb}${info}${compare}</div>${band}${bandsAfter}<div class="container">${faqHTML}</div>`;
+  main.innerHTML = `${localBar}${ribbonHTML}<div class="container">${top}${grid}${zoom}${billboard}${bandsBefore}${witb}${info}${compare}</div>${band}${bandsAfter}<div class="container">${faqHTML}</div>`;
 
   // ---- Zoomable viewer (opens from the thumbnails, arrows and keys move through the slides) ----
   const viewer = main.querySelector(".zoom-viewer");

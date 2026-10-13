@@ -151,7 +151,8 @@ export default async function extract() {
             note: txt(li.querySelector("p")),
           })),
           note: txt(header?.querySelector("p")),
-          shop: link(grid?.querySelector(".dd-button-shop a")),
+          // The button is inside the grid on carrier tabs and a following sibling on the "All deals" panel.
+          shop: link(grid?.querySelector(".dd-button-shop a") || (grid?.nextElementSibling?.matches(".dd-button-shop") ? grid.nextElementSibling.querySelector("a") : null)),
         };
       });
       return { label: txt(pills[i]), blocks };

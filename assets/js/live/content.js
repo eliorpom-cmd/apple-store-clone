@@ -66,10 +66,10 @@ Live.register("content", (data, L) => {
         ${data.checkStatus?.link ? `<p class="tradein-status">${esc(data.checkStatus.lead)} <a class="more" href="${esc(link(data.checkStatus.link.href))}">${esc(data.checkStatus.link.text)}</a></p>` : ""}
       </div></header>`;
 
-    const ways = `<section class="content-band content-band-page">
+    const ways = `<section class="content-band content-band-page tradein-ways">
       <div class="container">
-        <h2 class="content-title">${esc(data.ways.title)}</h2>
-        ${paragraphs(data.ways.intro)}
+        <h2 class="content-title tradein-ways-title">${esc(data.ways.title)}</h2>
+        ${data.ways.intro ? `<p class="content-lead tradein-ways-intro">${esc(data.ways.intro)}</p>` : ""}
         <div class="tabs tabs-segmented tradein-switch" role="tablist" data-tabs aria-label="Trade-in method">
           ${data.ways.tabs.map((w, i) => `<button class="tab" role="tab" id="${tabId("tab-way", i)}" aria-controls="${tabId("tp-way", i)}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ""}>${esc(w.label)}</button>`).join("")}
         </div>
@@ -91,14 +91,19 @@ Live.register("content", (data, L) => {
         </div>
       </div></section>`;
 
+    // Untitled small cards open with a bold lead sentence (as on the source).
+    const leadText = (c) => {
+      const m = !c.title && c.text.match(/^(.+?\.)\s+(.+)$/);
+      return m ? `<span class="tradein-reason-lead">${esc(m[1])}</span> ${esc(m[2])}` : esc(c.text);
+    };
     const reasons = `<section class="content-band content-band-surface"><div class="container">
       <h2 class="content-display tradein-reasons-title">${esc(data.reasons.title)}</h2>
       ${data.reasons.rows.map((row) => `<div class="tradein-reasons-row${row.length === 3 ? " tradein-reasons-row-3" : ""}">${row.map((c) => !c.image && row.length === 3 ? `<article class="tradein-reason-intro">
         <h3>${esc(c.title)}</h3>${c.text ? `<p>${esc(c.text)}</p>` : ""}
         ${c.link ? `<a class="btn btn-lg" href="${esc(link(c.link.href))}">${esc(c.link.text)}</a>` : ""}</article>` : `<article class="tradein-reason tradein-reason-${c.size}">
         ${c.image ? `<div class="tradein-reason-media">${img(c.image)}</div>` : ""}
-        <div class="tradein-reason-body">${c.title ? `<h3>${esc(c.title)}</h3>` : ""}${c.text ? `<p>${esc(c.text)}</p>` : ""}
-          ${c.link ? `<a class="more-plus" href="${esc(link(c.link.href))}">${esc(c.link.text)}</a>` : ""}</div></article>`).join("")}</div>`).join("")}
+        <div class="tradein-reason-body">${c.title ? `<h3>${esc(c.title)}</h3>` : ""}${c.text ? `<p>${leadText(c)}</p>` : ""}
+          ${c.link ? `<a class="${/\/overlay\//.test(c.link.href) ? "more-plus" : "more"}" href="${esc(link(c.link.href))}">${esc(c.link.text)}</a>` : ""}</div></article>`).join("")}</div>`).join("")}
       </div></section>`;
 
     // The page also lists one all-questions group; the topic groups above already cover it.

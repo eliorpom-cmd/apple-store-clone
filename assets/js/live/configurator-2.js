@@ -56,7 +56,7 @@ Live.register("configurator-2", (data, L) => {
   };
 
   // Source hides some steps until a choice we cannot replay: they are not rendered.
-  const stepsHTML = data.steps.filter((s) => !s.hidden).map((s, i) => {
+  const stepHTML = (s, i) => {
     const name = `s${i}`;
     const delta = deltaOf(s);
     const title = s.keyword
@@ -101,12 +101,18 @@ Live.register("configurator-2", (data, L) => {
     const stepGallery = mob?.slides?.length ? `<div class="cfg2-step-gallery">${mob.caption ? `<p class="cfg2-step-caption">${esc(mob.caption)}</p>` : ""}<div class="gallery" data-gallery="default"><div class="gallery-track">${mob.slides.map((sl) =>
       `<div class="gallery-slide"><img src="${esc(sl.src)}" alt="${esc(sl.alt)}" loading="lazy"></div>`).join("")}</div></div></div>` : "";
     if (!(title || body || help)) return "";
+    if (s.tradeRibbon) body += `<div class="cfg2-trade-ribbon"><p>${esc(s.tradeRibbon.text)} <span class="more-plus">${esc(s.tradeRibbon.link)}</span></p>${s.tradeRibbon.logos.length ? `<span class="cfg2-trade-logos">${s.tradeRibbon.logos.map((l) => `<img src="${esc(l.src)}" alt="${esc(l.alt)}">`).join("")}</span>` : ""}</div>`;
     body = stepGallery + (body ? `<div class="cfg2-step-body">${body}</div>` : "");
     // Source spacing: inline margin, title-to-choices gap and choices-to-help gap (see the extractor).
-    const vars = [s.margin && `margin:${s.margin}`, s.gap != null && `--gap:${s.gap}px`, s.helpGap != null && `--help-gap:${s.helpGap}px`].filter(Boolean).join(";");
+    const vars = [s.margin && `margin:${s.margin}`, s.gap != null && `--gap:${s.gap}px`, s.helpGap != null && `--help-gap:${s.helpGap}px`,
+      s.wide && `--cols:${s.cols}`, s.wideTop != null && `--wide-top:${s.wideTop}px`, s.helpTop != null && `--help-top:${s.helpTop}px`].filter(Boolean).join(";");
     const box = vars ? ` style="${esc(vars)}"` : "";
+    if (s.wide) return `<section class="step cfg2-wide-step" id="live-step-${i}" data-kind="${esc(s.kind)}" data-dot-label="${esc(s.keyword || s.kind)}"${box}>${title}${body}${help ? `<div class="cfg2-wide-help">${help}</div>` : ""}</section>`;
     return `<section class="step" id="live-step-${i}" data-kind="${esc(s.kind)}" data-dot-label="${esc(s.keyword || s.kind)}"${box}>${title}${body}${help}</section>`;
-  }).join("");
+  };
+  const shown = data.steps.filter((s) => !s.hidden);
+  const stepsHTML = shown.filter((s) => !s.wide).map((s) => stepHTML(s, data.steps.indexOf(s))).join("");
+  const wideHTML = shown.filter((s) => s.wide).map((s) => stepHTML(s, data.steps.indexOf(s))).join("");
 
   const slides = data.slides || [];
   const gallery = slides.length
@@ -123,11 +129,34 @@ Live.register("configurator-2", (data, L) => {
       <div class="acc-panel"><div class="acc-panel-inner"><p class="t-body">${esc(f.a)}</p></div></div></div>`).join("");
 
   const summary = data.summary || {};
+  const saveHTML = summary.saveTitle ? `<div class="cfg2-sum-save"><h3>${esc(summary.saveTitle)}</h3>${summary.saveText ? `<p>${esc(summary.saveText)}</p>` : ""}<div class="cfg2-sum-links">${(summary.saveLinks || []).map((l) => `<span>${esc(l)}</span>`).join("")}</div></div>` : "";
+  const ctaHTML = `<button class="btn btn-block cfg2-sum-cta" type="button" data-add-to-bag="bag.html" disabled>${esc(summary.cta || "Continue")}</button>`;
+  // Full-width band (iPhone) or the block at the foot of the rail (Mac, Watch, iPad, Vision).
+  const summaryHTML = summary.variant === "full"
+    ? `<section class="summary cfg2-summary cfg2-summary-full" aria-label="Summary"><div class="cfg2-sumf-grid">
+        <div class="cfg2-sumf-col1"><h2 class="cfg2-sumf-headline">${esc(summary.headline || summary.title || "")}</h2>${summary.subheadline ? `<p class="cfg2-sumf-sub">${esc(summary.subheadline)}</p>` : ""}${summary.image ? `<div class="cfg2-sumf-image"><img src="${esc(summary.image.src)}" alt="${esc(summary.image.alt)}"></div>` : ""}</div>
+        <div class="cfg2-sumf-col2"><div class="cfg2-sumf-price">${(summary.fullPrice || []).map((l) => `<p>${esc(l)}</p>`).join("")}<span class="visuallyhidden" data-total>${fmt(base)}</span>${summary.cardLink ? `<p class="cfg2-sumf-card"><span class="more-plus">${esc(summary.cardLink)}</span></p>` : ""}</div>${saveHTML}</div>
+        <div class="cfg2-sumf-col3">${(summary.availability || []).length ? `<ul class="cfg2-sumf-avail">${summary.availability.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}${ctaHTML}</div>
+      </div></section>`
+    : `<section class="summary cfg2-summary${summary.variant === "product" ? " cfg2-summary-product" : ""}" aria-label="Summary"${summary.margin ? ` style="margin:${esc(summary.margin)}"` : ""}>
+            <div class="cfg2-sum-head"><h2 class="summary-title"><span class="cfg2-sum-ink">${esc(summary.title || "")}</span>${summary.subheader ? ` <span class="cfg2-sum-sub">${esc(summary.subheader)}</span>` : ""}</h2></div>
+            <div class="cfg2-sum-body">
+              ${(summary.priceBlocks?.length ? summary.priceBlocks : [summary.price || ""]).filter(Boolean).map((b) => `<p class="cfg2-sum-price-block">${esc(b)}</p>`).join("")}
+              <span class="visuallyhidden" data-total>${fmt(base)}</span>
+              ${summary.cashback ? `<p class="cfg2-sum-cash">${esc(summary.cashback)}</p>` : ""}
+              ${ctaHTML}
+              ${saveHTML}
+            </div>
+          </section>`;
   root.dataset.base = String(base);
   root.dataset.kind = data.kind || "";
   root.dataset.fit = data.galleryStyle?.fit || "contain";
   // The summary sits at the foot of the right rail, as in the source.
-  root.innerHTML = `
+  const promo = data.promo ? `<div class="cfg2-promo"><div class="cfg2-promo-box">
+      <div class="cfg2-promo-head"><strong>${esc(data.promo.title)}</strong>${data.promo.link ? `<span class="more-plus">${esc(data.promo.link)}</span>` : ""}</div>
+      ${data.promo.items.map((it) => `<p class="cfg2-promo-item">${it.logo ? `<img src="${esc(it.logo.src)}" alt="${esc(it.logo.alt)}">` : ""}<span>${esc(it.text)}</span></p>`).join("")}
+    </div></div>` : "";
+  root.innerHTML = `${promo}
     <header class="cfg2-head" data-pbar-after>
       <div class="cfg2-head-main">
         ${data.eyebrow ? `<p class="eyebrow eyebrow-new">${esc(data.eyebrow)}</p>` : ""}
@@ -141,18 +170,11 @@ Live.register("configurator-2", (data, L) => {
       <div class="cfg2-layout">
         ${gallery}
         <div class="cfg2-rail">${stepsHTML}
-          <section class="summary cfg2-summary${summary.variant === "product" ? " cfg2-summary-product" : ""}" aria-label="Summary"${summary.margin ? ` style="margin:${esc(summary.margin)}"` : ""}>
-            <div class="cfg2-sum-head"><h2 class="summary-title"><span class="cfg2-sum-ink">${esc(summary.title || "")}</span>${summary.subheader ? ` <span class="cfg2-sum-sub">${esc(summary.subheader)}</span>` : ""}</h2></div>
-            <div class="cfg2-sum-body">
-              ${(summary.priceBlocks?.length ? summary.priceBlocks : [summary.price || ""]).filter(Boolean).map((b) => `<p class="cfg2-sum-price-block">${esc(b)}</p>`).join("")}
-              <span class="visuallyhidden" data-total>${fmt(base)}</span>
-              ${summary.cashback ? `<p class="cfg2-sum-cash">${esc(summary.cashback)}</p>` : ""}
-              <button class="btn btn-block cfg2-sum-cta" type="button" data-add-to-bag="bag.html" disabled>${esc(summary.cta || "Continue")}</button>
-              ${summary.saveTitle ? `<div class="cfg2-sum-save"><h3>${esc(summary.saveTitle)}</h3>${summary.saveText ? `<p>${esc(summary.saveText)}</p>` : ""}<div class="cfg2-sum-links">${(summary.saveLinks || []).map((l) => `<span>${esc(l)}</span>`).join("")}</div></div>` : ""}
-            </div>
-          </section>
+          ${summary.variant === "full" ? "" : summaryHTML}
         </div>
       </div>
+      ${wideHTML ? `<div class="cfg2-wide">${wideHTML}</div>` : ""}
+      ${summary.variant === "full" ? summaryHTML : ""}
       <nav class="cfg2-progress" aria-label="Steps"><div class="cfg2-progress-inner"><ol class="cfg2-dots"></ol></div></nav>
     </div>
     ${Live.witbHTML(data.witb, L)}

@@ -3,10 +3,10 @@
    Values missing from tokens.css are measured from the source and cite their spec section. */
 
 /* ---------- Type roles used by both pages ---------- */
-.cat2-display { font: 600 64px/1.0625 var(--font); letter-spacing: -.009em; } /* spec 05 §0, headline 64 px */
-.cat2-h32 { font: 600 32px/1.125 var(--font); letter-spacing: .004em; } /* spec 05 §0, refurb section title */
-.cat2-h40 { font: 600 40px/1.1 var(--font); letter-spacing: 0; } /* spec 05 §0, large section title */
-.cat2-h24 { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; } /* spec 05 §0, eyebrow title */
+.cat2-display { font: 600 64px/1.0625 var(--font-display); letter-spacing: -.009em; } /* spec 05 §0, headline 64 px */
+.cat2-h32 { font: 600 32px/1.125 var(--font-display); letter-spacing: .004em; } /* spec 05 §0, refurb section title */
+.cat2-h40 { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; } /* spec 05 §0, large section title */
+.cat2-h24 { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; } /* spec 05 §0, eyebrow title */
 
 @media (max-width: 734px) {
   .cat2-display { font-size: 48px; line-height: 1.08; letter-spacing: -.003em; }
@@ -131,7 +131,7 @@
 /* ---------- Upgrade: intro ---------- */
 .cat2-up-hero { padding: 64px var(--gutter) 0; text-align: center; }
 .cat2-up-hero h1 { margin-top: 8px; }
-.cat2-program { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; color: var(--text); }
+.cat2-program { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; color: var(--text); }
 .cat2-up-visual { display: flex; justify-content: center; height: 260px; margin-top: 48px; }
 .cat2-up-visual img { height: 100%; width: auto; }
 .cat2-up-lede { max-width: 680px; margin: 48px auto 0; font: var(--t-intro); letter-spacing: var(--tr-intro); }
@@ -150,7 +150,7 @@
 
 /* ---------- Upgrade: model selector ---------- */
 .cat2-sel-intro { padding-top: 80px; }
-.cat2-sel-intro h2 { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; }
+.cat2-sel-intro h2 { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; }
 .cat2-sel-intro p { max-width: 480px; margin-top: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
 /* Tab row starts at max(22px, (100vw - 980px) / 2), matching the 980 px container (spec 05 §4.1) */
 .cat2-tabs { margin: 48px max(22px, calc((100vw - 980px) / 2)) 0; padding-top: 0; }
@@ -169,7 +169,7 @@
 .cat2-swatches { display: flex; justify-content: center; gap: 6px; margin: 0 0 24px; }
 .cat2-swatches i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12); }
 .cat2-model-badge { min-height: 1.3334em; margin-bottom: 8px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--badge-new); white-space: nowrap; }
-.cat2-model-title { margin-bottom: 8px; font: 600 24px/1.1667 var(--font); letter-spacing: .009em; }
+.cat2-model-title { margin-bottom: 8px; font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; }
 .cat2-model-sub { max-width: 200px; min-height: 2lh; margin-bottom: 16px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .cat2-model-price { max-width: 282px; margin-bottom: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .cat2-model-btn { margin: 8px 0; }
@@ -200,7 +200,7 @@
 .cat2-sec--dark { min-height: 610px; background: #1d1d1f; color: #f5f5f7; display: flex; align-items: center; } /* spec 05 §4.1, ~610 px */
 .cat2-sec--dark h2 { color: #fff; }
 .cat2-sec-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-.cat2-sec-inner h2 { font: 600 40px/1.1 var(--font); letter-spacing: 0; }
+.cat2-sec-inner h2 { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; }
 .cat2-sec-inner p { max-width: 420px; margin-top: 24px; font: var(--t-body); letter-spacing: var(--tr-body); }
 .cat2-sec-inner .btn-outline { margin-top: 24px; }
 .cat2-sec-visual { display: flex; align-items: center; justify-content: center; gap: 16px; height: 300px; }
@@ -222,7 +222,7 @@
 
 /* ---------- Upgrade: FAQ ---------- */
 .cat2-faq { padding: 96px 0 120px; }
-.cat2-faq h2 { margin-bottom: 24px; font: 600 40px/1.1 var(--font); letter-spacing: 0; }
+.cat2-faq h2 { margin-bottom: 24px; font: 600 40px/1.1 var(--font-display); letter-spacing: 0; }
 .cat2-faq .acc-panel-inner p { font: var(--t-body); letter-spacing: var(--tr-body); }
 @media (max-width: 734px) {
   .cat2-faq { padding: 64px 0 80px; }
@@ -273,9 +273,16 @@
 .cat2-live-select h2 { margin: 0; max-width: 420px; } /* the source title wraps to two lines */
 .live-track { padding-bottom: 153px; } /* measured: panel ends 89 px lower than the cards */
 .cat2-live-shelf { padding: 0 0 155px; } /* measured: the shelf ends 155 px below its cards */
-.live-faq { padding: 564px 0 0; } /* measured: the FAQ groups start 403 px after the start block */
-.live-faq-title { padding: 24px 0 16px; font: 600 21px/1.1905 var(--font); letter-spacing: .011em; }
-.live-faq .acc-btn { padding: 20px 0; }
+/* FAQ band (measured on the source): white, starts 120 px under the start block, 60 px bottom padding */
+.live-faq { padding: 120px 0 60px; background: var(--surface); }
+.live-faq .live-faq-head { margin: 0 0 58px; font: 600 48px/52px var(--font-display); letter-spacing: -.144px; text-align: center; color: var(--text); }
+.live-faq-pills { display: flex; flex-wrap: wrap; justify-content: center; padding-bottom: 55px; }
+.live-faq-pill { margin: 7px 7px 8px; padding: 10px 20px; border: 1px solid var(--text); border-radius: 20px; background: none; color: var(--text); font: 400 17px/21.86px var(--font); letter-spacing: -.224px; cursor: pointer; }
+.live-faq-pill[aria-selected="true"] { background: var(--text); color: var(--surface); }
+.live-faq-group { margin-bottom: 48px; }
+.live-faq-title { margin-bottom: 4px; font: 600 28px/32px var(--font-display); letter-spacing: .196px; color: var(--text); }
+.live-faq .accordion, .live-faq .acc-item { border-color: transparent; }
+.live-faq .acc-btn { padding: 17px 0; font: 600 17px/21px var(--font); letter-spacing: -.374px; }
 /* Listing pages (Mac, iPad): three columns of 354 px from x = 309 (measured), the left 300 px hold the filter column */
 .cat2-tiles-listing { grid-template-columns: repeat(3, 354px); width: auto; max-width: none; margin: 0 0 0 309px; }
 .cat2-tiles-listing .cat2-tile { width: 354px; padding: 40px 0 30px; border-width: 0; }
@@ -298,9 +305,9 @@
 .live-listing-strip { position: absolute; left: 389px; top: 0; width: 1440px; height: 480px; max-width: none; object-fit: cover; }
 .live-listing-inner { position: relative; height: 100%; }
 .live-listing-text { position: absolute; left: 0; top: 191px; width: 417px; }
-.live-listing-title { font: 600 48px/52px var(--font); letter-spacing: -.003em; width: 334px; }
-.live-listing-sub { margin-top: 16px; font: 400 21px/29px var(--font); letter-spacing: .011em; }
-.live-listing-link { display: inline-block; margin-top: 8px; font: 400 21px/29px var(--font); }
+.live-listing-title { font: 600 48px/52px var(--font-display); letter-spacing: -.003em; width: 334px; }
+.live-listing-sub { margin-top: 16px; font: 400 21px/29px var(--font-display); letter-spacing: .011em; }
+.live-listing-link { display: inline-block; margin-top: 8px; font: 400 21px/29px var(--font-display); }
 .live-listing-sort { display: flex; justify-content: space-between; align-items: center; height: 67px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text); }
 .live-listing-sort span { white-space: nowrap; }
 
@@ -319,7 +326,7 @@
 .live-sec-text, .live-sec-visual { position: absolute; }
 .live-sec-visual { display: block; }
 .live-sec-visual img { position: absolute; max-width: none; width: auto; height: auto; }
-.live-sec h2 { font: 600 40px/44px var(--font); letter-spacing: 0; }
+.live-sec h2 { font: 600 40px/44px var(--font-display); letter-spacing: 0; }
 .live-sec p { font: 400 17px/25px var(--font); letter-spacing: -.022em; max-width: none; }
 
 /* Products: purple-to-red gradient title, text left, product group right */
@@ -327,7 +334,8 @@
 .live-sec-products .live-sec-inner { height: 701px; }
 .live-sec-products .live-sec-text { left: 0; top: 210px; width: 396px; }
 .live-sec-products h2 { background: linear-gradient(90deg, #7230c1 0%, #f10000 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.live-sec-products p { margin-top: 24px; }
+.live-sec-products p { margin-top: 13.6px; }
+.live-sec-products h2 { max-width: 330px; } /* the source title wraps after "products" */
 .live-sec-products .live-sec-visual { left: 0; top: 0; width: 980px; height: 701px; }
 .live-sec-products .live-sec-visual img { left: 433px; top: 46px; width: 859px; height: 555px; }
 
@@ -335,8 +343,13 @@
 .live-sec-lease { min-height: 700px; background: #000; color: #fff; }
 .live-sec-lease .live-sec-inner { height: 700px; }
 .live-sec-lease h2 { color: #fff; }
-.live-sec-lease p { color: #f5f5f7; margin-top: 24px; }
-.live-sec-lease .live-sec-text { left: 0; top: 155px; width: 408px; }
+.live-sec-lease p { color: #f5f5f7; margin-top: 13.6px; }
+.live-sec-lease h2 { max-width: 290px; } /* the source title wraps after "the" */
+.live-sec-lease b { font-weight: 600; }
+/* Source paragraph widths (right padding classes): 408 / 347 / 388 px */
+.live-sec-lease p:nth-of-type(2) { max-width: 347px; }
+.live-sec-lease p:nth-of-type(3) { max-width: 388px; }
+.live-sec-lease .live-sec-text { left: 0; top: 155px; width: 408px; z-index: 1; }
 .live-sec-lease .live-sec-visual { left: -359px; top: 0; width: 1698px; height: 700px; }
 .live-sec-lease .live-sec-visual img { left: 0; top: 0; width: 1698px; height: 700px; object-fit: cover; }
 
@@ -344,7 +357,7 @@
 .live-sec-process { min-height: 702px; background: linear-gradient(45deg, #a4257d 0%, #762fbc 100%); color: #fff; }
 .live-sec-process .live-sec-inner { height: 702px; }
 .live-sec-process h2 { color: #fff; }
-.live-sec-process p { color: #fff; margin-top: 24px; }
+.live-sec-process p { color: #fff; margin-top: 13.6px; }
 .live-sec-process .live-sec-text { left: 556px; top: 137px; width: 392px; }
 .live-sec-process .live-sec-visual { left: 0; top: 0; width: 980px; height: 702px; }
 .live-sec-process .live-sec-visual img { left: 18px; top: 200px; width: 377px; height: 502px; }
@@ -360,15 +373,17 @@
 .live-sec-iphone { min-height: 350px; background: #fff; }
 .live-sec-iphone .live-sec-inner { height: 350px; }
 .live-sec-iphone .live-sec-text { left: 196px; top: 115px; width: 588px; text-align: center; }
-.live-sec-iphone h2 { font: 600 25.5px/37.5px var(--font); letter-spacing: 0; }
+.live-sec-iphone h2 { font: 600 25.5px/37.5px var(--font-display); letter-spacing: 0; }
 .live-sec-iphone p { margin-top: 12px; font-size: 17px; line-height: 25px; }
 .live-sec-iphone .live-sec-link { display: block; margin-top: 16px; text-align: center; font: 400 14px/20px var(--font); letter-spacing: -.016em; }
 
 /* ---------- Live closing block: gradient band, logo, 64 px title and button at measured offsets ---------- */
-.live-start { position: relative; height: 700px; background: linear-gradient(180deg, rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, 0) 50%), linear-gradient(45deg, #7230c1 0%, #ff0300 100%); color: #fff; }
+/* Full-bleed gradient band; the content keeps its absolute positions inside the 980 px container */
+.live-start-band { background: linear-gradient(180deg, rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, 0) 50%), linear-gradient(45deg, #7230c1 0%, #ff0300 100%); }
+.live-start { position: relative; height: 700px; color: #fff; }
 .live-start-logo { position: absolute; left: 431px; top: 225px; width: 118px; height: 26px; }
-.live-start-title { position: absolute; left: 245px; top: 251px; width: 490px; font: 600 64px/68px var(--font); letter-spacing: -.009em; color: #fff; text-align: center; }
-.live-start-cta { position: absolute; left: 405px; top: 419px; width: 170px; height: 56px; padding: 0; line-height: 56px; font: 400 21px/56px var(--font); border-radius: var(--r-pill); }
+.live-start-title { position: absolute; left: 245px; top: 251px; width: 490px; font: 600 64px/68px var(--font-display); letter-spacing: -.009em; color: #fff; text-align: center; }
+.live-start-cta { position: absolute; left: 405px; top: 419px; width: 170px; height: 56px; padding: 0; line-height: 56px; font: 400 21px/56px var(--font-display); border-radius: var(--r-pill); }
 
 /* ---------- Live media: step icons, card icons, hero video, swatches, promo strip ---------- */
 .live-step-icon { width: 44px; height: 44px; margin: 0 auto 16px; }
@@ -380,16 +395,16 @@
 .live-shelf-head { padding: 24px 0 20px; text-align: left; }
 
 /* ---------- Live promo cards: photo cards fill the card with white text; small cards show the icon above the title; round plus in the corner ---------- */
-.cat2-bento-card:not(.is-large) .cat2-bento-title { font: 600 28px/32px var(--font); letter-spacing: .007em; }
+.cat2-bento-card:not(.is-large) .cat2-bento-title { font: 600 28px/32px var(--font-display); letter-spacing: .007em; }
 .cat2-bento-card:not(.is-large) .cat2-bento-icon { margin-bottom: 20px; }
 .cat2-bento-card:not(.is-large)::after {
   content: "+"; position: absolute; right: 22px; bottom: 22px; width: 30px; height: 30px; border-radius: 50%;
-  background: #1d1d1f; color: #fff; font: 400 22px/28px var(--font); text-align: center;
+  background: #1d1d1f; color: #fff; font: 400 22px/28px var(--font-display); text-align: center;
 }
 .cat2-bento-card.is-photo { color: #fff; background: #1d1d1f; }
 .cat2-bento-card.is-photo .cat2-bento-img { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; margin: 0; }
 .cat2-bento-card.is-photo > :not(.cat2-bento-img) { position: relative; z-index: 1; }
-.cat2-bento-card.is-photo .cat2-bento-title { font: 600 28px/32px var(--font); letter-spacing: .007em; }
+.cat2-bento-card.is-photo .cat2-bento-title { font: 600 28px/32px var(--font-display); letter-spacing: .007em; }
 .cat2-bento-card.is-photo .cat2-bento-text { color: #fff; }
 
 /* Phone width: the source stacks its blocks, so the desktop offsets do not apply. */
@@ -405,4 +420,27 @@
   .live-start-logo, .live-start-title, .live-start-cta { position: static; width: auto; height: auto; margin-bottom: 24px; font-size: 40px; line-height: 44px; }
   .live-start-cta { display: inline-block; width: auto; padding: 12px 24px; font-size: 17px; line-height: 1.2; }
   .cat2-buystrip-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Live upgrade hero, measured on the source (1440 px) ---------- */
+.live-hero { padding: 55px 0 150px; background: var(--surface); }
+.live-hero .live-logo { display: block; height: 32px; width: auto; margin: 0 auto; }
+.live-hero h1 { max-width: 627px; margin: 8px auto 0; font: 600 64px/68px var(--font-display); letter-spacing: -.576px; }
+.live-hero .cat2-up-visual { margin-top: 0; padding-top: 40px; box-sizing: border-box; }
+.live-hero .cat2-up-lede { max-width: 725px; margin: 0 auto; padding-top: 40px; font: 600 21px/29px var(--font-display); letter-spacing: .231px; color: var(--text); }
+.live-hero .cat2-steps { max-width: 980px; margin: 48px auto 0; padding: 0; min-height: 0; gap: 0; }
+.live-hero .cat2-step { padding-top: 0; }
+.live-hero .live-step-icon { margin: 0 auto; }
+.live-hero .cat2-step p { padding-top: 6px; font: 600 21px/29px var(--font-display); letter-spacing: .231px; color: var(--text); }
+.live-hero .cat2-step:nth-child(1) p { max-width: 235px; }
+.live-hero .cat2-step:nth-child(3) p { padding-inline: 39px; }
+.live-hero .cat2-up-cta { gap: 0; height: auto; padding-top: 78px; margin-top: 0; }
+.live-hero .cat2-up-cta .btn { height: 56px; padding: 17px 30px; font-size: 17px; line-height: 22px; }
+.live-hero-how { display: inline-flex; align-items: center; gap: 6px; margin-top: 40px; color: var(--link); font: 400 17px/25px var(--font); letter-spacing: -.374px; }
+.live-hero-how svg { width: 17px; height: 17px; }
+@media (max-width: 734px) {
+  .live-hero { padding: 40px var(--gutter) 64px; }
+  .live-hero h1 { font-size: 40px; line-height: 44px; letter-spacing: 0; }
+  .live-hero .cat2-up-lede, .live-hero .cat2-step p { font-size: 19px; line-height: 24px; }
+  .live-hero .cat2-up-cta { padding-top: 40px; }
 }

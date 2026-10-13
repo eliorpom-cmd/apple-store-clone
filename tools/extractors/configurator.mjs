@@ -201,7 +201,8 @@ export default function extract() {
   }
   // Page order across the analytics sections and the accessory slots.
   steps.sort((a, b) => (a.anchor.compareDocumentPosition(b.anchor) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
-  const orderedSteps = steps.map((x) => x.step);
+  // Each rail step keeps the inline margin the source computes for it (it centres the step in the viewport).
+  const orderedSteps = steps.map((x) => ({ ...x.step, margin: x.anchor.closest?.(".rf-bfe-right-rail-step, .rf-bfe-step")?.style.margin || "" }));
 
   // ---------- Summary ----------
   const sum = document.querySelector("[data-analytics-section='summary'], .rf-bfe-summary");

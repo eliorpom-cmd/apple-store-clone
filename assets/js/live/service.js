@@ -112,7 +112,7 @@ Live.register("service", (data, L) => {
           </div></a>`;
       }).join("");
       const programs = (data.programs || []).map((p) => `
-        <section class="stores-program-section">
+        <section class="stores-program-section${(p.cards || [])[0]?.size === "medium" ? " stores-program-section-medium" : ""}">
           <div class="stores-program-head">
             <h2>${esc(p.title)}</h2>
             ${p.sub ? `<p>${esc(p.sub)}</p>` : ""}
@@ -123,7 +123,7 @@ Live.register("service", (data, L) => {
                 ${c.eyebrow ? `<p class="stores-program-eyebrow">${esc(c.eyebrow)}</p>` : ""}
                 <h3 class="stores-program-headline">${esc(c.headline)}</h3>
                 ${c.body ? `<p class="stores-program-body">${esc(c.body)}</p>` : ""}
-                ${(c.links || []).map((l) => linkEl(l)).join("")}
+                ${(c.links || []).map((l) => (l.href ? linkEl(l) : `<button type="button" class="more-plus stores-program-plus">${esc(l.text)}</button>`)).join("")}
               </div>
               ${img(c.img, "stores-program-img")}
             </li>`).join("")}</ul>

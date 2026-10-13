@@ -174,8 +174,8 @@ export default function extract() {
   const steps = top.map((step) => {
     const kind = kindOf(step);
     const h = header(step);
-    // The carrier step (iPad) only appears once a cellular model is chosen; at load it may still be fading out.
-    const hidden = !step.getClientRects().length || !!step.closest(".rf-bfe-dimension-carriermodel-section, [class*='fade-transition-exit']");
+    // Hidden now, or fading out (the iPad carrier step disappears once the page settles).
+    const hidden = !step.getClientRects().length || !!step.closest("[class*='fade-transition-exit']");
     const inputs = [...step.querySelectorAll("input[type=radio]")];
     const swatches = inputs.filter((i) => i.closest(".colornav-item") && i.closest(".colornav-item").getClientRects().length);
     // Choices whose card is not shown (nested sub-choices such as engraving inside an accessory slot) are left out.
@@ -219,9 +219,24 @@ export default function extract() {
     const lastChoice = above.filter((c) => !decision || c.getBoundingClientRect().top < decision.getBoundingClientRect().top)
       .sort((a, b) => a.getBoundingClientRect().bottom - b.getBoundingClientRect().bottom).at(-1);
     const helpGap = decision && lastChoice ? Math.round(decision.getBoundingClientRect().top - lastChoice.getBoundingClientRect().bottom) : null;
+    // Full-width steps (iPhone trade-in, payment, carrier, AppleCare): choices in a row under the title, help on the right.
+    const wide = step.getBoundingClientRect().width > 600;
+    const firstTop = choices.length ? Math.round(choices[0].getBoundingClientRect().top) : null;
+    const cols = wide ? choices.filter((c) => c.matches(".form-selector-label, .rf-applecare-label, .rf-po-bfe-dimension-base-label") && Math.round(c.getBoundingClientRect().top) === firstTop).length || 1 : 1;
+    const tradeRibbonEl = step.querySelector(".rf-tradeup-ribbon");
     return {
       kind,
       hidden,
+      wide,
+      cols,
+      // Space above a full-width step and the help card's offset from its top (source CSS values).
+      wideTop: wide ? Math.round(parseFloat(getComputedStyle(step).marginTop) + parseFloat(getComputedStyle(step.querySelector(".rf-applecare-section") || step).marginTop || 0) * (step.querySelector(".rf-applecare-section") ? 1 : 0)) : null,
+      helpTop: wide && decision ? Math.round(decision.getBoundingClientRect().top - step.getBoundingClientRect().top) : null,
+      tradeRibbon: tradeRibbonEl && tradeRibbonEl.getClientRects().length ? {
+        text: clean(tradeRibbonEl.querySelector("div")?.firstChild ? (() => { const c = tradeRibbonEl.cloneNode(true); c.querySelectorAll("button, a, img, .visuallyhidden").forEach((n) => n.remove()); return c; })() : tradeRibbonEl),
+        link: clean(tradeRibbonEl.querySelector("button, a")),
+        logos: [...tradeRibbonEl.querySelectorAll("img")].map((i) => ({ src: i.currentSrc || i.src, alt: i.alt || "" })),
+      } : null,
       gap,
       helpGap,
       // The source centres each step in the viewport with an inline margin it computes itself.
@@ -306,6 +321,17 @@ export default function extract() {
     if (!lines.length) lines.push(clean(priceBlock));
   }
 
+  // Carrier deals box above the header (iPhone): heading, link, then one logo + line per visible offer.
+  const promoEl = document.querySelector(".as-carrierpromotion-ribbon");
+  const promo = promoEl && promoEl.getClientRects().length ? {
+    title: clean(promoEl.querySelector(".as-carrierpromotion-offersheader")),
+    link: clean(promoEl.querySelector(".as-carrierpromotion-offerslinkcontainer button, .as-carrierpromotion-offerslinkcontainer a")),
+    items: [...promoEl.querySelectorAll(".as-carrierpromotion-ribbon-item")].filter((it) => it.getClientRects().length && it.getBoundingClientRect().width > 0).map((it) => {
+      const logo = it.querySelector("img");
+      return { logo: logo ? { src: logo.currentSrc || logo.src, alt: logo.alt || "" } : null, text: shown(it) };
+    }),
+  } : null;
+
   // Line under the header prices (iPad: Apple Intelligence mark, text, "Learn more" link).
   const footEl = document.querySelector(".rf-bfe-header-footer");
   const headFoot = footEl && footEl.getClientRects().length ? (() => {
@@ -350,8 +376,15 @@ export default function extract() {
     saveTitle: clean(document.querySelector(".rf-saveditem-content-header")),
     saveText: clean(document.querySelector(".rf-saveditem-content-description")),
     margin: document.querySelector(".rf-bfe-summary")?.style.margin || "",
-    // iPad: product-name title (17 px), taller button, lease block apart; Mac and Watch: large two-tone title.
-    variant: document.querySelector(".rf-bfe-summary-producttitle") ? "product" : "default",
+    // iPad: product-name title (17 px), taller button, lease block apart; Mac and Watch: large two-tone title;
+    // iPhone: full-width band (headline and photo | prices and save | delivery and button).
+    variant: document.querySelector(".rf-bfe-summary-section-fullWidth") ? "full" : document.querySelector(".rf-bfe-summary-producttitle") ? "product" : "default",
+    headline: clean(document.querySelector(".rf-bfe-summary-image-headline")),
+    subheadline: clean(document.querySelector(".rf-bfe-summary-image-subheadline")),
+    image: (() => { const i = document.querySelector(".rf-bfe-summary-image-img"); return i ? { src: i.currentSrc || i.src, alt: i.alt || "" } : null; })(),
+    availability: [...document.querySelectorAll(".rf-bfe-summary .rf-bfe-availability-buystrip-title")].filter((e) => e.getClientRects().length).map(shown).filter(Boolean),
+    cardLink: (() => { const b = document.querySelector(".rf-bfe-summary .rf-acmessages-defaultlink button"); return b && b.getClientRects().length ? clean(b) : ""; })(),
+    fullPrice: (() => { const p = document.querySelector(".rf-bfe-summary-section-fullWidth .rf-bfe-summary-price"); return p ? shownLines(p) : []; })(),
     saveLinks: [...document.querySelectorAll(".rf-bfe-summary .rf-bfe-summary-buttons-container button, .rf-bfe-summary .rf-shareitem-content a, .rf-bfe-summary .rf-shareitem-content button")].map(clean).filter(Boolean),
   };
 
@@ -436,6 +469,7 @@ export default function extract() {
     eyebrow,
     lines,
     headFoot,
+    promo,
     galleryStyle,
     pills,
     slides,

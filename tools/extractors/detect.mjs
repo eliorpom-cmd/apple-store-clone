@@ -12,6 +12,8 @@ export default function detect() {
   if (has(".rf-po-bfe, [class*='rf-bfe-']")) {
     // Rail layout (every step beside the gallery): Mac, Watch, iPad, Vision. iPhone puts some steps full width.
     const file = /buy-mac|buy-ipad|buy-vision/.test(path) ? "pages/config-computer.html" : /buy-watch/.test(path) ? "pages/config-watch.html" : /iphone-duo/.test(path) ? "pages/config-phone-duo.html" : "pages/config-phone.html";
+    // iPhone 16 already uses the rail template with full-width steps; the other iPhones follow in the cleanup step.
+    if (/iphone-16$/.test(path)) return { template: "configurator-2", file: "pages/config-computer.html" };
     return { template: /buy-mac|buy-watch|buy-ipad|buy-vision/.test(path) ? "configurator-2" : "configurator", file };
   }
   if (has("[class*='rf-flagship'], .rc-witb-item")) return { template: "flagship", file: /buy-tv/.test(path) ? "pages/buy-tvbox.html" : /buy-mac/.test(path) ? "pages/buy-display.html" : "pages/buy-earbuds.html" };

@@ -11,7 +11,7 @@
 .flagship-head-center .flagship-sub { margin-inline: auto; max-width: 760px; }
 
 /* H1 sizes: spec 04 §0 (40 / 1.1 / 600 desktop, 28 / 1.143 / 600 mobile) */
-.flagship-h1 { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
+.flagship-h1 { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; color: var(--text); }
 .flagship-sub { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 8px; }
 
 /* Two-column grid: 490 px media column, 82 px gap, 408 px side column (spec 04 §1.1) */
@@ -70,7 +70,7 @@
 
 /* ---------- Product information (accordion section) ---------- */
 .details { padding: 56px 0 0; }
-.details-title { font: 600 34px/40px var(--font); letter-spacing: .007em; color: var(--text); padding-bottom: 16px; } /* spec 04 §4: size estimated */
+.details-title { font: 600 34px/40px var(--font-display); letter-spacing: .007em; color: var(--text); padding-bottom: 16px; } /* spec 04 §4: size estimated */
 .details .acc-btn { font: var(--t-card); letter-spacing: var(--tr-card); }
 .details .acc-panel-inner p { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
 .details .acc-panel-inner ul { list-style: disc; padding-left: 20px; }
@@ -78,7 +78,7 @@
 
 /* ---------- In the box ---------- */
 .witb { text-align: center; padding: 64px 0 48px; }
-.witb-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); } /* spec 04 §2.3 */
+.witb-title { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; color: var(--text); } /* spec 04 §2.3 */
 .witb-sub { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text-2); padding-top: 12px; }
 .witb-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 32px; }
 .witb-item { display: flex; flex-direction: column; align-items: center; }
@@ -143,17 +143,28 @@
 .live-option-swatch { flex: none; width: 36px; height: 36px; }
 .live-option-swatch img { width: 100%; height: 100%; object-fit: contain; }
 .flagship-card { margin-top: 24px; padding: 44px 30px 56px; background: var(--surface-2); border-radius: var(--r-card); }
-.live-price { font: 600 21px/1.1905 var(--font); letter-spacing: .011em; padding-bottom: 16px; }
+.live-price { font: 600 21px/1.1905 var(--font-display); letter-spacing: .011em; padding-bottom: 16px; }
 .live-moment { padding-top: 24px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 .live-moment h3 { font: 600 14px/1.2858 var(--font); letter-spacing: -.016em; color: var(--text); padding-bottom: 4px; }
 .live-moment p { padding-bottom: 8px; }
 
-.live-info { padding-top: 51px; }
-.live-info .details-title { padding-top: 32px; }
-.live-info-row { display: grid; grid-template-columns: 245px 1fr; gap: 24px; padding: 44px 0; border-top: 1px solid var(--line); }
-.live-info-title { font: var(--t-step); letter-spacing: var(--tr-step); color: var(--text); }
-.live-info-body p + p { margin-top: 1em; }
-.live-info-body p { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+/* Product information, measured on the source: 32/36 title with 32 px above and below, rows start 13.6 px under it,
+   245 px title column then the text column (no gap), 44 px between rows, a rule under every text column but the last. */
+.live-info { padding-top: 0; }
+.live-info .details-title { font: 600 32px/36px var(--font-display); letter-spacing: .004em; height: 104px; box-sizing: border-box; padding: 31px 0 0; }
+.live-info-row { display: grid; grid-template-columns: 245px 1fr; gap: 0; }
+.live-info-row:first-of-type { margin-top: 13.6px; }
+.live-info-title { padding: 0 0 44px; font: 600 24px/28px var(--font-display); letter-spacing: .009em; color: var(--text); }
+.live-info-body { padding: 4px 0 44px; border-bottom: 1px solid var(--line); }
+.live-info-row:nth-of-type(n + 2) .live-info-title, .live-info-row:nth-of-type(n + 2) .live-info-body { padding-top: 44px; }
+.live-info-row:last-of-type .live-info-body { border-bottom: 0; }
+.live-info-row:nth-of-type(n + 2) .live-info-title { padding-bottom: 0; }
+.live-info-item { padding-bottom: 6.8px; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+.live-info-item strong { display: block; font-weight: 600; }
+.live-info-item p + p { margin-top: 25px; } /* the source separates paragraphs with a blank line (<br>) */
+/* Note under the product information (source: 17/25 grey, centered, rule above, 20 px then 16 px padding) */
+.live-info-note { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--line); text-align: center; color: var(--text-2); font: var(--t-body); letter-spacing: var(--tr-body); }
+.live-info-note p { padding-top: 16px; }
 
 .live-faq { padding-top: 40px; }
 
@@ -180,20 +191,20 @@
 
 /* Comparison table: two device columns, 245 px wide, 80 px apart (spec measured on the source) */
 .compare-live { position: relative; padding: 80px 0 40px; }
-.compare-title { font: 600 34px/44px var(--font); letter-spacing: .007em; text-align: center; max-width: 360px; margin: 0 auto; padding-bottom: 0; color: var(--text); }
+.compare-title { font: 600 34px/44px var(--font-display); letter-spacing: .007em; text-align: center; max-width: 360px; margin: 0 auto; padding-bottom: 0; color: var(--text); }
 .compare-cols { display: flex; justify-content: center; gap: 80px; padding-top: 72px; }
 /* Four or more columns: narrower cards with a 22 px gutter (feature grid on the source) */
 .compare-cols[style*="--n:3"], .compare-cols[style*="--n:4"] { gap: 22px; }
 .compare-cols[style*="--n:3"] .compare-col, .compare-cols[style*="--n:4"] .compare-col { width: 230px; }
 .compare-col { width: 245px; flex: none; }
 .compare-device { height: 196px; padding-top: 4px; }
-.compare-device h3 { font: 600 24px/28px var(--font); letter-spacing: .009em; color: var(--text); }
+.compare-device h3 { font: 600 24px/28px var(--font-display); letter-spacing: .009em; color: var(--text); }
 .compare-price { font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); }
 .compare-col .eyebrow { padding-bottom: 4px; }
 .compare-img { height: 304px; display: flex; align-items: center; justify-content: center; }
 .compare-img img { max-width: 193px; max-height: 250px; width: auto; height: auto; }
 .compare-dims { height: 113px; padding-top: 14px; text-align: center; }
-.compare-dim-value { font: 600 28px/1.1429 var(--font); letter-spacing: .007em; color: var(--text); }
+.compare-dim-value { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; color: var(--text); }
 .compare-dim-label { font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
 .compare-row { padding: 0 0 48px; }
 .compare-row-head { display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; min-height: 56px; }
@@ -205,7 +216,7 @@
 
 /* Promo band: text in 5/12, picture in 6/12 (spec measured on the source, 475 px tall) */
 .live-promo { display: grid; grid-template-columns: 5fr 6fr; gap: 40px; align-items: center; width: 980px; max-width: calc(100% - 2 * var(--gutter)); margin: 0 auto; height: 475px; background: var(--page); border-radius: var(--r-card); padding: 0 48px; overflow: hidden; }
-.live-promo-title { font: 600 28px/1.1429 var(--font); letter-spacing: .007em; color: var(--text); padding-bottom: 12px; }
+.live-promo-title { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; color: var(--text); padding-bottom: 12px; }
 .live-promo-img img { width: 100%; height: auto; max-height: 380px; object-fit: contain; }
 @media (max-width: 734px) { .live-promo { grid-template-columns: 1fr; height: auto; padding: 32px 22px; } }
 
@@ -216,7 +227,7 @@
 .option-swatch .option-name { font: var(--t-note); letter-spacing: var(--tr-note); font-weight: 400; }
 .live-localnav { position: sticky; top: 44px; z-index: 900; height: 52px; background: rgba(255, 255, 255, .92); border-bottom: 1px solid var(--line); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); }
 .live-localnav .container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-.live-localnav-title { font: 600 21px/1.1905 var(--font); letter-spacing: .011em; }
+.live-localnav-title { font: 600 21px/1.1905 var(--font-display); letter-spacing: .011em; }
 .live-localnav-links { display: flex; gap: 22px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .live-localnav-links a { color: var(--text); }
 .live-localnav-links a:hover { color: var(--text-2); text-decoration: none; }
@@ -225,7 +236,7 @@
 .live-purchase-note { padding-top: 16px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); }
 .live-flagship .step-title { color: var(--text); }
 .live-flagship .step-title span { color: var(--text); }
-.compare-stat { font: 600 28px/1.1429 var(--font); letter-spacing: .007em; color: var(--text); }
+.compare-stat { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; color: var(--text); }
 
 /* Live pages, phone width: comparison in two columns, product information stacked */
 @media (max-width: 734px) {
@@ -239,12 +250,14 @@
 }
 .live-promo-flip .live-promo-text { order: 2; }
 .live-promo-body { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-bottom: 16px; }
-/* Live: box images at the source height (392 px, spec 04 §2.3) */
-.live-flagship .witb-visual { height: 392px; }
-.live-flagship .witb-visual img { height: 392px; width: auto; max-width: 100%; object-fit: contain; }
-.live-flagship .witb-row { padding-top: 40px; }
+/* Live: the shared What's in the box component; the local demo rules above are reset for it.
+   Source: section padding 0 0 48, title block 94 / 41 px, 14/20 grey sub-title 11.2 px under the title. */
+.live-flagship .witb { text-align: initial; padding: 0 0 48px; }
+.live-flagship .witb-head { padding: 94px 0 41px; }
+.live-flagship .witb-title { padding: 0; }
+.live-flagship .witb-sub { padding: 0; margin-top: 11.2px; text-align: center; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 .live-card-name { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; color: var(--text); }
-.live-flagship .live-price { font: 600 32px/1.1 var(--font); letter-spacing: .004em; padding: 40px 0 0; }
+.live-flagship .live-price { font: 600 32px/1.1 var(--font-display); letter-spacing: .004em; padding: 40px 0 0; }
 .live-price-rest { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding: 8px 0 24px; }
 .live-flagship .flagship-card .btn-block { padding: 8px 20px; font: 400 17px/1.1765 var(--font); border-radius: var(--r-md); }
 /* Live split layout (Studio Display): the source spaces its glass, stand and AppleCare groups further apart */
@@ -260,3 +273,57 @@
 .live-legal { padding: 24px 0 8px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
 .live-legal p { padding-bottom: .8em; }
 .live-legal a { color: var(--link); }
+
+/* Live header: badge 17/20 in the badge orange, title right under it (source: badge y53, title y74 with 11 px below) */
+.live-flagship .flagship-side { padding-top: 53px; }
+.live-flagship .flagship-side .eyebrow-new { font: 600 17px/20px var(--font); letter-spacing: -.022em; color: #b64400; padding: 0; }
+.live-flagship .flagship-side .flagship-h1 { padding: 1px 0 11px; }
+.live-flagship .flagship-sub-small { font: 400 14px/20px var(--font); letter-spacing: -.016em; padding-top: 0; }
+.flagship-note { display: flex; align-items: center; padding: 10px 0; font: 400 14px/20px var(--font); letter-spacing: -.016em; color: var(--text); }
+.flagship-note img { height: 25px; width: auto; margin-right: 4px; }
+.flagship-note .more-plus { margin-left: 4px; }
+
+/* Live summary card, measured on the source: 30 px padding, name 17/25, price 32/36, installments and financing lines */
+.live-flagship .flagship-card { margin-top: 0; padding: 38px 30px 30px; }
+.live-flagship .live-card-name { font: 600 17px/25px var(--font); letter-spacing: -.022em; padding-bottom: 22px; }
+.live-flagship .live-price { font: 600 32px/36px var(--font-display); letter-spacing: .004em; padding: 30px 0 0; }
+.live-price-or { padding: 8px 0 8px; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+.live-price-monthly { font: 600 32px/36px var(--font-display); letter-spacing: .004em; padding-bottom: 6px; color: var(--text); }
+.live-price-financing { font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); padding-bottom: 10px; }
+.live-flagship .flagship-card .btn-block { height: 36px; margin-top: 23px; }
+.live-requirement { padding-top: 23px; font: 400 12px/16px var(--font); letter-spacing: -.01em; color: var(--text-2); }
+.live-requirement a { color: var(--link); }
+
+/* Ribbon under the local bar (source: 58 px high, 12/14 caption centered on the grey surface) */
+.live-ribbon { background: var(--surface); text-align: center; padding: 22px var(--gutter); font: 400 12px/14px var(--font); letter-spacing: -.01em; color: var(--text); }
+.live-ribbon a { color: var(--link); }
+
+/* Live hero picture: the wrapper height and picture width come from the source (it sizes them with script);
+   the picture sits on the bottom of the wrapper and is left-aligned when wider than the 490 px column. */
+.live-flagship .flagship-media > .live-main { display: flex; align-items: flex-end; justify-content: center; }
+.live-flagship .flagship-media > .live-main img { max-width: none; height: auto; margin-inline: auto; object-fit: initial; }
+
+/* Benefit strip: three 163 px columns, 30 px icon box, 12/16 bold titles; rule 54 + 84 px below the picture */
+.live-flagship .flagship-perks { gap: 0; padding: 54px 0 0; margin-bottom: 25px; font: 600 12px/16px var(--font); letter-spacing: -.01em; }
+.live-flagship .flagship-perk { height: 84px; }
+.live-flagship .flagship-perk .live-icon { display: block; width: 100%; height: 30px; margin: 0; }
+.live-flagship .flagship-perk .live-icon svg { display: block; width: auto; height: 35px; margin: -6px auto 0; }
+.live-flagship .flagship-perk > span:last-child { display: block; margin-top: 6px; padding: 0 16px; }
+/* Chat line: 19 px above, title and link 12/16 */
+.live-flagship .flagship-help { padding: 19px 0 5px; font: 400 12px/16px var(--font); letter-spacing: -.01em; }
+.live-flagship .flagship-help a { font: 400 12px/16px var(--font); letter-spacing: -.01em; }
+.live-ribbon { height: 58px; box-sizing: border-box; overflow: hidden; }
+
+/* Billboard (Apple TV): 1070 x 487 plate on the secondary fill, picture 1070 x 480, text block at x 678 / y 78 (source dd-shared plate) */
+.live-board { position: relative; width: 1070px; max-width: 100vw; height: 487px; margin: 80px 0 0 50%; transform: translateX(-50%); background: var(--surface-2); }
+.live-board-img img { position: absolute; left: 0; top: 0; width: 1070px; max-width: none; height: 480px; }
+.live-board-info { position: absolute; left: 678px; top: 78px; width: 347px; padding: 30px 0; }
+.live-board-logo { display: block; height: 17px; width: auto; }
+.live-board-headline { margin-top: 8px; font: 600 40px/44px var(--font-display); letter-spacing: normal; color: var(--text); }
+.live-board-info ul { margin-top: 13.6px; font: var(--t-body); letter-spacing: var(--tr-body); }
+.live-board-info li + li { margin-top: 6.8px; }
+
+/* Box items: the shared component sizes each tile by its content, so the local demo rules are reset */
+.live-flagship .witb-item { display: block; }
+.live-flagship .witb-image { background: var(--surface-2); }
+.live-flagship .witb-label { padding: 20px 15px 50px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); text-align: center; }

@@ -51,9 +51,21 @@ Live.register("catalog-2", (data, L) => {
     // Legal notes are placed in the footer by content.js (data.legalHTML); not repeated here.
     const legal = false ? `<div class="cat2-legal container">${data.legal.map((l) => `<p>${esc(l)}</p>`).join("")}</div>` : "";
     if (!(data.categories?.items || []).length && data.listingHead) {
-      // Listing: header band (title and link on the left, product image in the band), sort row, tiles.
+      // Listing: header band (title and link on the left, product image in the band), filter bar, filter column and bordered tiles.
       const h = data.listingHead;
+      const f = data.filters;
+      const listTiles = (data.featured?.tiles || []).map((t) => `
+        <li class="live-tile"><a href="${esc(link(t.href))}">
+          <div class="live-tile-image">${im(t.img)}</div>
+          <h3 class="live-tile-title">${esc(t.title)}</h3>
+          ${t.price ? `<p class="live-tile-price">${esc(t.price)}</p>` : ""}
+          ${t.was || t.saving ? `<p class="live-tile-was">${t.was ? `<s>${esc(t.was)}</s>` : ""}${t.saving ? ` <span>${esc(t.saving)}</span>` : ""}</p>` : ""}
+        </a></li>`).join("");
+      const facets = f ? `<aside class="live-facets" aria-label="Filter"><ul>${f.groups.map((g, i) => `<li class="live-facet${i === 0 ? " is-open" : ""}">
+          <button type="button" class="live-facet-btn" aria-expanded="${i === 0}">${esc(g.title)}</button>
+          ${g.items.length ? `<ul class="live-facet-list">${g.items.map((it) => `<li class="${it.off ? "is-off" : ""}">${esc(it.text)}</li>`).join("")}</ul>` : ""}</li>`).join("")}</ul></aside>` : "";
       main.innerHTML = `
+        <div class="live-listing-page">
         <section class="live-listing">
           <div class="live-listing-hero">
             ${h.strip ? `<img class="live-listing-strip" src="${esc(h.strip.src)}" alt="">` : ""}
@@ -61,15 +73,20 @@ Live.register("catalog-2", (data, L) => {
               <div class="live-listing-text">
                 <h1 class="live-listing-title">${esc(h.title || b.title)}</h1>
                 ${h.sub ? `<p class="live-listing-sub">${esc(h.sub)}</p>` : ""}
-                ${h.link ? `<a class="more live-listing-link" href="${esc(link(h.link.href))}">${esc(h.link.text)}</a>` : ""}
+                ${h.link ? `<a class="more-plus live-listing-link" href="${esc(link(h.link.href))}">${esc(h.link.text)}</a>` : ""}
               </div>
             </div>
           </div>
-          <div class="live-listing-sort container">${(h.sort || []).map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+          <div class="live-listing-bar"><div class="live-listing-bar-inner">
+            <span class="live-listing-filter"><svg viewBox="0 0 21 21" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7.5" fill="none" stroke="currentColor"/><path d="M7 8.5h7M8.5 10.5h4M9.5 12.5h2" stroke="currentColor" stroke-linecap="round"/></svg>${esc(f?.toggle || "Filter")}</span>
+            <span class="live-listing-sortlabel">${esc(f?.sort || (h.sort || [])[0] || "")}<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>
+          </div></div>
         </section>
-        <section class="cat2-featured live-featured live-featured--listing" aria-label="${esc(data.featured?.title)}">
-          <div class="cat2-tiles cat2-tiles-live cat2-tiles-listing">${tiles}</div>
+        <section class="live-listing-body" aria-label="${esc(data.featured?.title)}">
+          ${facets}
+          <ul class="live-tiles">${listTiles}</ul>
         </section>
+        </div>
         ${strip}
         ${legal}`;
       return;
@@ -121,7 +138,7 @@ Live.register("catalog-2", (data, L) => {
     const block = (sct) => `
       <section class="cat2-sec live-sec live-sec-${keyOf(sct)}">
         <div class="container cat2-sec-inner live-sec-inner">
-          <div class="live-sec-text"><h2>${esc(sct.title)}</h2>${(sct.text || []).filter((p) => !(sct.links || []).some((l) => l.text === p)).map((p) => `<p>${esc(p)}</p>`).join("")}${(sct.links || []).slice(0, 1).map((l) => `<a class="more live-sec-link" href="${esc(link(l.href))}">${esc(l.text)}</a>`).join("")}</div>
+          <div class="live-sec-text"><h2>${esc(sct.title)}</h2>${(sct.text || []).map((p, i) => ({ p, h: (sct.html || [])[i] })).filter((x) => !(sct.links || []).some((l) => l.text === x.p)).map((x) => `<p>${x.h || esc(x.p)}</p>`).join("")}${(sct.links || []).slice(0, 1).map((l) => `<a class="more live-sec-link" href="${esc(link(l.href))}">${esc(l.text)}</a>`).join("")}</div>
           <div class="cat2-sec-visual live-sec-visual">${(sct.images || []).slice(0, 3).map((i) => im(i)).join("")}</div>
         </div>
       </section>`;
@@ -135,17 +152,23 @@ Live.register("catalog-2", (data, L) => {
         ${c.img ? `<div class="card-media">${im(c.img)}</div>` : ""}</a>`;
     }).join("");
     const shelf = shelfCards ? `<section class="shelf cat2-live-shelf"><div class="scroller" data-scroller><div class="scroller-track">${shelfCards}</div></div></section>` : "";
-    const start = data.start ? `<section class="live-start container">
+    const start = data.start ? `<div class="live-start-band"><section class="live-start container">
         ${data.start.logo ? `<img class="live-start-logo" src="${esc(data.start.logo.src)}" alt="">` : ""}
         <h2 class="live-start-title">${esc(data.start.title)}</h2>
         ${data.start.cta ? `<a class="btn live-start-cta" href="${esc(link(data.start.cta.href))}">${esc(data.start.cta.text)}</a>` : ""}
-      </section>` : "";
+      </section></div>` : "";
     const faqItems = (items) => items.map((f) => `
       <div class="acc-item">
         <button class="acc-btn" aria-expanded="false">${esc(f.q)}</button>
         <div class="acc-panel"><div class="acc-panel-inner"><p>${esc(f.a)}</p></div></div>
       </div>`).join("");
-    const faqGroupsHtml = (data.faqGroups || []).map((g) => `<h3 class="live-faq-title">${esc(g.title)}</h3><div class="accordion accordion-compact" data-accordion>${faqItems(g.items)}</div>`).join("");
+    const groups = data.faqGroups || [];
+    const faqGroupsHtml = groups.length ? `${data.faqTitle ? `<h2 class="live-faq-head">${esc(data.faqTitle)}</h2>` : ""}
+      <div class="live-faq-pills" role="tablist" aria-label="Filter questions">
+        <button class="live-faq-pill" role="tab" data-faq-filter="all" aria-selected="true">All</button>
+        ${groups.map((g, i) => `<button class="live-faq-pill" role="tab" data-faq-filter="${i}" aria-selected="false" tabindex="-1">${esc(g.title)}</button>`).join("")}
+      </div>
+      ${groups.map((g, i) => `<div class="live-faq-group" data-faq-group="${i}"><h3 class="live-faq-title">${esc(g.title)}</h3><div class="accordion accordion-compact" data-accordion>${faqItems(g.items)}</div></div>`).join("")}` : "";
     const faq = (data.faq || []).slice(0, 0).map((f) => `
       <div class="acc-item">
         <button class="acc-btn" aria-expanded="false">${esc(f.q)}</button>
@@ -159,7 +182,7 @@ Live.register("catalog-2", (data, L) => {
         ${it.video ? `<div class="cat2-up-visual" style="height:${heroH}px"><video class="live-hero-video" src="${esc(it.video.src)}" poster="${esc(it.video.poster || "")}" style="width:${it.video.width}px;height:${it.video.height}px" autoplay muted loop playsinline></video></div>` : it.poster ? `<div class="cat2-up-visual" ${heroH ? `style="height:${heroH}px"` : ""}>${im(it.poster)}</div>` : ""}
         ${it.text ? `<p class="cat2-up-lede">${esc(it.text)}</p>` : ""}
         <ol id="how" class="cat2-steps">${steps}</ol>
-        <div class="cat2-up-cta">${it.cta ? `<a class="btn btn-lg" href="${esc(link(it.cta.href))}">${esc(it.cta.text)}</a>` : ""}</div>
+        <div class="cat2-up-cta">${it.cta ? `<a class="btn btn-lg" href="${esc(link(it.cta.href))}">${esc(it.cta.text)}</a>` : ""}${it.more ? `<a class="live-hero-how" href="#how">${esc(it.more.text)}<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 6.6v6.8l5.6-3.4z" fill="currentColor"/></svg></a>` : ""}</div>
       </section>
       ${sectionsBefore}
       <section id="models" class="container cat2-live-select" aria-label="${esc(data.selectorTitle)}">
@@ -171,6 +194,12 @@ Live.register("catalog-2", (data, L) => {
       ${shelf}
       ${sectionsAfter}
       ${start}
-      <section class="container cat2-faq live-faq">${faqGroupsHtml}</section>`;
+      <section class="cat2-faq live-faq"><div class="container">${faqGroupsHtml}</div></section>`;
+    // Pills filter the question groups; "All" shows every group.
+    const pills = [...main.querySelectorAll("[data-faq-filter]")];
+    pills.forEach((pill) => pill.addEventListener("click", () => {
+      pills.forEach((p) => { const on = p === pill; p.setAttribute("aria-selected", on); p.tabIndex = on ? 0 : -1; });
+      main.querySelectorAll("[data-faq-group]").forEach((g) => { g.hidden = pill.dataset.faqFilter !== "all" && g.dataset.faqGroup !== pill.dataset.faqFilter; });
+    }));
   }
 });

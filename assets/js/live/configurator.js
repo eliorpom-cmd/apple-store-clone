@@ -95,7 +95,11 @@ Live.register("configurator", (data, L) => {
     const spacing = s.swatches.length ? " cfg-swatch-step" : "";
     // data-optional needs a value: components.js reads dataset.optional, and "" is falsy.
     const gate = s === firstChoice ? ' data-optional="true" data-gate' : s.optional ? ' data-optional="true"' : "";
-    return `<section class="step${spacing}" role="group" aria-labelledby="${id}-title"${gate}>${title}${body}${withHelps ? helps(s) : ""}</section>`;
+    // Rail steps take the bottom margin the source computes for them (the last value of its inline margin);
+    // the rail's top and the space before the wide steps stay in the CSS.
+    const bottom = s.margin && !WIDE.test(s.key) ? s.margin.match(/max\([^)]*\)\s*$/)?.[0] : "";
+    const own = bottom ? ` style="--step-mb:${esc(bottom)}"` : "";
+    return `<section class="step${spacing}" role="group" aria-labelledby="${id}-title"${gate}${own}>${title}${body}${withHelps ? helps(s) : ""}</section>`;
   };
 
   // ---------- Gallery: real images, or the video of the first slide ----------
