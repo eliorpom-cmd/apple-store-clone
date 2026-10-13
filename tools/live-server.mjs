@@ -93,7 +93,10 @@ async function extract(src, fresh = false) {
           if (!data.legal) data.legal = await page.evaluate(() => {
             const box = document.querySelector(".as-globalfooter-sosumi, .ac-gf-sosumi, [class*='footnotes'] .rc-footnotelist, .rc-footnotes");
             if (!box) return "";
+            // Drop hidden copies (the source keeps a display:none duplicate of some notes).
+            box.querySelectorAll("*").forEach((n) => { if (getComputedStyle(n).display === "none") n.setAttribute("data-x-hidden", ""); });
             const c = box.cloneNode(true);
+            c.querySelectorAll("[data-x-hidden]").forEach((n) => n.remove());
             c.querySelectorAll("script, style, button, [aria-hidden='true']").forEach((n) => n.remove());
             // Keep text structure only: paragraphs, lists, links, superscripts.
             c.querySelectorAll("*").forEach((n) => { for (const a of [...n.attributes]) if (a.name !== "href") n.removeAttribute(a.name); });
