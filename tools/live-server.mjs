@@ -14,7 +14,6 @@ import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import detect from "./extractors/detect.mjs";
 import { extractNav, scrollThrough } from "./fetch-content.mjs";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -68,6 +67,8 @@ async function extract(src, fresh = false) {
       await page.goto(ORIGIN + src, { waitUntil: "load", timeout: 90000 });
       await page.waitForTimeout(1500);
       await scrollThrough(page);
+      // Fresh import: detect.mjs is edited while the server runs.
+      const { default: detect } = await import(`./extractors/detect.mjs?v=${statSync(join(ROOT, "tools/extractors/detect.mjs")).mtimeMs}`);
       const found = await page.evaluate(detect);
       const route = { key: keyOf(src), template: found.template, file: found.file || null };
       if (found.template) {
