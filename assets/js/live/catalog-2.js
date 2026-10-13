@@ -38,10 +38,11 @@ Live.register("catalog-2", (data, L) => {
     // Promo cards: the first two (large) sit in a row of two, the rest in a row of three.
     const bentoCards = (data.bento?.cards || []).map((c) => {
       const dark = /rgb\((2[0-9][0-9]|1[0-9][0-9]), /.test(c.color || "") && !/rgb\(29, 29, 31\)/.test(c.color);
-      return `<div class="cat2-bento-card${/why|applecare/.test(c.name) ? " is-large" : ""}${dark ? " is-dark" : ""}">
-        ${c.lines.map((l) => (l.tag === "h2" || l.tag === "h3" ? `<h3 class="cat2-bento-title">${esc(l.text)}</h3>` : `<p class="cat2-bento-text">${esc(l.text)}</p>`)).join("")}
-        ${c.icon ? `<img class="cat2-bento-icon" src="${esc(c.icon.src)}" alt="" style="width:${c.icon.width}px;height:${c.icon.height}px">` : ""}
+      const photo = /why/.test(c.name);
+      return `<div class="cat2-bento-card${/why|applecare/.test(c.name) ? " is-large" : ""}${photo ? " is-photo" : ""}${dark ? " is-dark" : ""}">
         ${c.img ? im(c.img, "cat2-bento-img") : ""}
+        ${c.icon ? `<img class="cat2-bento-icon" src="${esc(c.icon.src)}" alt="" style="width:${c.icon.width}px;height:${c.icon.height}px">` : ""}
+        ${c.lines.map((l) => (l.tag === "h2" || l.tag === "h3" ? `<h3 class="cat2-bento-title">${esc(l.text)}</h3>` : `<p class="cat2-bento-text">${esc(l.text)}</p>`)).join("")}
         ${c.link ? `<a class="cat2-bento-link" href="${esc(link(c.link.href))}">${esc(c.link.text)}</a>` : ""}
       </div>`;
     }).join("");
@@ -49,6 +50,30 @@ Live.register("catalog-2", (data, L) => {
     const strip = (data.buystrip || []).length ? `<section class="cat2-bento cat2-buystrip"><div class="cat2-bento-grid cat2-buystrip-grid">${data.buystrip.map((c) => `<div class="cat2-bento-card">${c.img ? im(c.img, "cat2-bento-img") : ""}<h3 class="cat2-bento-title">${esc(c.title)}</h3><p class="cat2-bento-text">${esc(c.text)}</p>${c.cta ? `<a class="cat2-bento-link" href="${esc(link(c.cta.href))}">${esc(c.cta.text)}</a>` : ""}</div>`).join("")}</div></section>` : "";
     // Legal notes are placed in the footer by content.js (data.legalHTML); not repeated here.
     const legal = false ? `<div class="cat2-legal container">${data.legal.map((l) => `<p>${esc(l)}</p>`).join("")}</div>` : "";
+    if (!(data.categories?.items || []).length && data.listingHead) {
+      // Listing: header band (title and link on the left, product image in the band), sort row, tiles.
+      const h = data.listingHead;
+      main.innerHTML = `
+        <section class="live-listing">
+          <div class="live-listing-hero">
+            ${h.strip ? `<img class="live-listing-strip" src="${esc(h.strip.src)}" alt="">` : ""}
+            <div class="container live-listing-inner">
+              <div class="live-listing-text">
+                <h1 class="live-listing-title">${esc(h.title || b.title)}</h1>
+                ${h.sub ? `<p class="live-listing-sub">${esc(h.sub)}</p>` : ""}
+                ${h.link ? `<a class="more live-listing-link" href="${esc(link(h.link.href))}">${esc(h.link.text)}</a>` : ""}
+              </div>
+            </div>
+          </div>
+          <div class="live-listing-sort container">${(h.sort || []).map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+        </section>
+        <section class="cat2-featured live-featured live-featured--listing" aria-label="${esc(data.featured?.title)}">
+          <div class="cat2-tiles cat2-tiles-live cat2-tiles-listing">${tiles}</div>
+        </section>
+        ${strip}
+        ${legal}`;
+      return;
+    }
     main.innerHTML = `
       <section class="cat2-banner live-banner${cats ? "" : " live-banner--listing"}" aria-label="${esc(b.title)}">
         ${b.strip ? `<div class="live-strip-wrap" style="height:${b.strip.height}px"><img class="live-strip" src="${esc(b.strip.src)}" alt="" style="width:${b.strip.width}px;height:${b.strip.height}px"></div>` : ""}
@@ -56,11 +81,11 @@ Live.register("catalog-2", (data, L) => {
         <h1 class="cat2-display">${esc(b.title)}</h1>
         ${b.subtitle ? `<p class="cat2-lede">${esc(b.subtitle)}</p>` : ""}
       </section>
-      ${cats ? `<section class="cat2-cats" id="categories" aria-label="${esc(data.categories?.title)}">
+      ${cats ? `<section class="cat2-cats live-cats" id="categories" aria-label="${esc(data.categories?.title)}">
         <div class="cat2-cats-head"><h2 class="cat2-h32">${esc(data.categories?.title)}</h2></div>
         <div class="cat2-cats-list">${cats}</div>
       </section>` : ""}
-      <section class="cat2-featured" aria-label="${esc(data.featured?.title)}">
+      <section class="cat2-featured live-featured${cats ? "" : " live-featured--listing"}" aria-label="${esc(data.featured?.title)}">
         ${cats ? `<div class="cat2-featured-head"><h2 class="cat2-h32">${esc(data.featured?.title)}</h2></div>` : ""}
         <div class="cat2-tiles cat2-tiles-live${cats ? "" : " cat2-tiles-listing"}">${tiles}</div>
       </section>
@@ -96,7 +121,7 @@ Live.register("catalog-2", (data, L) => {
     const block = (sct) => `
       <section class="cat2-sec live-sec live-sec-${keyOf(sct)}">
         <div class="container cat2-sec-inner live-sec-inner">
-          <div class="live-sec-text"><h2>${esc(sct.title)}</h2>${(sct.text || []).map((p) => `<p>${esc(p)}</p>`).join("")}${(sct.links || []).slice(0, 1).map((l) => `<a class="more live-sec-link" href="${esc(link(l.href))}">${esc(l.text)}</a>`).join("")}</div>
+          <div class="live-sec-text"><h2>${esc(sct.title)}</h2>${(sct.text || []).filter((p) => !(sct.links || []).some((l) => l.text === p)).map((p) => `<p>${esc(p)}</p>`).join("")}${(sct.links || []).slice(0, 1).map((l) => `<a class="more live-sec-link" href="${esc(link(l.href))}">${esc(l.text)}</a>`).join("")}</div>
           <div class="cat2-sec-visual live-sec-visual">${(sct.images || []).slice(0, 3).map((i) => im(i)).join("")}</div>
         </div>
       </section>`;

@@ -132,7 +132,8 @@ Live.register("service", (data, L) => {
       const ribbon = data.ribbon && data.ribbon.text ? `<div class="stores-ribbon"><p>${esc(data.ribbon.text)}${data.ribbon.link ? ` <a href="${esc(link(data.ribbon.link.href))}">${esc(data.ribbon.link.text)}</a>` : ""}</p></div>` : "";
       return `<div class="container">
         <div class="stores-search">
-          <h1 class="stores-label">${esc(data.title)}</h1>
+          <h1 class="svc-visually-hidden">${esc(data.title)}</h1>
+          <p class="stores-label">${esc(data.title)}</p>
           <div class="stores-field">
             <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             <input type="search" aria-label="${esc(data.placeholder)}" placeholder="${esc(data.placeholder)}" data-store-search>
@@ -140,9 +141,11 @@ Live.register("service", (data, L) => {
           ${linkEl(data.complete, "more stores-complete")}
         </div>
         ${ribbon}
-        <h2 class="stores-heading">${esc(data.headline)}</h2>
-        <div class="stores-list scroller" data-scroller><div class="scroller-track">${cards}</div></div>
-        <p class="svc-empty stores-empty" data-store-empty hidden>No stores match that search.</p>
+        <div class="stores-results">
+          <h2 class="stores-heading">${esc(data.headline)}</h2>
+          <div class="stores-list scroller" data-scroller><div class="scroller-track">${cards}</div></div>
+          <p class="svc-empty stores-empty" data-store-empty hidden>No stores match that search.</p>
+        </div>
         ${programs}
       </div>`;
     },
@@ -151,14 +154,20 @@ Live.register("service", (data, L) => {
     today() {
       return `${navBar(data.nav)}
       <section class="today-hero">
-        ${img(data.hero?.img, "today-hero-img")}
+        ${data.hero?.video
+          ? `<video class="today-hero-img" src="${esc(data.hero.video)}"${data.hero.img ? ` poster="${esc(data.hero.img.src)}"` : ""} autoplay muted loop playsinline aria-hidden="true"></video>`
+          : img(data.hero?.img, "today-hero-img")}
         <div class="container today-hero-inner">
-          <h1>${esc(data.hero?.title)}</h1>
+          <p class="today-hero-title">${esc(data.hero?.title)}</p>
           <p>${esc(data.hero?.text)}</p>
         </div>
       </section>
       <div class="container">
-        <p class="today-intro">${esc(data.location?.text)}<br><a class="more" href="#">${esc(data.location?.button)}</a></p>
+        <div class="today-intro">
+          <h1 class="svc-visually-hidden">${esc(data.hero?.title)}</h1>
+          <p>${esc(data.location?.text)}</p>
+          <a class="more" href="#">${esc(data.location?.button)}</a>
+        </div>
         <section class="today-nosession">
           <p>${esc(data.noSession?.text)}</p>
           ${linkEl(data.noSession?.link)}

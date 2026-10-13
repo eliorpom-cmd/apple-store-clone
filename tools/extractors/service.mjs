@@ -116,7 +116,12 @@ export default function extract() {
       placeholder: txt(q(".form-textbox-label")),
       complete: link(q(".store-search-section-storelist a")),
       // Promo ribbon under the search bar: text and optional link.
-      ribbon: q(".ribbon p") ? { text: txt(q(".ribbon p")), link: link(q(".ribbon p a")) } : null,
+      ribbon: q(".ribbon p") ? (() => {
+        // The text without the link (the link is rendered separately).
+        const c = q(".ribbon p").cloneNode(true);
+        c.querySelectorAll("a").forEach((a) => a.remove());
+        return { text: txt(c), link: link(q(".ribbon p a")) };
+      })() : null,
       headline: txt(q("h2.headline")),
       stores: qa(".storecard .store-card").map((a) => ({
         href: abs(a.getAttribute("href")),
@@ -134,7 +139,9 @@ export default function extract() {
           eyebrow: txt(q("[class*='eyebrow']", c)),
           headline: txt(q("[class*='content__headline']", c)),
           body: txt(q("[class*='body-copy']", c)),
-          links: qa("a[class*='cms-link']", c).map((a) => link(a)),
+          // Every link of the card's link list (some are not marked cms-link).
+          // Buttons (no href) are kept as text links too.
+          links: qa("[class*='content__links'] a, [class*='content__links'] button", c).map((a) => link(a)),
           img: img(c) || bgImg(q("figure", c)),
         })),
       })),
@@ -154,6 +161,8 @@ export default function extract() {
         title: txt(q(".hero-title")),
         text: txt(q(".hero-description")),
         img: img(bg) || (poster ? { src: abs(poster.getAttribute("poster")), alt: "" } : null) || (bgUrl ? { src: abs(bgUrl), alt: "" } : null),
+        // The hero is a looping video on the source page: its file URL (currentSrc, the one in use).
+        video: (() => { const v = bg && q("video", bg); const src = v && (v.currentSrc || v.src); return src ? abs(src) : null; })(),
       },
       location: { text: txt(q(".location-selector__header-description")), button: txt(q(".discover-location-button")) },
       noSession: { text: txt(q(".no-session-section .typography-body")), link: link(q(".no-session-section a")) },

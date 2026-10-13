@@ -177,6 +177,8 @@
 /* ---------- Stores (find a store) ---------- */
 .stores-search { position: relative; height: 72px; margin-top: 70px; }
 /* Positions measured on the source page at 1440 px: label x211, field x504 (432 wide), link ends x1229 */
+/* Screen-reader heading placed where the source's hidden h1 sits (1x1 at y 186) */
+.svc-visually-hidden { position: absolute; left: 0; top: 72px; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .stores-label { position: absolute; left: -19px; top: 23px; font: 600 21px/25px var(--font); letter-spacing: var(--tr-card); white-space: nowrap; }
 .stores-field { position: absolute; left: 274px; top: 8px; width: 432px; height: 56px; }
 .stores-field input {
@@ -193,26 +195,32 @@
 .stores-ribbon p { font: 400 14px/20px var(--font); letter-spacing: var(--tr-small); }
 .stores-ribbon a { color: #fff; text-decoration: underline; }
 
-.stores-heading { font: 600 40px/44px var(--font); letter-spacing: 0; text-align: center; padding: 118px 0 0; }
+/* Results band: full-bleed grey from the ribbon down, as on the source page */
+.stores-results { margin: 0 calc(50% - 50vw); padding: 0 calc(50vw - 50%); background: var(--page); }
+.stores-heading { font: 600 40px/44px var(--font); letter-spacing: 0; text-align: center; margin-top: 44px; }
 /* Live program sections: centred heads, as on the source page */
-.stores-program-section { padding: 42px 0 64px; margin: 0 calc(50% - 50vw); padding-inline: calc(50vw - 50%); background: var(--page); }
-.stores-program-medium { flex-direction: column; }
+.stores-program-section { padding: 30px 0 62px; margin: 0 calc(50% - 50vw); padding-inline: calc(50vw - 50%); background: var(--page); }
+.stores-program-medium { flex-direction: column-reverse; min-height: 715px; }
+/* Medium cards: photo on top, copy below (source: photo 458 px, copy the rest) */
+.stores-program-medium .stores-program-img { width: 100%; height: 458px; max-height: none; margin: 0; object-fit: cover; }
+/* Wide and small cards: 394 px visible, 40 px apart (source pitch 434 px) */
+.stores-program-wide, .stores-program-small { min-height: 394px; }
 .stores-program-medium .stores-program-img { width: 100%; max-width: none; max-height: none; margin: 0; }
 .stores-program-section > * { max-width: 980px; margin-inline: auto; }
-.stores-program-head { text-align: center; padding-bottom: 32px; }
+.stores-program-head { text-align: center; padding-bottom: 76px; }
 .stores-program-head h2 { font: 600 40px/44px var(--font); letter-spacing: 0; }
 .stores-program-head p { font: 600 21px/25px var(--font); letter-spacing: var(--tr-card); color: var(--text); padding-top: 4px; }
-.stores-program-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.stores-program-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 .stores-program { display: flex; flex-direction: column; background: var(--surface); border-radius: var(--r-card); overflow: hidden; }
 .stores-program-wide { grid-column: 1 / -1; flex-direction: row; }
-.stores-program-copy { padding: 36px 36px 40px; flex: 1; text-align: center; }
-.stores-program-eyebrow { font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
-.stores-program-headline { font: var(--t-card); letter-spacing: var(--tr-card); padding-top: 6px; }
-.stores-program-body { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 8px; }
-.stores-program .more { display: inline-block; padding-top: 14px; font: var(--t-body); }
+.stores-program-copy { padding: 36px 30px 40px; flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+.stores-program-eyebrow { font: 600 20px/29px var(--font); letter-spacing: var(--tr-card); color: var(--text); }
+.stores-program-headline { font: 600 28px/36px var(--font); letter-spacing: -.016em; padding-top: 0; }
+.stores-program-body { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 14px; }
+.stores-program .more { display: inline-block; padding-top: 14px; font: 400 14px/20px var(--font); letter-spacing: var(--tr-small); }
 .stores-program-img { display: block; width: auto; max-width: 100%; max-height: 180px; margin: 0 auto 24px; }
 .stores-program-wide .stores-program-img { width: 50%; max-width: none; max-height: none; height: 100%; margin: 0; object-fit: cover; }
-.stores-list { padding-bottom: 0; margin-top: -27px; }
+.stores-list { padding-bottom: 0; margin-top: 64px; }
 .stores-list .scroller-track { padding: 0; gap: 36px; scroll-padding-inline: 0; }
 .svc-store {
   flex: none; width: 304px; display: flex; flex-direction: column; color: var(--text); text-decoration: none;
@@ -254,7 +262,12 @@
   .stores-program-wide .stores-program-img { width: 100%; height: auto; max-height: none; }
   .stores-program-section { padding: 48px 0; }
   .stores-program-head h2 { font-size: 28px; line-height: 32px; }
-  .stores-search { flex-wrap: wrap; }
+  /* Search row stacks on phones: the desktop absolute positions would overflow */
+  .stores-search { height: auto; margin-top: 24px; display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+  .stores-label, .stores-complete, .stores-field { position: static; }
+  .stores-field { width: 100%; height: 56px; }
+  .stores-complete { white-space: normal; }
+  .stores-ribbon { height: auto; padding: 12px 16px; }
   .stores-label { width: 100%; white-space: normal; }
   .stores-field { flex: 1 1 100%; }
   .stores-heading { font-size: 28px; line-height: 32px; padding-top: 48px; }
@@ -274,13 +287,19 @@
 .today-hero-inner { position: relative; z-index: 1; padding-bottom: 72px; }
 .today-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 /* Live mode: no-session message as on the source page */
-.today-nosession { padding: 96px 0 96px; text-align: center; font: 400 21px/25px var(--font); letter-spacing: var(--tr-body); background: var(--surface); }
-.today-nosession .more { display: inline-block; padding-top: 16px; font-size: 21px; }
-.today-hero h1 { font: 600 48px/64px var(--font); letter-spacing: .216px; /* spec 06 §5.2 */ }
+.today-nosession { padding: 96px 0 96px; text-align: center; font: 400 17px/25px var(--font); letter-spacing: var(--tr-body); background: var(--surface); margin: 0 calc(50% - 50vw); padding-inline: calc(50vw - 50%); }
+.today-nosession p { max-width: 380px; margin: 0 auto; }
+.today-nosession .more { display: inline-block; padding-top: 16px; font-size: 17px; }
+.today-hero h1, .today-hero-title { font: 600 48px/64px var(--font); letter-spacing: .216px; /* spec 06 §5.2 */ }
 .today-hero p { font: 400 21px/25px var(--font); letter-spacing: var(--tr-body); max-width: 380px; padding-top: 12px; }
 
-.today-intro { max-width: 640px; margin: 0 auto; text-align: center; padding: 96px 0 56px; font: 400 28px/36px var(--font); letter-spacing: .007em; }
-.today-intro .more { font-size: 24px; }
+/* Location band: full-bleed grey, centred text, 720 px measure (source: three lines) */
+.today-intro {
+  position: relative; margin: 0 calc(50% - 50vw); padding: 96px calc(50vw - 50%) 56px; background: var(--page);
+  text-align: center; font: 400 28px/36px var(--font); letter-spacing: .007em;
+}
+.today-intro p { max-width: 720px; margin: 0 auto; }
+.today-intro .more { font-size: 24px; display: inline-block; padding-top: 4px; }
 
 .today-filters { padding: 8px 0 24px; }
 .today-filters .tabs { padding-bottom: 4px; }
@@ -308,7 +327,7 @@
   .today-hero { height: 440px; }
   .today-hero h1 { font-size: 32px; line-height: 36px; letter-spacing: .004em; }
   .today-hero p { font-size: 17px; line-height: 25px; }
-  .today-intro { font-size: 21px; line-height: 25px; padding: 56px 0 40px; }
+  .today-intro { font-size: 21px; line-height: 25px; padding: 56px 16px 40px; }
   .today-intro .more { font-size: 21px; }
   .today-grid { grid-template-columns: 1fr; }
 }

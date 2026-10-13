@@ -183,8 +183,18 @@ export default function extract() {
   }).filter((c) => c.title);
   // Legal footnotes printed under the page (one line per note).
   const legal = (document.querySelector(".footnotes")?.innerText || "").split("\n").map((l) => l.replace(/\s+/g, " ").trim()).filter(Boolean);
+  // Listing pages (Mac, iPad): their own header band (title, subcopy, link) and the sort options under it.
+  const catHeader = document.querySelector(".dd-refurb-category-header");
+  const listingHead = catHeader ? {
+    title: txt(catHeader.querySelector("h1")),
+    sub: txt(catHeader.querySelector(".dd-subcopy")),
+    link: (() => { const a = catHeader.querySelector("a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
+    strip: (() => { const i = catHeader.querySelector("img"); return i ? { src: i.currentSrc || i.src, width: Math.round(i.getBoundingClientRect().width), height: Math.round(i.getBoundingClientRect().height) } : null; })(),
+    sort: [...document.querySelectorAll(".rf-refurb-category-sort-option")].map(txt).filter(Boolean),
+  } : null;
   return {
     kind: "refurb",
+    listingHead,
     bento,
     buystrip,
     legal,
