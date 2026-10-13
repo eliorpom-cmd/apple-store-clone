@@ -12,7 +12,7 @@
   aucun code, texte, image, police ni logo d'Apple n'est repris.
 - **Mis à jour** : 2026-10-13
 - **Fichiers de tokens** : `assets/css/tokens.css`
-- **Specs détaillées par gabarit** : `docs/gabarits/` (structure, composants, interactions)
+- **Specs détaillées par gabarit** : `_analysis/specs/` (locales, non publiées : elles citent le balisage d'origine)
 
 ## Principes
 
@@ -57,9 +57,8 @@ Pas de mode sombre : le site source n'en a pas.
 
 | Rôle | Desktop | Mobile | Graisse | Interlignage | Tracking | Token |
 |---|---|---|---|---|---|---|
-| Hero de page | 48 px | 32 px | 600 | 1.0835 | −0.003 em | `--t-hero` |
-| Hero configurateur | 48 px | 32 px | 600 | 1.0835 | −0.003 em | `--t-hero` |
-| Grand titre (rare) | 64–80 px | 48 px | 600 | 1.0625 / 1.05 | −0.009 / −0.015 em | `--t-display` |
+| Titre de page Store / catégorie | 80 px | 48 px | 600 | 1.05 | −0.015 em | `--t-display` |
+| Titre configurateur, modale | 48 px | 32 px | 600 | 1.0835 | −0.003 em | `--t-hero` |
 | Titre de section | 28 px | 24 px | 600 | 1.1429 | 0.007 em | `--t-section` |
 | Titre de carte (grande) | 28 px | 24 px | 600 | 1.1429 | 0.007 em | `--t-section` |
 | Titre de carte | 21 px | 19 px | 600 | 1.1905 | 0.011 em | `--t-card` |
@@ -76,21 +75,22 @@ Mesure des paragraphes : 60–75 ch. Tracking positif au-dessus de 19 px, négat
 ## Espace et mise en page
 
 - **Unité** : 4 px (valeurs observées 8 · 12 · 16 · 20 · 24 · 32 · 40 · 52 · 64 · 80 · 96)
-- **Conteneur** : 980 px pour le texte, pages larges jusqu'à 1440 px avec marge latérale
-  `max(22px, (100vw − 1440px) / 2 + 140px)` sur les rangées défilantes
+- **Conteneur** : 980 px pour le texte ; pages Store : marge latérale `--shelf-edge` = 22 px sous 1024,
+  `calc(-268.46px + 28.365vw)` de 1024 à 1440, 140 px au-delà. Configurateurs : 1260 px (galerie 872 + 60 + rail 328).
 - **Gouttière** : 22 px (desktop), 16 px sous 734 px
-- **Points de rupture** : 1441 · 1068 · 1023 · 833 · 734 px (source : feuilles CSS)
-- **Cartes défilantes** : rangée en `scroll-snap-type: x mandatory`, gouttière 20 px, haut 16 px, bas 40 px
+- **Points de rupture** : 1440 (marge 140 px) · 1069 (indicateur de progression) · 1023 (mobile des pages Store) · 833 (nav mobile 48 px) · 734 (pages de contenu) px
+- **Cartes défilantes** : `scroll-snap-type: x mandatory`, gouttière 20 px, haut 16 px, bas 40 px ; 46 px entre rangées (28 mobile)
 
 ## Formes et profondeur
 
 | Élément | Arrondi | Bordure | Ombre |
 |---|---|---|---|
 | Carte | 18 px | aucune | `--shadow-card` repos · `--shadow-card-hover` survol |
-| Option à choisir | 12 px | 1 px `--line` · 2 px `--action` sélectionnée | aucune |
+| Option à choisir | 12 px | 1 px `--text-3` · survol `#8f8f94` · 2 px `--action` sélectionnée | aucune |
 | Petite carte, vignette | 15 px | | |
-| Modale | 28 px (haut seulement en mobile) | | voile `rgba(0,0,0,.48)` |
+| Modale | 18 px (haut seulement en mobile, feuille) | | voile `rgba(0,0,0,.48)` |
 | Bouton | capsule `980px` · bouton bloc 12 px | | |
+| Galerie, carte d'aide | 18 px · 12 px | | fond `--page` |
 | Pastille de couleur | 50 % | anneau 2 px `--action` à 3 px d'écart | |
 | Focus | | | `0 0 0 4px rgba(0,125,250,.6)` |
 
@@ -100,25 +100,28 @@ Mesure des paragraphes : 60–75 ch. Tracking positif au-dessus de 19 px, négat
 - **Carte au survol** : 300 ms `cubic-bezier(0, 0, .5, 1)`, `scale(1.01)` + ombre `--shadow-card-hover`
 - **Menu déroulant de la nav** : hauteur animée 320 ms ; entrées en cascade, chacune `opacity` +
   `translateY(-8px → 0)`, durée `min(160ms + 20ms × rang inverse, 240ms)`
-- **Modale** : fondu + montée 30 px (`slide-up`) 400 ms ease
-- **Accordéon** : hauteur 400 ms ease, chevron tourne de 180°
+- **Modale** : fondu seul, 100 ms `ease-in-out`, aucun déplacement
+- **Accordéon** : hauteur 300 ms `ease-in-out`, chevron tourne de 180°
+- **Flèches de rangée** : apparition au survol `scale(.8 → 1)` 500 ms ease-in + opacité 700 ms `cubic-bezier(.15,0,.2,1)`
+- **Étapes du configurateur** : verrouillées à opacité .32 tant que l'étape précédente n'est pas choisie
 - **Défilement des rangées** : flèches → `scroll-behavior: smooth` d'une page de cartes
 - **Réduit** : sous `prefers-reduced-motion: reduce`, durées à 0 sauf les fondus (120 ms)
 
 ## Composants
 
-Détail complet, gabarit par gabarit : `docs/gabarits/`. Résumé des communs :
+Code de référence : `assets/css/components/components.css` + `assets/js/components.js`. Résumé :
 
 ### Bouton
-Capsule `980px`, fond `--action`, texte blanc 17 px (14 px petit), padding 11 × 21 px (8 × 15 px
-petit). Survol `#0076df`, pressé `#006edb`, désactivé opacité 0.42. Variantes : secondaire (contour
-1 px `--link`, texte `--link`, survol plein), neutre (`#1d1d1f`, survol `#272729`), bloc (largeur 100 %,
-arrondi 12 px, padding 18 × 31 px pour « Ajouter au sac »).
+Capsule `980px`, fond `--action`, texte blanc 14 px, padding 8 × 15 px (36 px de haut) ; grand : 17 px.
+Survol `#0076df`, pressé `#006edb`, désactivé opacité 0.42, transitions 100 ms linear. Variantes :
+secondaire (contour 1 px `--link`, survol plein), neutre (`#1d1d1f`, survol `#272729`), contour neutre
+(pilules de liens rapides), bloc « Ajouter au sac » (largeur 100 %, 44 px de haut, arrondi 12 px).
 Code : `assets/css/components/button.css`
 
 ### Carte de rangée
-`--surface`, arrondi 18 px, `--shadow-card`, 480 × 500 px (grande) ou 313 × 500 px, padding 30 px,
-eyebrow 12 px 600, titre `--t-section`, image collée en bas. Survol : échelle 1.01 + ombre.
+`--surface`, arrondi 18 px, `--shadow-card`, 500 px de haut ; largeurs 313 · 400 · 480 · 646 px
+(309 × 450 en mobile) ; courtes 240 px. Padding 28 px, eyebrow 12 px 600, titre `--t-section`, image
+collée en bas. Survol : échelle 1.01 + ombre, 300 ms `cubic-bezier(0, 0, .5, 1)`.
 Code : `assets/css/components/card.css`
 
 ## Médias et icônes
@@ -138,7 +141,7 @@ Code : `assets/css/components/card.css`
 ## À éviter
 
 - Ombres portées marquées : rien au-delà de `--shadow-card-hover`.
-- Arrondis hors échelle : 5 · 8 · 12 · 15 · 18 · 28 px et capsule seulement.
+- Arrondis hors échelle : 5 · 8 · 12 · 15 · 18 · 28 px, cercle et capsule seulement.
 - Couleurs vives hors `--action`, `--link`, `--badge-new`, `--promo`, `--success`.
 - Échelles au survol supérieures à 1.01.
 - Tout texte, image, police ou logo copié d'Apple (projet open source).
