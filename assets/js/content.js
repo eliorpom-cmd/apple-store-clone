@@ -134,5 +134,7 @@
   Live.on = true;
   Live.data = data;
   Live.nav = getJSON(`${root}content/live/_nav.json`);
+  // The demo ribbon is fictional content: in live mode a ribbon shows only if the renderer sets one from the source.
+  document.querySelector('[data-shell="nav"]')?.removeAttribute("data-ribbon");
   document.documentElement.dataset.content = "live";
 })();

@@ -95,12 +95,34 @@ export default function extract() {
   for (const sec of document.querySelectorAll("[data-analytics-section]")) {
     const key = sec.dataset.analyticsSection;
     // Promotional blocks (buyflow-*) and banners without choices are not configurator steps.
-    if (key && !SKIP.has(key) && !/^buyflow-/.test(key) && !/^(fit|vision)$/.test(key) && !keys.includes(key)) keys.push(key);
+    if (key && !SKIP.has(key) && !/^buyflow-/.test(key) && !keys.includes(key)) keys.push(key);
   }
+  // Step spacing is set inline by the source page (for example "max(60px, -266.5px + 50vh)"): keep that CSS value.
+  const stepGap = (document.querySelector(".rf-bfe-right-rail-step[style*='margin']")?.style.marginBottom) || "";
   const steps = [];
   for (const key of keys) {
     const secs = [...document.querySelectorAll(`[data-analytics-section="${key}"]`)];
     const within = (sel) => secs.flatMap((sec) => [...sec.querySelectorAll(sel)]);
+
+    // Guided steps (Vision fit and optical inserts): a banner with a heading, a description, product lines,
+    // a block button and an optional footer link, locked until the previous step is done.
+    const banner = within(".rf-vq-banner")[0];
+    if (banner) {
+      const footer = banner.querySelector(".rf-vq-banner-cold-footer");
+      steps.push({ step: {
+        key, kind: "guided",
+        title: text(banner.querySelector(".rf-vq-banner-header")),
+        desc: text(banner.querySelector(".rf-vq-banner-description")),
+        info: [...banner.querySelectorAll(".rf-vq-banner-productinfo p, .rf-vq-banner-productinfo li, .rf-vq-banner-productinfo > div")].map(text).filter(Boolean),
+        button: text(banner.querySelector(".rf-vq-banner-getstarted-button")),
+        footerText: text(footer?.querySelector(":scope > div, :scope > p")),
+        footerLink: text(footer?.querySelector("a, button")),
+        disabled: banner.classList.contains("rf-vq-banner-disabled"),
+        keyword: "", rest: "", swatches: [], options: [],
+        helpcards: uniqueBy(within(".rc-decisionsection").map((c) => ({ title: text(c.querySelector(".rc-decisionsection-header")), text: text(c.querySelector(".rc-decisionsection-desc")), img: best(c), href: overlayOf[key] || null, disabled: c.classList.contains("rc-decisionsection-disabled") })), (h) => h.title),
+      }, anchor: secs[0] });
+      continue;
+    }
 
     // Title: "Keyword." in the first span and the complement in .as-subheading, else the whole heading.
     const hdr = within(".rf-bfe-dimension-header")[0];
@@ -181,8 +203,20 @@ export default function extract() {
 
   // ---------- Summary ----------
   const sum = document.querySelector("[data-analytics-section='summary'], .rf-bfe-summary");
+  // Two layouts: full width (iPhone: headline + photo | prices + save | availability + button) or in the rail
+  // (iPad, Vision: product name, big price, button, save). The layout is read from the source's own classes.
+  const sumBox = sum?.getBoundingClientRect();
+  const save = sum?.querySelector("[class*='saveditem']")?.closest("div[class*='saveditem-content'], div[class*='saved']") || sum;
   const summary = {
-    title: text(sum?.querySelector("h2, h3")),
+    layout: sum?.querySelector("[class*='summary-section-fullWidth']") || (sumBox && sumBox.width > 800) ? "full" : "rail",
+    title: text(sum?.querySelector(".rf-bfe-summary-image-headline, h2, h3")),
+    product: text(sum?.querySelector(".rf-bfe-summary-producttitle")),
+    price: priceLines(text(sum?.querySelector(".rf-bfe-summary-price") || sum?.querySelector(".as-price-currentprice"))),
+    cardLink: text(sum?.querySelector(".rf-bfe-summary-price-section button.as-buttonlink, .rf-acmessages-defaultlink button, [class*='acmessages'] button")),
+    saveTitle: text(sum?.querySelector("[class*='saveditem-content'] span:not(.visuallyhidden), [class*='saveditem-header']")),
+    saveText: text(sum?.querySelector(".rf-saveditem-content-description")),
+    saveLinks: [...(sum?.querySelectorAll(".rf-saveditem-button, .rf-shareitem-button") || [])].map(text).filter(Boolean),
+    availability: [...(sum?.querySelectorAll(".rf-bfe-availability-buystrip-title, [class*='availability'] [class*='title']") || [])].map(text).filter(Boolean),
     button: text(sum?.querySelector("button.button-block")),
   };
 
@@ -205,5 +239,5 @@ export default function extract() {
     })), (i) => i.q).filter((i) => i.q),
   };
 
-  return { template: "configurator", ribbon, head, gallery, steps: orderedSteps, summary: { ...summary, image: summaryImage, finishImages }, witb, faq };
+  return { template: "configurator", stepGap, ribbon, head, gallery, steps: orderedSteps, summary: { ...summary, image: summaryImage, finishImages }, witb, faq };
 }

@@ -57,8 +57,19 @@ Live.register("configurator", (data, L) => {
   // That step is optional for the chain, and a gate on the form keeps Add to Bag off until it is chosen.
   const firstChoice = data.steps[0]?.options.length ? data.steps[0] : null;
 
+  // Guided step (Vision fit, optical inserts): heading, grey description, product lines, block button, footer link.
+  const guided = (s, i) => `<section class="cfg-guided${s.disabled ? " is-disabled" : ""}" aria-labelledby="s${i}-title">
+      <h2 class="cfg-guided-title" id="s${i}-title">${esc(s.title)}</h2>
+      ${s.desc ? `<p class="cfg-guided-desc">${esc(s.desc)}</p>` : ""}
+      ${s.info.length ? `<div class="cfg-guided-info">${s.info.map((l) => `<p>${esc(l)}</p>`).join("")}</div>` : ""}
+      ${s.button ? `<button type="button" class="btn btn-block cfg-guided-btn"${s.disabled ? " disabled" : ""}>${esc(s.button)}</button>` : ""}
+      ${s.footerText || s.footerLink ? `<p class="cfg-guided-foot">${esc(s.footerText)}${s.footerLink ? `<br><span class="more-plus">${esc(s.footerLink)}</span>` : ""}</p>` : ""}
+      <div class="cfg-guided-help${s.disabled ? " is-disabled" : ""}">${helps(s)}</div>
+    </section>`;
+
   // A step with choices is a .step (it locks until the previous one is complete); the rest are information.
   const step = (s, i, withHelps = true) => {
+    if (s.kind === "guided") return guided(s, i);
     const id = `s${i}`;
     const title = `<h2 class="step-title" id="${id}-title">${s.keyword ? `<strong>${esc(s.keyword)}</strong> ` : ""}${esc(s.rest)}<span data-step-choice></span></h2>`;
     const choosable = s.options.length || s.swatches.length;
@@ -111,7 +122,9 @@ Live.register("configurator", (data, L) => {
   const railSteps = singleModel ? data.steps.slice(1) : data.steps;
   const rail = [], wide = [];
   railSteps.forEach((s, i) => {
-    if (WIDE.test(s.key) || !(s.options.length || s.swatches.length)) {
+    if (s.kind === "guided") {
+      rail.push(step(s, i));
+    } else if (WIDE.test(s.key) || !(s.options.length || s.swatches.length)) {
       wide.push(`<div class="cfg-wide-step">${step(s, i, false)}</div><div class="cfg-wide-aside">${helps(s)}</div>`);
     } else {
       rail.push(step(s, i));
@@ -123,10 +136,19 @@ Live.register("configurator", (data, L) => {
   // The summary shows the photo of the chosen finish; the first one is shown until a finish is chosen.
   const finishPhotos = (sum.finishImages || []).map((f, k) => `<img class="cfg-finish-img" data-finish="${esc(f.color)}" src="${esc(f.src)}" alt=""${k === 0 && !sum.image ? "" : " hidden"}>`).join("");
   const summaryMedia = sum.image || finishPhotos ? `<div class="cfg-summary-media">${sum.image ? `<img class="cfg-finish-img" src="${esc(sum.image.src)}" alt="${esc(sum.image.alt || "")}">` : ""}${finishPhotos}</div>` : "";
-  const summary = `<section class="summary cfg-summary"><div><h2 class="summary-title">${esc(sum.title)}</h2>${summaryMedia}</div>
-    <div><p class="summary-price-label">Total</p><p class="summary-price" data-total>$0</p>
-    <p class="summary-fin">or <span data-monthly>$0</span>/mo. for 24 mo.</p>
-    <button type="button" class="btn btn-lg btn-block" data-add-to-bag="bag.html" disabled>${esc(sum.button || "Continue")}</button></div></section>`;
+  // Summary, as in the source: full width on iPhone (headline + photo | prices + save | availability + button),
+  // or stacked at the end of the rail on iPad and Vision (product, big price, button, save).
+  const saveBlock = sum.saveTitle || sum.saveText ? `<div class="cfg-sum-save"><p class="cfg-sum-save-title">${esc(sum.saveTitle)}</p><p>${esc(sum.saveText)}</p>
+    ${sum.saveLinks?.length ? `<p class="cfg-sum-save-links">${sum.saveLinks.map((l) => `<button type="button" class="cfg-sum-link">${esc(l)}</button>`).join("")}</p>` : ""}</div>` : "";
+  const button = `<button type="button" class="btn btn-block cfg-sum-btn" data-add-to-bag="bag.html" disabled>${esc(sum.button || "Continue")}</button>`;
+  const prices = `<div class="cfg-sum-price">${(sum.price || []).map((l) => `<p>${esc(l)}</p>`).join("")}</div>`;
+  const summary = sum.layout === "rail"
+    ? `<section class="cfg-sum-rail" aria-label="Summary"><h2 class="cfg-sum-product">${esc(sum.product || sum.title)}</h2>${prices}${button}${saveBlock}</section>`
+    : `<section class="cfg-sum-full" aria-label="Summary">
+        <div class="cfg-sum-col1"><h2 class="cfg-sum-headline">${esc(sum.title)}</h2>${summaryMedia}</div>
+        <div class="cfg-sum-col2">${prices}${sum.cardLink ? `<p><span class="more-plus">${esc(sum.cardLink)}</span></p>` : ""}${saveBlock}</div>
+        <div class="cfg-sum-col3">${(sum.availability || []).length ? `<ul class="cfg-sum-avail">${sum.availability.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}${button}</div>
+      </section>`;
 
   // What's in the box: centred title, one half-width column per item (picture, then label), then the note.
   const witb = data.witb?.items?.length ? `<section class="cfg-witb" aria-labelledby="witb-title">
@@ -148,12 +170,14 @@ Live.register("configurator", (data, L) => {
   document.querySelectorAll(".modal, .pbar").forEach((el) => el.remove());
   const main = document.querySelector("main");
   main.insertAdjacentHTML("beforebegin", `<div class="pbar" data-pbar><div class="pbar-row"><span class="pbar-name">${esc(h.title)}</span><span class="pbar-price"><span data-total>$0</span><small>Your total</small></span></div></div>`);
+  // Step spacing: the source's own CSS value when it sets one inline.
+  if (data.stepGap) main.style.setProperty("--cfg-step-gap", data.stepGap);
   main.innerHTML = `<div class="cfg-wrap">${header}
     <div class="cfg-grid" data-configurator>
       <div class="cfg-stage"><div class="gallery cfg-gallery" data-gallery><div class="gallery-track">${slides}</div></div></div>
-      <div class="cfg-rail${singleModel ? " cfg-rail--single" : data.steps[0]?.options.length ? "" : " cfg-rail--nomodel"}">${rail.join("").replace(/(<section class="step)(?![\s\S]*<section class="step)/, '$1 cfg-rail-end')}</div>
+      <div class="cfg-rail${singleModel ? " cfg-rail--single" : data.steps[0]?.options.length ? "" : " cfg-rail--nomodel"}">${rail.join("").replace(/(<section class="step)(?![\s\S]*<section class="step)/, '$1 cfg-rail-end')}${sum.layout === "rail" ? summary : ""}</div>
       ${wide.join("")}
     </div>
-    ${summary}${witb}${faq}</div>`;
+    ${sum.layout === "rail" ? "" : summary}${witb}${faq}</div>`;
   document.title = `${h.title} — Demo Store`;
 });
