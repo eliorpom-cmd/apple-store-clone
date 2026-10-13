@@ -14,10 +14,13 @@
 .dd-live-setup-img { display: block; width: min(708px, 100%); height: auto; margin: 24px auto 0; }
 
 /* Services: picture band with the copy over it */
+/* Measured on the source: full-width band 481 px, picture 1070 px centred, copy on a 980 px plate,
+   22 px in, 173 px from the top; title 32/36 600 in a 430 px column, subcopy 17/25 14 px below. */
 .dd-live-services { position: relative; height: 481px; overflow: hidden; background: var(--page); }
-.dd-live-services-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.dd-live-services-info { position: relative; padding-top: 80px; text-align: left; }
-.dd-live-services-info .dd-live-intro { max-width: 430px; }
+.dd-live-services-art { position: absolute; top: 0; left: 50%; width: 1070px; max-width: none; height: 481px; translate: -50% 0; object-fit: cover; }
+.dd-live-services-info { position: relative; max-width: 980px; margin: 0 auto; padding: 173px 22px 0; text-align: left; }
+.dd-live-services-info .dd-live-h2 { max-width: 430px; font: 600 32px/36px var(--font); letter-spacing: .004em; }
+.dd-live-services-info .dd-live-intro { max-width: 430px; margin-top: 14px; font: var(--t-body); letter-spacing: var(--tr-body); }
 
 /* Comparison */
 .dd-live-compare { padding: 50px 0 30px; }
@@ -54,3 +57,6 @@
   .dd-live-services-art { position: absolute; }
 }
 .dd-live-compare-foot { padding-top: 36px; text-align: center; }
+
+/* The shared blocks run edge to edge, outside the page's 1260 px configurator container. */
+.live-dd-blocks { width: 100vw; margin-left: calc(50% - 50vw); }
