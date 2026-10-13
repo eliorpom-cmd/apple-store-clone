@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trade-in — Demo Store</title>
+  <meta name="description" content="Trade in a phone, watch, tablet or laptop for store credit, or recycle it for free.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/content.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main>
+    <!-- Hero -->
+    <header class="content-band content-band-surface content-hero">
+      <div class="container">
+        <p class="content-eyebrow">Trade-in</p>
+        <h1 class="content-display">Trade in your device. Put the credit toward what's next.</h1>
+        <p class="content-intro">Trade in an eligible device for credit toward a new one, online or in store. If your device doesn't qualify, we recycle it at no cost. Accessories you no longer use can go in the same drop-off.</p>
+      </div>
+
+      <!-- Device tabs: icon + label, one panel per device type -->
+      <div class="container">
+        <div class="tabs tradein-tabs" role="tablist" data-tabs aria-label="Device type">
+          <button class="tab" role="tab" id="tab-phone" aria-controls="tp-phone" aria-selected="true">
+            <svg class="tradein-tab-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="18" y="8" width="20" height="40" rx="4"/><path d="M26 42h4"/></svg>
+            <span>Phone</span>
+          </button>
+          <button class="tab" role="tab" id="tab-watch" aria-controls="tp-watch" aria-selected="false" tabindex="-1">
+            <svg class="tradein-tab-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="19" y="18" width="18" height="20" rx="5"/><path d="M23 18l1.5-8h7L33 18M23 38l1.5 8h7L33 38"/><path d="M28 24v4l2.5 2"/></svg>
+            <span>Watch</span>
+          </button>
+          <button class="tab" role="tab" id="tab-tablet" aria-controls="tp-tablet" aria-selected="false" tabindex="-1">
+            <svg class="tradein-tab-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="13" y="10" width="30" height="36" rx="4"/><path d="M24 40h8"/></svg>
+            <span>Tablet</span>
+          </button>
+          <button class="tab" role="tab" id="tab-laptop" aria-controls="tp-laptop" aria-selected="false" tabindex="-1">
+            <svg class="tradein-tab-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="13" y="14" width="30" height="22" rx="2"/><path d="M8 40h40"/></svg>
+            <span>Laptop</span>
+          </button>
+          <button class="tab" role="tab" id="tab-other" aria-controls="tp-other" aria-selected="false" tabindex="-1">
+            <svg class="tradein-tab-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="18" y="8" width="20" height="40" rx="4" stroke-dasharray="3 3"/><circle cx="28" cy="40" r="1.2"/></svg>
+            <span>Other brands</span>
+          </button>
+          <button class="tab" role="tab" id="tab-recycle" aria-controls="tp-recycle" aria-selected="false" tabindex="-1">
+            <svg class="tradein-tab-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M21 22a10 10 0 0 1 16-6M37 34a10 10 0 0 1-16 6"/><path d="M37 14v8h-8M19 42v-8h8"/></svg>
+            <span>Recycling</span>
+          </button>
+        </div>
+
+        <div class="tradein-panels">
+          <!-- Phone -->
+          <div class="tab-panel" role="tabpanel" id="tp-phone" aria-labelledby="tab-phone">
+            <div class="tradein-card">
+              <div>
+                <h2 class="tradein-value-title"><span>Get $40–$900 when you trade in a</span> <strong>phone.</strong></h2>
+                <div class="tradein-table">
+                  <div class="tradein-table-head"><span>Your device</span><span>Estimated<br>credit</span></div>
+                  <div class="tradein-table-row"><span>Phone Pro Max</span><span>Up to $900</span></div>
+                  <div class="tradein-table-row"><span>Phone Pro</span><span>Up to $780</span></div>
+                  <div class="tradein-table-row"><span>Phone Air</span><span>Up to $580</span></div>
+                  <div class="tradein-table-row"><span>Phone</span><span>Up to $580</span></div>
+                </div>
+                <div class="tradein-card-links">
+                  <a class="more-plus" href="#">See all phone values</a>
+                  <a class="btn btn-lg" href="#">Check your value</a>
+                </div>
+              </div>
+              <div class="tradein-gamme">
+                <img src="../assets/img/products/phone-fold.svg" alt="" class="is-small">
+                <img src="../assets/img/products/phone.svg" alt="">
+                <img src="../assets/img/products/phone-slim.svg" alt="" class="is-small">
+              </div>
+            </div>
+          </div>
+
+          <!-- Watch -->
+          <div class="tab-panel" role="tabpanel" id="tp-watch" aria-labelledby="tab-watch" hidden>
+            <div class="tradein-card">
+              <div>
+                <h2 class="tradein-value-title"><span>Get $30–$350 when you trade in a</span> <strong>watch.</strong></h2>
+                <div class="tradein-table">
+                  <div class="tradein-table-head"><span>Your device</span><span>Estimated<br>credit</span></div>
+                  <div class="tradein-table-row"><span>Watch Ultra</span><span>Up to $350</span></div>
+                  <div class="tradein-table-row"><span>Watch</span><span>Up to $240</span></div>
+                  <div class="tradein-table-row"><span>Watch SE</span><span>Up to $120</span></div>
+                </div>
+                <div class="tradein-card-links">
+                  <a class="more-plus" href="#">See all watch values</a>
+                  <a class="btn btn-lg" href="#">Check your value</a>
+                </div>
+              </div>
+              <div class="tradein-gamme">
+                <img src="../assets/img/products/watch.svg" alt="">
+                <img src="../assets/img/products/watch-rugged.svg" alt="" class="is-small">
+              </div>
+            </div>
+          </div>
+
+          <!-- Tablet -->
+          <div class="tab-panel" role="tabpanel" id="tp-tablet" aria-labelledby="tab-tablet" hidden>
+            <div class="tradein-card">
+              <div>
+                <h2 class="tradein-value-title"><span>Get $40–$600 when you trade in a</span> <strong>tablet.</strong></h2>
+                <div class="tradein-table">
+                  <div class="tradein-table-head"><span>Your device</span><span>Estimated<br>credit</span></div>
+                  <div class="tradein-table-row"><span>Tablet Pro</span><span>Up to $600</span></div>
+                  <div class="tradein-table-row"><span>Tablet</span><span>Up to $320</span></div>
+                  <div class="tradein-table-row"><span>Tablet mini</span><span>Up to $200</span></div>
+                </div>
+                <div class="tradein-card-links">
+                  <a class="more-plus" href="#">See all tablet values</a>
+                  <a class="btn btn-lg" href="#">Check your value</a>
+                </div>
+              </div>
+              <div class="tradein-gamme">
+                <img src="../assets/img/products/tablet.svg" alt="">
+              </div>
+            </div>
+          </div>
+
+          <!-- Laptop -->
+          <div class="tab-panel" role="tabpanel" id="tp-laptop" aria-labelledby="tab-laptop" hidden>
+            <div class="tradein-card">
+              <div>
+                <h2 class="tradein-value-title"><span>Get $80–$1,200 when you trade in a</span> <strong>laptop.</strong></h2>
+                <div class="tradein-table">
+                  <div class="tradein-table-head"><span>Your device</span><span>Estimated<br>credit</span></div>
+                  <div class="tradein-table-row"><span>Laptop Pro</span><span>Up to $1,200</span></div>
+                  <div class="tradein-table-row"><span>Laptop Air</span><span>Up to $800</span></div>
+                  <div class="tradein-table-row"><span>Desktop</span><span>Up to $450</span></div>
+                </div>
+                <div class="tradein-card-links">
+                  <a class="more-plus" href="#">See all laptop values</a>
+                  <a class="btn btn-lg" href="#">Check your value</a>
+                </div>
+              </div>
+              <div class="tradein-gamme">
+                <img src="../assets/img/products/laptop.svg" alt="">
+                <img src="../assets/img/products/mini.svg" alt="" class="is-small">
+              </div>
+            </div>
+          </div>
+
+          <!-- Other brands -->
+          <div class="tab-panel" role="tabpanel" id="tp-other" aria-labelledby="tab-other" hidden>
+            <div class="tradein-card">
+              <div>
+                <h2 class="tradein-value-title"><span>Get $20–$300 when you trade in a phone from</span> <strong>another brand.</strong></h2>
+                <div class="tradein-table">
+                  <div class="tradein-table-head"><span>Your device</span><span>Estimated<br>credit</span></div>
+                  <div class="tradein-table-row"><span>Flagship phone</span><span>Up to $300</span></div>
+                  <div class="tradein-table-row"><span>Mid-range phone</span><span>Up to $150</span></div>
+                  <div class="tradein-table-row"><span>Older phone</span><span>Up to $40</span></div>
+                </div>
+                <div class="tradein-card-links">
+                  <p class="tradein-card-text">Values depend on model, condition and carrier lock status. Check yours before you bring it in.</p>
+                  <a class="btn btn-lg" href="#">Check your value</a>
+                </div>
+              </div>
+              <div class="tradein-gamme">
+                <img src="../assets/img/products/phone-slim.svg" alt="">
+              </div>
+            </div>
+          </div>
+
+          <!-- Recycling -->
+          <div class="tab-panel" role="tabpanel" id="tp-recycle" aria-labelledby="tab-recycle" hidden>
+            <div class="tradein-card">
+              <div>
+                <h2 class="tradein-value-title"><strong>Recycle any device, for free.</strong></h2>
+                <div class="tradein-card-links">
+                  <p class="tradein-card-text">Phones, watches, tablets, laptops and accessories are recycled at no cost, whatever their condition. Materials are reused in new products where possible.</p>
+                  <a class="btn btn-lg" href="#">Find a drop-off point</a>
+                </div>
+              </div>
+              <div class="tradein-gamme">
+                <img src="../assets/img/products/earbuds.svg" alt="" class="is-small">
+                <img src="../assets/img/products/speaker.svg" alt="">
+                <img src="../assets/img/products/keyboard.svg" alt="" class="is-small">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="tradein-status">Already started a trade-in? <a class="more" href="#">Check your status</a></p>
+      </div>
+    </header>
+
+    <!-- Two ways: online / in store switch, then the three steps of the selected way -->
+    <section class="content-band content-band-page">
+      <div class="container">
+        <h2 class="content-title"><strong>Two ways to trade in.</strong> Pick the one that suits you.</h2>
+        <p class="content-lead">Trade in online or at a store. Either way you get an estimate first, then we guide you through returning your device.</p>
+
+        <div class="tabs tabs-segmented tradein-switch" role="tablist" data-tabs aria-label="Trade-in method">
+          <button class="tab" role="tab" id="tab-online" aria-controls="tp-online" aria-selected="true">Online</button>
+          <button class="tab" role="tab" id="tab-store" aria-controls="tp-store" aria-selected="false" tabindex="-1">In store</button>
+        </div>
+
+        <div class="tradein-panels tradein-panels-steps">
+          <div class="tab-panel" role="tabpanel" id="tp-online" aria-labelledby="tab-online">
+            <div class="tradein-steps">
+              <article class="tradein-step">
+                <div class="tradein-step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="22" y="14" width="34" height="66" rx="7"/><path d="M34 70l5 5 9-10"/><circle cx="78" cy="44" r="16"/><path d="M90 56l16 16"/></svg></div>
+                <div class="tradein-step-body">
+                  <p class="tradein-step-label">Step 1</p>
+                  <h3 class="tradein-step-title">Get an estimate.</h3>
+                  <p class="tradein-step-text">Check your value online. Then choose a new product, add your trade-in device and check out.</p>
+                </div>
+              </article>
+              <article class="tradein-step">
+                <div class="tradein-step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="26" y="34" width="46" height="66" rx="8"/><path d="M68 52a9 9 0 0 0-17-3 7 7 0 0 0-2 14h19a6 6 0 0 0 0-11z"/><path d="M84 80a10 10 0 1 1-3-7"/></svg></div>
+                <div class="tradein-step-body">
+                  <p class="tradein-step-label">Step 2</p>
+                  <h3 class="tradein-step-title">Prepare your device.</h3>
+                  <p class="tradein-step-text">We send a confirmation email with instructions on backing up your data and signing out of your accounts.</p>
+                </div>
+              </article>
+              <article class="tradein-step">
+                <div class="tradein-step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="26" y="50" width="68" height="50" rx="3"/><path d="M20 40h80v10H20zM60 40v60M60 10v20M52 22l8 8 8-8"/></svg></div>
+                <div class="tradein-step-body">
+                  <p class="tradein-step-label">Step 3</p>
+                  <h3 class="tradein-step-title">Send it in, or drop it off.</h3>
+                  <p class="tradein-step-text">Use the prepaid box, or take the device to any store. The confirmation email lists each remaining step.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="tp-store" aria-labelledby="tab-store" hidden>
+            <div class="tradein-steps">
+              <article class="tradein-step">
+                <div class="tradein-step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="22" y="14" width="34" height="66" rx="7"/><path d="M34 70l5 5 9-10"/><circle cx="78" cy="44" r="16"/><path d="M90 56l16 16"/></svg></div>
+                <div class="tradein-step-body">
+                  <p class="tradein-step-label">Step 1</p>
+                  <h3 class="tradein-step-title">Get an estimate.</h3>
+                  <p class="tradein-step-text">Check the value in the app or at the trade-in desk. Then pick the device you want to buy.</p>
+                </div>
+              </article>
+              <article class="tradein-step">
+                <div class="tradein-step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="26" y="34" width="46" height="66" rx="8"/><path d="M68 52a9 9 0 0 0-17-3 7 7 0 0 0-2 14h19a6 6 0 0 0 0-11z"/><path d="M84 80a10 10 0 1 1-3-7"/></svg></div>
+                <div class="tradein-step-body">
+                  <p class="tradein-step-label">Step 2</p>
+                  <h3 class="tradein-step-title">Bring your device.</h3>
+                  <p class="tradein-step-text">Book a time or walk in. Our team checks the condition and resets the device with you present.</p>
+                </div>
+              </article>
+              <article class="tradein-step">
+                <div class="tradein-step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="26" y="50" width="68" height="50" rx="3"/><path d="M20 40h80v10H20zM60 40v60M60 10v20M52 22l8 8 8-8"/></svg></div>
+                <div class="tradein-step-body">
+                  <p class="tradein-step-label">Step 3</p>
+                  <h3 class="tradein-step-title">Apply the credit.</h3>
+                  <p class="tradein-step-text">The credit comes off your total at checkout, so you pay only the difference.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question carousel: one question per slide -->
+      <div class="container">
+        <h2 class="content-title tradein-qa-title">Quick answers about trading in.</h2>
+        <div class="gallery tradein-qa-gallery" data-gallery="qa">
+          <div class="gallery-track">
+            <div class="gallery-slide">
+              <article class="tradein-qa-card">
+                <h3 class="tradein-qa-q">Do I have to buy something right away?</h3>
+                <div class="tradein-qa-a">
+                  <span class="tradein-qa-avatar"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="13" r="5"/><path d="M8 30c1.5-5 5.5-7 10-7s8.5 2 10 7"/></svg></span>
+                  No. You can take the credit as a gift card that you can use any time. Get an estimate with the trade-in tool and choose the gift card option.
+                </div>
+              </article>
+            </div>
+            <div class="gallery-slide">
+              <article class="tradein-qa-card">
+                <h3 class="tradein-qa-q">Will my data be erased?</h3>
+                <div class="tradein-qa-a">
+                  <span class="tradein-qa-avatar"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="13" r="5"/><path d="M8 30c1.5-5 5.5-7 10-7s8.5 2 10 7"/></svg></span>
+                  Yes. Once we receive your device, we erase it so it's ready for recycling or resale. Back up your data and sign out of your accounts before you send it.
+                </div>
+              </article>
+            </div>
+            <div class="gallery-slide">
+              <article class="tradein-qa-card">
+                <h3 class="tradein-qa-q">What if my device is damaged?</h3>
+                <div class="tradein-qa-a">
+                  <span class="tradein-qa-avatar"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="13" r="5"/><path d="M8 30c1.5-5 5.5-7 10-7s8.5 2 10 7"/></svg></span>
+                  We still check it. The estimate can change after inspection, and we tell you the new value before you decide.
+                </div>
+              </article>
+            </div>
+            <div class="gallery-slide">
+              <article class="tradein-qa-card">
+                <h3 class="tradein-qa-q">How long does it take to get my credit?</h3>
+                <div class="tradein-qa-a">
+                  <span class="tradein-qa-avatar"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="13" r="5"/><path d="M8 30c1.5-5 5.5-7 10-7s8.5 2 10 7"/></svg></span>
+                  Most credits are applied within a few business days after we receive and inspect your device.
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="content-band content-band-surface">
+      <div class="container">
+        <h2 class="content-title">More questions, <strong>more answers.</strong></h2>
+
+        <div class="tradein-faq-group">
+          <h3>Device eligibility</h3>
+          <div class="accordion accordion-compact" data-accordion>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">Which devices are eligible for trade-in?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>Most phones, watches, tablets and laptops from the last several years qualify. Devices that are too old or too damaged are recycled for free instead.</p></div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">Can I trade in a device with an engraving?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>Yes. Engravings don't affect the value. Remove any personal details you want kept private before you send the device.</p></div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">Does trade-in work with a payment plan?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>Yes. The credit is applied to the first payment, and the remaining balance is spread over the plan you choose.</p></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tradein-faq-group">
+          <h3>Value and credit</h3>
+          <div class="accordion accordion-compact" data-accordion>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">How is my value calculated?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>The estimate uses the model, storage size, condition and carrier status you enter. The final value is set after we inspect the device.</p></div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">Can I get an estimate online and trade in at a store?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>Yes. Your estimate is saved for 14 days, so you can bring the device to any store within that time.</p></div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">Where do I find the serial number?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>Open the settings on the device and look for the about or device information screen. The serial number is also printed on the original box.</p></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tradein-faq-group">
+          <h3>Timing and process</h3>
+          <div class="accordion accordion-compact" data-accordion>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">How long does the online process take?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>Most people finish the estimate in a few minutes. Sending the device back usually takes about a week, depending on your location.</p></div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" aria-expanded="false">Do I need to return the accessories?</button>
+              <div class="acc-panel"><div class="acc-panel-inner"><p>Charging cables and adapters are not required. Other accessories listed in your estimate must be included to get the full value.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

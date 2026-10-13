@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Watch Ultra — Demo Store</title>
+  <meta name="description" content="Configure a Watch Ultra: case material, size, connectivity and band, with a live total.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/configurator-2.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main>
+    <div class="cfg2" data-configurator data-base="399">
+
+      <header class="cfg2-head" data-pbar-after>
+        <div class="cfg2-head-main">
+          <p class="eyebrow eyebrow-new">New</p>
+          <h1 class="t-hero">Watch Ultra</h1>
+          <p class="t-body">From $399.</p>
+          <p class="t-body">Choose a case, a band and a connection. The total updates as you go.</p>
+          <p style="padding-top:8px"><a href="#" class="more" data-modal-open="m-help">Help me choose</a></p>
+        </div>
+        <div class="cfg2-pills">
+          <a class="cfg2-pill more-plus" href="buy-watch.html">Compare watches</a>
+          <a class="cfg2-pill more-plus" href="trade-in.html">Trade-in estimate</a>
+        </div>
+      </header>
+
+      <div class="cfg2-wrap">
+        <div class="cfg2-layout">
+
+          <!-- Left column: gallery, sticky on desktop -->
+          <div class="cfg2-gallery">
+            <div class="gallery" data-gallery="compact">
+              <div class="gallery-track">
+                <div class="gallery-slide">
+                  <p class="gallery-caption">Built for the outdoors, with a rugged case.</p>
+                  <img src="../assets/img/products/watch-rugged.svg" alt="Watch Ultra, rugged case">
+                </div>
+                <div class="gallery-slide">
+                  <p class="gallery-caption">A thin case with a large, bright display.</p>
+                  <img src="../assets/img/products/watch.svg" alt="Watch Ultra, standard case">
+                </div>
+                <div class="gallery-slide">
+                  <p class="gallery-caption">Bands change the fit and the look.</p>
+                  <img src="../assets/img/products/band.svg" alt="Watch band">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column: steps -->
+          <div class="cfg2-rail">
+
+            <section class="step" id="c-material">
+              <h2 class="step-title"><strong>Material.</strong> Pick a case finish.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option option-rich">
+                  <input type="radio" name="material" value="aluminium" data-label="Aluminium" data-price="0">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="eyebrow eyebrow-new option-tag">Refreshed</span><span class="option-name">Aluminium</span><span class="option-sub">Choice of connection</span></span>
+                      <span class="option-price">Included</span>
+                    </span>
+                    <ul>
+                      <li>Matte finish</li>
+                      <li>Display with a tough cover glass</li>
+                    </ul>
+                  </span>
+                </label>
+                <label class="option option-rich">
+                  <input type="radio" name="material" value="titanium" data-label="Titanium" data-price="300">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="eyebrow eyebrow-new option-tag">New finish</span><span class="option-name">Titanium</span><span class="option-sub">Light and strong</span></span>
+                      <span class="option-price">+$300</span>
+                    </span>
+                    <ul>
+                      <li>Brushed titanium case</li>
+                      <li>Sapphire crystal display</li>
+                    </ul>
+                  </span>
+                </label>
+                <label class="option option-rich">
+                  <input type="radio" name="material" value="ceramic" data-label="Ceramic" data-price="500">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="eyebrow eyebrow-new option-tag">New</span><span class="option-name">Ceramic</span><span class="option-sub">Smooth and scratch resistant</span></span>
+                      <span class="option-price">+$500</span>
+                    </span>
+                    <ul>
+                      <li>Polished ceramic back</li>
+                      <li>Sapphire crystal display</li>
+                    </ul>
+                  </span>
+                </label>
+              </div>
+              <div class="helpcard">
+                <span><strong>Need help choosing a material?</strong>Learn about weight, finish and care.</span>
+                <a href="#" class="more-plus" data-modal-open="m-help">Learn more</a>
+              </div>
+            </section>
+
+            <section class="step" id="c-size">
+              <h2 class="step-title"><strong>Case size.</strong> Pick the one that suits you.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="size" value="41" data-label="41 mm" data-price="0" aria-label="41 mm case">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">41<small> mm</small></span><span class="option-sub">Smaller and lighter</span></span>
+                    <span class="option-price">Included</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="size" value="45" data-label="45 mm" data-price="50" aria-label="45 mm case">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">45<small> mm</small></span><span class="option-sub">Larger display</span></span>
+                    <span class="option-price">+$50</span>
+                  </span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-conn">
+              <h2 class="step-title"><strong>Connectivity.</strong> Do you need calls away from your phone?<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option option-rich">
+                  <input type="radio" name="conn" value="gps" data-label="GPS" data-price="0">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="option-name">GPS</span><span class="option-sub">Location and workout tracking</span></span>
+                      <span class="option-price">Included</span>
+                    </span>
+                    <span class="option-foot">Uses your phone for calls and messages.</span>
+                  </span>
+                </label>
+                <label class="option option-rich">
+                  <input type="radio" name="conn" value="cellular" data-label="GPS + Cellular" data-price="100">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="option-name">GPS + Cellular</span><span class="option-sub">Calls and messages on the watch</span></span>
+                      <span class="option-price">+$100</span>
+                    </span>
+                    <span class="option-foot">Works with Carrier A and Carrier B.</span>
+                  </span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-band">
+              <h2 class="step-title"><strong>Band.</strong> Choose a band type.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="band" value="sport" data-label="Sport band" data-price="0" data-gallery-slide="2" aria-label="Sport band">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-name">Sport band</span><span class="option-sub">Soft, for everyday wear</span></span>
+                    <span class="option-price">Included</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="band" value="trail" data-label="Trail loop" data-price="49" data-gallery-slide="2" aria-label="Trail loop">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-name">Trail loop</span><span class="option-sub">Stretch fabric, adjustable fit</span></span>
+                    <span class="option-price">+$49</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="band" value="link" data-label="Link bracelet" data-price="149" data-gallery-slide="2" aria-label="Link bracelet">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-name">Link bracelet</span><span class="option-sub">Metal links, fold-over clasp</span></span>
+                    <span class="option-price">+$149</span>
+                  </span>
+                </label>
+              </div>
+            </section>
+
+            <!-- Shown only once a band type is picked (data-show-when, handled by components.js) -->
+            <section class="step" id="c-bandsize" data-show-when="input[name=band]" hidden>
+              <h2 class="step-title"><strong>Band size.</strong> Pick the fit for your wrist.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="bandsize" value="sm" data-label="Small and medium" data-price="0" aria-label="Small and medium band">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">S / M</span><span class="option-sub">For smaller wrists</span></span>
+                    <span class="option-price">Included</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="bandsize" value="ml" data-label="Medium and large" data-price="0" aria-label="Medium and large band">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">M / L</span><span class="option-sub">For larger wrists</span></span>
+                    <span class="option-price">Included</span>
+                  </span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-trade">
+              <h2 class="step-title"><strong>Trade in.</strong> Do you have a watch to trade in?<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="trade" value="none" data-label="No trade-in" data-price="0" aria-label="No trade-in">
+                  <span class="option-label"><span class="option-main"><span class="option-name">No trade-in</span><span class="option-sub">Pay the full price</span></span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="trade" value="yes" data-label="Trade-in" data-price="0" aria-label="Trade in a watch">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Trade in a watch</span><span class="option-sub">Credit is applied at checkout</span></span></span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-pay">
+              <h2 class="step-title"><strong>Payment.</strong> Choose how you pay.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="pay" value="full" data-label="Pay in full" data-price="0" aria-label="Pay in full">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Pay in full</span><span class="option-sub">One payment today</span></span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="pay" value="monthly" data-label="Monthly" data-price="0" aria-label="Monthly payments">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Monthly</span><span class="option-sub">24 payments, 0% APR</span></span></span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-care">
+              <h2 class="step-title"><strong>Protection.</strong> Add cover for accidents.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="care" value="none" data-label="No protection" data-price="0" aria-label="No protection plan">
+                  <span class="option-label"><span class="option-main"><span class="option-name">No protection plan</span></span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="care" value="two" data-label="Protection, 2 years" data-price="159" aria-label="Protection plan, 2 years">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Protection plan, 2 years</span><span class="option-sub">Accidental damage and battery service</span></span><span class="option-price">+$159</span></span>
+                </label>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+        <!-- Vertical progress indicator, filled by configurator-2.js -->
+        <nav class="cfg2-progress" aria-label="Steps">
+          <div class="cfg2-progress-inner">
+            <ol class="cfg2-dots"></ol>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Summary -->
+      <section class="summary cfg2-summary" aria-label="Summary">
+        <div>
+          <h2 class="summary-title">Your Watch Ultra.</h2>
+          <div class="availability" style="margin-top:24px">
+            <div>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12.5l2.7 2.6L16 9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Ready to ship in 3 to 5 days.</span>
+            </div>
+            <div>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Free pickup at a store near you.</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="summary-price-label">Total</p>
+          <p class="summary-price" data-total>$399</p>
+          <p class="summary-fin">Or <span data-monthly>$16.63</span> per month for 24 months.</p>
+          <button class="btn btn-block" type="button" data-add-to-bag="bag.html" disabled>Add to bag</button>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="cfg2-faq" aria-label="Questions">
+        <h2 class="t-section" style="margin-bottom:24px">Questions about the Watch Ultra</h2>
+        <div class="accordion accordion-compact" data-accordion>
+          <div class="acc-item">
+            <button class="acc-btn" type="button" aria-expanded="false">Which material should I choose?</button>
+            <div class="acc-panel"><div class="acc-panel-inner"><p class="t-body">Aluminium is the lightest and least expensive. Titanium is strong and light. Ceramic has a smooth finish and resists scratches.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" type="button" aria-expanded="false">Do I need cellular?</button>
+            <div class="acc-panel"><div class="acc-panel-inner"><p class="t-body">GPS is enough for location and workouts. Cellular lets you make calls and send messages when your phone is not nearby.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" type="button" aria-expanded="false">How do I find my band size?</button>
+            <div class="acc-panel"><div class="acc-panel-inner"><p class="t-body">Measure around your wrist where the watch sits. Small and medium fits smaller wrists; medium and large fits larger ones. Bands can be changed at any time.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sticky product bar, shown after the header scrolls away -->
+      <div class="pbar" data-pbar>
+        <div class="pbar-row">
+          <span class="pbar-name">Watch Ultra</span>
+          <span class="pbar-price"><span data-total>$399</span><small>or <span data-monthly>$16.63</span>/mo.</small></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal" id="m-help">
+      <div class="modal-panel">
+        <div class="modal-content">
+          <h2>Choosing the right material.</h2>
+          <p class="t-intro">Aluminium suits daily wear and workouts. Titanium is lighter for its strength. Ceramic is the most finished option.</p>
+          <p class="t-body" style="margin-top:24px">All three use the same display and sensors. The difference is the case, its weight and how it looks over time.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/pages/configurator-2.js"></script>
+</body>
+</html>

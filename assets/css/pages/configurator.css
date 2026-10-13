@@ -1,0 +1,95 @@
+/* Configurator pages (spec 03). Steps, options, swatches, gallery, summary, pbar and modals
+   come from components.css; this file only adds the page frame and the fold demo. */
+
+/* ---------- Frame ---------- */
+/* White configurator area, as on the source pages; the gray gallery box (--page) then reads as a panel */
+.cfg-page { background: var(--surface); }
+.cfg-wrap { width: min(1260px, 100% - 2 * var(--gutter)); margin-inline: auto; } /* spec 03 §2.1: 1260 px zone */
+
+/* ---------- Header (spec 03 §3.1) ---------- */
+.cfg-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-top: 56px; }
+.cfg-head-main { max-width: 640px; min-width: 0; }
+.cfg-eyebrow { font: 600 13px/1.2 var(--font); letter-spacing: -.01em; color: var(--badge-new); }
+.cfg-title { font: var(--t-hero); letter-spacing: var(--tr-hero); max-width: 540px; padding: 6px 0 13px; }
+.cfg-price { font: var(--t-body-tight); letter-spacing: var(--tr-body); }
+.cfg-link { margin-top: 12px; }
+
+/* Two stacked pills, 233 px wide (spec 03 §3.1) */
+.cfg-pills { display: flex; flex-direction: column; gap: 8px; width: 233px; flex: none; padding-top: 4px; }
+.cfg-pill {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; height: 40px; padding: 0 14px;
+  border-radius: var(--r-pill); background: var(--page); color: var(--text); text-align: left;
+  font: var(--t-small); letter-spacing: var(--tr-small);
+}
+.cfg-pill::after {
+  content: "+"; flex: none; display: grid; place-items: center; width: 18px; height: 18px;
+  border: 1px solid currentColor; border-radius: 50%; font-size: 13px; line-height: 1;
+}
+
+/* ---------- Configurator grid (spec 03 §2.2) ---------- */
+.cfg-grid { display: grid; grid-template-columns: minmax(0, 1fr) 328px; column-gap: 60px; align-items: start; margin-top: 56px; }
+
+/* Left column: sticky from 109 px, as tall as the viewport allows (spec 03 §2.2, §2.4) */
+.cfg-stage { position: sticky; top: 109px; align-self: start; height: calc(100vh - 109px); min-height: 540px; }
+.cfg-gallery { height: min(711px, 100%); } /* spec 03 §4.1: 711 px box */
+
+/* Inline product visuals fill the slide, 4:5 like the source SVGs */
+.gallery-slide > .cfg-art { height: 100%; width: auto; max-width: 100%; max-height: 100%; aspect-ratio: 400 / 500; }
+
+/* Right column: 328 px rail (spec 03 §2.2) */
+.cfg-rail { min-width: 0; }
+.cfg-rail .helpcard { margin-top: 14px; }
+
+/* Option cards: 140-141 px tall for layout A (spec 03 §4.3) */
+.cfg-tall .option-label { min-height: 140px; }
+/* Layout C: full-width cards, 153 px mini, price on its own line (spec 03 §4.3) */
+.cfg-cards-c .option-label { flex-direction: column; align-items: flex-start; justify-content: flex-start; min-height: 153px; }
+.cfg-cards-c .option-line { margin-top: 10px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
+
+/* ---------- Summary and in-the-box ---------- */
+.cfg-summary-note { max-width: 420px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+.cfg-box { padding-bottom: 40px; }
+.cfg-box-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
+.cfg-box-list li {
+  display: flex; flex-direction: column; gap: 6px; min-height: 160px; padding: 24px;
+  background: var(--surface); border-radius: var(--r-card); box-shadow: var(--shadow-card);
+}
+.cfg-box-name { font: var(--t-card); letter-spacing: var(--tr-card); }
+.cfg-box-note { font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
+
+/* ---------- FAQ: 980 px, centred (spec 03 §4.7) ---------- */
+.cfg-faq { width: min(980px, 100%); margin: 0 auto; padding-bottom: 96px; }
+.cfg-faq-title { font: var(--t-section); letter-spacing: var(--tr-section); margin-bottom: 24px; }
+
+/* ---------- Duo: animated fold demo (first gallery slide, replaces the video of spec 03 §5.1) ---------- */
+/* The right half swings over the hinge at x = 200: scaleX(-1) lays it on the left half (closed),
+   scaleX(1) opens it flat. Loop: closed hold, open, open hold, close. */
+.pf-right { transform-box: view-box; transform-origin: 200px 250px; animation: pf-fold 4s ease-in-out infinite; }
+@keyframes pf-fold {
+  0%, 15% { transform: scaleX(-1); }
+  50%, 80% { transform: scaleX(1); }
+  100% { transform: scaleX(-1); }
+}
+/* Round replay button, 34 px, bottom right of the slide (spec 03 §4.1) */
+.fold-replay {
+  position: absolute; right: 20px; bottom: 20px; z-index: 1; width: 34px; height: 34px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(210, 210, 215, .64); color: rgba(0, 0, 0, .56);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); transition: background-color .1s linear;
+}
+.fold-replay:hover { background: rgba(210, 210, 215, .85); }
+.fold-replay svg { width: 24px; height: 24px; }
+@media (prefers-reduced-motion: reduce) {
+  .pf-right { animation: none; transform: none; }
+}
+
+/* ---------- Mobile (spec 03 §6.2): gallery first, then one column ---------- */
+@media (max-width: 1023px) {
+  .cfg-head { flex-direction: column; gap: 16px; padding-top: 32px; }
+  .cfg-pills { width: 100%; }
+  .cfg-title { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+  .cfg-grid { grid-template-columns: minmax(0, 1fr); row-gap: 32px; margin-top: 32px; }
+  .cfg-stage { position: static; height: auto; min-height: 0; }
+  .cfg-gallery { height: 360px; border-radius: 20px; } /* spec 03 §6.2: 360 px, 20 px radius */
+  .cfg-rail .step-title { font-size: 21px; }
+  .cfg-box-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

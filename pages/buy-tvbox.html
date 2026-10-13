@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buy TV box — Demo Store</title>
+  <meta name="description" content="Demo buy page for a TV box: storage choice, protection and what is in the box.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/flagship.css">
+</head>
+<body>
+  <div data-shell="nav" data-ribbon='Three months of streaming free with a new TV box. <sup>1</sup>||Free delivery on eligible orders. <a href="shipping.html" class="more">Read the policy</a>'></div>
+
+  <main class="flagship">
+    <div class="container">
+      <div class="flagship-grid">
+
+        <!-- Media column: product image, benefits, help line -->
+        <div class="flagship-media">
+          <img class="flagship-hero-img" src="../assets/img/products/tvbox.svg" alt="TV box with its remote">
+
+          <ul class="flagship-perks">
+            <li class="flagship-perk">
+              <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h17v15H4zM21 15h5l4 5v4h-9"/><circle cx="10" cy="26" r="2.5"/><circle cx="26" cy="26" r="2.5"/></svg>
+              <span>Free delivery, or pick up at a store</span>
+            </li>
+            <li class="flagship-perk">
+              <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="8" y="8" width="20" height="20" rx="5"/><circle cx="18" cy="18" r="4"/></svg>
+              <span><strong>Three months</strong> of streaming free<sup>1</sup></span>
+            </li>
+            <li class="flagship-perk">
+              <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M6 12h24v18H6zM4 8h28v4H4zM14 21h8"/></svg>
+              <span>Free and easy returns</span>
+            </li>
+          </ul>
+          <p class="flagship-help">
+            <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h17v11H12l-5 4v-4H5z"/><path d="M16 21h11v8h-4l-3 3v-3h-4z"/></svg>
+            <span>
+              <strong>Questions about buying a TV box?</strong>
+              <a href="help.html" class="more-ext">Chat with a Specialist</a>
+            </span>
+          </p>
+        </div>
+
+        <!-- Side column: title, storage and protection steps -->
+        <div class="flagship-side">
+          <p class="eyebrow eyebrow-new">New</p>
+          <h1 class="flagship-h1">Buy TV box 4K</h1>
+          <p class="flagship-sub">Ships in 2 to 3 days, or pick up at a store the same day.</p>
+          <p class="flagship-sub flagship-sub-line">Voice control on the remote.<sup>2</sup> <a href="help.html" class="more">Learn more</a></p>
+
+          <form class="flagship-steps" data-configurator data-base="0">
+
+            <fieldset class="step">
+              <legend class="step-title">Choose storage<span data-step-choice></span></legend>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="storage" value="64" data-price="129" data-label="64 GB">
+                  <span class="option-label">
+                    <span><span class="option-name">64 GB</span><span class="option-sub">Enough for most apps and streaming</span></span>
+                    <span class="option-price">$129.00<span class="option-sub">or $10.75/mo. for 12 mo.</span></span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="storage" value="128" data-price="149" data-label="128 GB">
+                  <span class="option-label">
+                    <span><span class="option-name">128 GB</span><span class="option-sub">Room for large games and offline video</span></span>
+                    <span class="option-price">$149.00<span class="option-sub">or $12.42/mo. for 12 mo.</span></span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="step flagship-plan" data-optional="true">
+              <legend class="step-title">Add protection<span data-step-choice></span></legend>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="care" value="none" data-price="0" data-label="No extra protection">
+                  <span class="option-label">
+                    <span><span class="option-name">No extra protection</span><span class="option-sub">Standard limited warranty</span></span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="care" value="plus" data-price="14.99" data-label="Care Plus">
+                  <span class="option-label">
+                    <span><span class="option-name">Care Plus</span><span class="option-sub">Repairs for accidental damage. Covers this product only.</span></span>
+                    <span class="option-price">$14.99/yr.</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- Summary: total, monthly figure and the add-to-bag button -->
+      <section class="summary flagship-summary" aria-label="Your order">
+        <div>
+          <h2 class="summary-title">Your order</h2>
+          <p class="summary-price-label">Total</p>
+        </div>
+        <div>
+          <p class="summary-price" data-total>$0</p>
+          <p class="summary-fin">or <span data-monthly>$0</span>/mo. for 24 mo.</p>
+          <button class="btn btn-block" type="button" data-add-to-bag="bag.html" disabled>Add to bag</button>
+          <p class="flagship-fine">Works with HD and 4K HDR TVs that have an HDMI port.<sup>3</sup></p>
+        </div>
+      </section>
+
+      <!-- Product information: accordion details -->
+      <section class="details" aria-labelledby="details-title">
+        <h2 class="details-title" id="details-title">Product information</h2>
+        <div class="accordion" data-accordion>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="true">Overview</button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <p>A compact box for streaming apps, games and live channels. It runs quietly and needs no fan noise to stay cool.</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false">Connections and setup</button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <p>One HDMI port for the picture and one USB-C port for power. Setup takes a few minutes with the guide in the box. The remote pairs with the box over Bluetooth.</p>
+            </div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- In the box: icons, not photos -->
+      <section class="witb" aria-labelledby="witb-title">
+        <h2 class="witb-title" id="witb-title">What's in the box</h2>
+        <p class="witb-sub">HDMI and USB-C cables are sold separately.</p>
+        <div class="witb-row">
+          <div class="witb-item">
+            <div class="witb-icon">
+              <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="26" width="64" height="44" rx="12"/><circle cx="48" cy="48" r="6"/></svg>
+            </div>
+            <p class="witb-label">TV box 4K</p>
+          </div>
+          <div class="witb-item">
+            <div class="witb-icon">
+              <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><rect x="34" y="14" width="28" height="68" rx="12"/><circle cx="48" cy="34" r="8"/><circle cx="48" cy="58" r="4"/></svg>
+            </div>
+            <p class="witb-label">Remote with voice control</p>
+          </div>
+          <div class="witb-item">
+            <div class="witb-icon">
+              <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M30 14v20M50 14v20"/><path d="M26 34h28v14a14 14 0 0 1-28 0z"/><path d="M40 62v20"/></svg>
+            </div>
+            <p class="witb-label">Power cable</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footnotes, numbered to match the references in the page -->
+      <ol class="footnotes">
+        <li><sup>1</sup> Three months free for new subscribers to the streaming service, then standard pricing applies.</li>
+        <li><sup>2</sup> Voice control needs an internet connection and is available in supported regions.</li>
+        <li><sup>3</sup> Requires a TV with an HDMI port. Picture quality depends on the TV and its settings.</li>
+      </ol>
+    </div>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

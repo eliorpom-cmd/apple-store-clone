@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bag — Demo Store</title>
+  <meta name="description" content="Your bag: sign in to see saved items, or keep shopping.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/service.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main class="svc-page">
+    <div class="container bag-main">
+
+      <!-- Empty state: shown when the demo bag count is 0 -->
+      <section class="bag-empty" data-bag-empty>
+        <h1 class="bag-title">Nothing in your bag yet.</h1>
+        <p class="bag-text">Sign in to see items you saved earlier, or keep browsing the store.</p>
+        <div class="bag-actions">
+          <a class="svc-btn svc-btn-primary" href="#">Sign in</a>
+          <a class="svc-btn svc-btn-outline" href="../index.html">Keep shopping</a>
+        </div>
+      </section>
+
+      <!-- Filled state: shown when the demo bag count is above 0 -->
+      <section class="bag-full" data-bag-full hidden>
+        <h1 class="bag-title">Your bag</h1>
+        <div class="bag-line">
+          <div class="bag-line-img"><img src="../assets/img/products/phone.svg" alt=""></div>
+          <div class="bag-line-info">
+            <h2 class="bag-line-name">Phone Pro</h2>
+            <p class="bag-line-meta">Quantity <span data-bag-qty>1</span></p>
+            <button class="svc-textbtn" type="button" data-bag-remove>Remove</button>
+          </div>
+          <p class="bag-line-price" data-bag-line-total>$999.00</p>
+        </div>
+        <div class="bag-summary">
+          <div class="bag-summary-row"><span>Subtotal</span><span data-bag-subtotal>$999.00</span></div>
+          <div class="bag-summary-row"><span>Estimated tax</span><span>Calculated at checkout</span></div>
+          <div class="bag-summary-row is-total"><span>Total</span><span data-bag-total>$999.00</span></div>
+          <button class="svc-btn svc-btn-primary" type="button">Check Out</button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- The only accordion on the page: full-width band, content in the container -->
+    <section class="svc-faq" data-accordion>
+      <div class="container">
+          <div class="acc-item">
+            <button class="acc-btn" type="button" aria-expanded="false">Questions about your bag</button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <p>Saved items stay in your bag until you check out or remove them.</p>
+              <p>Prices shown are examples for this demo store and include no tax.</p>
+            </div></div>
+          </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/pages/service.js"></script>
+</body>
+</html>

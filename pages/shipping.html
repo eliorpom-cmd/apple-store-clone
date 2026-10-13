@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delivery and pickup — Demo Store</title>
+  <meta name="description" content="Delivery to your door, or pickup in a Demo Store near you.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/content.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main>
+    <!-- Hero -->
+    <header class="content-band content-band-surface content-hero">
+      <div class="container">
+        <p class="content-eyebrow">Delivery and pickup</p>
+        <h1 class="content-display">Your order, delivered or ready in store.</h1>
+      </div>
+      <div class="container">
+        <div class="ship-gamme">
+          <img src="../assets/img/products/speaker.svg" alt="" class="is-tall">
+          <img src="../assets/img/products/laptop.svg" alt="">
+          <img src="../assets/img/products/tablet.svg" alt="">
+          <img src="../assets/img/products/phone.svg" alt="" class="is-tall">
+          <img src="../assets/img/products/watch.svg" alt="">
+          <img src="../assets/img/products/earbuds.svg" alt="">
+        </div>
+      </div>
+    </header>
+
+    <!-- Two columns: delivery and pickup -->
+    <section class="content-band content-band-surface" style="padding-top:0">
+      <div class="container">
+        <div class="ship-cols">
+          <div class="ship-col">
+            <h2>Delivery to your door.</h2>
+            <p>Next-day delivery is free on in-stock laptops, tablets, phones, earbuds and watches. Most other items ship in two days at no charge. In large cities, two-hour courier delivery is available for a small fee.</p>
+            <a class="more" href="#">Check delivery options</a>
+          </div>
+          <div class="ship-col">
+            <h2>Pick up in store.</h2>
+            <p>Choose a store at checkout and we email you when your order is ready. Most in-stock items are ready within an hour. You can also book a session when you collect your order.</p>
+            <a class="more" href="stores.html">Find a store</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ: one big accordion holding a compact list -->
+    <section class="content-band content-band-surface" style="padding-top:0">
+      <div class="container">
+        <div class="ship-faq accordion" data-accordion>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="true">More questions, more answers.</button>
+            <div class="acc-panel">
+              <div class="acc-panel-inner">
+                <div class="accordion accordion-compact" data-accordion>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="true">When will my order arrive?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>The delivery date appears at checkout and in your order details. It depends on stock and on your address.</p></div></div>
+                  </div>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="false">How do I track my order?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>Sign in to your account and open the order. A tracking link is also sent by email when the parcel leaves our warehouse.</p></div></div>
+                  </div>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="false">Do I need to sign for my package?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>Some high-value orders need a signature. You can add delivery instructions at checkout, such as a safe place to leave the parcel.</p></div></div>
+                  </div>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="false">How do I know if an item is ready for pickup?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>Each product page shows stock for nearby stores. You get an email as soon as your order is ready to collect.</p></div></div>
+                  </div>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="false">How do I change or cancel an order?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>You can change or cancel an order from your account until it ships. After that, contact support to start a return.</p></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

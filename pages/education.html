@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Education — Demo Store</title>
+  <meta name="description" content="Education pricing for students, educators and families, with a shortcut to every category.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/category.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main>
+    <!-- Black header band (spec 02 §2.9); no category bar on this page -->
+    <section class="edu-band">
+      <header class="page-head shell-container">
+        <h1>Education store</h1>
+        <div class="page-head-aside">
+          <p class="links"><a href="help.html" class="more-ext">Talk to a Specialist</a><a href="stores.html" class="more-ext">Find a store</a></p>
+        </div>
+      </header>
+    </section>
+
+    <!-- Category thumbnails -->
+    <section class="shelf edu-nav">
+      <div class="scroller" data-scroller>
+        <div class="scroller-track pnav-track">
+          <a class="pnav-item" href="buy-computer.html"><span class="pnav-img"><img src="../assets/img/products/laptop.svg" alt=""></span><span>Computer</span></a>
+          <a class="pnav-item" href="buy-computer.html"><span class="pnav-img"><img src="../assets/img/products/tablet.svg" alt=""></span><span>Tablet</span></a>
+          <a class="pnav-item" href="buy-phone.html"><span class="pnav-img"><img src="../assets/img/products/phone.svg" alt=""></span><span>Phone</span></a>
+          <a class="pnav-item" href="buy-watch.html"><span class="pnav-img"><img src="../assets/img/products/watch.svg" alt=""></span><span>Watch</span></a>
+          <a class="pnav-item" href="buy-headset.html"><span class="pnav-img"><img src="../assets/img/products/headset.svg" alt=""></span><span>Headset</span></a>
+          <a class="pnav-item" href="buy-tvbox.html"><span class="pnav-img"><img src="../assets/img/products/tvbox.svg" alt=""></span><span>Home</span></a>
+          <a class="pnav-item" href="buy-earbuds.html"><span class="pnav-img"><img src="../assets/img/products/earbuds.svg" alt=""></span><span>Earbuds</span></a>
+          <a class="pnav-item" href="accessories.html"><span class="pnav-img"><img src="../assets/img/products/tag.svg" alt=""></span><span>Tracker</span></a>
+          <a class="pnav-item" href="accessories.html"><span class="pnav-img"><img src="../assets/img/products/case.svg" alt=""></span><span>Accessories</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Savings: 400 px cards, two tinted and one black -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong class="edu-mark">Student pricing.</strong> <span>Special prices for students and teachers.</span></h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-tint-blue" href="buy-computer.html">
+            <svg class="edu-cap" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4L2 9l10 5 10-5z M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5l-6 3z" fill="currentColor"/></svg>
+            <div class="card-body"><h3 class="card-title">Laptop Air</h3><p class="card-desc card-lead">Thin, light and quick for school work.</p><p class="card-desc">From $1199 or $99.91/mo. for 12 mo. with education pricing.</p></div>
+            <div class="card-media"><img src="../assets/img/products/laptop.svg" alt=""></div>
+          </a>
+          <a class="card" href="buy-computer.html">
+            <svg class="edu-cap" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4L2 9l10 5 10-5z M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5l-6 3z" fill="currentColor"/></svg>
+            <div class="card-body"><h3 class="card-title">Laptop Neo</h3><p class="card-desc card-lead">A bright screen at a student-friendly price.</p><p class="card-desc">From $599 or $49.91/mo. for 12 mo. with education pricing.</p></div>
+            <div class="card-media"><img src="../assets/img/products/laptop.svg" alt=""></div>
+          </a>
+          <a class="card card-black" href="buy-watch.html">
+            <svg class="edu-cap" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4L2 9l10 5 10-5z M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5l-6 3z" fill="currentColor"/></svg>
+            <div class="card-body"><p class="eyebrow eyebrow-new">New</p><h3 class="card-title">Watch SE</h3><p class="card-desc card-lead">Heart rate tracking in a wearable.</p><p class="card-desc">From $359 or $29.91/mo. for 12 mo. with education pricing.</p></div>
+            <div class="card-media"><img src="../assets/img/products/watch.svg" alt=""></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- More ways to save: 480 px cards, tinted and plain -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong class="edu-mark">Additional ways to save.</strong> <span>For students, educators and families.</span></h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w480 card-tint-gray" href="carrier-offers.html">
+            <div class="card-body"><h3 class="card-title">Learn how education savings work, with no hidden fees.</h3></div>
+            <div class="card-media"><img src="../assets/img/products/tag.svg" alt=""></div>
+          </a>
+          <a class="card card-w480" href="accessories.html">
+            <div class="card-body"><h3 class="card-title">Explore accessories with education savings.</h3></div>
+            <div class="card-media"><img src="../assets/img/products/keyboard.svg" alt=""></div>
+          </a>
+          <a class="card card-w480 card-tint-gray" href="today.html">
+            <div class="card-body"><p class="eyebrow">Software</p><h3 class="card-title">Creative and study apps for students, at a lower price.</h3><p class="card-desc">$2.99 a month for students and educators.</p></div>
+            <div class="card-media"><img src="../assets/img/products/desktop.svg" alt=""></div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="chat-bubble" href="help.html" aria-label="Talk to a Specialist">
+    <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 5h18v13h-9l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+  </a>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

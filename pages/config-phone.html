@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phone Pro — Demo Store</title>
+  <meta name="description" content="Configure Phone Pro: model, color, storage, trade-in, payment, carrier and protection.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/configurator.css">
+</head>
+<body>
+  <div data-shell="nav" data-ribbon='Carrier A: up to $1200 off with an eligible trade-in.||Carrier B: up to $1000 off with an eligible trade-in in any condition.||Carrier C: up to $840 off with an eligible trade-in in any condition.'></div>
+
+  <!-- Product sticky bar: appears once the header has scrolled away (spec 03 §2.4, §4.13) -->
+  <div class="pbar" data-pbar>
+    <div class="pbar-row">
+      <span class="pbar-name">Phone Pro</span>
+      <span class="pbar-price"><span data-total>$0</span><small>Your total</small></span>
+    </div>
+  </div>
+
+  <main class="cfg-page">
+    <div class="cfg-wrap">
+
+      <!-- Header (spec 03 §3): title and price on the left, two pills on the right -->
+      <header class="cfg-head" data-pbar-after>
+        <div class="cfg-head-main">
+          <p class="cfg-eyebrow">New</p>
+          <h1 class="cfg-title">Phone Pro</h1>
+          <div class="cfg-price">
+            <p>From $1199 or $49.95/mo. for 24 mo.</p>
+            <p>Lease from $34.99/mo. for 24 mo.</p>
+          </div>
+          <button type="button" class="more-plus cfg-link" data-modal-open="m-compare">Compare with Phone Duo</button>
+        </div>
+        <div class="cfg-pills">
+          <button type="button" class="cfg-pill" data-modal-open="m-tradein">Get a trade-in value</button>
+          <button type="button" class="cfg-pill" data-modal-open="m-monthly">See monthly pricing</button>
+        </div>
+      </header>
+
+      <!-- Configurator zone (spec 03 §2.2): sticky gallery left, choices right -->
+      <div class="cfg-grid" data-configurator>
+
+        <div class="cfg-stage">
+          <div class="gallery cfg-gallery" data-gallery data-product-color>
+            <div class="gallery-track">
+              <div class="gallery-slide">
+                <svg class="cfg-art" viewBox="0 0 400 500" role="img" aria-label="Phone Pro, front">
+<defs>
+<filter id="phone-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="8"/></filter>
+<linearGradient id="phone-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+<linearGradient id="phone-wall" x1="0" y1="0" x2=".4" y2="1"><stop offset="0" stop-color="#9ec3ff"/><stop offset=".5" stop-color="#b9a6ff"/><stop offset="1" stop-color="#5a68d4"/></linearGradient>
+<linearGradient id="phone-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<radialGradient id="phone-lens" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#5b5b66"/><stop offset=".35" stop-color="#1a1a22"/><stop offset="1" stop-color="#050508"/></radialGradient>
+</defs>
+<ellipse cx="200" cy="462" rx="150" ry="14" fill="#000" fill-opacity=".2" filter="url(#phone-blur)"/>
+<rect x="36" y="46" width="184" height="390" rx="44" fill="#1d1d1f"/>
+<rect x="44" y="54" width="168" height="374" rx="37" fill="url(#phone-wall)"/>
+<rect x="44" y="54" width="168" height="374" rx="37" fill="url(#phone-glass)"/>
+<rect x="80" y="66" width="46" height="14" rx="7" fill="#000"/>
+<rect x="160" y="80" width="200" height="396" rx="44" fill="#000" fill-opacity=".22"/>
+<rect x="150" y="70" width="200" height="396" rx="44" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="150" y="70" width="200" height="396" rx="44" fill="url(#phone-body)"/>
+<rect x="152" y="72" width="196" height="392" rx="42" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"/>
+<rect x="166" y="88" width="104" height="104" rx="28" fill="#000" fill-opacity=".14" stroke="#fff" stroke-opacity=".3"/>
+<circle cx="192" cy="114" r="18" fill="#0b0b0e"/>
+<circle cx="192" cy="114" r="14" fill="url(#phone-lens)"/>
+<circle cx="188" cy="110" r="3" fill="#fff" fill-opacity=".35"/>
+<circle cx="244" cy="114" r="18" fill="#0b0b0e"/>
+<circle cx="244" cy="114" r="14" fill="url(#phone-lens)"/>
+<circle cx="240" cy="110" r="3" fill="#fff" fill-opacity=".35"/>
+<circle cx="192" cy="166" r="18" fill="#0b0b0e"/>
+<circle cx="192" cy="166" r="14" fill="url(#phone-lens)"/>
+<circle cx="188" cy="162" r="3" fill="#fff" fill-opacity=".35"/>
+<circle cx="244" cy="166" r="7" fill="#f6efd9" fill-opacity=".85"/>
+</svg>
+              </div>
+              <div class="gallery-slide">
+                <svg class="cfg-art" viewBox="0 0 400 500" role="img" aria-label="Phone Pro, side">
+<defs>
+<filter id="phone-slim-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="7"/></filter>
+<linearGradient id="phone-slim-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+<radialGradient id="phone-slim-lens" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#5b5b66"/><stop offset=".35" stop-color="#1a1a22"/><stop offset="1" stop-color="#050508"/></radialGradient>
+</defs>
+<ellipse cx="206" cy="462" rx="110" ry="12" fill="#000" fill-opacity=".2" filter="url(#phone-slim-blur)"/>
+<rect x="140" y="56" width="140" height="400" rx="40" fill="#000" fill-opacity=".22"/>
+<rect x="130" y="50" width="140" height="400" rx="40" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="130" y="50" width="140" height="400" rx="40" fill="url(#phone-slim-body)"/>
+<rect x="132" y="52" width="136" height="396" rx="38" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>
+<rect x="150" y="84" width="100" height="34" rx="17" fill="#000" fill-opacity=".14" stroke="#fff" stroke-opacity=".3"/>
+<circle cx="234" cy="101" r="11" fill="#0b0b0e"/>
+<circle cx="234" cy="101" r="8" fill="url(#phone-slim-lens)"/>
+<circle cx="231" cy="98" r="2" fill="#fff" fill-opacity=".35"/>
+<circle cx="164" cy="101" r="3.5" fill="#f6efd9" fill-opacity=".8"/>
+</svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cfg-rail">
+
+          <!-- Step 1: model -->
+          <section class="step" role="group" aria-labelledby="s-model">
+            <h2 class="step-title" id="s-model"><strong>Model.</strong> Pick your size.<span data-step-choice></span></h2>
+            <div class="options cfg-tall">
+              <label class="option">
+                <input type="radio" name="model" value="pro" data-price="1199" data-label="Phone Pro">
+                <span class="option-label">
+                  <span class="option-text"><span class="option-name">Phone Pro</span><span class="option-sub">6.3-inch display</span></span>
+                  <span class="option-price">Buy from $1199<br>Lease from $34.99/mo.</span>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="model" value="pro-max" data-price="1299" data-label="Phone Pro Max">
+                <span class="option-label">
+                  <span class="option-text"><span class="option-name">Phone Pro Max</span><span class="option-sub">6.9-inch display</span></span>
+                  <span class="option-price">Buy from $1299<br>Lease from $37.99/mo.</span>
+                </span>
+              </label>
+            </div>
+            <button type="button" class="helpcard" data-modal-open="m-models">
+              <span><strong>Need help choosing a size?</strong>Compare display size and battery life.</span>
+              <span class="more-plus" aria-hidden="true"></span>
+            </button>
+          </section>
+
+          <!-- Step 2: color (swatch label below the swatches, gallery follows data-product-color) -->
+          <section class="step" role="group" aria-labelledby="s-color">
+            <h2 class="step-title" id="s-color"><strong>Color.</strong> Choose a finish.<span data-step-choice></span></h2>
+            <div class="swatches" role="radiogroup" aria-labelledby="s-color">
+              <label class="swatch"><input type="radio" name="color" data-color="#2b2c2f" data-label="Graphite" aria-label="Graphite"><span style="--c:#2b2c2f"></span></label>
+              <label class="swatch"><input type="radio" name="color" data-color="#d9dadf" data-label="Silver" aria-label="Silver"><span style="--c:#d9dadf"></span></label>
+              <label class="swatch"><input type="radio" name="color" data-color="#a7b8a4" data-label="Sage" aria-label="Sage"><span style="--c:#a7b8a4"></span></label>
+              <label class="swatch"><input type="radio" name="color" data-color="#d8c3a5" data-label="Desert" aria-label="Desert"><span style="--c:#d8c3a5"></span></label>
+            </div>
+            <p class="swatch-label" aria-live="polite"></p>
+          </section>
+
+          <!-- Step 3: storage -->
+          <section class="step" role="group" aria-labelledby="s-storage">
+            <h2 class="step-title" id="s-storage"><strong>Storage.</strong> Choose a capacity.<span data-step-choice></span></h2>
+            <div class="options cfg-tall">
+              <label class="option">
+                <input type="radio" name="storage" data-price="0" data-label="256 GB">
+                <span class="option-label"><span class="option-big">256<small>GB</small></span><span class="option-price">Included</span></span>
+              </label>
+              <label class="option">
+                <input type="radio" name="storage" data-price="200" data-label="512 GB">
+                <span class="option-label"><span class="option-big">512<small>GB</small></span><span class="option-price">+$200</span></span>
+              </label>
+              <label class="option">
+                <input type="radio" name="storage" data-price="400" data-label="1 TB">
+                <span class="option-label"><span class="option-big">1<small>TB</small></span><span class="option-price">+$400</span></span>
+              </label>
+              <label class="option">
+                <input type="radio" name="storage" data-price="800" data-label="2 TB">
+                <span class="option-label"><span class="option-big">2<small>TB</small></span><span class="option-price">+$800</span></span>
+              </label>
+            </div>
+            <button type="button" class="helpcard" data-modal-open="m-storage">
+              <span><strong>Need help choosing storage?</strong>See how much space each option gives you.</span>
+              <span class="more-plus" aria-hidden="true"></span>
+            </button>
+          </section>
+
+          <!-- Step 4: trade-in -->
+          <section class="step" role="group" aria-labelledby="s-trade">
+            <h2 class="step-title" id="s-trade"><strong>Trade-in.</strong> Bring an old phone?<span data-step-choice></span></h2>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="trade" data-price="0" data-label="No trade-in">
+                <span class="option-label">
+                  <span class="option-text"><span class="option-name">No trade-in</span><span class="option-sub">Buy at the listed price.</span></span>
+                  <span class="option-price">$0</span>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="trade" data-price="-150" data-label="Trade-in">
+                <span class="option-label">
+                  <span class="option-text"><span class="option-name">Trade in a phone</span><span class="option-sub">Credit applied to your order if your phone qualifies.</span></span>
+                  <span class="option-price">−$150 credit</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Step 5: payment (layout C: full-width cards, price on its own line) -->
+          <section class="step" role="group" aria-labelledby="s-pay">
+            <h2 class="step-title" id="s-pay"><strong>Payment.</strong> Pick how to pay.<span data-step-choice></span></h2>
+            <div class="options cfg-cards-c">
+              <label class="option">
+                <input type="radio" name="pay" data-price="0" data-label="Pay in full">
+                <span class="option-label">
+                  <span class="option-name">Pay in full</span>
+                  <span class="option-sub">One payment at checkout.</span>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="pay" data-price="0" data-label="Monthly">
+                <span class="option-label">
+                  <span class="option-name">Monthly installments</span>
+                  <span class="option-sub">24 equal payments at 0% APR.</span>
+                  <span class="option-line">The monthly amount appears in the summary.</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Step 6: carrier -->
+          <section class="step" role="group" aria-labelledby="s-carrier">
+            <h2 class="step-title" id="s-carrier"><strong>Carrier.</strong> Choose where to activate.<span data-step-choice></span></h2>
+            <div class="options cfg-cards-c">
+              <label class="option">
+                <input type="radio" name="carrier" data-price="0" data-label="Carrier A">
+                <span class="option-label">
+                  <span class="option-name">Carrier A</span>
+                  <span class="option-sub">Activate on a plan from Carrier A.</span>
+                  <span class="option-line">Trade-in credit up to $1200.</span>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="carrier" data-price="0" data-label="Carrier B">
+                <span class="option-label">
+                  <span class="option-name">Carrier B</span>
+                  <span class="option-sub">Activate on a plan from Carrier B.</span>
+                  <span class="option-line">Trade-in credit up to $1000.</span>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="carrier" data-price="0" data-label="Carrier C">
+                <span class="option-label">
+                  <span class="option-name">Carrier C</span>
+                  <span class="option-sub">Activate on a plan from Carrier C.</span>
+                  <span class="option-line">Trade-in credit up to $840.</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Step 7: protection (two cards) -->
+          <section class="step" role="group" aria-labelledby="s-protect">
+            <h2 class="step-title" id="s-protect"><strong>Protection.</strong> Add a plan or not.<span data-step-choice></span></h2>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="protect" data-price="199" data-label="Protection plan">
+                <span class="option-label">
+                  <span class="option-text"><span class="option-name">Protection plan</span><span class="option-sub">Accidental damage and battery service for 2 years.</span></span>
+                  <span class="option-price">+$199</span>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="protect" data-price="0" data-label="No plan">
+                <span class="option-label">
+                  <span class="option-text"><span class="option-name">No protection plan</span><span class="option-sub">You can add a plan within 60 days of purchase.</span></span>
+                  <span class="option-price">$0</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- Summary: total, monthly amount and the Add to Bag button (unlocked when every step is done) -->
+      <section class="summary cfg-summary" aria-labelledby="sum-title">
+        <div>
+          <h2 class="summary-title" id="sum-title">Your selection.</h2>
+          <p class="cfg-summary-note">Complete each step in order. The button unlocks when every choice is made.</p>
+        </div>
+        <div>
+          <p class="summary-price-label">Total</p>
+          <p class="summary-price" data-total>$0</p>
+          <p class="summary-fin">or <span data-monthly>$0</span>/mo. for 24 mo.</p>
+          <button type="button" class="btn btn-lg btn-block" data-add-to-bag="bag.html" disabled>Add to Bag</button>
+        </div>
+      </section>
+
+      <!-- In the box -->
+      <section class="cfg-box" aria-labelledby="box-title">
+        <h2 class="step-title" id="box-title"><strong>In the box.</strong> What comes with your phone.</h2>
+        <ul class="cfg-box-list">
+          <li><span class="cfg-box-name">Power adapter</span><span class="cfg-box-note">Fast charging, 30 W</span></li>
+          <li><span class="cfg-box-name">USB-C cable</span><span class="cfg-box-note">1 m, braided</span></li>
+          <li><span class="cfg-box-name">SIM tool</span><span class="cfg-box-note">Ejects the SIM tray</span></li>
+          <li><span class="cfg-box-name">Quick start guide</span><span class="cfg-box-note">Printed, 12 pages</span></li>
+        </ul>
+      </section>
+
+      <!-- FAQ -->
+      <section class="cfg-faq" aria-labelledby="faq-title">
+        <h2 class="cfg-faq-title" id="faq-title">Questions about Phone Pro.</h2>
+        <div class="accordion accordion-compact" data-accordion>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="true" aria-controls="faq-1">Which carriers can I activate with?</button>
+            <div class="acc-panel" id="faq-1"><div class="acc-panel-inner"><p>Phone Pro works with Carrier A, Carrier B and Carrier C. Choose one in the carrier step above.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="faq-2">Can I change my choices after I add to bag?</button>
+            <div class="acc-panel" id="faq-2"><div class="acc-panel-inner"><p>Yes. Open your bag and change the color, storage or carrier before you check out.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="faq-3">How long does the protection plan last?</button>
+            <div class="acc-panel" id="faq-3"><div class="acc-panel-inner"><p>The plan covers accidental damage and battery service for two years from the purchase date.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modals opened by the pills, the price link and the help cards -->
+  <div class="modal" id="m-tradein">
+    <div class="modal-panel"><div class="modal-content">
+      <h2>Trade-in value.</h2>
+      <p>Trade in an eligible phone when you buy. The credit depends on the model and its condition, and it is applied to your order at checkout.</p>
+    </div></div>
+  </div>
+  <div class="modal" id="m-monthly">
+    <div class="modal-panel"><div class="modal-content">
+      <h2>Monthly pricing.</h2>
+      <p>The monthly amount is your order total divided by 24, at 0% APR. The figure updates as you make each choice.</p>
+    </div></div>
+  </div>
+  <div class="modal" id="m-compare">
+    <div class="modal-panel"><div class="modal-content">
+      <h2>Phone Pro or Phone Duo.</h2>
+      <p>Phone Duo has a foldable display that opens to a larger screen. Phone Pro keeps a standard screen in a lighter body.</p>
+    </div></div>
+  </div>
+  <div class="modal" id="m-models">
+    <div class="modal-panel"><div class="modal-content">
+      <h2>Choosing a size.</h2>
+      <p>Phone Pro Max has a 6.9-inch display and a longer battery life. Phone Pro has a 6.3-inch display and is easier to use with one hand.</p>
+    </div></div>
+  </div>
+  <div class="modal" id="m-storage">
+    <div class="modal-panel"><div class="modal-content">
+      <h2>Choosing storage.</h2>
+      <p>Storage holds your apps, photos and videos. 256 GB suits everyday use. Choose a larger capacity if you record video often.</p>
+    </div></div>
+  </div>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

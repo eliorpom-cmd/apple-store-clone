@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buy Gift Card — Demo Store</title>
+  <meta name="description" content="Demo gift card page: choose a card type and an amount, then add the recipient details.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/product.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main>
+    <nav class="product-localbar" aria-label="Section">
+      <div class="product-container product-localbar-row">
+        <span class="product-localbar-title">Gift Card</span>
+        <a class="product-localbar-link" href="gift-cards.html">Overview</a>
+      </div>
+    </nav>
+
+    <section class="product-container gc-main" aria-label="Gift card">
+      <!-- Preview: a card drawn in CSS, updated by giftcard.js. Stays in view while the form scrolls. -->
+      <div class="gc-stage">
+        <div class="gc-card" data-gc-card>
+          <p class="gc-card-brand">Demo Store</p>
+          <div class="gc-card-foot">
+            <p class="gc-card-to" data-gc-to>For the recipient</p>
+            <p class="gc-card-amount" data-gc-amount>–</p>
+          </div>
+        </div>
+      </div>
+
+      <form class="gc-form" data-configurator data-giftcard>
+        <h1 class="gc-title">Buy Demo Gift Card</h1>
+        <p class="gc-intro">Use it to shop across the whole store, online or in person, for any product sold here.</p>
+
+        <div class="step product-step">
+          <h2 class="product-group-title">Choose a card type.</h2>
+          <div class="options options-2 gc-options">
+            <label class="option">
+              <input type="radio" name="type" value="electronic" data-label="Electronic">
+              <span class="option-label"><span class="option-name">Electronic</span><span class="option-sub">Sent by email</span></span>
+            </label>
+            <label class="option">
+              <input type="radio" name="type" value="physical" data-label="Physical">
+              <span class="option-label"><span class="option-name">Physical</span><span class="option-sub">Mailed to you</span></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Locked until a card type is chosen, as in the source flow -->
+        <div class="step product-step">
+          <h2 class="product-group-title">Choose an amount.</h2>
+          <div class="options options-2 gc-options">
+            <label class="option"><input type="radio" name="amount" value="25" data-label="$25" data-price="25"><span class="option-label"><span class="option-name">$25</span></span></label>
+            <label class="option"><input type="radio" name="amount" value="50" data-label="$50" data-price="50"><span class="option-label"><span class="option-name">$50</span></span></label>
+            <label class="option"><input type="radio" name="amount" value="100" data-label="$100" data-price="100"><span class="option-label"><span class="option-name">$100</span></span></label>
+            <label class="option"><input type="radio" name="amount" value="250" data-label="$250" data-price="250"><span class="option-label"><span class="option-name">$250</span></span></label>
+            <label class="option gc-wide"><input type="radio" name="amount" value="other" data-label="Other"><span class="option-label"><span class="option-name">Other amount</span></span></label>
+          </div>
+          <div class="gc-custom" data-custom-amount hidden>
+            <label class="gc-amount">
+              <span class="gc-amount-prefix" aria-hidden="true">$</span>
+              <input type="text" inputmode="decimal" name="custom_amount" placeholder="Other amount" aria-label="Other amount in dollars" autocomplete="off">
+            </label>
+          </div>
+        </div>
+
+        <!-- Recipient: floating labels. The placeholder is a single space so :placeholder-shown works. -->
+        <div class="gc-recipient">
+          <h2 class="product-group-title">Recipient</h2>
+          <div class="gc-field">
+            <input id="gc-to-name" name="to_name" type="text" placeholder=" " autocomplete="off">
+            <label for="gc-to-name">Recipient name</label>
+          </div>
+          <div class="gc-field">
+            <input id="gc-to-email" name="to_email" type="email" placeholder=" " autocomplete="off">
+            <label for="gc-to-email">Recipient email</label>
+          </div>
+          <div class="gc-field">
+            <input id="gc-from" name="from_name" type="text" placeholder=" " autocomplete="off">
+            <label for="gc-from">Your name</label>
+          </div>
+          <div class="gc-field gc-field-area">
+            <textarea id="gc-message" name="message" placeholder=" " rows="4"></textarea>
+            <label for="gc-message">Message (optional)</label>
+          </div>
+        </div>
+
+        <!-- Summary: updated by giftcard.js; the select button is enabled by the configurator -->
+        <div class="gc-summary">
+          <div class="gc-summary-line"><span>Card</span><span data-gc-type-out>Choose a type</span></div>
+          <div class="gc-summary-line gc-summary-price"><span>Amount</span><span data-gc-amount-out>Choose an amount</span></div>
+          <div class="product-actions">
+            <button class="btn" type="button" data-add-to-bag="bag.html">Select</button>
+          </div>
+          <div class="product-save">
+            <p class="product-save-title">Need a moment?</p>
+            <p class="product-save-text">Keep your selections by saving this gift card, then come back any time and pick up where you left off.</p>
+            <a class="product-save-link" href="#"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M1 1h10v14L6 11 1 15z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Save for later</a>
+          </div>
+        </div>
+
+        <p class="gc-help">Need some help? <a class="more-ext" href="help.html">Contact us</a></p>
+      </form>
+    </section>
+
+    <ol class="footnotes">
+      <li>Demo content. Gift card amounts are examples and do not represent a real product.</li>
+    </ol>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/pages/giftcard.js"></script>
+</body>
+</html>

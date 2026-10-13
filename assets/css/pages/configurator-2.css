@@ -1,0 +1,125 @@
+/* Configurator pages for spec 03 (Laptop Pro, Watch Ultra).
+   Own copy of the layout rules: this file does not depend on configurator.css.
+   Shared parts (.step, .option, .swatch, .summary, .pbar, .gallery) stay in components.css. */
+
+/* ---------- Header: title, price lines, pills ---------- */
+.cfg2-head {
+  width: min(1260px, 100% - 180px); margin: 0 auto; padding: 56px 0 40px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 40px;
+}
+.cfg2-head-main { max-width: 640px; }
+.cfg2-head-main .eyebrow { padding-bottom: 8px; }
+.cfg2-head h1 { padding-bottom: 13px; }
+.cfg2-head .t-body { font-size: 17px; }
+.cfg2-pills { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-top: 28px; flex: none; }
+.cfg2-pill {
+  display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px;
+  border-radius: var(--r-pill); background: var(--page); color: var(--text);
+  font: var(--t-small); letter-spacing: var(--tr-small); white-space: nowrap;
+}
+.cfg2-pill:hover { text-decoration: none; background: var(--line-2); }
+
+/* ---------- Two-column body: sticky gallery on the left, steps on the right ---------- */
+.cfg2-wrap { position: relative; }
+.cfg2-layout {
+  width: min(1260px, 100% - 180px); margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) 328px; column-gap: 60px; align-items: start;
+}
+/* Sticky gallery: top 109 px and height of the viewport minus that offset (spec 03 §2.2). */
+.cfg2-gallery { position: sticky; top: 109px; height: calc(100vh - 109px); min-height: 540px; }
+.cfg2-gallery .gallery { height: 100%; }
+.cfg2-gallery .gallery-slide { padding: 40px 0; }
+.cfg2-gallery .gallery-caption { padding: 30px; max-width: 404px; }
+.cfg2-rail { min-width: 0; padding-bottom: 40px; }
+.cfg2 .step { scroll-margin-top: 80px; }
+
+/* Compact gallery variant: arrows and dots share one pill under the image (spec 03 §4.1).
+   configurator-2.js moves the controls into .gallery-pill. */
+.cfg2 .gallery-pill {
+  position: absolute; left: 50%; bottom: 30px; translate: -50% 0; z-index: 2;
+  display: flex; align-items: center; gap: 4px; padding: 4px;
+  border-radius: var(--r-pill); background: rgba(210, 210, 215, .64);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+}
+.cfg2 .gallery-pill .paddle {
+  position: static; translate: none; width: 32px; height: 32px;
+  opacity: 1; transform: none; pointer-events: auto;
+}
+.cfg2 .gallery-pill .paddle svg { width: 9px; height: 15px; }
+.cfg2 .gallery-pill .dots { position: static; translate: none; padding: 0 6px; background: none; gap: 10px; }
+
+/* Vertical progress indicator (spec 03 §4.12): visible from 1069 px, one dot per step. */
+.cfg2-progress { position: absolute; top: 0; bottom: 0; right: 10px; width: 4px; }
+@media (min-width: 1340px) { .cfg2-progress { right: 30px; } }
+.cfg2-progress-inner {
+  position: sticky; top: 109px; height: calc(100vh - 109px);
+  display: flex; align-items: flex-start; padding-top: 0;
+}
+.cfg2-dots { display: flex; flex-direction: column; }
+.cfg2-dots li { padding: 5px 0; }
+.cfg2-dots li[hidden] { display: none; }
+.cfg2-dots a {
+  display: block; width: 4px; height: 4px; border-radius: 4px; background: var(--text);
+  opacity: .16; transition: height .3s ease-in-out, opacity .3s ease-in-out;
+}
+.cfg2-dots a:hover { opacity: .5; }
+/* Active step: the dot stretches into a bar (spec 03 §4.12). */
+.cfg2-dots a[aria-current="step"] { height: 20px; opacity: 1; }
+.cfg2-dots a:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+
+@media (max-width: 1068px) { .cfg2-progress { display: none; } }
+
+/* ---------- Step titles, options, rich cards ---------- */
+.cfg2 .step-title [data-step-choice] { color: var(--text-3); }
+.cfg2 .option-main { display: block; min-width: 0; }
+.cfg2 .option-name { display: block; font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+.cfg2 .option-big { display: block; }
+/* Rich card, layout B: title on the left, price on the right, specs below a rule. */
+.cfg2 .option-rich .option-top { align-items: flex-start; }
+.cfg2 .option-rich .option-title { flex: 1 1 auto; min-width: 0; display: block; }
+.cfg2 .option-rich .option-price { width: auto; flex: none; padding-top: 2px; }
+.cfg2 .option-rich .option-sub { font-size: 12px; }
+/* Caption tag above a card title, orange like the spec's badge colour. */
+.cfg2 .option-tag { display: block; padding-bottom: 6px; }
+/* Foot caption at the bottom of a card (spec 03 §5.4). */
+.cfg2 .option-foot {
+  display: block; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line);
+  font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2);
+}
+.cfg2 .option-rich .option-foot { margin-top: 20px; }
+.cfg2-sub { font: 600 14px/1.2858 var(--font); letter-spacing: -.016em; padding: 20px 0 10px; }
+.cfg2-sub:first-child { padding-top: 0; }
+
+/* Memory cards carry only a name, so they are shorter than price cards. */
+.cfg2 .options-3 .option-label { min-height: 64px; }
+
+/* Optional accordion step: not a choice, so it sits at the bottom of the rail. */
+.cfg2-optional { margin-bottom: 0; }
+.cfg2-optional .accordion { margin-bottom: 60px; }
+.cfg2 .accordion-compact .acc-panel-inner p + p { margin-top: 1em; }
+
+/* Help card: the text takes the free width and the link stays on one line. */
+.cfg2 .helpcard > span { flex: 1 1 auto; min-width: 0; }
+.cfg2 .helpcard .more-plus { flex: none; white-space: nowrap; }
+
+/* ---------- Summary and FAQ ---------- */
+.cfg2-summary { width: min(1260px, 100% - 180px); margin: 0 auto; }
+.cfg2-faq { width: min(980px, 100% - 180px); margin: 0 auto; padding: 40px 0 120px; }
+.cfg2-faq .acc-panel-inner { max-width: none; }
+
+/* ---------- Narrow screens: one column, gallery above the steps ---------- */
+@media (max-width: 1023px) {
+  .cfg2-head, .cfg2-layout, .cfg2-summary { width: calc(100% - 2 * var(--gutter)); }
+  .cfg2-faq { width: calc(100% - 2 * var(--gutter)); }
+  .cfg2-head { flex-direction: column; gap: 16px; padding: 40px 0 24px; }
+  .cfg2-pills { flex-direction: row; flex-wrap: wrap; align-items: flex-start; padding-top: 0; }
+  .cfg2-layout { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
+  .cfg2-gallery { position: static; height: 360px; min-height: 0; }
+  .cfg2-gallery .gallery { border-radius: 20px; }
+  .cfg2-rail { padding-bottom: 0; }
+}
+@media (max-width: 734px) {
+  .cfg2 .step-title { font-size: 21px; line-height: 1.1667; letter-spacing: .009em; }
+  .cfg2 .option-big { font-size: 24px; }
+  .cfg2-faq .t-section { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; }
+}

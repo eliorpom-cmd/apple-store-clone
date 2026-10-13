@@ -1,0 +1,230 @@
+/* Catalog pages 2: certified refurbished (pages/refurbished.html) and upgrade program (pages/upgrade.html).
+   Shared pieces (buttons, tabs, scroller, accordion, shell) come from components.css.
+   Values missing from tokens.css are measured from the source and cite their spec section. */
+
+/* ---------- Type roles used by both pages ---------- */
+.cat2-display { font: 600 64px/1.0625 var(--font); letter-spacing: -.009em; } /* spec 05 §0, headline 64 px */
+.cat2-h32 { font: 600 32px/1.125 var(--font); letter-spacing: .004em; } /* spec 05 §0, refurb section title */
+.cat2-h40 { font: 600 40px/1.1 var(--font); letter-spacing: 0; } /* spec 05 §0, large section title */
+.cat2-h24 { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; } /* spec 05 §0, eyebrow title */
+
+@media (max-width: 734px) {
+  .cat2-display { font-size: 48px; line-height: 1.08; letter-spacing: -.003em; }
+  .cat2-h32 { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; }
+  .cat2-h40 { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+}
+
+/* ---------- Local nav (sticky, 52 px). Not a shared component. ---------- */
+/* data-catbar on the element toggles .is-stuck (border once stuck). */
+.cat2-localnav {
+  position: sticky; top: 0; z-index: 1000; height: 52px;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid transparent; transition: border-color .5s;
+}
+.cat2-localnav.is-stuck { border-color: var(--line); }
+.cat2-localnav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 100%; }
+.cat2-localnav-title { font: 600 19px/1.2105 var(--font); letter-spacing: .012em; color: var(--text); }
+.cat2-localnav-links { display: flex; align-items: center; gap: 24px; font: var(--t-note); letter-spacing: var(--tr-note); }
+.cat2-localnav-links a { color: var(--text); white-space: nowrap; }
+.cat2-localnav-links a:hover { color: var(--text-2); text-decoration: none; }
+.cat2-localnav-links a[aria-current="true"] { box-shadow: inset 0 -1px 0 var(--text); }
+.cat2-localnav-menu { display: inline-flex; align-items: center; gap: 6px; color: var(--text); font: var(--t-note); letter-spacing: var(--tr-note); }
+.cat2-localnav-menu svg { width: 11px; height: 11px; }
+@media (max-width: 734px) {
+  .cat2-localnav-anchors { display: none; }
+}
+
+/* ---------- Refurbished: banner ---------- */
+.cat2-banner { padding-top: 40px; text-align: center; }
+.cat2-banner-row {
+  display: flex; justify-content: center; align-items: flex-end; gap: 32px;
+  height: 230px; overflow: hidden; padding-inline: var(--gutter);
+}
+.cat2-banner-row img { flex: none; width: auto; height: 180px; }
+.cat2-banner-row .is-s { height: 80px; }
+.cat2-banner-row .is-m { height: 130px; }
+.cat2-banner-row .is-l { height: 200px; }
+.cat2-banner .cat2-display { margin-top: 40px; }
+.cat2-lede { max-width: 640px; margin: 16px auto 0; padding-inline: var(--gutter); font: var(--t-body); letter-spacing: var(--tr-body); }
+@media (max-width: 734px) {
+  .cat2-banner-row { height: 160px; gap: 20px; }
+  .cat2-banner-row img { height: 120px; }
+  .cat2-banner-row .is-s { height: 56px; }
+  .cat2-banner-row .is-m { height: 90px; }
+  .cat2-banner-row .is-l { height: 130px; }
+}
+
+/* ---------- Refurbished: category list ---------- */
+.cat2-cats { min-height: 320px; text-align: center; }
+.cat2-cats-head { padding: 65px 0 26px; }
+.cat2-cats-list {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  width: 1024px; max-width: calc(100% - 2 * var(--gutter)); margin: 0 auto;
+}
+/* 8 items x 128 px = 1024 px (spec 05 §3.1 gives 7.529rem, which is 128 px at the 17 px root) */
+.cat2-cat { width: 128px; padding: 10px 0 20px; color: var(--text); }
+.cat2-cat img { height: 72px; width: auto; margin: 0 auto 12px; }
+.cat2-cat span {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-inline: 4px;
+  font: var(--t-small); letter-spacing: var(--tr-small);
+}
+.cat2-cat:hover, .cat2-cat:focus-visible { color: var(--link); text-decoration: underline; }
+@media (max-width: 1023px) {
+  .cat2-cats-list { width: 256px; }
+}
+@media (max-width: 734px) {
+  .cat2-cats-head { padding: 40px 0; }
+  .cat2-cat { padding: 10px 0 40px; }
+}
+
+/* ---------- Refurbished: featured products ---------- */
+.cat2-featured { padding-bottom: 80px; background: var(--page); text-align: center; }
+.cat2-featured-head { padding: 80px 0 26px; }
+.cat2-tile-hero, .cat2-tiles .cat2-tile {
+  position: relative; display: flex; flex-direction: column;
+  background: var(--surface); color: var(--text); text-decoration: none; text-align: center;
+  border-style: solid; border-color: var(--page); border-width: 0 10px 10px 0; /* spec 05 §3.2 */
+  border-radius: var(--r-card);
+}
+.cat2-tile-hero {
+  width: 1072px; max-width: calc(100% - 2 * var(--gutter)); margin: 0 auto 10px; padding: 60px 0 40px;
+}
+.cat2-tiles {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  width: 1072px; max-width: calc(100% - 2 * var(--gutter)); margin: 0 auto;
+}
+.cat2-tiles .cat2-tile { padding: 60px 0 40px; }
+.cat2-tile:hover .cat2-tile-title, .cat2-tile-hero:hover .cat2-tile-title { color: var(--link); }
+.cat2-tile-badge {
+  position: absolute; top: 30px; left: 0; right: 0; margin: 0;
+  font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2);
+}
+.cat2-tile-image { display: flex; align-items: center; justify-content: center; height: 240px; }
+.cat2-tile-image img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+.cat2-tile-hero .cat2-tile-image { height: 265px; padding: 0 40px; } /* spec 05 §3.2, hero image 265 px */
+.cat2-tile-info { padding-top: 30px; }
+.cat2-tile-title {
+  padding: 33px 40px 0; font: 600 14px/1.2858 var(--font); letter-spacing: -.016em; color: var(--text);
+}
+.cat2-prices { margin-top: 16px; padding: 0 15%; }
+.cat2-price { padding-top: 16px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.cat2-price-old { font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
+.cat2-price-old s { color: var(--text-2); }
+.cat2-saving { padding-inline-start: 4px; }
+.cat2-monthly { padding-top: 4px; font: var(--t-small); letter-spacing: var(--tr-small); }
+@media (max-width: 1023px) {
+  .cat2-tiles { grid-template-columns: repeat(2, 1fr); }
+  .cat2-tiles .cat2-tile, .cat2-tile-hero { padding: 20px 0 28px; border-width: 0 0 10px; }
+  .cat2-tile-title { padding: 33px 8% 0; }
+  .cat2-tile-image { height: auto; }
+  .cat2-tile-image img { width: 90%; height: auto; }
+  .cat2-tile-hero { padding: 20px 0 28px; }
+  .cat2-tile-hero .cat2-tile-image { height: auto; padding: 0; }
+  .cat2-tile-hero .cat2-tile-image img { width: 90%; height: auto; }
+}
+@media (max-width: 734px) {
+  .cat2-featured { padding-bottom: 60px; }
+  .cat2-featured-head { padding: 40px 0 30px; }
+}
+
+/* ---------- Upgrade: intro ---------- */
+.cat2-up-hero { padding: 64px var(--gutter) 0; text-align: center; }
+.cat2-up-hero h1 { margin-top: 8px; }
+.cat2-program { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; color: var(--text); }
+.cat2-up-visual { display: flex; justify-content: center; height: 260px; margin-top: 48px; }
+.cat2-up-visual img { height: 100%; width: auto; }
+.cat2-up-lede { max-width: 680px; margin: 48px auto 0; font: var(--t-intro); letter-spacing: var(--tr-intro); }
+.cat2-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  max-width: 980px; margin: 64px auto 0;
+}
+.cat2-step { display: flex; flex-direction: column; align-items: center; }
+.cat2-step svg { width: 44px; height: 44px; margin-bottom: 16px; }
+.cat2-step p { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+.cat2-up-cta { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 56px; }
+@media (max-width: 734px) {
+  .cat2-steps { grid-template-columns: 1fr; gap: 40px; }
+  .cat2-up-cta { margin-top: 40px; }
+}
+
+/* ---------- Upgrade: model selector ---------- */
+.cat2-sel-intro { padding-top: 80px; }
+.cat2-sel-intro h2 { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; }
+.cat2-sel-intro p { max-width: 480px; margin-top: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
+/* Tab row starts at max(22px, (100vw - 980px) / 2), matching the 980 px container (spec 05 §4.1) */
+.cat2-tabs { margin: 48px max(22px, calc((100vw - 980px) / 2)) 0; padding-top: 0; }
+.cat2-tabs .tab { font: var(--t-small); letter-spacing: var(--tr-small); }
+.cat2-track {
+  gap: 30px; padding: 0 max(22px, calc(50vw - 490px)) 64px; /* spec 05 §4.1: --container-offset */
+  scroll-padding-inline: max(22px, calc(50vw - 490px));
+}
+.cat2-model {
+  flex: none; width: 232.5px; display: flex; flex-direction: column; align-items: center; text-align: center;
+  scroll-snap-stop: always; color: var(--text);
+}
+.cat2-model-visual { display: flex; align-items: center; justify-content: center; width: 232.5px; height: 233.4px; margin-bottom: 32px; } /* spec 05 §4.2 */
+.cat2-model-visual.has-swatches { margin-bottom: 0; }
+.cat2-model-visual img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+.cat2-swatches { display: flex; justify-content: center; gap: 6px; margin: 0 0 24px; }
+.cat2-swatches i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12); }
+.cat2-model-badge { min-height: 1.3334em; margin-bottom: 8px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--badge-new); white-space: nowrap; }
+.cat2-model-title { margin-bottom: 8px; font: 600 24px/1.1667 var(--font); letter-spacing: .009em; }
+.cat2-model-sub { max-width: 200px; min-height: 2lh; margin-bottom: 16px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.cat2-model-price { max-width: 282px; margin-bottom: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.cat2-model-btn { margin: 8px 0; }
+.cat2-model-features { width: 100%; margin: 80px 0 0; border-top: 2px solid var(--line); text-align: start; }
+.cat2-model-features dd { margin-inline-start: 0; }
+.cat2-model-features > div { padding-top: 32px; }
+.cat2-model-features dt { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+.cat2-model-features dd { margin: 5px 0 0; font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
+@media (max-width: 1023px) {
+  .cat2-tabs { margin: 24px var(--gutter) 0; }
+  .cat2-tabs { gap: 4px; }
+  .cat2-tabs .tab { flex: 1; padding-inline: 8px; text-align: center; }
+  .cat2-track { padding: 0 var(--gutter) 40px; scroll-padding-inline: var(--gutter); }
+}
+@media (max-width: 734px) {
+  .cat2-model, .cat2-model-visual { width: 188px; }
+  .cat2-model-visual { height: auto; }
+  .cat2-model-visual img { width: 188px; height: auto; }
+  .cat2-model-title { font-size: 19px; line-height: 1.2105; letter-spacing: .012em; }
+  .cat2-model-features dt { font-size: 17px; }
+}
+
+/* ---------- Upgrade: explanatory sections ---------- */
+.cat2-sec { padding: 96px 0; }
+.cat2-sec--light { background: var(--surface); }
+.cat2-sec--page { background: var(--page); }
+.cat2-sec--grad { background: linear-gradient(180deg, var(--surface) 0%, var(--line-2) 100%); }
+.cat2-sec--dark { min-height: 610px; background: #1d1d1f; color: #f5f5f7; display: flex; align-items: center; } /* spec 05 §4.1, ~610 px */
+.cat2-sec--dark h2 { color: #fff; }
+.cat2-sec-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.cat2-sec-inner h2 { font: 600 40px/1.1 var(--font); letter-spacing: 0; }
+.cat2-sec-inner p { max-width: 420px; margin-top: 24px; font: var(--t-body); letter-spacing: var(--tr-body); }
+.cat2-sec-inner .btn-outline { margin-top: 24px; }
+.cat2-sec-visual { display: flex; align-items: center; justify-content: center; gap: 16px; height: 300px; }
+.cat2-sec-visual img { height: auto; width: auto; max-height: 100%; }
+.cat2-sec-visual .is-l { height: 260px; }
+.cat2-sec-visual .is-m { height: 180px; }
+.cat2-sec-visual .is-s { height: 120px; }
+@media (max-width: 734px) {
+  .cat2-sec { padding: 64px 0; }
+  .cat2-sec-inner { grid-template-columns: 1fr; gap: 40px; }
+  .cat2-sec--dark { min-height: 0; }
+  .cat2-sec-inner h2 { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+  .cat2-sec-visual { height: auto; flex-wrap: wrap; gap: 16px; }
+  .cat2-sec-visual img { height: auto; max-height: none; }
+  .cat2-sec-visual .is-l { width: 60%; }
+  .cat2-sec-visual .is-m { width: 42%; }
+  .cat2-sec-visual .is-s { width: 30%; }
+}
+
+/* ---------- Upgrade: FAQ ---------- */
+.cat2-faq { padding: 96px 0 120px; }
+.cat2-faq h2 { margin-bottom: 24px; font: 600 40px/1.1 var(--font); letter-spacing: 0; }
+.cat2-faq .acc-panel-inner p { font: var(--t-body); letter-spacing: var(--tr-body); }
+@media (max-width: 734px) {
+  .cat2-faq { padding: 64px 0 80px; }
+  .cat2-faq h2 { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+}

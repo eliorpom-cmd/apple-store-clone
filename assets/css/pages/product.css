@@ -1,0 +1,214 @@
+/* Product pages: case and charger detail pages, and the gift card page.
+   Shared parts (buttons, options, swatches, gallery, accordion, cards, scroller,
+   availability, more-plus links) come from components.css and are not restyled here.
+   This file holds the page layout and the pieces only these pages use.
+   Values with a "spec 04" comment come from _analysis/specs/04-achat-simple-et-fiches.md. */
+
+/* Hidden SVG sprite that holds the case artwork; each <use> is painted with the selected color. */
+.product-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- Shared layout ---------- */
+.product-container { width: min(980px, 100% - 2 * var(--gutter)); margin-inline: auto; }
+
+/* Local bar under the global nav: category title on the left, one link on the right. spec 04 §0 */
+.product-localbar {
+  position: sticky; top: 0; z-index: 1000; height: 52px;
+  background: var(--nav-bg); border-bottom: 1px solid var(--line-2);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+}
+.product-localbar-row { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+.product-localbar-title { font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); }
+.product-localbar-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text);
+}
+.product-localbar-link:hover { color: var(--text-2); text-decoration: none; }
+.product-localbar-link svg { width: 10px; height: 6px; }
+
+/* Thin rule between the buy block and the details. */
+.product-rule { border: 0; border-top: 1px solid var(--line); margin: 64px 0 0; }
+
+/* ---------- Main block: gallery left, buy column right (980 px) ---------- */
+.product-main {
+  display: grid; grid-template-columns: 512px 327px; justify-content: space-between; align-items: start;
+  column-gap: 40px; padding-top: 64px;
+}
+.product-media { width: 512px; padding-bottom: 52px; /* room for the dots under the image */ }
+.product-gallery {
+  position: relative; aspect-ratio: 1 / 1; background: transparent; border-radius: 0;
+  /* Clip the slides sideways only, so the dots below the image stay visible. */
+  overflow-x: clip; overflow-y: visible;
+}
+.product-gallery .gallery-slide { padding: 0; }
+.product-gallery .gallery-slide > svg { width: auto; height: 100%; max-width: 100%; max-height: 100%; }
+.product-gallery .dots { bottom: -40px; padding: 0; }
+.product-zoom { transform: scale(1.6); }
+
+.product-info { width: 327px; margin: 0; }
+.product-info .eyebrow { padding-bottom: 4px; }
+.product-title { font: 600 32px/1.125 var(--font); letter-spacing: .004em; color: var(--text); } /* spec 04 §0 */
+.product-price { font: var(--t-body); padding-top: 14px; }
+.product-price-sub { font: var(--t-body); padding-top: 2px; }
+.product-finance { padding-top: 14px; }
+
+/* Group titles above swatches and options: 17 / 1.471 / 600. spec 04 §0 */
+.product-group-title {
+  font: 600 17px/1.4706 var(--font); letter-spacing: var(--tr-body); color: var(--text);
+  margin: 32px 0 12px;
+}
+.product-group-title .swatch-label { font: inherit; letter-spacing: inherit; color: inherit; min-height: 0; }
+.product-step { margin: 0; }
+.product-models { grid-template-columns: 1fr; gap: 10px; margin-top: 0; }
+
+/* Buy buttons: full column width, 36 px tall (the .btn default), small radius. spec 04 §0 */
+.product-actions { display: grid; gap: 12px; margin-top: 28px; }
+.product-actions .btn { display: block; width: 100%; border-radius: var(--r-md); padding: 8px 15px; }
+.product-availability { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+.product-availability svg { color: var(--text); }
+.product-availability p { font: var(--t-small); letter-spacing: var(--tr-small); }
+.product-availability strong { font-weight: 600; }
+
+/* "Need a moment?" block with the save link. spec 04 §0 */
+.product-save { margin-top: 28px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.product-save-title { font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
+.product-save-text { padding-top: 2px; }
+.product-save-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; color: var(--link); }
+.product-save-link svg { width: 12px; height: 16px; }
+
+.product-help {
+  display: flex; align-items: center; gap: 8px; margin-top: 24px; padding-top: 16px;
+  border-top: 1px solid var(--line); font: var(--t-small); letter-spacing: var(--tr-small);
+}
+.product-help svg { flex: none; width: 20px; height: 20px; color: var(--text); }
+.product-help strong { font-weight: 600; }
+
+/* ---------- Details accordion: title on the left, content in the 735 px column. spec 04 §3.2 ---------- */
+.product-details .accordion { border-bottom: 1px solid var(--line); }
+.product-details .acc-btn { font: 600 32px/1.125 var(--font); letter-spacing: .004em; padding: 32px 0; color: var(--text); }
+.product-details .acc-panel-inner { max-width: none; padding: 0 0 45px 245px; }
+.product-details .acc-panel-inner p + p { margin-top: 1em; }
+
+/* Compatibility list in 235 px columns. spec 04 §3.2 */
+.product-compat { display: grid; grid-template-columns: repeat(3, 235px); gap: 0; }
+.product-compat li { padding-bottom: 6px; color: var(--text); }
+.product-compat li:hover { color: var(--link); }
+.product-list li { position: relative; padding-bottom: 8px; padding-left: 0; }
+
+/* ---------- Recommendations: centered title, 313 px cards in a scroller that bleeds to the right ---------- */
+.product-recs { --shelf-edge: max(22px, calc(50% - 490px)); /* left edge = container edge (230 px at 1440) */ margin-top: 96px; }
+.product-recs-title { font: var(--t-section); letter-spacing: var(--tr-section); text-align: center; padding-bottom: 32px; }
+
+/* ---------- Gift card page ---------- */
+.gc-main {
+  display: grid; grid-template-columns: 490px 408px; justify-content: space-between; align-items: start;
+  column-gap: 40px; padding-top: 48px;
+}
+.gc-stage {
+  position: sticky; top: 52px; height: 620px; display: grid; place-items: center; isolation: isolate;
+}
+.gc-card {
+  position: relative; width: 340px; aspect-ratio: 1.586 / 1; border-radius: var(--r-card); padding: 24px;
+  display: flex; flex-direction: column; justify-content: space-between; color: var(--text);
+  background: linear-gradient(135deg, #fafafc 0%, #e8e8ed 48%, #c7c7cc 100%);
+  box-shadow: var(--shadow-card-hover); transition: background-color var(--dur-3) linear;
+}
+/* Physical card: dark gradient with a second card behind it, drawn in CSS only. */
+.gc-card.is-physical {
+  color: #fff; background: linear-gradient(135deg, #6e6e73 0%, #1d1d1f 60%, #000 100%);
+}
+.gc-card.is-physical::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: linear-gradient(135deg, #f5f5f7 0%, #d2d2d7 100%);
+  transform: translate(-16px, 14px) rotate(-6deg);
+}
+.gc-card-brand { font: 600 12px/1.3334 var(--font); letter-spacing: var(--tr-note); }
+.gc-card-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.gc-card-to { font: var(--t-small); letter-spacing: var(--tr-small); }
+.gc-card-amount { font: var(--t-hero); letter-spacing: var(--tr-hero); }
+
+.gc-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
+.gc-intro { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 16px; }
+.gc-form { margin: 0; }
+.gc-form .product-step { margin-top: 36px; }
+.gc-options .option-label { flex-direction: column; justify-content: center; align-items: center; gap: 4px; text-align: center; }
+.gc-options .option-name { display: block; }
+.gc-wide { grid-column: 1 / -1; }
+
+/* Custom amount: appears only when "Other amount" is chosen. */
+.gc-custom { margin-top: 14px; }
+.gc-custom[hidden] { display: none; }
+.gc-amount {
+  display: flex; align-items: stretch; height: 55px; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--text-3); border-radius: var(--r-md);
+}
+.gc-amount:focus-within { border-color: var(--action); box-shadow: 0 0 0 1px var(--action); }
+.gc-amount-prefix {
+  width: 43px; display: grid; place-items: center; border-right: 1px solid var(--line);
+  font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text-2);
+}
+.gc-amount input {
+  flex: 1; min-width: 0; padding: 0 15px; border: 0; outline: none; background: transparent;
+  font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text);
+}
+.gc-amount input::placeholder { color: var(--text-3); }
+
+/* Recipient form: floating labels, 12 px radius, 1 px #86868b border (var(--text-3)), blue focus. */
+.gc-recipient { margin-top: 36px; }
+.gc-field { position: relative; margin-top: 15px; }
+.gc-field input, .gc-field textarea {
+  display: block; width: 100%; height: 56px; padding: 22px 16px 6px;
+  background: var(--surface); border: 1px solid var(--text-3); border-radius: var(--r-md);
+  font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); outline: none;
+  transition: border-color var(--dur-1) linear, box-shadow var(--dur-1) linear;
+}
+.gc-field textarea { height: 104px; padding-top: 26px; resize: none; }
+.gc-field label {
+  position: absolute; left: 16px; top: 50%; translate: 0 -50%; pointer-events: none;
+  font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text-2);
+  transition: top var(--dur-1) ease, translate var(--dur-1) ease;
+}
+.gc-field-area label { top: 26px; translate: 0 0; }
+.gc-field input:focus, .gc-field textarea:focus { border-color: var(--action); box-shadow: 0 0 0 1px var(--action); }
+.gc-field input:focus + label, .gc-field input:not(:placeholder-shown) + label,
+.gc-field textarea:focus + label, .gc-field textarea:not(:placeholder-shown) + label {
+  top: 9px; translate: 0 0; font: var(--t-note); letter-spacing: var(--tr-note);
+}
+.gc-field-area textarea:focus + label, .gc-field-area textarea:not(:placeholder-shown) + label { top: 9px; }
+
+/* Summary: light surface, price line, select button, save block. spec 04 §5.2 */
+.gc-summary { margin-top: 48px; padding: 24px; background: var(--surface-2); border-radius: var(--r-md); }
+.gc-summary-line { display: flex; justify-content: space-between; gap: 16px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+.gc-summary-line + .gc-summary-line { padding-top: 6px; }
+.gc-summary-price {
+  color: var(--text); font: 600 21px/1.1905 var(--font); letter-spacing: .011em;
+  padding: 10px 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line-2);
+}
+.gc-summary .product-actions { margin-top: 0; }
+.gc-summary .product-save { margin-top: 24px; }
+.gc-help { margin-top: 24px; text-align: center; font: var(--t-small); letter-spacing: var(--tr-small); }
+
+/* ---------- Responsive: stacked layout under 1024 px ---------- */
+@media (max-width: 1023px) {
+  .product-main { grid-template-columns: 1fr; column-gap: 0; padding-top: 32px; }
+  .product-media { width: 100%; max-width: 512px; margin-inline: auto; }
+  .product-info { width: 100%; }
+  .product-details .acc-panel-inner { padding-left: 0; }
+  .product-compat { grid-template-columns: 1fr; }
+  .gc-main { grid-template-columns: 1fr; column-gap: 0; padding-top: 24px; }
+  .gc-stage { position: static; height: auto; padding: 16px 0 24px; }
+  .gc-card { width: min(340px, 100%); }
+}
+
+/* Phone width: 390 px target, 16 px gutter, type scaled as spec 04 §0. */
+@media (max-width: 734px) {
+  .product-recs { --shelf-edge: 16px; }
+  .product-recs-title { padding-top: 0; }
+  .product-title { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; }
+  .product-details .acc-btn { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; padding: 24px 0; }
+  .product-details .acc-panel-inner { padding-bottom: 30px; }
+  .product-rule { margin-top: 48px; }
+  .product-localbar-title { font-size: 19px; }
+  .gc-title { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+  .gc-options { grid-template-columns: 1fr; }
+  .gc-card-amount { font-size: 32px; }
+}

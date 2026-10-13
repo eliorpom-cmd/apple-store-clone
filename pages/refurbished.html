@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certified refurbished — Demo Store</title>
+  <meta name="description" content="Tested refurbished devices from Demo Store, with a one-year warranty.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/catalog-2.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <!-- Local nav: sticky under the global nav; data-catbar toggles .is-stuck -->
+  <header class="cat2-localnav" data-catbar>
+    <div class="container cat2-localnav-inner">
+      <p class="cat2-localnav-title">Certified refurbished</p>
+      <a class="cat2-localnav-menu" href="#categories">Browse all <svg viewBox="0 0 11 11" aria-hidden="true"><path d="M1 3.5l4.5 4.5L10 3.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Banner -->
+    <section class="cat2-banner" aria-labelledby="refurb-title">
+      <div class="cat2-banner-row" aria-hidden="true">
+        <img class="is-s" src="../assets/img/products/tvbox.svg" alt="">
+        <img class="is-l" src="../assets/img/products/tablet.svg" alt="">
+        <img class="is-m" src="../assets/img/products/phone.svg" alt="">
+        <img class="is-s" src="../assets/img/products/watch.svg" alt="">
+        <img class="is-m" src="../assets/img/products/laptop.svg" alt="">
+        <img class="is-s" src="../assets/img/products/earbuds.svg" alt="">
+        <img class="is-l" src="../assets/img/products/display.svg" alt="">
+        <img class="is-m" src="../assets/img/products/case.svg" alt="">
+      </div>
+      <h1 id="refurb-title" class="cat2-display">Certified refurbished.</h1>
+      <p class="cat2-lede">Each device passes a full functional test and carries a one-year warranty. Savings reach up to 15 percent.</p>
+    </section>
+
+    <!-- Categories -->
+    <section class="cat2-cats" id="categories" aria-labelledby="cats-title">
+      <div class="cat2-cats-head"><h2 id="cats-title" class="cat2-h32">Shop by category</h2></div>
+      <div class="cat2-cats-list">
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/laptop.svg" alt=""><span>Laptops</span></a>
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/tablet.svg" alt=""><span>Tablets</span></a>
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/phone.svg" alt=""><span>Phones</span></a>
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/watch.svg" alt=""><span>Watches</span></a>
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/earbuds.svg" alt=""><span>Earbuds</span></a>
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/headset.svg" alt=""><span>Headsets</span></a>
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/tvbox.svg" alt=""><span>Home</span></a>
+        <a class="cat2-cat" href="#"><img src="../assets/img/products/case.svg" alt=""><span>Accessories</span></a>
+      </div>
+    </section>
+
+    <!-- Featured products -->
+    <section class="cat2-featured" aria-labelledby="featured-title">
+      <div class="cat2-featured-head"><h2 id="featured-title" class="cat2-h32">Featured products</h2></div>
+
+      <!-- Hero tile: wide, taller image -->
+      <a class="cat2-tile-hero" href="#">
+        <p class="cat2-tile-badge">Excellent</p>
+        <div class="cat2-tile-image"><img src="../assets/img/products/desktop.svg" alt=""></div>
+        <div class="cat2-tile-info">
+          <h3 class="cat2-tile-title">Refurbished Desktop, 512GB storage, 10-core CPU</h3>
+          <div class="cat2-prices">
+            <p class="cat2-price">$1,099.00</p>
+            <p class="cat2-price-old"><s>$1,199.00</s><span class="cat2-saving">Save $100.00</span></p>
+            <p class="cat2-monthly">$45.79/mo. for 24 mo.</p>
+          </div>
+        </div>
+      </a>
+
+      <div class="cat2-tiles">
+        <a class="cat2-tile" href="#">
+          <p class="cat2-tile-badge">Like new</p>
+          <div class="cat2-tile-image"><img src="../assets/img/products/phone.svg" alt=""></div>
+          <div class="cat2-tile-info">
+            <h3 class="cat2-tile-title">Refurbished Phone Pro 128GB, Blue (Unlocked)</h3>
+            <div class="cat2-prices">
+              <p class="cat2-price">$699.00</p>
+              <p class="cat2-price-old"><s>$799.00</s><span class="cat2-saving">Save $100.00</span></p>
+              <p class="cat2-monthly">$29.13/mo. for 24 mo.</p>
+            </div>
+          </div>
+        </a>
+        <a class="cat2-tile" href="#">
+          <p class="cat2-tile-badge">Excellent</p>
+          <div class="cat2-tile-image"><img src="../assets/img/products/tablet.svg" alt=""></div>
+          <div class="cat2-tile-info">
+            <h3 class="cat2-tile-title">Refurbished Tablet Pro 13-inch, 256GB, Wi-Fi, Silver</h3>
+            <div class="cat2-prices">
+              <p class="cat2-price">$1,099.00</p>
+              <p class="cat2-price-old"><s>$1,199.00</s><span class="cat2-saving">Save $100.00</span></p>
+              <p class="cat2-monthly">$45.79/mo. for 24 mo.</p>
+            </div>
+          </div>
+        </a>
+        <a class="cat2-tile" href="#">
+          <p class="cat2-tile-badge">Excellent</p>
+          <div class="cat2-tile-image"><img src="../assets/img/products/laptop.svg" alt=""></div>
+          <div class="cat2-tile-info">
+            <h3 class="cat2-tile-title">Refurbished Laptop Pro 14-inch, 10-core CPU, Space Black</h3>
+            <div class="cat2-prices">
+              <p class="cat2-price">$1,439.00</p>
+              <p class="cat2-price-old"><s>$1,599.00</s><span class="cat2-saving">Save $160.00</span></p>
+              <p class="cat2-monthly">$59.96/mo. for 24 mo.</p>
+            </div>
+          </div>
+        </a>
+        <a class="cat2-tile" href="#">
+          <p class="cat2-tile-badge">Like new</p>
+          <div class="cat2-tile-image"><img src="../assets/img/products/watch-rugged.svg" alt=""></div>
+          <div class="cat2-tile-info">
+            <h3 class="cat2-tile-title">Refurbished Watch Ultra 49mm, Titanium Case</h3>
+            <div class="cat2-prices">
+              <p class="cat2-price">$699.00</p>
+              <p class="cat2-price-old"><s>$799.00</s><span class="cat2-saving">Save $100.00</span></p>
+              <p class="cat2-monthly">$29.13/mo. for 24 mo.</p>
+            </div>
+          </div>
+        </a>
+        <a class="cat2-tile" href="#">
+          <p class="cat2-tile-badge">Excellent</p>
+          <div class="cat2-tile-image"><img src="../assets/img/products/phone-slim.svg" alt=""></div>
+          <div class="cat2-tile-info">
+            <h3 class="cat2-tile-title">Refurbished Phone Air 256GB, Sky Blue (Unlocked)</h3>
+            <div class="cat2-prices">
+              <p class="cat2-price">$799.00</p>
+              <p class="cat2-price-old"><s>$899.00</s><span class="cat2-saving">Save $100.00</span></p>
+              <p class="cat2-monthly">$33.29/mo. for 24 mo.</p>
+            </div>
+          </div>
+        </a>
+        <a class="cat2-tile" href="#">
+          <p class="cat2-tile-badge">Like new</p>
+          <div class="cat2-tile-image"><img src="../assets/img/products/display.svg" alt=""></div>
+          <div class="cat2-tile-info">
+            <h3 class="cat2-tile-title">Refurbished Studio Display 27-inch, Standard Glass</h3>
+            <div class="cat2-prices">
+              <p class="cat2-price">$1,299.00</p>
+              <p class="cat2-price-old"><s>$1,599.00</s><span class="cat2-saving">Save $300.00</span></p>
+              <p class="cat2-monthly">$54.13/mo. for 24 mo.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

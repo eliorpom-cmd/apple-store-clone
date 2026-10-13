@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laptop Pro — Demo Store</title>
+  <meta name="description" content="Configure a Laptop Pro: screen, colour, chip, memory and storage, with a live total.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/configurator-2.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main>
+    <div class="cfg2" data-configurator data-base="1599">
+
+      <header class="cfg2-head" data-pbar-after>
+        <div class="cfg2-head-main">
+          <p class="eyebrow eyebrow-new">New</p>
+          <h1 class="t-hero">Laptop Pro</h1>
+          <p class="t-body">From $1599.</p>
+          <p class="t-body">Pick a screen, chip and memory. The total updates as you go.</p>
+          <p style="padding-top:8px"><a href="#" class="more" data-modal-open="m-help">Help me choose</a></p>
+        </div>
+        <div class="cfg2-pills">
+          <a class="cfg2-pill more-plus" href="buy-computer.html">Compare laptops</a>
+          <a class="cfg2-pill more-plus" href="trade-in.html">Trade-in estimate</a>
+        </div>
+      </header>
+
+      <div class="cfg2-wrap">
+        <div class="cfg2-layout">
+
+          <!-- Left column: gallery, sticky on desktop -->
+          <div class="cfg2-gallery">
+            <div class="gallery" data-gallery="compact">
+              <div class="gallery-track">
+                <div class="gallery-slide">
+                  <p class="gallery-caption">A thin body with a large display.</p>
+                  <img src="../assets/img/products/laptop.svg" alt="Laptop Pro, front view">
+                </div>
+                <div class="gallery-slide">
+                  <p class="gallery-caption">A full-size keyboard and a large trackpad.</p>
+                  <img src="../assets/img/products/keyboard.svg" alt="Laptop Pro keyboard">
+                </div>
+                <div class="gallery-slide">
+                  <p class="gallery-caption">Works with an external display.</p>
+                  <img src="../assets/img/products/display.svg" alt="External display">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column: steps -->
+          <div class="cfg2-rail">
+
+            <section class="step" id="c-size">
+              <h2 class="step-title"><strong>Screen.</strong> Pick a size.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="size" value="14" data-label="14-inch" data-price="0" aria-label="14-inch screen">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">14<small> in</small></span><span class="option-sub">Compact and light</span></span>
+                    <span class="option-price">Included</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="size" value="16" data-label="16-inch" data-price="400" aria-label="16-inch screen">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">16<small> in</small></span><span class="option-sub">More room for multitasking</span></span>
+                    <span class="option-price">+$400</span>
+                  </span>
+                </label>
+              </div>
+              <div class="helpcard">
+                <span><strong>Not sure which size?</strong>Compare the weight and screen area.</span>
+                <a href="#" class="more-plus" data-modal-open="m-help">Learn more</a>
+              </div>
+            </section>
+
+            <section class="step" id="c-color">
+              <h2 class="step-title"><strong>Colour.</strong> Choose a finish.<span data-step-choice></span></h2>
+              <div class="swatches">
+                <label class="swatch"><input type="radio" name="color" value="silver" data-label="Silver" data-price="0" aria-label="Silver"><span style="--c:#e3e4e8"></span></label>
+                <label class="swatch"><input type="radio" name="color" value="midnight" data-label="Midnight" data-price="0" aria-label="Midnight"><span style="--c:#2c2c2e"></span></label>
+              </div>
+              <p class="swatch-label"></p>
+            </section>
+
+            <section class="step" id="c-chip">
+              <h2 class="step-title"><strong>Chip.</strong> Choose the processor.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option option-rich">
+                  <input type="radio" name="chip" value="base" data-label="Chip Base" data-price="0">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="option-name">Chip Base</span><span class="option-sub">For everyday work</span></span>
+                      <span class="option-price">Included</span>
+                    </span>
+                    <ul>
+                      <li>8-core processor</li>
+                      <li>10-core graphics</li>
+                      <li>Up to 24 GB of memory</li>
+                    </ul>
+                  </span>
+                </label>
+                <label class="option option-rich">
+                  <input type="radio" name="chip" value="plus" data-label="Chip Plus" data-price="300">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="option-name">Chip Plus</span><span class="option-sub">For large projects</span></span>
+                      <span class="option-price">+$300</span>
+                    </span>
+                    <ul>
+                      <li>10-core processor</li>
+                      <li>16-core graphics</li>
+                      <li>Up to 64 GB of memory</li>
+                    </ul>
+                  </span>
+                </label>
+                <label class="option option-rich">
+                  <input type="radio" name="chip" value="max" data-label="Chip Max" data-price="700">
+                  <span class="option-label">
+                    <span class="option-top">
+                      <span class="option-title"><span class="option-name">Chip Max</span><span class="option-sub">For heavy rendering and code</span></span>
+                      <span class="option-price">+$700</span>
+                    </span>
+                    <ul>
+                      <li>14-core processor</li>
+                      <li>32-core graphics</li>
+                      <li>Up to 128 GB of memory</li>
+                    </ul>
+                  </span>
+                </label>
+              </div>
+              <div class="helpcard">
+                <span><strong>Which chip fits your work?</strong>See what each chip is built for.</span>
+                <a href="#" class="more-plus" data-modal-open="m-help">Learn more</a>
+              </div>
+            </section>
+
+            <section class="step" id="c-memory">
+              <h2 class="step-title"><strong>Memory.</strong> How much do you need?<span data-step-choice></span></h2>
+              <div class="options options-3">
+                <label class="option">
+                  <input type="radio" name="memory" value="16" data-label="16 GB" data-price="0" aria-label="16 GB">
+                  <span class="option-label"><span class="option-name">16 GB</span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="memory" value="32" data-label="32 GB" data-price="400" aria-label="32 GB">
+                  <span class="option-label"><span class="option-name">32 GB</span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="memory" value="64" data-label="64 GB" data-price="800" aria-label="64 GB">
+                  <span class="option-label"><span class="option-name">64 GB</span></span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-storage">
+              <h2 class="step-title"><strong>Storage.</strong> Pick a capacity.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="storage" value="512" data-label="512 GB" data-price="0" aria-label="512 GB">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">512<small> GB</small></span></span>
+                    <span class="option-price">Included</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="storage" value="1024" data-label="1 TB" data-price="300" aria-label="1 TB">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">1<small> TB</small></span></span>
+                    <span class="option-price">+$300</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="storage" value="2048" data-label="2 TB" data-price="700" aria-label="2 TB">
+                  <span class="option-label">
+                    <span class="option-main"><span class="option-big">2<small> TB</small></span></span>
+                    <span class="option-price">+$700</span>
+                  </span>
+                </label>
+              </div>
+            </section>
+
+            <!-- Optional step: it never blocks the steps below -->
+            <section class="step cfg2-optional" id="c-more" data-optional="true" data-dot-label="Customize more">
+              <div class="accordion accordion-compact" data-accordion>
+                <div class="acc-item">
+                  <button class="acc-btn" type="button" aria-expanded="false">Customize more</button>
+                  <div class="acc-panel">
+                    <div class="acc-panel-inner">
+                      <p class="cfg2-sub">Power adapter</p>
+                      <div class="options">
+                        <label class="option">
+                          <input type="radio" name="adapter" value="96" data-label="96 W adapter" data-price="0" aria-label="96 W adapter">
+                          <span class="option-label"><span class="option-main"><span class="option-name">Standard, 96 W</span></span><span class="option-price">Included</span></span>
+                        </label>
+                        <label class="option">
+                          <input type="radio" name="adapter" value="140" data-label="140 W adapter" data-price="49" aria-label="140 W adapter">
+                          <span class="option-label"><span class="option-main"><span class="option-name">Fast, 140 W</span></span><span class="option-price">+$49</span></span>
+                        </label>
+                      </div>
+                      <p class="cfg2-sub">Keyboard light</p>
+                      <div class="options">
+                        <label class="option">
+                          <input type="radio" name="keylight" value="off" data-label="No keyboard light" data-price="0" aria-label="No keyboard light">
+                          <span class="option-label"><span class="option-main"><span class="option-name">Off</span></span><span class="option-price">Included</span></span>
+                        </label>
+                        <label class="option">
+                          <input type="radio" name="keylight" value="on" data-label="Keyboard light" data-price="0" aria-label="Keyboard light">
+                          <span class="option-label"><span class="option-main"><span class="option-name">On</span></span><span class="option-price">Included</span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="step" id="c-trade">
+              <h2 class="step-title"><strong>Trade in.</strong> Do you have a laptop to trade in?<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="trade" value="none" data-label="No trade-in" data-price="0" aria-label="No trade-in">
+                  <span class="option-label"><span class="option-main"><span class="option-name">No trade-in</span><span class="option-sub">Pay the full price</span></span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="trade" value="yes" data-label="Trade-in" data-price="0" aria-label="Trade in a laptop">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Trade in a laptop</span><span class="option-sub">Credit is applied at checkout</span></span></span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-pay">
+              <h2 class="step-title"><strong>Payment.</strong> Choose how you pay.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="pay" value="full" data-label="Pay in full" data-price="0" aria-label="Pay in full">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Pay in full</span><span class="option-sub">One payment today</span></span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="pay" value="monthly" data-label="Monthly" data-price="0" aria-label="Monthly payments">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Monthly</span><span class="option-sub">24 payments, 0% APR</span></span></span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" id="c-care">
+              <h2 class="step-title"><strong>Protection.</strong> Add cover for accidents.<span data-step-choice></span></h2>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="care" value="none" data-label="No protection" data-price="0" aria-label="No protection plan">
+                  <span class="option-label"><span class="option-main"><span class="option-name">No protection plan</span></span></span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="care" value="three" data-label="Protection, 3 years" data-price="299" aria-label="Protection plan, 3 years">
+                  <span class="option-label"><span class="option-main"><span class="option-name">Protection plan, 3 years</span><span class="option-sub">Accidental damage and battery service</span></span><span class="option-price">+$299</span></span>
+                </label>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+        <!-- Vertical progress indicator, filled by configurator-2.js -->
+        <nav class="cfg2-progress" aria-label="Steps">
+          <div class="cfg2-progress-inner">
+            <ol class="cfg2-dots"></ol>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Summary -->
+      <section class="summary cfg2-summary" aria-label="Summary">
+        <div>
+          <h2 class="summary-title">Your Laptop Pro.</h2>
+          <div class="availability" style="margin-top:24px">
+            <div>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12.5l2.7 2.6L16 9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Ready to ship in 3 to 5 days.</span>
+            </div>
+            <div>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Free pickup at a store near you.</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="summary-price-label">Total</p>
+          <p class="summary-price" data-total>$1,599</p>
+          <p class="summary-fin">Or <span data-monthly>$66.63</span> per month for 24 months.</p>
+          <button class="btn btn-block" type="button" data-add-to-bag="bag.html" disabled>Add to bag</button>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="cfg2-faq" aria-label="Questions">
+        <h2 class="t-section" style="margin-bottom:24px">Questions about the Laptop Pro</h2>
+        <div class="accordion accordion-compact" data-accordion>
+          <div class="acc-item">
+            <button class="acc-btn" type="button" aria-expanded="false">What does the chip change?</button>
+            <div class="acc-panel"><div class="acc-panel-inner"><p class="t-body">Each step up adds processor cores, graphics cores and the maximum memory you can choose. Everyday tasks run the same on every chip.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" type="button" aria-expanded="false">Can I change my choices after I order?</button>
+            <div class="acc-panel"><div class="acc-panel-inner"><p class="t-body">Memory and storage are fixed at the time of order. You can cancel or change the order within 14 days, before it ships.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" type="button" aria-expanded="false">How is the monthly price worked out?</button>
+            <div class="acc-panel"><div class="acc-panel-inner"><p class="t-body">The monthly price is the total divided by 24, with no interest. Taxes and delivery fees are not included in this example.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sticky product bar, shown after the header scrolls away -->
+      <div class="pbar" data-pbar>
+        <div class="pbar-row">
+          <span class="pbar-name">Laptop Pro</span>
+          <span class="pbar-price"><span data-total>$1,599</span><small>or <span data-monthly>$66.63</span>/mo.</small></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal" id="m-help">
+      <div class="modal-panel">
+        <div class="modal-content">
+          <h2>Choosing the right Laptop Pro.</h2>
+          <p class="t-intro">The 14-inch model is lighter. The 16-inch model gives you more room for windows and tools side by side.</p>
+          <p class="t-body" style="margin-top:24px">The chip sets the speed of heavy work such as video export and large builds. Memory limits how many large apps stay open at once. If you are not sure, the base chip with 16 GB covers most daily work.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/pages/configurator-2.js"></script>
+</body>
+</html>

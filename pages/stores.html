@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find a store — Demo Store</title>
+  <meta name="description" content="Find a store: search by name or address, browse the list, and see every location on a schematic map.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/service.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <!-- Reusable street grid for the small store thumbnails, referenced with <use>. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <g id="svc-grid">
+        <rect width="300" height="168" class="svc-map-land"/>
+        <rect x="18" y="16" width="70" height="44" class="svc-map-block"/>
+        <rect x="112" y="12" width="60" height="40" class="svc-map-block"/>
+        <rect x="200" y="20" width="84" height="48" class="svc-map-block"/>
+        <rect x="24" y="104" width="62" height="46" class="svc-map-block"/>
+        <rect x="200" y="100" width="84" height="54" class="svc-map-block"/>
+        <path d="M0 74H300M0 136H300" class="svc-map-street"/>
+        <path d="M96 0V168M180 0V168" class="svc-map-street"/>
+        <path d="M0 40H300" class="svc-map-street svc-map-street-minor"/>
+      </g>
+    </defs>
+  </svg>
+
+  <main class="svc-page">
+    <div class="container">
+      <div class="stores-search">
+        <h1 class="stores-label">Find a store</h1>
+        <div class="stores-field">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input type="search" aria-label="Search stores" placeholder="Search by city, ZIP, or store name" data-store-search>
+        </div>
+        <a class="stores-complete more" href="#">Full store list</a>
+      </div>
+
+      <h2 class="stores-heading">Stores in Demo Country</h2>
+
+      <div class="stores-list scroller" data-scroller>
+        <div class="scroller-track">
+          <article class="svc-store" data-store-item="Harbor Square 12 Market Street Riverton">
+            <svg class="svc-store-map" viewBox="0 0 300 168" aria-hidden="true"><use href="#svc-grid"/><circle cx="150" cy="84" r="8" class="svc-pin"/></svg>
+            <div class="svc-store-body">
+              <h3 class="svc-store-name">Harbor Square</h3>
+              <p class="svc-store-address">12 Market Street<br>Riverton, Demo 10001</p>
+              <p class="svc-store-hours">Opens at 10:00 a.m.</p>
+            </div>
+          </article>
+          <article class="svc-store" data-store-item="Cedar Mall 300 Cedar Avenue Oakfield">
+            <svg class="svc-store-map" viewBox="0 0 300 168" aria-hidden="true"><use href="#svc-grid"/><circle cx="210" cy="74" r="8" class="svc-pin"/></svg>
+            <div class="svc-store-body">
+              <h3 class="svc-store-name">Cedar Mall</h3>
+              <p class="svc-store-address">300 Cedar Avenue<br>Oakfield, Demo 10002</p>
+              <p class="svc-store-hours">Opens at 10:00 a.m.</p>
+            </div>
+          </article>
+          <article class="svc-store" data-store-item="North Park 45 Park Road Northfield">
+            <svg class="svc-store-map" viewBox="0 0 300 168" aria-hidden="true"><use href="#svc-grid"/><circle cx="70" cy="120" r="8" class="svc-pin"/></svg>
+            <div class="svc-store-body">
+              <h3 class="svc-store-name">North Park</h3>
+              <p class="svc-store-address">45 Park Road<br>Northfield, Demo 10003</p>
+              <p class="svc-store-hours">Opens at 9:30 a.m.</p>
+            </div>
+          </article>
+          <article class="svc-store" data-store-item="Lakeside Plaza 7 Lake Drive Lakeview">
+            <svg class="svc-store-map" viewBox="0 0 300 168" aria-hidden="true"><use href="#svc-grid"/><circle cx="130" cy="120" r="8" class="svc-pin"/></svg>
+            <div class="svc-store-body">
+              <h3 class="svc-store-name">Lakeside Plaza</h3>
+              <p class="svc-store-address">7 Lake Drive<br>Lakeview, Demo 10004</p>
+              <p class="svc-store-hours">Opens at 10:00 a.m.</p>
+            </div>
+          </article>
+          <article class="svc-store" data-store-item="Old Town 88 Mill Street Millbrook">
+            <svg class="svc-store-map" viewBox="0 0 300 168" aria-hidden="true"><use href="#svc-grid"/><circle cx="230" cy="40" r="8" class="svc-pin"/></svg>
+            <div class="svc-store-body">
+              <h3 class="svc-store-name">Old Town</h3>
+              <p class="svc-store-address">88 Mill Street<br>Millbrook, Demo 10005</p>
+              <p class="svc-store-hours">Opens at 10:00 a.m.</p>
+            </div>
+          </article>
+          <article class="svc-store" data-store-item="Summit Center 1 Ridge Way Summitville">
+            <svg class="svc-store-map" viewBox="0 0 300 168" aria-hidden="true"><use href="#svc-grid"/><circle cx="110" cy="40" r="8" class="svc-pin"/></svg>
+            <div class="svc-store-body">
+              <h3 class="svc-store-name">Summit Center</h3>
+              <p class="svc-store-address">1 Ridge Way<br>Summitville, Demo 10006</p>
+              <p class="svc-store-hours">Opens at 11:00 a.m.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <p class="svc-empty stores-empty" data-store-empty hidden>No stores match that search. Try a city or ZIP code.</p>
+
+      <figure class="stores-map">
+        <svg viewBox="0 0 980 440" role="img" aria-label="Schematic map of the six stores">
+          <rect width="980" height="440" class="svc-map-land"/>
+          <path d="M-20 330C200 300 330 380 520 350S850 300 1000 340" class="svc-map-water"/>
+          <rect x="40" y="40" width="100" height="56" class="svc-map-block"/>
+          <rect x="200" y="30" width="170" height="60" class="svc-map-block"/>
+          <rect x="450" y="40" width="130" height="50" class="svc-map-block"/>
+          <rect x="690" y="40" width="120" height="50" class="svc-map-block"/>
+          <rect x="200" y="150" width="90" height="50" class="svc-map-block"/>
+          <rect x="450" y="250" width="140" height="60" class="svc-map-block"/>
+          <rect x="690" y="260" width="130" height="40" class="svc-map-block"/>
+          <path d="M0 120H980M0 220H980" class="svc-map-street"/>
+          <path d="M160 0V440M420 0V440M640 0V440M860 0V440" class="svc-map-street"/>
+          <path d="M0 60H980M0 300H980" class="svc-map-street svc-map-street-minor"/>
+          <path d="M300 0V300M540 0V300M760 0V440" class="svc-map-street svc-map-street-minor"/>
+
+          <g transform="translate(160 120)"><circle r="10" class="svc-pin"/><text x="18" y="5" class="svc-pin-label">Harbor Square</text></g>
+          <g transform="translate(420 220)"><circle r="10" class="svc-pin"/><text x="18" y="5" class="svc-pin-label">Cedar Mall</text></g>
+          <g transform="translate(640 120)"><circle r="10" class="svc-pin"/><text x="18" y="5" class="svc-pin-label">North Park</text></g>
+          <g transform="translate(300 260)"><circle r="10" class="svc-pin"/><text x="18" y="5" class="svc-pin-label">Lakeside Plaza</text></g>
+          <g transform="translate(640 300)"><circle r="10" class="svc-pin"/><text x="18" y="5" class="svc-pin-label">Old Town</text></g>
+          <g transform="translate(860 220)"><circle r="10" class="svc-pin"/><text x="-18" y="5" text-anchor="end" class="svc-pin-label">Summit Center</text></g>
+        </svg>
+        <figcaption class="stores-map-caption">Schematic map. Streets and distances are not to scale.</figcaption>
+      </figure>
+    </div>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/pages/service.js"></script>
+</body>
+</html>

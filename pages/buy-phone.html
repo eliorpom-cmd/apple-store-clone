@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phone — Demo Store</title>
+  <meta name="description" content="Compare the phone lineup, read a short buying guide and find accessories.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/category.css">
+</head>
+<body>
+  <div data-shell="nav" data-ribbon='Trade in an eligible phone for credit toward a new one. <a href="trade-in.html" class="more">See how it works</a>||Pay over time with low monthly payments. <a href="carrier-offers.html" class="more">Learn more</a>'></div>
+
+  <main>
+    <header class="page-head shell-container">
+      <h1>Shop phones</h1>
+      <div class="page-head-aside">
+        <p class="links"><a href="help.html" class="more-ext">Talk to a Specialist</a><a href="stores.html" class="more-ext">Find a store</a></p>
+      </div>
+    </header>
+
+    <nav class="catbar" data-catbar aria-label="Categories">
+      <div class="tabs">
+        <a href="buy-phone.html" aria-current="page">Phone</a>
+        <a href="buy-computer.html">Computer</a>
+        <a href="buy-computer.html">Tablet</a>
+        <a href="buy-watch.html">Watch</a>
+        <a href="buy-headset.html">Headset</a>
+        <a href="buy-tvbox.html">Home</a>
+        <a href="buy-earbuds.html">Earbuds</a>
+      </div>
+    </nav>
+
+    <!-- Models: 400 px product cards with swatches, price and a buy button -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Phone lineup.</strong> Pick the model that fits your day.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <article class="card pcard">
+            <div class="pcard-head"><p class="eyebrow eyebrow-new">Pre-order</p><h3 class="card-title">Phone Duo</h3></div>
+            <div class="card-media"><img src="../assets/img/products/phone-fold.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#e8e8ed"></i><i style="--c:#2c3e5a"></i></div>
+            <div class="pcard-info"><p class="pcard-price">From $1999 or $83.29/mo. for 24 mo.</p><a class="btn" href="#">Pre-order</a></div>
+          </article>
+          <article class="card pcard">
+            <div class="pcard-head"><p class="eyebrow eyebrow-new">New</p><h3 class="card-title">Phone Pro</h3></div>
+            <div class="card-media"><img src="../assets/img/products/phone.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#6b2a35"></i><i style="--c:#c9c2b5"></i><i style="--c:#2c3e5a"></i><i style="--c:#1d1d1f"></i></div>
+            <div class="pcard-info"><p class="pcard-price">From $1199 or $49.95/mo. for 24 mo.</p><a class="btn" href="#">Buy</a></div>
+          </article>
+          <article class="card pcard">
+            <div class="pcard-head"><p class="eyebrow eyebrow-new">New</p><h3 class="card-title">Phone Air</h3></div>
+            <div class="card-media"><img src="../assets/img/products/phone-slim.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#dbe6f2"></i><i style="--c:#f2f2f2"></i><i style="--c:#1d1d1f"></i></div>
+            <div class="pcard-info"><p class="pcard-price">From $1099 or $45.79/mo. for 24 mo.</p><a class="btn" href="#">Buy</a></div>
+          </article>
+          <article class="card pcard">
+            <div class="pcard-head"><h3 class="card-title">Phone</h3></div>
+            <div class="card-media"><img src="../assets/img/products/phone.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#d9d4e8"></i><i style="--c:#9fc3a7"></i><i style="--c:#ececec"></i></div>
+            <div class="pcard-info"><p class="pcard-price">From $799 or $33.29/mo. for 24 mo.</p><a class="btn" href="#">Buy</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guides: the first card opens a modal with five steps -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Shopping guides.</strong> Start with the question you have.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w480" href="#" data-modal-open="m-guide">
+            <div class="card-body"><p class="eyebrow">Compare</p><h3 class="card-title">Which phone fits your needs?</h3><p class="card-desc">A short walk through size, camera and battery.</p></div>
+            <div class="card-media"><img src="../assets/img/products/phone.svg" alt=""></div>
+          </a>
+          <a class="card card-w480" href="carrier-offers.html">
+            <div class="card-body"><p class="eyebrow">Ways to save</p><h3 class="card-title">Pay over time, at your own pace.</h3><p class="card-desc">Monthly plans with no interest, or a lease you can upgrade at term end.</p></div>
+            <div class="card-media"><img src="../assets/img/products/phone-slim.svg" alt=""></div>
+          </a>
+          <a class="card card-w313" href="carrier-offers.html">
+            <div class="card-body"><p class="eyebrow">Carrier deals</p><h3 class="card-title">Compare carrier plans side by side.</h3></div>
+            <div class="card-media"><img src="../assets/img/products/phone-fold.svg" alt=""></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accessories: 313 px product cards -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Accessories.</strong> Essentials that pair with your phone.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w313" href="accessories.html"><div class="card-body"><h3 class="card-title">Pick up the gear that goes with your new phone.</h3><p class="card-link"><span class="more">Shop all accessories</span></p></div></a>
+          <article class="card card-w313 pcard">
+            <div class="pcard-head"><p class="eyebrow eyebrow-new">New</p></div>
+            <div class="card-media"><img src="../assets/img/products/case.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#7a2f3f"></i><i style="--c:#5b6b4a"></i><i style="--c:#33415c"></i><i style="--c:#1d1d1f"></i></div>
+            <h3 class="pcard-name">Leather Case with Magnet Ring</h3>
+            <p class="pcard-price">$59.00</p>
+          </article>
+          <article class="card card-w313 pcard">
+            <div class="card-media"><img src="../assets/img/products/charger.svg" alt=""></div>
+            <h3 class="pcard-name">40W USB-C Power Adapter</h3>
+            <p class="pcard-price">$39.00</p>
+          </article>
+          <article class="card card-w313 pcard">
+            <div class="card-media"><img src="../assets/img/products/tag.svg" alt=""></div>
+            <h3 class="pcard-name">Location Tracker, Pack of 4</h3>
+            <p class="pcard-price">$99.00</p>
+          </article>
+          <article class="card card-w313 pcard">
+            <div class="card-media"><img src="../assets/img/products/earbuds.svg" alt=""></div>
+            <h3 class="pcard-name">Wireless Earbuds</h3>
+            <p class="pcard-price">$179.00</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Help: 480 px cards, the last one with a full-width image -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Help is here.</strong> Talk to someone before you buy.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w480" href="help.html"><div class="card-body"><p class="eyebrow">Shop with a Specialist</p><h3 class="card-title">Get help choosing, one on one.</h3></div><div class="card-media"><img src="../assets/img/products/tablet.svg" alt=""></div></a>
+          <a class="card card-w480" href="stores.html"><div class="card-body"><p class="eyebrow">Visit a store</p><h3 class="card-title">Pick up online orders in person, the same day.</h3></div><div class="card-media"><img src="../assets/img/products/display.svg" alt=""></div></a>
+          <a class="card card-w480 card-black" href="today.html"><div class="card-body"><p class="eyebrow">Free sessions</p><h3 class="card-title">Learn something new at an in-store session.</h3></div><div class="card-media"><img src="../assets/img/products/headset.svg" alt=""></div></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Guide modal (spec 02 §8): five numbered steps -->
+  <div class="modal" id="m-guide">
+    <div class="modal-panel">
+      <div class="modal-content">
+        <p class="eyebrow">Compare</p>
+        <h2>Choose a phone in five steps.</h2>
+        <p class="t-intro">Work through the list in order. Each step narrows the models until one stands out.</p>
+        <ol class="guide-steps">
+          <li><h3>Set a budget first.</h3><p>A price range removes most models at once.</p></li>
+          <li><h3>Pick a screen size.</h3><p>Smaller screens are easier to hold. Larger ones suit video and reading.</p></li>
+          <li><h3>Compare the cameras.</h3><p>Check the lenses you use most, such as wide, zoom or close-up.</p></li>
+          <li><h3>Check battery and storage.</h3><p>Heavy users should look at battery life. Storage should fit the apps and files you keep.</p></li>
+          <li><h3>Choose how to pay.</h3><p>Pay in full, pay monthly, or lease and upgrade at the end of the term.</p></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <a class="chat-bubble" href="help.html" aria-label="Talk to a Specialist">
+    <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 5h18v13h-9l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+  </a>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

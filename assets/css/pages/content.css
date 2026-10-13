@@ -1,0 +1,232 @@
+/* Content pages: trade-in, carrier-offers, shipping-pickup.
+   Prefixes: .content-* (shared by the three pages), .tradein-*, .carrier-*, .ship-*.
+   Shared components (tabs, accordion, gallery, buttons) come from components.css and are not restyled here. */
+
+/* ---------- Shared page pieces ---------- */
+.content-band { padding: 80px 0; }
+.content-band-surface { background: var(--surface); }
+.content-band-page { background: var(--page); }
+
+.content-hero { padding: 72px 0 0; text-align: center; }
+.content-eyebrow { font: 600 28px/32px var(--font); letter-spacing: .007em; color: var(--text); padding-bottom: 8px; }
+/* Hero title: 64/68 on desktop, 48 px on mobile (spec 06 §0.2) */
+.content-display { font: 600 64px/68px var(--font); letter-spacing: -.009em; color: var(--text); }
+.content-intro { max-width: 840px; margin: 24px auto 0; font: var(--t-intro); letter-spacing: var(--tr-intro); color: var(--text); }
+
+/* Section title: two tones, first clause dark, the rest grey (spec 06 §1a.3) */
+.content-title { font: 600 40px/44px var(--font); letter-spacing: -.003em; color: var(--text-2); text-align: center; }
+.content-title strong { color: var(--text); font-weight: 600; }
+.content-title-left { text-align: left; }
+.content-lead { max-width: 840px; margin: 16px auto 0; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text-2); text-align: center; }
+
+/* Small link line under a block */
+.content-note { margin-top: 32px; text-align: center; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+
+@media (max-width: 1023px) {
+  .content-display { font-size: 48px; line-height: 52px; letter-spacing: -.003em; }
+  .content-title { font-size: 32px; line-height: 36px; }
+}
+@media (max-width: 734px) {
+  .content-band { padding: 56px 0; }
+  .content-hero { padding-top: 48px; }
+  .content-eyebrow { font-size: 21px; line-height: 25px; }
+  .content-display { font-size: 40px; line-height: 44px; }
+  .content-intro { font-size: 19px; line-height: 1.4211; letter-spacing: .012em; }
+  .content-title { font-size: 28px; line-height: 32px; }
+}
+
+/* ---------- Trade-in: device tabs (icon + label) ---------- */
+.tradein-tabs {
+  display: flex; justify-content: space-between; gap: 8px;
+  width: min(840px, 100%); margin: 56px auto 0; border-bottom: 1px solid var(--line);
+  overflow-x: auto; scrollbar-width: none;
+}
+.tradein-tabs::-webkit-scrollbar { display: none; }
+.tradein-tabs .tab {
+  position: relative; flex: 1 0 auto; min-width: 98px; max-width: 140px;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 8px 16px; border-radius: 0; background: none;
+  color: var(--text-2); font: var(--t-body); letter-spacing: var(--tr-body); white-space: normal; text-align: center;
+}
+.tradein-tabs .tab:hover { color: var(--text); }
+.tradein-tabs .tab[aria-selected="true"] { color: var(--text); font-weight: 600; }
+/* Active indicator sits on the grey rule, 2 px tall */
+.tradein-tabs .tab[aria-selected="true"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--text);
+}
+.tradein-tab-icon { display: block; width: 56px; height: 56px; margin: 6px auto 24px; }
+
+/* Panels: all panels are in flow only while visible; hidden ones fade out in place */
+.tradein-panels { position: relative; overflow-x: clip; }
+.tradein-panels > .tab-panel { position: relative; opacity: 1; visibility: visible; transition: opacity .2s ease-in-out, visibility .2s; animation: none; }
+.tradein-panels > .tab-panel[hidden] {
+  display: block; position: absolute; top: 0; left: 0; right: 0;
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .1s ease-in-out, visibility .1s;
+}
+
+/* ---------- Trade-in: value card (980 px) ---------- */
+.tradein-card {
+  display: grid; grid-template-columns: 330px 1fr; gap: 40px; align-items: center;
+  min-height: 482px; margin-top: 48px; padding: 72px 80px;
+  background: var(--page); border-radius: var(--r-card);
+}
+.tradein-value-title { font: 600 32px/36px var(--font); letter-spacing: .004em; color: var(--text-2); }
+.tradein-value-title strong { color: var(--text); font-weight: 600; }
+.tradein-table { margin-top: 24px; }
+.tradein-table-head {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+  padding-bottom: 6px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); text-align: right;
+}
+.tradein-table-row {
+  display: flex; justify-content: space-between; gap: 16px; padding: 8px 0;
+  border-top: 1px solid var(--line); font: var(--t-body-tight); letter-spacing: var(--tr-body); color: var(--text);
+}
+.tradein-table-row span:last-child { font-weight: 600; }
+.tradein-table-row:last-child { border-bottom: 1px solid var(--line); }
+.tradein-card-links { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; margin-top: 24px; }
+.tradein-card-text { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+.tradein-gamme { display: flex; align-items: flex-end; justify-content: center; gap: 8px; min-height: 340px; }
+.tradein-gamme img { height: 300px; width: auto; max-width: 100%; object-fit: contain; }
+.tradein-gamme img.is-small { height: 220px; }
+.tradein-status { margin-top: 32px; text-align: center; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+
+/* ---------- Trade-in: online / in store switch and steps ---------- */
+.tradein-switch { display: flex; justify-content: center; margin-top: 40px; }
+.tradein-panels-steps { width: min(980px, 100%); margin: 48px auto 0; }
+.tradein-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tradein-step { background: var(--surface); border-radius: var(--r-card); overflow: hidden; }
+.tradein-step-art { display: grid; place-items: center; height: 229px; background: var(--line-2); color: var(--text); }
+.tradein-step-art svg { width: 120px; height: 120px; }
+.tradein-step-body { padding: 32px; }
+.tradein-step-label { font: 400 14px/20px var(--font); letter-spacing: -.016em; color: var(--text-2); text-transform: uppercase; }
+.tradein-step-title { font: var(--t-step); letter-spacing: var(--tr-step); color: var(--text); padding-top: 8px; }
+.tradein-step-text { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 12px; }
+
+/* ---------- Trade-in: question carousel ---------- */
+.tradein-qa-title { margin-bottom: 0; }
+.tradein-qa-gallery { width: min(980px, 100%); margin: 40px auto 0; background: none; border-radius: 0; overflow: visible; }
+.tradein-qa-gallery .gallery-track { overflow: hidden; border-radius: var(--r-card); }
+.tradein-qa-gallery .gallery-slide { display: block; padding: 0 0 104px; }
+.tradein-qa-gallery .paddle { top: auto; bottom: 8px; translate: none; transform: none; width: 56px; height: 56px; }
+.tradein-qa-gallery .paddle-prev { left: 0; }
+.tradein-qa-gallery .paddle-next { right: 0; }
+.tradein-qa-gallery .dots { bottom: 30px; }
+.tradein-qa-card {
+  position: relative; width: 690px; max-width: 100%; min-height: 440px; margin: 0 auto;
+  padding: 16px; background: var(--surface); border-radius: var(--r-card); box-shadow: var(--shadow-card);
+}
+.tradein-qa-q { min-height: 102px; padding: 24px 36px 0; font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); }
+.tradein-qa-a {
+  position: relative; min-height: 200px; margin-top: .8em; padding: 56px 36px 36px;
+  background: var(--page); border-radius: 14px; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text);
+}
+.tradein-qa-avatar {
+  position: absolute; top: -37px; left: 36px; width: 74px; height: 74px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--page); border: 2px solid var(--surface); color: var(--text-2);
+}
+.tradein-qa-avatar svg { width: 36px; height: 36px; }
+
+/* ---------- Trade-in: FAQ groups ---------- */
+.tradein-faq-group { margin-top: 56px; }
+.tradein-faq-group h3 { font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); padding-bottom: 4px; }
+
+/* ---------- Carrier offers ---------- */
+.carrier-offers-list { padding-top: 48px; }
+.carrier-filter { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 0 auto; }
+.carrier-filter .tab { min-height: 56px; padding: 8px 22px; border-radius: var(--r-pill); }
+.carrier-filter .tab[aria-selected="true"] { color: #fff; }
+
+.carrier-block { margin: 80px auto 0; width: min(980px, 100%); }
+.carrier-block:first-of-type { margin-top: 64px; }
+.carrier-name { font: 600 21px/25px var(--font); letter-spacing: .011em; color: var(--text); }
+.carrier-title { font: 600 24px/28px var(--font); letter-spacing: .007em; color: var(--text); padding-top: 16px; }
+.carrier-note { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 8px; }
+.carrier-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 24px; margin-top: 24px; border-bottom: 1px solid var(--line); }
+.carrier-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 14px 0; border-top: 1px solid var(--line); color: var(--text); text-decoration: none;
+}
+.carrier-row:hover { text-decoration: none; }
+.carrier-row-name { display: block; font: var(--t-body-tight); letter-spacing: var(--tr-body); font-weight: 600; }
+.carrier-row-credit { display: block; font: var(--t-body-tight); letter-spacing: var(--tr-body); color: var(--text-2); }
+.carrier-row svg { flex: none; width: 20px; height: 20px; color: var(--text); }
+.carrier-cta { display: flex; justify-content: center; margin-top: 40px; }
+
+.carrier-help { padding: 96px 0; }
+.carrier-help-card {
+  display: flex; align-items: center; justify-content: space-between; gap: 40px;
+  width: min(980px, 100%); height: 466px; margin: 24px auto 0; padding: 0 64px;
+  background: var(--surface); border-radius: var(--r-card); overflow: hidden;
+}
+.carrier-help-card + .carrier-help-card { margin-top: 20px; }
+.carrier-help-text { width: 330px; flex: none; }
+.carrier-help-text h3 { font: var(--t-section); letter-spacing: var(--tr-section); color: var(--text); }
+.carrier-help-text p { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 12px; }
+.carrier-help-text .more-ext, .carrier-help-text .more { display: inline-block; padding-top: 16px; }
+.carrier-help-card img { height: 380px; width: auto; max-width: 50%; object-fit: contain; }
+
+/* ---------- Shipping: visual row and two columns ---------- */
+.ship-gamme { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 8px 4px; margin: 56px auto 0; }
+.ship-gamme img { height: 230px; width: auto; max-width: 30%; object-fit: contain; }
+.ship-gamme img.is-tall { height: 260px; }
+.ship-cols { display: flex; justify-content: center; gap: 70px; padding: 72px 0 0; }
+.ship-col { width: 370px; flex: none; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+.ship-col h2 { font: 600 40px/44px var(--font); letter-spacing: -.003em; color: var(--text); }
+.ship-col p { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 16px; }
+.ship-col .more { display: inline-block; padding-top: 16px; }
+
+/* ---------- Shipping: FAQ (one big accordion holding a compact list) ---------- */
+.ship-faq { width: min(980px, 100%); margin: 0 auto; padding-top: 80px; }
+.ship-faq > .acc-item > .acc-btn { font: 600 32px/36px var(--font); letter-spacing: .004em; color: var(--text); padding: 0 0 32px; }
+.ship-faq > .acc-item > .acc-btn svg { width: 24px; height: 14px; color: var(--text-3); }
+.ship-faq > .acc-item > .acc-panel > .acc-panel-inner { max-width: none; padding-bottom: 8px; }
+.ship-faq .accordion-compact { border-bottom: 1px solid var(--line); }
+.ship-faq .accordion-compact .acc-item { border-top: 0; border-bottom: 1px solid var(--line); }
+.ship-faq .accordion-compact .acc-item:first-child { border-top: 1px solid var(--line); }
+.ship-faq .accordion-compact .acc-btn { padding: 17px 0; align-items: center; }
+.ship-faq .accordion-compact .acc-btn svg { width: 14px; height: 9px; color: var(--text-3); }
+.ship-faq .accordion-compact .acc-panel-inner { max-width: none; padding-bottom: 28px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+.ship-faq .accordion-compact .acc-panel-inner p { font: inherit; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1068px) {
+  .tradein-card { grid-template-columns: 1fr; padding: 56px 48px; min-height: 0; }
+  .tradein-gamme { min-height: 0; }
+  .tradein-gamme img { height: 220px; }
+  .tradein-gamme img.is-small { height: 160px; }
+  .tradein-qa-card { width: 100%; }
+  .carrier-help-card img { max-width: 40%; height: 300px; }
+  .carrier-help-text { width: auto; flex: 1; }
+}
+@media (max-width: 734px) {
+  .tradein-tabs { justify-content: flex-start; width: 100%; margin-top: 32px; }
+  .tradein-tabs .tab { min-width: 112px; }
+  .tradein-card { padding: 40px 24px; gap: 32px; }
+  .tradein-value-title { font-size: 24px; line-height: 28px; }
+  .tradein-panels-steps { width: 100%; }
+  .tradein-steps { grid-template-columns: 1fr; gap: 16px; }
+  .tradein-step-art { height: 180px; }
+  .tradein-gamme { flex-wrap: wrap; gap: 12px; }
+  .tradein-gamme img, .tradein-gamme img.is-small { width: 30%; max-width: 30%; height: auto; }
+  .tradein-qa-gallery { width: 100%; }
+  .tradein-qa-gallery .gallery-slide { padding-bottom: 112px; }
+  .tradein-qa-card { padding: 10px; min-height: 440px; }
+  .tradein-qa-q { padding: 20px 16px 0; min-height: 0; }
+  .tradein-qa-a { padding: 56px 16px 24px; }
+  .tradein-qa-avatar { left: 16px; }
+  .tradein-qa-gallery .paddle { bottom: 0; }
+  .tradein-qa-gallery .dots { bottom: 24px; }
+  .carrier-grid { grid-template-columns: 1fr; }
+  .carrier-block { margin-top: 56px; }
+  .carrier-help { padding: 64px 0; }
+  .carrier-help-card { flex-direction: column; height: auto; padding: 40px 24px 0; gap: 24px; align-items: flex-start; }
+  .carrier-help-text { width: 100%; }
+  .carrier-help-card img { max-width: 80%; height: 240px; align-self: center; }
+  .ship-gamme img { height: 120px; max-width: 30%; }
+  .ship-gamme img.is-tall { height: 140px; }
+  .ship-cols { flex-direction: column; align-items: stretch; gap: 40px; padding-top: 56px; }
+  .ship-col { width: 100%; }
+  .ship-col h2 { font-size: 32px; line-height: 36px; }
+  .ship-faq { padding-top: 56px; }
+  .ship-faq > .acc-item > .acc-btn { font-size: 24px; line-height: 28px; }
+}

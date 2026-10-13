@@ -1,0 +1,63 @@
+/* Category pages (buy-*, education): only the parts that are specific to this family.
+   Cards, shelves, tabs, modal, pills and the chat bubble come from components.css. */
+
+/* ---------- Product card head (eyebrow + title above the image) ---------- */
+.pcard-head { display: flex; flex-direction: column; }
+.pcard-head .eyebrow { padding-bottom: 8px; }
+.pcard-name { padding-top: 16px; font: var(--t-card); letter-spacing: var(--tr-card); }
+.pcard-name + .pcard-price { padding-top: 10px; }
+.pcard .pcard-info { margin-top: 12px; }
+
+/* ---------- Recommendation card: orange badge, tall image, price at the bottom (spec 02 §6.4) ---------- */
+.recomm { padding: 28px; }
+.recomm-badge {
+  position: absolute; top: 41px; left: 28px; z-index: 1;
+  font: 600 14px/1.2858 var(--font); letter-spacing: -.016em; color: var(--badge-new);
+}
+.recomm .pcard-swatches { padding-top: 19px; }
+.recomm-media { flex: 1; min-height: 230px; display: flex; align-items: center; justify-content: center; padding-top: 41px; }
+.recomm-media > img { height: 230px; width: auto; max-width: 100%; object-fit: contain; }
+.recomm .card-title { padding-top: 16px; }
+.recomm .pcard-info { margin-top: auto; }
+
+/* ---------- Video card: play button and caption under the image (spec 02 §6.1) ---------- */
+.video-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 20px 28px 28px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.play-cta {
+  flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+  background: #635b61; color: #e8e8ed;
+}
+.play-cta svg { width: 12px; height: 14px; margin-left: 2px; }
+.card-dark .play-cta { background: #d8d6d8; color: #3f313b; }
+
+/* Check mark used in the tips card (decorative, action colour) */
+.tips-glyph { width: 180px; height: 180px; margin: auto; color: var(--action); }
+
+/* ---------- Guide modal: numbered list of five steps (spec 02 §8) ---------- */
+.guide-steps { counter-reset: guide-step; margin-top: 32px; }
+.guide-steps li { position: relative; padding: 24px 0 0 56px; border-top: 1px solid var(--line-2); }
+.guide-steps li + li { margin-top: 24px; }
+.guide-steps li::before {
+  counter-increment: guide-step; content: counter(guide-step);
+  position: absolute; left: 0; top: 22px; width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--page); font: 600 14px/1 var(--font);
+}
+.guide-steps h3 { font: var(--t-card); letter-spacing: var(--tr-card); }
+.guide-steps p { padding-top: 6px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+
+/* ---------- Education variant (spec 02 §2.9) ---------- */
+/* Black header band with the page title in white. */
+.edu-band { background: var(--black); color: #fff; }
+.edu-band .page-head { padding: 72px 0 64px; }
+.edu-band h1 { color: #fff; }
+.edu-band .page-head-aside .links a { color: var(--link-on-dark); }
+/* Main part of a two-tone shelf title, highlighted (spec 02 §5). */
+.edu-mark { background: #01ddff; color: var(--text); font-weight: 600; }
+/* Tinted cards. Colours chosen by eye: not measured on the source (spec 02 §12.6). */
+.card-tint-blue { background: #e9f5fc; }
+.card-tint-gray { background: var(--line-2); }
+
+/* Education: small helpers */
+.edu-nav { padding-top: 32px; padding-bottom: 62px; }
+.card-lead { font-weight: 600; }
+/* Graduation-cap pictogram in the top-right corner of a savings card (action green token) */
+.edu-cap { position: absolute; top: 28px; right: 28px; z-index: 1; width: 24px; height: 24px; color: var(--success); }

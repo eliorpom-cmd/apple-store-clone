@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Watch — Demo Store</title>
+  <meta name="description" content="Compare watch models, read a buying guide and find bands and charging accessories.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/category.css">
+</head>
+<body>
+  <div data-shell="nav" data-ribbon='Lease a new watch with low monthly payments for 12 or 24 months. <a href="carrier-offers.html" class="more">Learn more</a>'></div>
+
+  <main>
+    <header class="page-head shell-container">
+      <h1>Shop watches</h1>
+      <div class="page-head-aside">
+        <p class="links"><a href="help.html" class="more-ext">Talk to a Specialist</a><a href="stores.html" class="more-ext">Find a store</a></p>
+      </div>
+    </header>
+
+    <nav class="catbar" data-catbar aria-label="Categories">
+      <div class="tabs">
+        <a href="buy-watch.html" aria-current="page">Watch</a>
+        <a href="buy-phone.html">Phone</a>
+        <a href="buy-computer.html">Computer</a>
+        <a href="buy-computer.html">Tablet</a>
+        <a href="buy-headset.html">Headset</a>
+        <a href="buy-tvbox.html">Home</a>
+        <a href="buy-earbuds.html">Earbuds</a>
+      </div>
+    </nav>
+
+    <!-- Recommendation cards: orange badge, tall image, price at the bottom -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Watch lineup.</strong> Find the size and fit for you.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <article class="card recomm">
+            <p class="recomm-badge">New</p>
+            <div class="pcard-swatches"><i style="--c:#1d1d1f"></i><i style="--c:#c9b9a0"></i><i style="--c:#33415c"></i><i style="--c:#ececec"></i></div>
+            <div class="recomm-media"><img src="../assets/img/products/watch.svg" alt=""></div>
+            <h3 class="card-title">Watch</h3>
+            <div class="pcard-info"><p class="pcard-price">From $399 or $33.25/mo. for 12 mo.</p></div>
+          </article>
+          <article class="card recomm">
+            <p class="recomm-badge">New</p>
+            <div class="pcard-swatches"><i style="--c:#2b2a26"></i><i style="--c:#d6c7ae"></i></div>
+            <div class="recomm-media"><img src="../assets/img/products/watch-rugged.svg" alt=""></div>
+            <h3 class="card-title">Watch Ultra</h3>
+            <div class="pcard-info"><p class="pcard-price">From $799 or $66.58/mo. for 12 mo.</p></div>
+          </article>
+          <article class="card recomm">
+            <div class="pcard-swatches"><i style="--c:#1d1d1f"></i><i style="--c:#d8d8dc"></i></div>
+            <div class="recomm-media"><img src="../assets/img/products/watch.svg" alt=""></div>
+            <h3 class="card-title">Watch SE</h3>
+            <div class="pcard-info"><p class="pcard-price">From $249 or $20.75/mo. for 12 mo.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guides: 480 px cards, the last one dark and set on the edge -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Shopping guides.</strong> There is a watch for every routine.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w480" href="carrier-offers.html">
+            <div class="card-body"><p class="eyebrow">Compare</p><h3 class="card-title">Which watch is right for you?</h3></div>
+            <div class="card-media"><img src="../assets/img/products/watch-rugged.svg" alt=""></div>
+          </a>
+          <a class="card card-w480" href="today.html">
+            <div class="card-body"><p class="eyebrow">Helpful tools</p><h3 class="card-title">Everyday tasks, made simpler with voice.</h3></div>
+            <div class="card-media"><img src="../assets/img/products/watch.svg" alt=""></div>
+          </a>
+          <a class="card card-w480 card-black" href="#">
+            <div class="card-body"><p class="eyebrow">For runners</p><h3 class="card-title">Built for long runs and tough weather.</h3></div>
+            <div class="card-media"><img src="../assets/img/products/watch-rugged.svg" alt=""></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bands and charging: 313 px product cards -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Bands and charging.</strong> Keep it comfortable and charged.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <article class="card card-w313 pcard">
+            <div class="pcard-head"><p class="eyebrow eyebrow-new">New</p></div>
+            <div class="card-media"><img src="../assets/img/products/band.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#33415c"></i><i style="--c:#c25a3a"></i><i style="--c:#ececec"></i></div>
+            <h3 class="pcard-name">42mm Sport Loop</h3>
+            <p class="pcard-price">$49.00</p>
+          </article>
+          <article class="card card-w313 pcard">
+            <div class="card-media"><img src="../assets/img/products/charger.svg" alt=""></div>
+            <h3 class="pcard-name">Magnetic Charging Puck</h3>
+            <p class="pcard-price">$29.00</p>
+          </article>
+          <article class="card card-w313 pcard">
+            <div class="card-media"><img src="../assets/img/products/band.svg" alt=""></div>
+            <h3 class="pcard-name">Trail Band</h3>
+            <p class="pcard-price">$79.00</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="chat-bubble" href="help.html" aria-label="Talk to a Specialist">
+    <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 5h18v13h-9l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+  </a>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

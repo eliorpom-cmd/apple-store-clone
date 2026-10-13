@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrier offers — Demo Store</title>
+  <meta name="description" content="Carrier credits for a new phone bought at Demo Store, filtered by carrier.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/content.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main>
+    <!-- Hero -->
+    <header class="content-band content-band-surface content-hero">
+      <div class="container">
+        <h1 class="content-display">Carrier offers, in one place.</h1>
+        <p class="content-intro">Save on a new phone when you buy from us, online or in store. Pick a carrier below to see its credits, or trade in a device in any condition to qualify.</p>
+        <p class="content-note" style="margin-top:24px"><a class="more" href="#">See how it works</a></p>
+      </div>
+    </header>
+
+    <!-- Carrier filter and offers -->
+    <section class="content-band content-band-surface carrier-offers-list">
+      <div class="container">
+        <div class="carrier-filter tabs tabs-pill" role="tablist" aria-label="Filter by carrier" data-carrier-filter>
+          <button class="tab" role="tab" data-filter="all" aria-selected="true">All offers</button>
+          <button class="tab" role="tab" data-filter="a" aria-selected="false" tabindex="-1">Carrier A</button>
+          <button class="tab" role="tab" data-filter="b" aria-selected="false" tabindex="-1">Carrier B</button>
+          <button class="tab" role="tab" data-filter="c" aria-selected="false" tabindex="-1">Carrier C</button>
+          <button class="tab" role="tab" data-filter="d" aria-selected="false" tabindex="-1">Carrier D</button>
+        </div>
+
+        <!-- Carrier A -->
+        <section class="carrier-block" data-carrier="a" aria-label="Carrier A offers">
+          <p class="carrier-name">Carrier A</p>
+          <h2 class="carrier-title">Up to $1,200 in credit after trade-in.</h2>
+          <p class="carrier-note">For new and existing Carrier A customers.</p>
+          <div class="carrier-grid">
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Duo</span><span class="carrier-row-credit">Up to $1,200 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Pro</span><span class="carrier-row-credit">Up to $1,200 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Air</span><span class="carrier-row-credit">Up to $907 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone</span><span class="carrier-row-credit">Up to $900 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Mini</span><span class="carrier-row-credit">Up to $600 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Lite</span><span class="carrier-row-credit">Up to $411 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+          <div class="carrier-cta"><a class="btn btn-lg" href="buy-phone.html">Shop phones</a></div>
+        </section>
+
+        <!-- Carrier B -->
+        <section class="carrier-block" data-carrier="b" aria-label="Carrier B offers">
+          <p class="carrier-name">Carrier B</p>
+          <h2 class="carrier-title">Up to $1,000 in credit after trade-in.</h2>
+          <p class="carrier-note">Carrier B customers can trade in an eligible device in any condition.</p>
+          <div class="carrier-grid">
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Duo</span><span class="carrier-row-credit">Up to $1,000 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Pro</span><span class="carrier-row-credit">Up to $1,000 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Air</span><span class="carrier-row-credit">Up to $1,000 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone</span><span class="carrier-row-credit">Up to $899 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Mini</span><span class="carrier-row-credit">Up to $799 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+          <div class="carrier-cta"><a class="btn btn-lg" href="buy-phone.html">Shop phones</a></div>
+        </section>
+
+        <!-- Carrier C -->
+        <section class="carrier-block" data-carrier="c" aria-label="Carrier C offers">
+          <p class="carrier-name">Carrier C</p>
+          <h2 class="carrier-title">Up to $840 in credit after trade-in.</h2>
+          <p class="carrier-note">New and existing Carrier C customers can trade in an eligible device in any condition.</p>
+          <div class="carrier-grid">
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Pro</span><span class="carrier-row-credit">Up to $840 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Duo</span><span class="carrier-row-credit">Up to $840 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Air</span><span class="carrier-row-credit">Up to $840 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone</span><span class="carrier-row-credit">Up to $840 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Lite</span><span class="carrier-row-credit">Up to $700 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+          <div class="carrier-cta"><a class="btn btn-lg" href="buy-phone.html">Shop phones</a></div>
+        </section>
+
+        <!-- Carrier D -->
+        <section class="carrier-block" data-carrier="d" aria-label="Carrier D offers">
+          <p class="carrier-name">Carrier D</p>
+          <h2 class="carrier-title">Up to $600 in credit when you switch.</h2>
+          <p class="carrier-note">Available with a new line of service from Carrier D.</p>
+          <div class="carrier-grid">
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Pro</span><span class="carrier-row-credit">Up to $600 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Air</span><span class="carrier-row-credit">Up to $500 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone</span><span class="carrier-row-credit">Up to $450 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Duo</span><span class="carrier-row-credit">Up to $600 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Mini</span><span class="carrier-row-credit">Up to $300 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a class="carrier-row" href="buy-phone.html"><span><span class="carrier-row-name">Phone Lite</span><span class="carrier-row-credit">Up to $250 in credits.</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+          <div class="carrier-cta"><a class="btn btn-lg" href="buy-phone.html">Shop phones</a></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Help block -->
+    <section class="carrier-help content-band-page">
+      <div class="container">
+        <h2 class="content-title"><strong>We're here to help.</strong></h2>
+        <p class="content-lead">We make it easy to choose the right phone and deal for you, trade in your current phone, and move everything to the new one.</p>
+
+        <article class="carrier-help-card">
+          <div class="carrier-help-text">
+            <h3>Buy a phone from a specialist who knows the models.</h3>
+            <p>Our specialists compare carrier deals, answer trade-in questions and make sure your data moves to the new phone.</p>
+            <a class="more-ext" href="stores.html">Book a session</a>
+          </div>
+          <img src="../assets/img/products/phone-fold.svg" alt="">
+        </article>
+
+        <article class="carrier-help-card">
+          <div class="carrier-help-text">
+            <h3>Set up the new phone in a few steps.</h3>
+            <p>Use the guided setup to move your apps, photos and settings. Temporary cloud storage covers the transfer if you need it.</p>
+            <a class="more" href="help.html">Read the setup guide</a>
+          </div>
+          <img src="../assets/img/products/phone.svg" alt="">
+        </article>
+      </div>
+    </section>
+
+    <!-- FAQ: one big accordion holding a compact list -->
+    <section class="content-band content-band-surface">
+      <div class="container">
+        <div class="ship-faq accordion" data-accordion>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="true">More questions, more answers.</button>
+            <div class="acc-panel">
+              <div class="acc-panel-inner">
+                <div class="accordion accordion-compact" data-accordion>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="true">Do I need to be a new customer to get a carrier credit?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>Some offers are for new lines only, and others are open to existing customers. The offer text above each list says which applies.</p></div></div>
+                  </div>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="false">Can I combine a carrier credit with trade-in?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>Yes. The carrier credit and the trade-in credit are both applied to the same purchase, as long as the device is eligible for each.</p></div></div>
+                  </div>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="false">How is the credit paid out?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>Credits are spread over monthly bill credits, usually across 24 months. The exact schedule is shown at checkout.</p></div></div>
+                  </div>
+                  <div class="acc-item">
+                    <button class="acc-btn" aria-expanded="false">Can I switch carriers and keep my number?</button>
+                    <div class="acc-panel"><div class="acc-panel-inner"><p>Yes. Ask the new carrier to start the transfer when you activate your line. Keep your current service active until the transfer completes.</p></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/pages/carrier-offers.js"></script>
+</body>
+</html>

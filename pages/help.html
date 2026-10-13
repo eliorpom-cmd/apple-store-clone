@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Help — Demo Store</title>
+  <meta name="description" content="Store help: buying, delivery, orders, returns, payment and policies, grouped by topic.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/service.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <!-- Pictograms, referenced with <use>. Simple 24-unit strokes in currentColor. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="ico-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M10.5 18.5h3"/>
+      </symbol>
+      <symbol id="ico-account" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8.5" r="4"/><path d="M4.5 21c1.4-3.8 4.2-5.8 7.5-5.8s6.1 2 7.5 5.8"/>
+      </symbol>
+      <symbol id="ico-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19M6 15h4"/>
+      </symbol>
+      <symbol id="ico-return" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 4.5L4.5 9 9 13.5"/><path d="M4.5 9H14a5.5 5.5 0 0 1 0 11h-3"/>
+      </symbol>
+      <symbol id="ico-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2.5 6.5h11v10h-11zM13.5 10h4l3 3.2v3.3h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>
+      </symbol>
+      <symbol id="ico-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>
+      </symbol>
+      <symbol id="ico-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 8h14l-1 12.5H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>
+      </symbol>
+      <symbol id="ico-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="8.5" width="18" height="4"/><rect x="5" y="12.5" width="14" height="8.5"/><path d="M12 8.5v12.5"/><path d="M12 8.5c-1.8-3.6-5.8-3.6-5-.8M12 8.5c1.8-3.6 5.8-3.6 5-.8"/>
+      </symbol>
+      <symbol id="ico-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 9.5l1.6-5h12.8L20 9.5"/><path d="M4 9.5h16v11.5H4z"/><path d="M10 21v-6h4v6"/>
+      </symbol>
+      <symbol id="ico-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l7 2.8v5.7c0 4.6-3 7.8-7 9.5-4-1.7-7-4.9-7-9.5V5.8z"/><path d="M9 12l2.2 2.2L15.5 10"/>
+      </symbol>
+      <symbol id="ico-finance" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.2 9.4c0-1 1.2-1.6 2.8-1.6s2.8.6 2.8 1.6-1.2 1.5-2.8 1.6-2.8.6-2.8 1.6 1.2 1.6 2.8 1.6 2.8-.6 2.8-1.6"/>
+      </symbol>
+      <symbol id="ico-access" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="5" r="2"/><path d="M5 9h14M12 9v5M9 21l3-7 3 7"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="svc-page">
+    <div class="svc-localnav">
+      <div class="container svc-localnav-inner">
+        <p class="svc-localnav-title">Store help</p>
+        <nav class="svc-localnav-links" aria-label="Help sections">
+          <a href="#">Browse all topics</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <header class="help-header">
+        <div class="help-header-main">
+          <h1 class="help-title">Find the answer you need.</h1>
+          <p class="help-lead">Read on for details about buying, delivery, checking an order, returns and payment. Each topic is grouped below so you can jump straight to it.</p>
+        </div>
+        <aside class="help-aside">
+          <h2>Check your order.</h2>
+          <p>Look up order status, track a delivery, or change an order you already placed.</p>
+          <a class="more" href="#">Go to your orders</a>
+        </aside>
+      </header>
+
+      <ul class="help-categories">
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-phone"/></svg>
+          <h3 class="help-category-title">Phones</h3>
+          <ul class="help-links">
+            <li><a href="#">Buying an unlocked phone</a></li>
+            <li><a href="#">Using eSIM</a></li>
+            <li><a href="#">Store pickup steps</a></li>
+            <li><a href="#">Setting up a new phone</a></li>
+            <li><a href="#">Carrier support</a></li>
+            <li><a href="#">Cancelling a service plan</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-account"/></svg>
+          <h3 class="help-category-title">Your account</h3>
+          <ul class="help-links">
+            <li><a href="#">Benefits of an account</a></li>
+            <li><a href="#">Find or reset your password</a></li>
+            <li><a href="#">Guest checkout</a></li>
+            <li><a href="#">Manage your account</a></li>
+            <li><a href="#">Privacy settings</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-card"/></svg>
+          <h3 class="help-category-title">Payment and pricing</h3>
+          <ul class="help-links">
+            <li><a href="#">Payment methods</a></li>
+            <li><a href="#">Sales tax</a></li>
+            <li><a href="#">Education pricing</a></li>
+            <li><a href="#">Government pricing</a></li>
+            <li><a href="#">Promotions and coupons</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-return"/></svg>
+          <h3 class="help-category-title">Returns and refunds</h3>
+          <ul class="help-links">
+            <li><a href="#">Return policy</a></li>
+            <li><a href="#">How to return an item</a></li>
+            <li><a href="#">When refunds arrive</a></li>
+            <li><a href="#">Gift returns</a></li>
+            <li><a href="#">Additional information</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-truck"/></svg>
+          <h3 class="help-category-title">Shipping and pickup</h3>
+          <ul class="help-links">
+            <li><a href="shipping.html">Shipping options</a></li>
+            <li><a href="stores.html">Store pickup</a></li>
+            <li><a href="#">What happens next</a></li>
+            <li><a href="#">Delivery text alerts</a></li>
+            <li><a href="#">Carrier delivery updates</a></li>
+          </ul>
+          <a class="more help-learnmore" href="shipping.html">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-order"/></svg>
+          <h3 class="help-category-title">Order tracking</h3>
+          <ul class="help-links">
+            <li><a href="#">Check order status</a></li>
+            <li><a href="#">Track a shipment</a></li>
+            <li><a href="#">Edit an order</a></li>
+            <li><a href="#">Cancel an order</a></li>
+            <li><a href="#">Download an invoice</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-bag"/></svg>
+          <h3 class="help-category-title">Shopping experience</h3>
+          <ul class="help-links">
+            <li><a href="bag.html">Saving items for later</a></li>
+            <li><a href="#">Using the store app</a></li>
+            <li><a href="#">Signing out of the store</a></li>
+            <li><a href="stores.html">Find a store near you</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-gift"/></svg>
+          <h3 class="help-category-title">Gift cards</h3>
+          <ul class="help-links">
+            <li><a href="gift-cards.html">Buying a gift card</a></li>
+            <li><a href="gift-cards.html">Redeeming a gift card</a></li>
+            <li><a href="gift-cards.html">Checking a balance</a></li>
+            <li><a href="#">Gift card terms</a></li>
+          </ul>
+          <a class="more help-learnmore" href="gift-cards.html">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-store"/></svg>
+          <h3 class="help-category-title">Special orders</h3>
+          <ul class="help-links">
+            <li><a href="#">Engraving a product</a></li>
+            <li><a href="#">Configuring a computer</a></li>
+            <li><a href="refurbished.html">Buying refurbished</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-shield"/></svg>
+          <h3 class="help-category-title">Policies</h3>
+          <ul class="help-links">
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">Sales and refund policy</a></li>
+            <li><a href="#">Warranty</a></li>
+            <li><a href="#">Terms of use</a></li>
+            <li><a href="#">Legal information</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-finance"/></svg>
+          <h3 class="help-category-title">Financing</h3>
+          <ul class="help-links">
+            <li><a href="carrier-offers.html">Monthly plans</a></li>
+            <li><a href="carrier-offers.html">Carrier offers</a></li>
+            <li><a href="trade-in.html">Trade-in credit</a></li>
+            <li><a href="#">Payment schedules</a></li>
+          </ul>
+          <a class="more help-learnmore" href="carrier-offers.html">Learn more</a>
+        </li>
+        <li class="help-category">
+          <svg class="help-category-icon" aria-hidden="true"><use href="#ico-access"/></svg>
+          <h3 class="help-category-title">Accessibility</h3>
+          <ul class="help-links">
+            <li><a href="#">Accessibility features</a></li>
+            <li><a href="#">Accessibility support</a></li>
+            <li><a href="#">Hearing and vision accessories</a></li>
+          </ul>
+          <a class="more help-learnmore" href="#">Learn more</a>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

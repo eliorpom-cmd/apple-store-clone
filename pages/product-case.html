@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Silicone Case with Magnet Ring — Demo Store</title>
+  <meta name="description" content="Demo product page: a silicone case with a magnet ring, with colors, compatibility and recommendations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/product.css">
+</head>
+<body>
+  <!-- Case artwork, defined once. Each <use> below is painted with the color set on [data-product-color]. -->
+  <svg class="product-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="case-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="8"/></filter>
+      <linearGradient id="case-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>
+    </defs>
+    <symbol id="case-art" viewBox="0 0 400 500">
+      <ellipse cx="200" cy="480" rx="130" ry="10" fill="#000" fill-opacity=".2" filter="url(#case-blur)"/>
+      <rect x="96" y="36" width="208" height="428" rx="60" style="fill:var(--product-color, #c9c9ce)"/>
+      <rect x="96" y="36" width="208" height="428" rx="60" fill="url(#case-body)"/>
+      <rect x="104" y="44" width="192" height="412" rx="52" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="6"/>
+      <rect x="116" y="56" width="168" height="388" rx="44" fill="#000" fill-opacity=".05"/>
+      <rect x="124" y="64" width="92" height="92" rx="28" fill="#000" fill-opacity=".18"/>
+      <circle cx="152" cy="92" r="14" fill="#0b0b0e"/>
+      <circle cx="192" cy="92" r="14" fill="#0b0b0e"/>
+      <circle cx="152" cy="132" r="14" fill="#0b0b0e"/>
+      <circle cx="192" cy="132" r="6" fill="#0b0b0e"/>
+      <circle cx="200" cy="300" r="84" fill="#000" fill-opacity=".06"/>
+      <circle cx="200" cy="300" r="84" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="2"/>
+      <circle cx="200" cy="300" r="74" fill="none" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
+    </symbol>
+  </svg>
+
+  <div data-shell="nav"></div>
+
+  <main>
+    <nav class="product-localbar" aria-label="Category">
+      <div class="product-container product-localbar-row">
+        <span class="product-localbar-title">Phone Accessories</span>
+        <a class="product-localbar-link" href="accessories.html">Browse all <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </nav>
+
+    <section class="product-container product-main" aria-labelledby="product-name">
+      <!-- Gallery: the case follows the selected color through data-product-color -->
+      <div class="product-media" data-product-color style="--product-color:#2b3440">
+        <div class="gallery product-gallery" data-gallery>
+          <div class="gallery-track">
+            <div class="gallery-slide">
+              <svg viewBox="0 0 400 500" role="img" aria-label="Silicone case in the selected color"><use href="#case-art"/></svg>
+            </div>
+            <div class="gallery-slide">
+              <svg viewBox="100 40 130 140" role="img" aria-label="Close view of the camera area"><use href="#case-art"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="product-info" data-configurator>
+        <p class="eyebrow eyebrow-new">New</p>
+        <h1 class="product-title" id="product-name">Silicone Case with Magnet Ring</h1>
+        <p class="product-price">$49.00</p>
+        <p class="product-price-sub">or $4.08/mo. for 12 months.*</p>
+        <p class="product-finance"><a class="more-plus" href="#">Earn 3% cash back with Demo Card</a></p>
+
+        <!-- Color: the swatch label writes into the group title; the picked color paints the gallery. -->
+        <div class="step product-step">
+          <h2 class="product-group-title">Color – <span class="swatch-label">Navy Blue</span></h2>
+          <div class="swatches">
+            <label class="swatch"><input type="radio" name="color" value="burgundy" data-label="Burgundy" data-color="#5b1f2e" aria-label="Burgundy"><span style="--c:#5b1f2e"></span></label>
+            <label class="swatch"><input type="radio" name="color" value="olive" data-label="Olive" data-color="#6b6a4a" aria-label="Olive"><span style="--c:#6b6a4a"></span></label>
+            <label class="swatch"><input type="radio" name="color" value="sky" data-label="Sky" data-color="#cddbea" aria-label="Sky"><span style="--c:#cddbea"></span></label>
+            <label class="swatch"><input type="radio" name="color" value="navy" data-label="Navy Blue" data-color="#2b3440" aria-label="Navy Blue" checked><span style="--c:#2b3440"></span></label>
+            <label class="swatch"><input type="radio" name="color" value="berry" data-label="Berry" data-color="#a8336e" aria-label="Berry"><span style="--c:#a8336e"></span></label>
+            <label class="swatch"><input type="radio" name="color" value="graphite" data-label="Graphite" data-color="#3c3c40" aria-label="Graphite"><span style="--c:#3c3c40"></span></label>
+          </div>
+        </div>
+
+        <!-- Compatible model: one card per model -->
+        <div class="step product-step">
+          <h2 class="product-group-title">Compatible model</h2>
+          <div class="options product-models">
+            <label class="option">
+              <input type="radio" name="model" value="phone-pro" checked>
+              <span class="option-label"><span><span class="option-name">Phone Pro</span><span class="option-sub">6.3-inch display</span></span></span>
+            </label>
+            <label class="option">
+              <input type="radio" name="model" value="phone-pro-max">
+              <span class="option-label"><span><span class="option-name">Phone Pro Max</span><span class="option-sub">6.9-inch display</span></span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="product-actions">
+          <button class="btn btn-neutral" type="button">Check out with Demo Pay</button>
+          <button class="btn" type="button" data-add-to-bag="bag.html">Add to Bag</button>
+        </div>
+
+        <div class="availability product-availability">
+          <div>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-11a6 6 0 1 1 12 0c0 5.5-6 11-6 11z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <p><strong>Pickup:</strong> Ready in about 2 hours at select stores.</p>
+          </div>
+          <div>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z M3 7.5L12 12l9-4.5 M12 12v9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <p><strong>Delivery:</strong> Free, usually within 2 to 3 days.</p>
+          </div>
+        </div>
+
+        <div class="product-save">
+          <p class="product-save-title">Need a moment?</p>
+          <p class="product-save-text">Save this case to your saves, then come back any time and pick up where you left off.</p>
+          <a class="product-save-link" href="#"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M1 1h10v14L6 11 1 15z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Save for later</a>
+        </div>
+
+        <p class="product-help"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><strong>Need some help?</strong> <a class="more-ext" href="help.html">Contact us</a></p>
+      </form>
+    </section>
+
+    <hr class="product-rule">
+
+    <section class="product-container product-details" aria-label="Product details">
+      <div class="accordion" data-accordion>
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="true">Overview</button>
+          <div class="acc-panel"><div class="acc-panel-inner">
+            <p>The Silicone Case with Magnet Ring fits the Phone Pro and the Phone Pro Max. The outside has a soft-touch silicone finish, and the inside has a microfiber lining that protects the back of the phone.</p>
+            <p>A ring of magnets lines up with the phone, so it attaches to a wrist strap or a crossbody strap. The same magnets help the phone sit in place on a wireless charger.</p>
+            <p>The case leaves the camera area and the side buttons open, so every control still works with the case on.</p>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false">What’s in the Box</button>
+          <div class="acc-panel"><div class="acc-panel-inner">
+            <p>One silicone case with magnet ring, in the color you select.</p>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false">Compatibility</button>
+          <div class="acc-panel"><div class="acc-panel-inner">
+            <ul class="product-compat">
+              <li>Phone</li>
+              <li>Phone Mini</li>
+              <li>Phone SE</li>
+              <li>Phone Air</li>
+              <li>Phone Pro</li>
+              <li>Phone Pro Max</li>
+            </ul>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-recs" aria-labelledby="recs-title">
+      <h2 class="product-recs-title" id="recs-title">You may also like</h2>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w313 pcard" href="product-case.html">
+            <p class="eyebrow eyebrow-new">New</p>
+            <div class="card-media"><img src="../assets/img/products/case.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#5b1f2e"></i><i style="--c:#6b6a4a"></i><i style="--c:#cddbea"></i><i style="--c:#2b3440"></i></div>
+            <h3 class="t-card" style="padding-top:16px">Clear Case with Magnet Ring</h3>
+            <p class="pcard-price">$49.00</p>
+          </a>
+          <a class="card card-w313 pcard" href="product-charger.html">
+            <div class="card-media"><img src="../assets/img/products/charger.svg" alt=""></div>
+            <h3 class="t-card" style="padding-top:16px">20W USB-C Power Adapter</h3>
+            <p class="pcard-price">$19.00</p>
+          </a>
+          <a class="card card-w313 pcard" href="watch-bands.html">
+            <p class="eyebrow eyebrow-new">New</p>
+            <div class="card-media"><img src="../assets/img/products/band.svg" alt=""></div>
+            <div class="pcard-swatches"><i style="--c:#33415c"></i><i style="--c:#c25a3a"></i><i style="--c:#ececec"></i></div>
+            <h3 class="t-card" style="padding-top:16px">Wrist Strap – Crisp Blue</h3>
+            <p class="pcard-price">$29.00</p>
+          </a>
+          <a class="card card-w313 pcard" href="accessories.html">
+            <div class="card-media"><img src="../assets/img/products/keyboard.svg" alt=""></div>
+            <h3 class="t-card" style="padding-top:16px">Wireless Keyboard</h3>
+            <p class="pcard-price">$99.00</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <ol class="footnotes">
+      <li>* Monthly price is an example for a 12-month installment plan with 0% APR. Demo content.</li>
+    </ol>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Today — Demo Store</title>
+  <meta name="description" content="In-store sessions: free, hands-on classes at your local store, filtered by topic.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/service.css">
+</head>
+<body>
+  <div data-shell="nav"></div>
+
+  <main class="svc-page">
+    <div class="svc-localnav">
+      <div class="container svc-localnav-inner">
+        <p class="svc-localnav-title">Sessions</p>
+        <nav class="svc-localnav-links" aria-label="Session sections">
+          <a href="#">Discover</a>
+          <a href="#">Calendar</a>
+          <a href="#">Groups</a>
+        </nav>
+      </div>
+    </div>
+
+    <section class="today-hero">
+      <div class="container today-hero-inner">
+        <h1>Learn something new this week.</h1>
+        <p>Free sessions at your local store, led by specialists, for every level.</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <p class="today-intro">Whether you are new to your devices or building new skills, find a session near you. <br><a class="more" href="stores.html">Choose a store</a></p>
+
+      <div class="today-filters" data-today-filters>
+        <div class="tabs tabs-pill" role="tablist" aria-label="Filter sessions by topic">
+          <button class="tab" type="button" role="tab" data-filter="all" aria-selected="true">All</button>
+          <button class="tab" type="button" role="tab" data-filter="photo" aria-selected="false">Photo</button>
+          <button class="tab" type="button" role="tab" data-filter="music" aria-selected="false">Music</button>
+          <button class="tab" type="button" role="tab" data-filter="design" aria-selected="false">Design</button>
+          <button class="tab" type="button" role="tab" data-filter="coding" aria-selected="false">Coding</button>
+          <button class="tab" type="button" role="tab" data-filter="wellness" aria-selected="false">Wellness</button>
+        </div>
+      </div>
+
+      <div class="today-grid">
+        <article class="today-card" data-session="photo">
+          <div class="today-card-art" style="--c:#33415c"></div>
+          <p class="today-card-kicker">Photo</p>
+          <h2 class="today-card-title">Portraits with your phone</h2>
+          <p class="today-card-meta">Saturday, 10:00 a.m. · 45 minutes · Harbor Square</p>
+          <a class="more today-card-cta" href="#">Reserve a spot</a>
+        </article>
+        <article class="today-card" data-session="music">
+          <div class="today-card-art" style="--c:#a34a3c"></div>
+          <p class="today-card-kicker">Music</p>
+          <h2 class="today-card-title">Make a short track in an hour</h2>
+          <p class="today-card-meta">Saturday, 1:00 p.m. · 60 minutes · Cedar Mall</p>
+          <a class="more today-card-cta" href="#">Reserve a spot</a>
+        </article>
+        <article class="today-card" data-session="design">
+          <div class="today-card-art" style="--c:#7d8b6a"></div>
+          <p class="today-card-kicker">Design</p>
+          <h2 class="today-card-title">Sketch your first app screen</h2>
+          <p class="today-card-meta">Sunday, 11:00 a.m. · 50 minutes · North Park</p>
+          <a class="more today-card-cta" href="#">Reserve a spot</a>
+        </article>
+        <article class="today-card" data-session="coding">
+          <div class="today-card-art" style="--c:#c25a3a"></div>
+          <p class="today-card-kicker">Coding</p>
+          <h2 class="today-card-title">Automate a repeat task</h2>
+          <p class="today-card-meta">Sunday, 2:00 p.m. · 45 minutes · Old Town</p>
+          <a class="more today-card-cta" href="#">Reserve a spot</a>
+        </article>
+        <article class="today-card" data-session="wellness">
+          <div class="today-card-art" style="--c:#d8cfc0"></div>
+          <p class="today-card-kicker">Wellness</p>
+          <h2 class="today-card-title">A guided 20-minute focus session</h2>
+          <p class="today-card-meta">Monday, 7:30 p.m. · 20 minutes · Lakeside Plaza</p>
+          <a class="more today-card-cta" href="#">Reserve a spot</a>
+        </article>
+        <article class="today-card" data-session="photo">
+          <div class="today-card-art" style="--c:#2c3e5a"></div>
+          <p class="today-card-kicker">Photo</p>
+          <h2 class="today-card-title">Edit light and colour on a laptop</h2>
+          <p class="today-card-meta">Tuesday, 6:00 p.m. · 60 minutes · Summit Center</p>
+          <a class="more today-card-cta" href="#">Reserve a spot</a>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/pages/service.js"></script>
+</body>
+</html>

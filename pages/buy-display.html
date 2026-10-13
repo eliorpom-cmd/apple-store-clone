@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buy Studio Display — Demo Store</title>
+  <meta name="description" content="Demo buy page for a 27-inch display: glass, stand, accessories and protection.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components/shell.css">
+  <link rel="stylesheet" href="../assets/css/components/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/flagship.css">
+</head>
+<body>
+  <div data-shell="nav" data-ribbon='Spread the cost over 12 monthly payments at checkout. <a href="carrier-offers.html" class="more">See details</a>||Free delivery and returns on every display. <a href="shipping.html" class="more">Read the policy</a>'></div>
+
+  <main class="flagship">
+    <div class="container">
+
+      <header class="flagship-head-center">
+        <h1 class="flagship-h1">Buy Studio Display</h1>
+        <p class="flagship-sub">27-inch 5K panel, a 12 MP camera with desk view, and a six-speaker sound system.</p>
+      </header>
+
+      <div class="flagship-split">
+
+        <!-- Media column: one gallery, slides move with the choices below -->
+        <div class="flagship-media">
+          <div class="gallery display-gallery" data-gallery>
+            <div class="gallery-track">
+              <div class="gallery-slide">
+                <img src="../assets/img/products/display.svg" alt="Studio Display with standard glass">
+                <p class="gallery-caption">Standard glass cuts reflections for most rooms.</p>
+              </div>
+              <div class="gallery-slide">
+                <img src="../assets/img/products/display.svg" alt="Studio Display with nano-texture glass">
+                <p class="gallery-caption">Nano-texture glass softens reflections in bright rooms.</p>
+              </div>
+              <div class="gallery-slide">
+                <img src="../assets/img/products/display.svg" alt="Studio Display on a tilt-adjustable stand">
+                <p class="gallery-caption">Tilt-adjustable stand.</p>
+              </div>
+              <div class="gallery-slide">
+                <img src="../assets/img/products/display.svg" alt="Studio Display on a tilt and height-adjustable stand">
+                <p class="gallery-caption">Tilt and height-adjustable stand.</p>
+              </div>
+              <div class="gallery-slide">
+                <img src="../assets/img/products/display.svg" alt="Studio Display on a VESA mount adapter">
+                <p class="gallery-caption">VESA mount adapter for your own arm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side column: configurator steps -->
+        <div class="flagship-side">
+          <form class="flagship-steps" data-configurator data-base="0">
+
+            <fieldset class="step">
+              <legend class="step-title">Choose a glass<span data-step-choice></span></legend>
+              <div class="helpcard">
+                <span class="flagship-decision-text">
+                  <strong>Pick the glass for your room.</strong>
+                  Both options reduce glare. Nano-texture glass works best with strong light.
+                </span>
+              </div>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="glass" value="standard" data-price="1599" data-label="Standard glass" data-gallery-slide="0">
+                  <span class="option-label">
+                    <span><span class="option-name">Standard glass</span></span>
+                    <span class="option-price">Buy from $1599<span class="option-sub">or $133.25/mo. for 12 mo.</span></span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="glass" value="nano" data-price="1899" data-label="Nano-texture glass" data-gallery-slide="1">
+                  <span class="option-label">
+                    <span><span class="option-name">Nano-texture glass</span></span>
+                    <span class="option-price">Buy from $1899<span class="option-sub">or $158.25/mo. for 12 mo.</span></span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="step">
+              <legend class="step-title">Choose a stand<span data-step-choice></span></legend>
+              <div class="options">
+                <label class="option">
+                  <input type="radio" name="stand" value="tilt" data-price="1599" data-label="Tilt-adjustable stand" data-gallery-slide="2">
+                  <span class="option-label">
+                    <span><span class="option-name">Tilt-adjustable stand</span></span>
+                    <span class="option-price">Buy from $1599<span class="option-sub">or $133.25/mo. for 12 mo.</span></span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="stand" value="tilt-height" data-price="1999" data-label="Tilt and height-adjustable stand" data-gallery-slide="3">
+                  <span class="option-label">
+                    <span><span class="option-name">Tilt and height-adjustable stand</span></span>
+                    <span class="option-price">Buy from $1999<span class="option-sub">or $166.58/mo. for 12 mo.</span></span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="stand" value="vesa" data-price="1599" data-label="VESA mount adapter" data-gallery-slide="4">
+                  <span class="option-label">
+                    <span><span class="option-name">VESA mount adapter</span><span class="option-sub">Mount not included</span></span>
+                    <span class="option-price">Buy from $1599<span class="option-sub">or $133.25/mo. for 12 mo.</span></span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="step" data-optional="true">
+              <legend class="step-title">Add accessories<span data-step-choice></span></legend>
+              <div class="options">
+                <label class="option">
+                  <input type="checkbox" name="cable" value="cable" data-price="49" data-label="USB-C cable, 2 m">
+                  <span class="option-label">
+                    <span><span class="option-name">USB-C cable, 2 m</span></span>
+                    <span class="option-price">$49.00</span>
+                  </span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" name="cleaning" value="cleaning" data-price="19" data-label="Cleaning kit">
+                  <span class="option-label">
+                    <span><span class="option-name">Cleaning kit</span></span>
+                    <span class="option-price">$19.00</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="step flagship-plan">
+              <legend class="step-title">Add protection<span data-step-choice></span></legend>
+              <div class="options">
+                <label class="option option-rich">
+                  <input type="radio" name="care" value="none" data-price="0" data-label="No extra protection">
+                  <span class="option-label">
+                    <span class="option-top"><span class="option-plan">No extra protection</span></span>
+                    <span class="option-desc">Standard limited warranty only.</span>
+                  </span>
+                </label>
+                <label class="option option-rich">
+                  <input type="radio" name="care" value="plus" data-price="49.99" data-label="Care Plus">
+                  <span class="option-label">
+                    <span class="option-top"><span class="option-plan">Care Plus</span><span class="option-price">$49.99/yr.</span></span>
+                    <span class="option-desc">Covers this display only. Or $4.99/mo., until cancelled.</span>
+                    <ul>
+                      <li>Repairs for accidental damage, with a service fee per claim</li>
+                      <li>Priority support from our specialists</li>
+                      <li>Express replacement while your display is repaired</li>
+                    </ul>
+                  </span>
+                </label>
+                <label class="option option-rich">
+                  <input type="radio" name="care" value="family" data-price="99.99" data-label="Care Family">
+                  <span class="option-label">
+                    <span class="option-top"><span class="option-plan">Care Family</span><span class="option-price">$99.99/yr.</span></span>
+                    <span class="option-desc">Covers up to five devices in one household.</span>
+                    <ul>
+                      <li>Everything in Care Plus, for up to five eligible devices</li>
+                      <li>Theft and loss cover, with one claim every 12 months</li>
+                    </ul>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- Summary: total, monthly figure and the add-to-bag button -->
+      <section class="summary flagship-summary" aria-label="Your order">
+        <div>
+          <h2 class="summary-title">Your order</h2>
+          <p class="summary-price-label">Total</p>
+        </div>
+        <div>
+          <p class="summary-price" data-total>$0</p>
+          <p class="summary-fin">or <span data-monthly>$0</span>/mo. for 12 mo.</p>
+          <button class="btn btn-block" type="button" data-add-to-bag="bag.html" disabled>Add to bag</button>
+        </div>
+      </section>
+
+      <!-- Product information: accordion details -->
+      <section class="details" aria-labelledby="details-title">
+        <h2 class="details-title" id="details-title">Product information</h2>
+        <div class="accordion" data-accordion>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="true">Overview</button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <p>A 27-inch 5K panel with wide color coverage, for photo and video work. The glass is set in a thin aluminum frame.</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false">Camera and audio</button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <p>A 12 MP camera follows you in frame and shows a wider view of your desk.<sup>1</sup> Six speakers and three microphones support calls and recording.</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false">Connections</button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <p>Three Thunderbolt 5 ports and one USB-C port. A single cable can charge a laptop and carry the video signal.<sup>2</sup></p>
+            </div></div>
+          </div>
+        </div>
+      </section>
+
+      <ol class="footnotes">
+        <li><sup>1</sup> Desk view works with the camera pointed down at the desk. Image quality depends on lighting.</li>
+        <li><sup>2</sup> Charging power depends on the connected laptop. Check its specifications before you buy.</li>
+      </ol>
+    </div>
+  </main>
+
+  <div data-shell="footer"></div>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/js/components.js"></script>
+</body>
+</html>

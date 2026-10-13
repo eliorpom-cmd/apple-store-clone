@@ -1,0 +1,136 @@
+/* Flagship buy pages (earbuds, display) and the simple buy page (TV box).
+   Page-only classes use the prefix .flagship-, .witb-, .compare- and .details-.
+   Shared components (.option, .swatch, .summary, .gallery, .acc-*, .modal) are used as they are. */
+
+/* ---------- Page frame ---------- */
+.flagship { padding-top: 40px; } /* spec 04 §0: local bar and ribbon spacing */
+
+/* Title block, centered (display and TV pages) */
+.flagship-head-center { text-align: center; padding: 40px 0 56px; }
+.flagship-sub-line { padding-top: 12px; }
+.flagship-head-center .flagship-sub { margin-inline: auto; max-width: 760px; }
+
+/* H1 sizes: spec 04 §0 (40 / 1.1 / 600 desktop, 28 / 1.143 / 600 mobile) */
+.flagship-h1 { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
+.flagship-sub { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 8px; }
+
+/* Two-column grid: 490 px media column, 82 px gap, 408 px side column (spec 04 §1.1) */
+/* spec 04 §1.1 */
+.flagship-grid {
+  display: grid; grid-template-columns: 490px 408px; column-gap: 82px; align-items: start;
+}
+.flagship-side { min-width: 0; }
+.flagship-side .flagship-h1 { padding-top: 6px; }
+
+/* Split: 408 px media column left, 490 px configurator right (display page) */
+/* spec 04 §1.1 (Studio Display): 5/12 and 6/12 columns */
+.flagship-split {
+  display: grid; grid-template-columns: 408px 490px; column-gap: 82px; align-items: start;
+}
+
+/* ---------- Gallery sizes (the shared .gallery only gets its box here) ---------- */
+/* spec 04 §1.1: 450 px image plus padding */
+.flagship-gallery { height: 490px; }
+.flagship-gallery .gallery-slide > svg,
+.flagship-gallery .gallery-slide > img { width: 70%; height: auto; max-width: none; max-height: none; }
+/* spec 04 §1.1 (Studio Display): 320 px card in a 408 px column */
+.display-gallery { width: 320px; height: 449px; margin-inline: auto; }
+.display-gallery .gallery-slide > img { width: 78%; height: auto; max-width: none; max-height: none; }
+.display-gallery .gallery-caption { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+
+
+/* Benefit row under the gallery (spec 04 §2.1: three columns, icon above text) */
+.flagship-perks {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 24px 0;
+  border-bottom: 1px solid var(--line); text-align: center;
+  font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text);
+}
+.flagship-perk svg { width: 36px; height: 36px; margin: 0 auto 12px; color: var(--text); }
+.flagship-perk strong { font-weight: 600; }
+.flagship-help { display: flex; justify-content: center; align-items: center; gap: 12px; padding-top: 24px; font: var(--t-note); letter-spacing: var(--tr-note); text-align: left; }
+.flagship-help svg { width: 36px; height: 36px; flex: none; color: var(--text); }
+.flagship-help a { display: block; font: var(--t-note); letter-spacing: var(--tr-note); }
+
+/* Configurator steps sit in the side column */
+.flagship-steps { margin-top: 24px; }
+.flagship-steps .step:last-child { margin-bottom: 0; }
+.flagship-steps .step-title { color: var(--text); }
+.flagship-steps .swatch-label { padding-top: 4px; }
+
+/* Protection cards: the option-rich variant keeps the plan name and price on top */
+.flagship-plan .option-rich .option-label { gap: 6px; }
+.flagship-plan .option-plan { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+.flagship-plan .option-desc { font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+
+/* Decision card line (helpcard body text) */
+.flagship-decision-text { display: block; }
+
+/* Summary block: shared .summary grid, page sets only the spacing above it */
+.flagship-summary { margin-top: 24px; }
+
+/* ---------- Product information (accordion section) ---------- */
+.details { padding: 56px 0 0; }
+.details-title { font: 600 34px/40px var(--font); letter-spacing: .007em; color: var(--text); padding-bottom: 16px; } /* spec 04 §4: size estimated */
+.details .acc-btn { font: var(--t-card); letter-spacing: var(--tr-card); }
+.details .acc-panel-inner p { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+.details .acc-panel-inner ul { list-style: disc; padding-left: 20px; }
+.details .acc-panel-inner li { padding-bottom: .4em; }
+
+/* ---------- In the box ---------- */
+.witb { text-align: center; padding: 64px 0 48px; }
+.witb-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); } /* spec 04 §2.3 */
+.witb-sub { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text-2); padding-top: 12px; }
+.witb-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 32px; }
+.witb-item { display: flex; flex-direction: column; align-items: center; }
+/* spec 04 §2.3: object images sit on a light band */
+.witb-visual { width: 100%; height: 240px; display: flex; align-items: center; justify-content: center; background: var(--surface-2); border-radius: var(--r-lg); }
+.witb-visual img { height: 200px; width: auto; max-width: 90%; }
+.witb-icon { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; background: var(--surface-2); border-radius: var(--r-lg); }
+.witb-icon svg { width: 96px; height: 96px; color: var(--text); }
+.witb-label { padding-top: 20px; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
+
+/* ---------- Comparison modal ---------- */
+.compare-table { width: 100%; border-collapse: collapse; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); }
+.compare-table th, .compare-table td { padding: 16px 12px; border-bottom: 1px solid var(--line); text-align: center; vertical-align: top; }
+.compare-table th:first-child, .compare-table td:first-child { text-align: left; }
+.compare-table thead th { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+.compare-table td small { display: block; color: var(--text-2); font: var(--t-note); letter-spacing: var(--tr-note); }
+.modal-content .compare-table { margin-top: 8px; }
+
+/* ---------- Simple page (TV box): footnotes and perks ---------- */
+.flagship-hero-img { width: 100%; max-width: 420px; height: auto; margin-inline: auto; }
+.flagship-fine { font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); padding-top: 12px; }
+.flagship-fine sup { font-size: .75em; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1023px) {
+  .flagship-grid, .flagship-split { grid-template-columns: 1fr; row-gap: 48px; }
+  .flagship-gallery { height: 420px; }
+  .display-gallery { margin-inline: auto; }
+  .flagship-side { max-width: 560px; margin-inline: auto; width: 100%; }
+  .flagship-perks { max-width: 560px; margin-inline: auto; }
+  .flagship-head-center { padding: 32px 0 40px; }
+  .witb-title { font-size: 32px; line-height: 1.125; }
+}
+
+@media (max-width: 734px) {
+  .flagship { padding-top: 24px; }
+  .flagship-h1 { font-size: 28px; line-height: 1.1429; letter-spacing: .007em; }
+  .flagship-head-center .flagship-h1 { font-size: 28px; }
+  .flagship-gallery { height: 340px; }
+  .flagship-gallery .gallery-slide > svg, .flagship-gallery .gallery-slide > img { width: 80%; }
+  .display-gallery { width: 100%; height: 380px; }
+  .flagship-split .display-gallery { width: 100%; }
+  .flagship-perks { font-size: 12px; }
+  .details-title { font-size: 24px; line-height: 1.1667; }
+  .witb { padding: 48px 0 40px; }
+  .witb-title { font-size: 28px; line-height: 1.1429; letter-spacing: .007em; }
+  .witb-row { grid-template-columns: 1fr; gap: 32px; }
+  .witb-visual, .witb-icon { height: 200px; }
+  .witb-visual img { height: 170px; }
+}
+
+/* Configurator steps are fieldsets: reset their browser box and let the legend act as the step title */
+.flagship-steps fieldset.step { border: 0; padding: 0; margin: 0 0 max(60px, 50vh - 360px); min-width: 0; }
+.flagship-steps legend.step-title { float: left; width: 100%; padding: 0; }
+.flagship-steps .step .options, .flagship-steps .step .swatches { clear: both; }
