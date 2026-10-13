@@ -63,8 +63,11 @@ export default function extract() {
   let slides = [...document.querySelectorAll(".as-zoomable-gallery-item")].map((li) => imgOf(li)).filter(Boolean);
   if (!slides.length) slides = [...document.querySelectorAll(".rf-accessory-inline-cardgallery-item, .rc-inline-gallery-item")].map((li) => imgOf(li)).filter(Boolean);
   const mainImg = imgOf(document.querySelector(".rf-flagship-image-wrapper, .rf-flagship-media"));
+  // Box of the main picture as rendered on the source (height kept for the local layout).
+  const mainBox = (() => { const w = document.querySelector(".rf-flagship-image-wrapper, .rf-flagship-media"); const r = w?.getBoundingClientRect(); return r ? { w: Math.round(r.width), h: Math.round(r.height) } : null; })();
   const media = {
     main: mainImg,
+    mainBox,
     thumbs: thumbs.length ? thumbs : [],
     slides: slides.length ? slides : (mainImg ? [mainImg] : []),
   };

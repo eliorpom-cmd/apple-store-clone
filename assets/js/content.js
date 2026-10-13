@@ -73,8 +73,22 @@
         try { fn(Live.data, Live); document.documentElement.dataset.liveRendered = name; }
         catch (e) { console.error("live renderer failed:", name, e); }
       }
+      Live.flushDd();
       Live.flushExtras();
       Live.flushLegal();
+    },
+    // Shared marketing blocks (data.ddBlocks, markup from Live.ddBlocksHTML in live/dd-blocks.js), placed before
+    // the page's FAQ when there is one, otherwise at the end of <main>.
+    flushDd() {
+      const d = Live.data;
+      if (!Live.on || Live.ddDone || !d?.ddBlocks || typeof Live.ddBlocksHTML !== "function" || !document.documentElement.dataset.liveRendered) return;
+      const main = document.querySelector("main");
+      if (!main) return;
+      const html = `<div class="live-dd-blocks">${Live.ddBlocksHTML(d.ddBlocks, Live)}</div>`;
+      const faq = [...main.querySelectorAll("[data-accordion]")].pop();
+      const anchor = faq?.closest("section") || faq;
+      anchor ? anchor.insertAdjacentHTML("beforebegin", html) : main.insertAdjacentHTML("beforeend", html);
+      Live.ddDone = true;
     },
     // Legal notes go into the footer slot (shell.js wraps it in the footer) unless the renderer filled it.
     flushLegal() {

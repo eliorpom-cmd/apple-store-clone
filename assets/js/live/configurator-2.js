@@ -101,7 +101,7 @@ Live.register("configurator-2", (data, L) => {
     const cols = b.columns || [];
     const keys = [...new Set(cols.flatMap((c) => c.features.map((f) => f.key)))];
     const cell = (c) => c.image ? `<img class="live-cmp-img" src="${esc(c.image.src)}" alt="${esc(c.image.alt)}" loading="lazy">` : "";
-    const cfg = `grid-template-columns:repeat(${cols.length}, 310px)`;
+    const cfg = `--cols:${cols.length}`;
     return `<section class="live-block live-compare" style="margin-bottom:${b.box.gap}px;min-height:${b.box.h}px">
       <div class="live-compare-head"><h2 class="live-promo-title">${esc(b.heading)}</h2>${b.text ? `<p class="live-promo-text">${esc(b.text)}</p>` : ""}</div>
       <div class="live-cmp-grid" style="${cfg}">${cols.map((c) => `<div class="live-cmp-col">${cell(c)}

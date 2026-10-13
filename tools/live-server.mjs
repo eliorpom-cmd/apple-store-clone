@@ -82,6 +82,12 @@ async function extract(src, fresh = false) {
             const shelves = await import(`./extractors/shelves.mjs?v=${statSync(join(ROOT, "tools/extractors/shelves.mjs")).mtimeMs}`);
             data.extraShelves = (await page.evaluate(shelves.default)).shelves;
           }
+          // Marketing blocks shared by buy flows (compare grid, personal setup, services): one module for all.
+          const ddFile = join(ROOT, "tools/extractors/dd-blocks.mjs");
+          if (found.template !== "shelves" && existsSync(ddFile) && (await page.$("[class*='dd-compare-grid'], [class*='dd-shared'], .dd-services, [class*='dd-compare-info']"))) {
+            const dd = await import(`./extractors/dd-blocks.mjs?v=${statSync(ddFile).mtimeMs}`);
+            data.ddBlocks = await page.evaluate(dd.default);
+          }
           // Legal notes above the footer (footnotes, offers terms): same markup on every page.
           if (!data.legal) data.legal = await page.evaluate(() => {
             const box = document.querySelector(".as-globalfooter-sosumi, .ac-gf-sosumi, [class*='footnotes'] .rc-footnotelist, .rc-footnotes");

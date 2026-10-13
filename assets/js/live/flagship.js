@@ -75,8 +75,11 @@ Live.register("flagship", (data, L) => {
 
   // Summary card: static price text (no JS total on live pages), CTA as on the source.
   const sm = data.summary || {};
+  const [sumFirst, sumRest] = splitPrice(sm.price);
   const summary = `<div class="flagship-card">
-      <p class="summary-price live-price">${esc(sm.price || "")}</p>
+      <p class="live-card-name">${esc(String(data.head?.title || "").replace(/^(Pre-order|Buy)\s+/i, ""))}</p>
+      <p class="summary-price live-price">${esc(sumFirst || "")}</p>
+      ${sumRest ? `<p class="live-price-rest">${esc(sumRest)}</p>` : ""}
       <button class="btn btn-block" type="button" disabled>${esc(sm.cta || "Continue")}</button>
       ${sm.moment?.title ? `<div class="live-moment"><h3>${esc(sm.moment.title)}</h3><p>${esc(sm.moment.text)}</p><span class="more">${esc(sm.moment.link)}</span></div>` : ""}
     </div>${data.purchaseNote ? `<p class="live-purchase-note">${esc(data.purchaseNote)}</p>` : ""}`;
@@ -84,7 +87,7 @@ Live.register("flagship", (data, L) => {
   // ---- Media ----
   const media = split
     ? `<div class="gallery display-gallery" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
-    : `<div class="live-main">${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}">` : ""}</div>`;
+    : `<div class="live-main">${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}"${data.media.mainBox?.h ? ` style="height:${data.media.mainBox.h}px"` : ""}>` : ""}</div>`;
   const perks = (data.buystrip || []).length
     ? `<ul class="flagship-perks">${data.buystrip.map((b) => `<li class="flagship-perk">${b.icon ? `<span class="live-icon">${b.icon}</span>` : ""}<span>${esc(b.text)}</span></li>`).join("")}</ul>` : "";
   const chat = data.chat?.text ? `<p class="flagship-help"><span><strong>${esc(data.chat.text)}</strong>${data.chat.link ? `<a href="${esc(link(data.chat.link.href))}" class="more-ext">${esc(data.chat.link.text)}</a>` : ""}</span></p>` : "";

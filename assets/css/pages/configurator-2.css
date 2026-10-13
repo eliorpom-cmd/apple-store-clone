@@ -155,7 +155,7 @@ html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: m
 .live-compare-head { margin-bottom: 40px; }
 .live-compare-head .live-promo-title { text-align: center; margin-bottom: 40px; }
 .live-compare-head { text-align: center; }
-.live-cmp-grid, .live-cmp-row { display: grid; padding-left: 50px; }
+.live-cmp-grid, .live-cmp-row { display: grid; grid-template-columns: repeat(var(--cols, 3), 310px); padding-left: 50px; }
 .live-cmp-col { width: 260px; text-align: center; }
 .live-cmp-img { width: 260px; height: 260px; object-fit: contain; max-width: none; margin: 0 auto; }
 .live-cmp-swatches { display: flex; gap: 6px; justify-content: center; min-height: 28px; align-items: center; }
@@ -172,6 +172,16 @@ html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: m
 .live-footnotes { width: min(980px, 100% - 180px); margin: 0 auto; padding-bottom: 40px; font: 400 12px/16px var(--font); letter-spacing: -.01em; color: var(--text-2); }
 .live-footnotes ol li { margin-bottom: 12px; }
 
+/* Narrow screens: the comparison fills the width, three equal columns. */
+@media (max-width: 734px) {
+  .live-compare { width: calc(100% - 2 * var(--gutter)); }
+  .live-cmp-grid, .live-cmp-row { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); padding-left: 0; }
+  .live-cmp-col, .live-cmp-cell { width: auto; min-width: 0; padding-right: 6px; }
+  .live-cmp-img { width: 100%; height: auto; }
+  .live-promo-img { width: 100% !important; height: auto !important; max-width: 100%; }
+  .live-cmp-name { font-size: 16px; line-height: 20px; }
+  .live-cmp-cell ul li { font-size: 12px; line-height: 16px; }
+}
 /* ---------- Narrow screens: one column, gallery above the steps ---------- */
 @media (max-width: 1023px) {
   .cfg2-head, .cfg2-layout, .cfg2-summary { width: calc(100% - 2 * var(--gutter)); }

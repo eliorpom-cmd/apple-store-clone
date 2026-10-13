@@ -104,7 +104,6 @@ Live.register("product", (data, L) => {
           <p class="pcard-price">${esc(c.price)}</p></a>`).join("")}</div></div>
         <div class="product-recs-dots" aria-hidden="true">${data.recs.map((_, i) => `<i${i ? "" : " class=\"is-current\""}></i>`).join("")}</div>
       </section>` : "";
-    const legal = (data.legal || []).length ? legalBlock(data.legal) : "";
 
     // Cross-sell banner under the buy block (grey platter with heading, text, link and image).
     const b = data.banner;
@@ -119,8 +118,7 @@ Live.register("product", (data, L) => {
       <section class="product-container product-main" aria-labelledby="product-name">${info}${media}</section>
       ${banner}
       ${accordions}
-      ${recs}
-      ${legal}`;
+      ${recs}`;
   }
 
   function giftcard() {
@@ -169,11 +167,7 @@ Live.register("product", (data, L) => {
         <h2 class="product-where-title" id="where-title">${esc(data.where.title)}</h2>
         ${data.where.rows.map((row) => `<ul class="product-where-row">${row.map((x) => `<li>${x.img ? `<img src="${esc(x.img.src)}" alt="">` : ""}<span>${esc(x.label)}</span></li>`).join("")}</ul>`).join("")}
       </section>` : ""}
-      ${data.legal?.length ? legalBlock(data.legal) : ""}`;
-  }
-
-  function legalBlock(paras) {
-    return `<section class="product-legal"><div class="product-container">${paras.map((t) => `<p>${esc(t)}</p>`).join("")}</div></section>`;
+      `;
   }
 
   // Thumbnails drive the gallery once components.js has created it (DOMContentLoaded runs after all scripts).

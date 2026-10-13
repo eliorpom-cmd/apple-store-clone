@@ -243,3 +243,10 @@
 .live-flagship .witb-visual { height: 392px; }
 .live-flagship .witb-visual img { height: 392px; width: auto; max-width: 100%; object-fit: contain; }
 .live-flagship .witb-row { padding-top: 40px; }
+.live-card-name { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; color: var(--text); }
+.live-flagship .live-price { font: 600 32px/1.1 var(--font); letter-spacing: .004em; padding: 40px 0 0; }
+.live-price-rest { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding: 8px 0 24px; }
+.live-flagship .flagship-card .btn-block { padding: 8px 20px; font: 400 17px/1.1765 var(--font); border-radius: var(--r-md); }
+/* Live split layout (Studio Display): the source spaces its glass, stand and AppleCare groups further apart */
+.live-flagship .flagship-split .flagship-steps .step:nth-child(1) { margin-bottom: 170px; }
+.live-flagship .flagship-split .flagship-steps .step { margin-bottom: 127px; }
