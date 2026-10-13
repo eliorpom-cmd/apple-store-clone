@@ -4,7 +4,7 @@ export default function detect() {
   const has = (sel) => !!document.querySelector(sel);
   const path = location.pathname.replace(/^\/us(?=\/)/, "").replace(/\/$/, "");
   // Service pages are recognized by path: their markup has no store-specific signature.
-  const SERVICE = { "/shop/bag": "pages/bag.html", "/shop/browse/sitemap": "pages/sitemap.html", "/retail": "pages/stores.html", "/today": "pages/today.html", "/shop/gift-cards": "pages/gift-cards.html", "/shop/help": "pages/help.html" };
+  const SERVICE = { "/shop/bag": "pages/bag.html", "/shop/browse/sitemap": "pages/sitemap.html", "/sitemap": "pages/sitemap.html", "/retail": "pages/stores.html", "/today": "pages/today.html", "/shop/gift-cards": "pages/gift-cards.html", "/shop/help": "pages/help.html" };
   if (SERVICE[path]) return { template: "service", file: SERVICE[path] };
   if (has(".rf-wuipselect, [class*='rf-wuipselect']")) return { template: "catalog", file: "pages/watch-bands.html" };
   if (has("[class*='rf-modelselector']")) return { template: "catalog-2", file: "pages/upgrade.html" };

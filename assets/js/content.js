@@ -27,7 +27,7 @@
     "/shop/trade-in": "pages/trade-in.html", "/shop/buy-iphone/carrier-offers": "pages/carrier-offers.html",
     "/shop/shipping-pickup": "pages/shipping.html", "/shop/help": "pages/help.html", "/shop/bag": "pages/bag.html",
     "/shop/gift-cards": "pages/gift-cards.html", "/shop/buy-giftcard/giftcard": "pages/giftcard.html",
-    "/retail": "pages/stores.html", "/today": "pages/today.html", "/shop/browse/sitemap": "pages/sitemap.html",
+    "/retail": "pages/stores.html", "/today": "pages/today.html", "/shop/browse/sitemap": "pages/sitemap.html", "/sitemap": "pages/sitemap.html",
     "/shop/product/mk944zm/a/iphone-18-pro-max-silicone-case-with-magsafe-navy-blue": "pages/product-case.html",
     "/shop/product/mwvv3am/a/20w-usb-c-power-adapter": "pages/product-charger.html",
   };
