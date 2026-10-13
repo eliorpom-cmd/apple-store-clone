@@ -93,11 +93,11 @@
     // Legal notes go into the footer slot (shell.js wraps it in the footer) unless the renderer filled it.
     flushLegal() {
       const d = Live.data;
-      if (!Live.on || Live.legalDone || !d?.legal || !document.documentElement.dataset.liveRendered) return;
+      if (!Live.on || Live.legalDone || typeof d?.legalHTML !== "string" || !d.legalHTML || !document.documentElement.dataset.liveRendered) return;
       const slot = document.querySelector('[data-shell="footer"]');
       if (!slot || slot.innerHTML.trim()) { Live.legalDone = true; return; }
       const box = document.createElement("div");
-      box.innerHTML = d.legal;
+      box.innerHTML = d.legalHTML;
       box.querySelectorAll("a[href]").forEach((a) => a.setAttribute("href", Live.link(a.getAttribute("href"))));
       slot.innerHTML = `<div class="live-legal">${box.innerHTML}</div>`;
       Live.legalDone = true;

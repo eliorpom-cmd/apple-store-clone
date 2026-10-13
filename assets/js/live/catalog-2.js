@@ -47,7 +47,8 @@ Live.register("catalog-2", (data, L) => {
     }).join("");
     const bento = data.bento ? `<section class="cat2-bento"><div class="cat2-bento-grid">${bentoCards}</div></section>` : "";
     const strip = (data.buystrip || []).length ? `<section class="cat2-bento cat2-buystrip"><div class="cat2-bento-grid cat2-buystrip-grid">${data.buystrip.map((c) => `<div class="cat2-bento-card">${c.img ? im(c.img, "cat2-bento-img") : ""}<h3 class="cat2-bento-title">${esc(c.title)}</h3><p class="cat2-bento-text">${esc(c.text)}</p>${c.cta ? `<a class="cat2-bento-link" href="${esc(link(c.cta.href))}">${esc(c.cta.text)}</a>` : ""}</div>`).join("")}</div></section>` : "";
-    const legal = (data.legal || []).length ? `<div class="cat2-legal container">${data.legal.map((l) => `<p>${esc(l)}</p>`).join("")}</div>` : "";
+    // Legal notes are placed in the footer by content.js (data.legalHTML); not repeated here.
+    const legal = false ? `<div class="cat2-legal container">${data.legal.map((l) => `<p>${esc(l)}</p>`).join("")}</div>` : "";
     main.innerHTML = `
       <section class="cat2-banner live-banner${cats ? "" : " live-banner--listing"}" aria-label="${esc(b.title)}">
         ${b.strip ? `<div class="live-strip-wrap" style="height:${b.strip.height}px"><img class="live-strip" src="${esc(b.strip.src)}" alt="" style="width:${b.strip.width}px;height:${b.strip.height}px"></div>` : ""}

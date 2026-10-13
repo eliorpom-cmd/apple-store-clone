@@ -90,7 +90,7 @@ async function extract(src, fresh = false) {
             data.ddBlocks = await page.evaluate(dd.default);
           }
           // Legal notes above the footer (footnotes, offers terms): same markup on every page.
-          if (!data.legal) data.legal = await page.evaluate(() => {
+          data.legalHTML = await page.evaluate(() => {
             const box = document.querySelector(".as-globalfooter-sosumi, .ac-gf-sosumi, [class*='footnotes'] .rc-footnotelist, .rc-footnotes");
             if (!box) return "";
             // Drop hidden copies (the source keeps a display:none duplicate of some notes).
