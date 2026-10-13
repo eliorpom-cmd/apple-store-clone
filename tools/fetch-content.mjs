@@ -56,7 +56,7 @@ export const PAGES = {
 };
 
 // Global nav labels and links, shared by every page (content/live/_nav.json).
-function extractNav() {
+export function extractNav() {
   const txt = (el) => (el?.textContent || "").replace(/\s+/g, " ").trim();
   const items = [...document.querySelectorAll(".globalnav-list > .globalnav-item")].map((li) => {
     const a = li.querySelector("a.globalnav-link");

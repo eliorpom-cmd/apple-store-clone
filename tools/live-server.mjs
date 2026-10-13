@@ -15,7 +15,7 @@ import { homedir } from "node:os";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import detect from "./extractors/detect.mjs";
-import { scrollThrough } from "./fetch-content.mjs";
+import { extractNav, scrollThrough } from "./fetch-content.mjs";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const PORT = Number(process.argv[2] || 4321);
@@ -60,6 +60,13 @@ async function extract(src, fresh = false) {
         if (!mod) { console.log(`no extractor yet for ${found.template} (${src})`); return { ...route, template: null, file: null }; }
         else {
           const data = await page.evaluate(mod.default);
+          // Shelf rows (recommendations, help, offers) also close most non-shelf pages: extract them too.
+          if (found.template !== "shelves" && (await page.$(".rs-cardsshelf"))) {
+            const shelves = await import(`./extractors/shelves.mjs?v=${statSync(join(ROOT, "tools/extractors/shelves.mjs")).mtimeMs}`);
+            data.extraShelves = (await page.evaluate(shelves.default)).shelves;
+          }
+          const navFile = join(ROOT, "content/live/_nav.json");
+          if (!existsSync(navFile)) writeFileSync(navFile, JSON.stringify(await page.evaluate(extractNav), null, 1));
           Object.assign(data, { template: found.template, source: ORIGIN + src, fetched: new Date().toISOString() });
           writeFileSync(join(CACHE, route.key + ".json"), JSON.stringify(data, null, 1));
         }

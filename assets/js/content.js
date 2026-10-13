@@ -73,6 +73,18 @@
         try { fn(Live.data, Live); document.documentElement.dataset.liveRendered = name; }
         catch (e) { console.error("live renderer failed:", name, e); }
       }
+      Live.flushExtras();
+    },
+    // Shelf rows found under a non-shelf page (data.extraShelves) are appended to <main> once both the
+    // page renderer and the shelf markup builder (Live.shelvesHTML, from live/shelves.js) are available.
+    flushExtras() {
+      const d = Live.data;
+      if (!Live.on || Live.extrasDone || !d?.extraShelves?.length || d.template === "shelves") return;
+      if (typeof Live.shelvesHTML !== "function" || !document.documentElement.dataset.liveRendered) return;
+      const main = document.querySelector("main");
+      if (!main) return;
+      main.insertAdjacentHTML("beforeend", `<div class="live-extra-shelves">${Live.shelvesHTML(d.extraShelves)}</div>`);
+      Live.extrasDone = true;
     },
   };
   window.Live = Live;
