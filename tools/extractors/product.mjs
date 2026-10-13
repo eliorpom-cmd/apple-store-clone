@@ -40,6 +40,23 @@ export default function extract() {
       label: txt(document.querySelector(`label[for="${sel.id}"]`)),
       options: [...sel.options].map((o) => ({ text: (o.textContent || "").replace(/\s+/g, " ").trim(), selected: o.selected })),
     }));
+    // Radio-tile groups (case size, band size): a title, tiles with an optional small line, and an optional footnote.
+    const tiles = [...document.querySelectorAll(".rf-pdp-dimension")].filter((d) => d.querySelector("input.form-selector-input")).map((d) => {
+      const foot = d.querySelector(".as-pdp-prodvariation-footer");
+      const fl = foot?.querySelector("a");
+      return {
+        title: txt(d.querySelector(".rf-pdp-dimension-group-header")),
+        name: d.querySelector("input.form-selector-input")?.name || "",
+        options: [...d.querySelectorAll(".form-selector")].map((o) => ({
+          label: txt(o.querySelector(".form-selector-title")),
+          sub: txt(o.querySelector(".form-label-small")),
+          selected: !!o.querySelector("input:checked"),
+          disabled: !!o.querySelector("input:disabled"),
+        })),
+        footnote: txt(foot?.querySelector("p")),
+        link: fl ? { text: txt(fl), href: abs(fl.getAttribute("href")) } : null,
+      };
+    });
     const colorRoot = document.querySelector(".rf-pdp-colornav");
     const colors = colorRoot ? {
       title: txt(colorRoot.querySelector(".rf-pdp-dimension-group-header")),
@@ -103,6 +120,7 @@ export default function extract() {
         price: txt(card.querySelector("[class*='accessory-price']")),
         img: img(card.querySelector("[class*='accessory-image']")),
         swatches: [...card.querySelectorAll("[class*='swatchescontainer'] img")].map((i) => i.currentSrc || i.src).slice(0, 8),
+        moreSwatches: !!card.querySelector("[class*='moretext']"),
       };
     }).filter((c) => c.title);
 
@@ -111,6 +129,8 @@ export default function extract() {
       kind: "pdp",
       localnav,
       badge: txt(document.querySelector(".rf-pdp-badge")),
+      // The badge row keeps its height when it is empty.
+      hasBadge: !!document.querySelector(".rf-pdp-badge"),
       title: txt(document.querySelector("h1.rf-pdp-title, h1")),
       price: txt(prices?.querySelector(".rc-price")),
       // Monthly line: visible lines after the price, minus the financing line and the footnote marker.
@@ -121,8 +141,11 @@ export default function extract() {
         const fin = txt(financing);
         return lines.slice(cut + 1).filter((l) => l !== fin && l !== "months" && l !== "Footnote").join(" ").replace(/\s+\*/g, "*").replace(/\s+/g, " ").trim();
       })(),
+      // Instalment as the source shows it: the "or" lead-in, then the monthly amount (hidden helper text dropped).
+      monthlyLines: [txt(prices?.querySelector(".rc-prices-acinstallments")), txt(prices?.querySelector(".rc-monthly-price"))].filter(Boolean).map((l) => l.replace(/\s+\*/g, "*")),
       financing: financing ? { text: txt(finLink) || txt(financing) } : null,
       dims,
+      tiles,
       colors,
       gallery,
       buy: {
@@ -165,6 +188,7 @@ export default function extract() {
       intro: txt(root.querySelector("h1 + p, p")),
       mainImage: img(root.querySelector(".rf-giftcard-main-image")) || img(root.querySelector(".rf-giftcard-image-preview")) || img(root.querySelector(".rf-giftcard-sticky")),
       typeTitle: txt(root.querySelector(".selection-title")),
+      typeNote: txt(root.querySelector(".rf-productselection-dimension-header small")),
       types: group("dimensionGiftCardType"),
       designTitle: txt(findText(/^Choose a design/)),
       designs: group("dimensionGiftCardTheme"),

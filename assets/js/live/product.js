@@ -46,6 +46,13 @@ Live.register("product", (data, L) => {
         </div>`;
     }
 
+    // Radio-tile groups (case size, band size): same tile as the shared option, with an optional small line.
+    const tiles = (data.tiles || []).map((g) => `<div class="step product-step product-tiles">
+          <h2 class="product-group-title">${esc(g.title)}</h2>
+          <div class="options options-2 product-tile-options">${g.options.map((o) => `<label class="option"><input type="radio" name="${esc(g.name)}" value="${esc(o.label)}"${o.selected ? " checked" : ""}${o.disabled ? " disabled" : ""}><span class="option-label"><span class="option-name">${esc(o.label)}</span>${o.sub ? `<span class="product-tile-sub">${esc(o.sub)}</span>` : ""}</span></label>`).join("")}</div>
+          ${g.footnote || g.link ? `<div class="product-tile-foot">${g.footnote ? `<p>${esc(g.footnote)}</p>` : ""}${g.link ? `<a class="more" href="${esc(link(g.link.href))}">${esc(g.link.text)}</a>` : ""}</div>` : ""}
+        </div>`).join("");
+
     const gallery = data.gallery || [];
     const media = gallery.length ? `<div class="product-media">
         <div class="gallery product-gallery product-thumbed" data-gallery data-gallery-base="${esc(galleryBase())}">
@@ -67,13 +74,14 @@ Live.register("product", (data, L) => {
     const help = data.help?.link ? `<p class="product-help">${pin}<strong>${esc(data.help.title)}</strong> <a class="more-ext" href="${esc(link(data.help.link.href))}">${esc(data.help.link.text)}</a></p>` : "";
 
     const info = `<form class="product-info" data-configurator>
-        ${data.badge ? `<p class="eyebrow eyebrow-new">${esc(data.badge)}</p>` : ""}
+        ${data.badge ? `<p class="eyebrow eyebrow-new">${esc(data.badge)}</p>` : data.hasBadge ? `<p class="eyebrow" aria-hidden="true"></p>` : ""}
         <h1 class="product-title">${esc(data.title)}</h1>
         <p class="product-price">${esc(data.price)}</p>
-        ${data.monthly ? `<p class="product-price-sub">${esc(data.monthly)}</p>` : ""}
+        ${data.monthlyLines?.length > 1 ? `<div class="product-price-sub"><p class="product-price-or">${esc(data.monthlyLines[0])}</p><p>${esc(data.monthlyLines.slice(1).join(" "))}</p></div>` : data.monthly ? `<p class="product-price-sub">${esc(data.monthly)}</p>` : ""}
         ${finance}
         ${dims}
         ${colors}
+        ${tiles}
         ${buy}
         ${save}
         ${help}
@@ -97,9 +105,9 @@ Live.register("product", (data, L) => {
     const recs = (data.recs || []).length ? `<section class="product-recs" aria-labelledby="recs-title">
         <h2 class="product-recs-title" id="recs-title">${esc(data.recsTitle || "")}</h2>
         <div class="scroller" data-scroller><div class="scroller-track">${data.recs.map((c) => `<a class="card pcard product-rec" href="${esc(link(c.href))}">
-          ${c.eyebrow ? `<p class="eyebrow${/new|pre-?order/i.test(c.eyebrow) ? " eyebrow-new" : ""}">${esc(c.eyebrow)}</p>` : ""}
           <div class="card-media">${L.img(c.img)}</div>
-          ${c.swatches?.length ? `<div class="product-rec-swatches">${c.swatches.map((s) => `<i style="--swatch:url('${esc(s)}')"></i>`).join("")}</div>` : ""}
+          <div class="product-rec-swatches">${(c.swatches || []).map((s) => `<i style="--swatch:url('${esc(s)}')"></i>`).join("")}${c.moreSwatches ? "<b>+</b>" : ""}</div>
+          <p class="product-rec-eyebrow${/new|pre-?order/i.test(c.eyebrow || "") ? " eyebrow-new" : ""}">${esc(c.eyebrow || "")}</p>
           <h3 class="t-card product-rec-title">${esc(c.title)}</h3>
           <p class="pcard-price">${esc(c.price)}</p></a>`).join("")}</div></div>
         <div class="product-recs-dots" aria-hidden="true">${data.recs.map((_, i) => `<i${i ? "" : " class=\"is-current\""}></i>`).join("")}</div>
@@ -136,7 +144,7 @@ Live.register("product", (data, L) => {
           <h1 class="gc-title">${esc(data.title)}</h1>
           <p class="gc-intro">${esc(data.intro)}</p>
           <div class="step product-step">
-            <h2 class="product-group-title">${esc(data.typeTitle)}</h2>
+            <h2 class="product-group-title">${esc(data.typeTitle)}${data.typeNote ? `<small class="gc-type-note">${esc(data.typeNote)}</small>` : ""}</h2>
             <div class="options options-2 gc-options">${tiles("type", data.types || [])}</div>
           </div>
           <div class="step product-step">

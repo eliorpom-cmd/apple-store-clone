@@ -31,7 +31,7 @@
 /* ---------- Main block: text column left (327 px at x 230), gallery right (605 px column, 512 px image). spec 04 §3.1 ---------- */
 .product-main {
   display: grid; grid-template-columns: 327px 605px; justify-content: space-between; align-items: start;
-  padding-top: 64px;
+  padding-top: 50px; /* source: the column starts 50 px under the local nav (or under the 44 px global nav) */
 }
 .product-info { grid-column: 1; grid-row: 1; }
 .product-media { grid-column: 2; grid-row: 1; width: 605px; justify-self: end; padding-bottom: 52px; /* room for the dots under the image */ }
@@ -46,8 +46,8 @@
 .product-zoom { transform: scale(1.6); }
 
 .product-info { width: 327px; margin: 0; }
-.product-info .eyebrow { padding-bottom: 4px; }
-.product-title { font: 600 32px/1.125 var(--font); letter-spacing: .004em; color: var(--text); } /* spec 04 §0 */
+.product-info .eyebrow { box-sizing: border-box; min-height: 24px; padding-bottom: 4px; font: 600 17px/20px var(--font); letter-spacing: var(--tr-body); }
+.product-title { font: 600 32px/1.125 var(--font-display); letter-spacing: .004em; color: var(--text); } /* spec 04 §0 */
 .product-price { font: var(--t-body); padding-top: 14px; }
 .product-price-sub { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 32px; }
 .product-finance { padding-top: 20px; }
@@ -70,14 +70,14 @@
 .product-availability strong { font-weight: 600; }
 
 /* "Need a moment?" block with the save link. spec 04 §0 */
-.product-save { margin-top: 28px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.product-save { margin-top: 24px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .product-save-title { font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
-.product-save-text { padding-top: 2px; }
-.product-save-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; color: var(--link); }
+.product-save-text { padding: 0 20px 8px 0; }
+.product-save-link { display: inline-flex; align-items: center; gap: 6px; min-height: 21px; color: var(--link); }
 .product-save-link svg { width: 12px; height: 16px; }
 
 .product-help {
-  display: flex; align-items: center; gap: 8px; margin-top: 24px; padding-top: 16px;
+  display: flex; align-items: center; gap: 8px; margin-top: 35px; padding-top: 22px;
   border-top: 1px solid var(--line); font: var(--t-small); letter-spacing: var(--tr-small);
 }
 .product-help svg { flex: none; width: 20px; height: 20px; color: var(--text); }
@@ -85,7 +85,7 @@
 
 /* ---------- Details accordion: title on the left, content in the 735 px column. spec 04 §3.2 ---------- */
 .product-details .accordion { border-bottom: 1px solid var(--line); }
-.product-details .acc-btn { font: 600 32px/1.125 var(--font); letter-spacing: .004em; padding: 32px 0; color: var(--text); }
+.product-details .acc-btn { font: 600 32px/1.125 var(--font-display); letter-spacing: .004em; padding: 32px 0; color: var(--text); }
 .product-details .acc-panel-inner { max-width: none; padding: 0 0 45px 245px; }
 /* Live pages: each panel has its own title column, so the inner block has no offset. */
 .product-details .acc-panel-inner.product-panels { padding: 0 0 20px; }
@@ -98,13 +98,13 @@
 .product-list li { position: relative; padding-bottom: 8px; padding-left: 0; }
 
 /* ---------- Recommendations: centered title, 313 px cards in a scroller that bleeds to the right ---------- */
-.product-recs { --shelf-edge: max(22px, calc(50% - 490px)); /* left edge = container edge (230 px at 1440) */ margin-top: 40px; }
-.product-recs-title { font: var(--t-section); letter-spacing: var(--tr-section); text-align: center; padding-bottom: 32px; }
+.product-recs { --shelf-edge: max(22px, calc(50% - 490px)); /* left edge = container edge (230 px at 1440) */ margin-top: 0; }
+.product-recs-title { font: var(--t-section); letter-spacing: var(--tr-section); text-align: center; padding: 50px 0 60px; /* source heading box: 50 above, 60 below */ }
 
 /* ---------- Gift card page ---------- */
 .gc-main {
   display: grid; grid-template-columns: 490px 408px; justify-content: space-between; align-items: start;
-  column-gap: 40px; padding-top: 48px;
+  column-gap: 40px; padding-top: 46px; /* source title top: 46 px */
 }
 .gc-stage {
   position: sticky; top: 52px; height: 620px; display: grid; place-items: center; isolation: isolate;
@@ -129,21 +129,27 @@
 .gc-card-to { font: var(--t-small); letter-spacing: var(--tr-small); }
 .gc-card-amount { font: var(--t-hero); letter-spacing: var(--tr-hero); }
 
-.gc-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
-.gc-intro { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 16px; }
+.gc-title { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; color: var(--text); }
+.gc-intro { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 13.6px; padding-bottom: 18px; }
 .gc-form { margin: 0; }
-.gc-form .product-step { margin-top: 36px; }
-.gc-form > .product-step:first-of-type { margin-top: 52px; }
-.gc-form > .product-step:nth-of-type(2) { margin-top: 73px; }
+/* Selection groups, measured on the source: 21 px above the title, 10 px + 10 px / 20 px below,
+   a 1 px rule above the amount group; the title is 25 px (50 px with the small note), tiles 14 px under it. */
+.gc-form .product-step { margin: 0; padding: 31px 0 31px; }
+.gc-form > .product-step + .product-step { padding: 21px 0 30px; border-top: 1px solid var(--line); }
+.gc-form .product-group-title { margin: 0 0 14px; min-height: 25px; }
+.gc-form .options { margin-top: 0; }
+.gc-type-note { display: block; margin-top: 5px; font: 400 14.1667px/16px var(--font); letter-spacing: -.374px; }
+.gc-form .product-group-title:has(.gc-type-note) { min-height: 50px; }
+.gc-form > .product-step[data-optional] { padding-top: 21px; }
 .gc-options .option-label { flex-direction: column; justify-content: center; align-items: center; gap: 4px; text-align: center; }
 .gc-options .option-name { display: block; }
 .gc-wide { grid-column: 1 / -1; }
 
 /* Custom amount: appears only when "Other amount" is chosen. */
-.gc-custom { margin-top: 14px; }
+.gc-custom { margin: 14px 0; }
 .gc-custom[hidden] { display: none; }
 .gc-amount {
-  display: flex; align-items: stretch; height: 55px; overflow: hidden;
+  display: flex; align-items: stretch; height: 56px; overflow: hidden;
   background: var(--surface); border: 1px solid var(--text-3); border-radius: var(--r-md);
 }
 .gc-amount:focus-within { border-color: var(--action); box-shadow: 0 0 0 1px var(--action); }
@@ -181,16 +187,18 @@
 .gc-field-area textarea:focus + label, .gc-field-area textarea:not(:placeholder-shown) + label { top: 9px; }
 
 /* Summary: light surface, price line, select button, save block. spec 04 §5.2 */
-.gc-summary { margin-top: 48px; padding: 24px; background: var(--surface-2); border-radius: var(--r-md); }
+.gc-summary { margin-top: 21px; padding: 30px 30px 12px; background: var(--surface-2); border-radius: var(--r-md); }
 .gc-summary-line { display: flex; justify-content: space-between; gap: 16px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 .gc-summary-line + .gc-summary-line { padding-top: 6px; }
 .gc-summary-price {
-  color: var(--text); font: 600 21px/1.1905 var(--font); letter-spacing: .011em;
+  color: var(--text); font: 600 21px/1.1905 var(--font-display); letter-spacing: .011em;
   padding: 10px 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line-2);
 }
 .gc-summary .product-actions { margin-top: 0; }
-.gc-summary .product-save { margin-top: 24px; }
-.gc-help { margin-top: 24px; text-align: center; font: var(--t-small); letter-spacing: var(--tr-small); }
+.gc-summary .product-save { margin-top: 15px; }
+.gc-summary .product-save-text { padding: 0 20px 8px 0; }
+.gc-summary .product-save-link { margin-top: 0; }
+.gc-help { margin: 0; padding: 20px 0 40px; text-align: center; font: var(--t-small); letter-spacing: var(--tr-small); }
 
 /* ---------- Responsive: stacked layout under 1024 px ---------- */
 @media (max-width: 1023px) {
@@ -235,7 +243,7 @@ body.product-page { background: #fff; }
 
 /* Size and model dropdown: 12 px label above the value, 12 px radius, 1 px border. spec 04 §3.2 */
 .product-field { margin-top: 52px; }
-.product-select { position: relative; display: block; height: 55px; border: 1px solid var(--text-3); border-radius: var(--r-md); background: var(--surface); }
+.product-select { position: relative; display: block; height: 56px; border: 1px solid var(--text-3); border-radius: var(--r-md); background: var(--surface); }
 .product-select:focus-within { border-color: var(--action); box-shadow: 0 0 0 1px var(--action); }
 .product-select-label { position: absolute; left: 15px; top: 8px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); pointer-events: none; }
 .product-select-input {
@@ -250,21 +258,41 @@ body.product-page { background: #fff; }
 .swatch .product-swatch-img::before { background: var(--swatch) center / cover no-repeat; }
 
 /* Accordion panels: title column 245 px, content column 735 px, rule between panels. spec 04 §4 */
-.product-panel { display: grid; grid-template-columns: 245px 735px; padding: 44px 0; border-bottom: 1px solid var(--line); }
-.product-panel:last-child { border-bottom: 0; }
-.product-panel-title { font: 600 24px/1.1667 var(--font); letter-spacing: .009em; color: var(--text); }
-.product-details .product-panel-body p + p { margin-top: 35px; }
+/* The rule between panels only spans the content column (x 245 to the right edge), as on the source. */
+.product-panel {
+  display: grid; grid-template-columns: 245px 735px; padding: 44px 0;
+  background: linear-gradient(var(--line), var(--line)) 245px 100% / calc(100% - 245px) 1px no-repeat;
+}
+.product-panel:last-child { background: none; }
+/* First panel: title flush with the top, content 4 px down (source mainpanel padding 4 0 44). */
+.product-panel:first-child { padding-top: 0; }
+.product-panel:first-child .product-panel-body { padding-top: 4px; }
+.product-panel-title { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; color: var(--text); }
+.product-details .product-panel-body p + p { margin-top: 27.2px; }
 .product-panel-body p { font: var(--t-body); letter-spacing: var(--tr-body); }
-.product-panel-body .product-subhead { padding-top: 12px; font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
-.product-panel-body .product-subhead:first-child { padding-top: 0; }
+.product-panel-body .product-subhead { padding-bottom: 6.8px; font: 600 17px/25px var(--font); letter-spacing: var(--tr-body); }
+.product-panel-body * + .product-subhead { margin-top: 27.2px; }
 .product-panel .product-compat { grid-template-columns: repeat(3, 235px); }
 .product-panel .product-compat li { font: var(--t-body); letter-spacing: var(--tr-body); }
 
-/* Recommendation cards: 248 px wide, swatches as 28 px round images. spec 04 §3.2 */
-.product-recs .card { width: 248px; }
-.product-rec-title { padding-top: 16px; font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
-.product-rec-swatches { display: flex; justify-content: center; gap: 8px; padding-top: 12px; }
-.product-rec-swatches i { width: 28px; height: 28px; border-radius: 50%; background: var(--swatch) center / cover no-repeat; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); }
+/* Recommendation cards, measured on the source at 1440: flat 309 px slides, no card surface; a 181 px image in a
+   194 px block, a 25 px swatch row (12 px dots, 6 px gap, "+" when more), a 15 px eyebrow row, a title clamped to
+   two 25 px lines, the price 10 px under it, 74 px of room below. */
+.product-recs .scroller-track { gap: 0; padding-left: calc(var(--shelf-edge) + 25.5px); }
+.product-recs .product-rec {
+  display: block; width: 309.33px; height: auto; padding: 0 26px 74px; overflow: visible; text-align: center;
+  background: none; box-shadow: none; border-radius: 0;
+}
+.product-recs .product-rec:hover, .product-recs .product-rec:focus-within { transform: none; box-shadow: none; }
+.product-recs .card-media { display: block; flex: none; height: 194px; padding: 0 0 0; overflow: visible; }
+.product-recs .card-media img { width: 181px; height: 181px; max-height: none; object-fit: contain; margin: 0 auto; }
+.product-rec-swatches { display: flex; justify-content: center; align-items: center; gap: 6px; height: 25px; margin: 8px -26px 0; }
+.product-rec-swatches i { width: 12px; height: 12px; border-radius: 50%; background: var(--swatch) center / cover no-repeat; }
+.product-rec-swatches b { font: 400 12px/16px var(--font); letter-spacing: .01em; }
+.product-rec-eyebrow { height: 15px; margin-top: 14px; font: 600 12px/15px var(--font); letter-spacing: .01em; color: var(--text); }
+.product-rec-eyebrow.eyebrow-new { color: var(--badge-new); }
+.product-rec-title { padding: 0; font: 600 17px/25px var(--font); letter-spacing: var(--tr-body); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 50px; }
+.product-recs .pcard-price { padding-top: 10px; margin: 0 0 9px; font: var(--t-body); letter-spacing: var(--tr-body); }
 
 /* Gift card (live): main image in the sticky column, five design tiles in a row. */
 .gc-hero { width: 100%; height: auto; max-width: 390px; }
@@ -276,10 +304,10 @@ body.product-page { background: #fff; }
 .gc-form .product-step[data-optional] .product-group-title { margin-top: 36px; }
 
 /* Cross-sell banner (live): grey platter, heading 40 px, text left of the image. spec 04 §3.2 */
-.product-banner { margin: 167px 0 -46px; background: var(--page); }
+.product-banner { margin: 50px 0 -46px; /* source: banner starts 50 px under the buy column */ background: var(--page); }
 .product-banner-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; min-height: 480px; }
 .product-banner-text { text-align: center; padding: 48px 24px; }
-.product-banner-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
+.product-banner-title { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; color: var(--text); }
 .product-banner-body { font: var(--t-body); letter-spacing: var(--tr-body); max-width: 300px; margin: 16px auto 0; }
 .product-banner-text .more { display: inline-block; margin-top: 16px; font: var(--t-body); letter-spacing: var(--tr-body); }
 .product-banner-media img { width: 100%; height: auto; max-width: 440px; margin-inline: auto; }
@@ -289,19 +317,19 @@ body.product-page { background: #fff; }
 }
 
 /* Recommendations title: 40 px, centered, as on the source page. */
-.product-recs-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; }
+.product-recs-title { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; }
 
 /* Gallery arrows appear on hover only, as on the source page (live pages). */
 .product-thumbed .paddle { opacity: 0; pointer-events: none; }
 .product-thumbed:hover .paddle:not(:disabled) { opacity: 1; pointer-events: auto; }
 
-/* Live: the color group sits closer to the size dropdown, as on the source page. */
-.product-field + .product-step .product-group-title { margin-top: 9px; }
 
 /* Gift card (live): "Where can I use" band, full width, grey, icons with labels. */
-.product-where { background: var(--page); padding: 130px 0 80px; text-align: center; }
-.product-where-title { font: 600 40px/1.1 var(--font); letter-spacing: 0; color: var(--text); }
-.product-where-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 40px 36px; margin-top: 40px; }
+/* Where band, measured on the source: 77 px above the title, 50 px under the last row, 62 px between rows. */
+.product-where { background: var(--page); padding: 0 0 50px; text-align: center; }
+.product-where-title { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; color: var(--text); padding: 77px 0 27px; }
+.product-where-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 40px 36px; margin-top: 13.6px; }
+.product-where-row + .product-where-row { margin-top: 62px; }
 .product-where-row li { display: flex; flex-direction: column; align-items: center; gap: 12px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text); }
 .product-where-row img { height: 56px; width: auto; max-width: 110px; object-fit: contain; }
 .product-where-row + .product-where-row img { height: 50px; }
@@ -340,3 +368,28 @@ body.product-page { background: #fff; }
   .product-info > .product-help { order: 11; }
   .product-main { row-gap: 0; }
 }
+
+/* Radio-tile groups (case size, band size). Measured on the source: tiles 83 px tall (89 with a small line),
+   14 px gap, small line 12 / 16 px, footnote 14 / 20 px. */
+.product-tile-options { margin-top: 14px; }
+.product-tile-options .option-label { flex-direction: column; justify-content: center; align-items: center; gap: 0; text-align: center; }
+.product-tile-sub { display: block; margin-top: 4px; font: 400 12px/16px var(--font); letter-spacing: .01em; }
+.product-tile-foot { margin-top: 20px; font: var(--t-small); letter-spacing: var(--tr-small); }
+.product-tile-foot .more { display: block; margin: 0; line-height: 20px; }
+/* Group titles in the buy form: the source legend is 50 px tall (25 px line + 25 px below) after a 30 px margin;
+   the swatch list adds 5 px above and ends 11 px under the swatches. */
+.product-info .product-group-title { margin: 30px 0 0; min-height: 50px; }
+.product-info .swatches { padding: 5px 0 11px; }
+
+/* Buy block, measured on the source: a 1 px rule 30 px under the options, buttons 56 px under the rule
+   (empty fulfilment row 20 px + 35 px), 16 px between the two buttons. */
+.product-info .product-actions { margin-top: 30px; padding-top: 55px; border-top: 1px solid var(--line); gap: 16px; }
+/* Monthly price: "or" line (4 px above, 5 px below) then the instalment line, as two source blocks. */
+.product-price-sub { padding: 0; }
+.product-price-or { padding: 4px 0 5px; }
+.product-price-sub + .product-finance { padding-top: 8px; }
+.product-price-sub ~ .product-field { margin-top: 50px; }
+/* Last option group before the buy block: 18 px above the swatches instead of 5 px. */
+.product-info .product-step:has(+ .product-actions) .swatches { padding-top: 18px; }
+/* A color group straight after the price block: the source leaves 50 px there (the dimension wrapper's 30 px plus 20 px). */
+.product-finance + .product-step { padding-top: 20px; }
