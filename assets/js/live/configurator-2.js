@@ -56,8 +56,8 @@ Live.register("configurator-2", (data, L) => {
     if (s.kind === "customizations") {
       // Static cards: the source loads its options on demand, so only the card text is shown.
       body = (s.groups || []).map((g) => `<div class="cfg2-recon">
-        <h3 class="t-card">${esc(g.title)}</h3>
-        ${g.desc ? `<p class="t-body">${esc(g.desc)}</p>` : ""}${g.footer ? `<p class="t-note t-muted">${esc(g.footer)}</p>` : ""}
+        <div class="cfg2-recon-head"><span class="cfg2-recon-icon" aria-hidden="true"></span><h3>${esc(g.title)}</h3></div>
+        ${g.desc ? `<p>${esc(g.desc)}</p>` : ""}${g.footer ? `<p class="cfg2-recon-foot">${esc(g.footer)}</p>` : ""}
       </div>`).join("");
     } else {
       if (s.swatches?.length) {

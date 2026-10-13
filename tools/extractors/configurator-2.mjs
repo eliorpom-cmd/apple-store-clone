@@ -34,7 +34,10 @@ export default function extract() {
       name = clean(c);
       sub = clean(subEl);
     } else {
-      name = clean(root.querySelector(".colornav-label")) || clean(root.querySelector(".form-selector-label-title, [class*='title']")) || clean(root);
+      const swatchName = clean(root.querySelector(".colornav-label"));
+      const lines = (root.innerText || "").split("\n").map((l) => l.replace(/Footnote\s*\S*/g, "").trim()).filter(Boolean);
+      name = swatchName || lines[0] || clean(root);
+      sub = swatchName ? "" : lines.slice(1).join(" ");
     }
     const priceEl = root.querySelector(".form-selector-right-col, .rf-bfe-selector-right-col, [class*='right-col']");
     const pointEls = [...root.querySelectorAll(".price-point")].filter((el) => !el.parentElement.closest(".price-point"));
