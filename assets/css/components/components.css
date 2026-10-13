@@ -58,7 +58,7 @@
 .scroller-track {
   display: flex; gap: 20px; overflow-x: auto; overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory; scroll-padding-inline: var(--shelf-edge); scroll-behavior: smooth;
-  padding: 16px var(--shelf-edge) 40px; scrollbar-width: none;
+  padding: 16px var(--shelf-edge) 23px; scrollbar-width: none; /* 625px per row, as measured */
 }
 .scroller-track::-webkit-scrollbar { display: none; }
 .scroller-track > * { flex: none; scroll-snap-align: start; }
@@ -122,7 +122,7 @@ a.card:hover, .card:hover { text-decoration: none; }
 .pcard-price s { color: var(--text-3); }
 
 /* Product navigation thumbnails (round images with labels) */
-.pnav-track { gap: 10px; padding-bottom: 38px; }
+.pnav-track { gap: 10px; padding-top: 0; padding-bottom: 38px; } /* 248px band */
 .pnav-item { width: 136px; display: flex; flex-direction: column; align-items: center; padding: 18px 8px 16px; border-radius: var(--r-card); text-decoration: none; }
 .pnav-item:hover { text-decoration: none; }
 .pnav-item .pnav-img { height: 78px; display: flex; align-items: center; margin-bottom: 16px; }
