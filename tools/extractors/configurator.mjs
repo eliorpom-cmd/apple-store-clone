@@ -173,7 +173,9 @@ export default function extract() {
       };
     }), (h) => h.title);
 
-    const step = { key, keyword, rest, swatches, options, helpcards, optional: /applecare|tradein/.test(key) };
+    // Label above the swatches ("Color").
+    const swatchHead = text(within(".rf-bfe-product-dimension-colornav-header")[0]);
+    const step = { key, keyword, rest, swatches, swatchHead, options, helpcards, optional: /applecare|tradein/.test(key) };
     if (keyword || rest || swatches.length || options.length || helpcards.length) steps.push({ step, anchor: secs[0] });
   }
 

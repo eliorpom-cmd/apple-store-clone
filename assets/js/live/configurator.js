@@ -80,7 +80,7 @@ Live.register("configurator", (data, L) => {
     if (s.swatches.length) {
       // data-finish is the first word of the finish name, the key of its photo in the summary.
       const sw = s.swatches.map((c) => `<label class="swatch swatch-live"><input type="radio" name="${id}" data-price="0" data-label="${esc(c.label)}" data-finish="${esc((c.label.split(" ")[0] || "").toLowerCase())}" aria-label="${esc(c.label)}"><span>${eimg(c.img)}</span></label>`).join("");
-      body += `<div class="swatches" role="radiogroup" aria-labelledby="${id}-title">${sw}</div><p class="swatch-label" aria-live="polite"></p>`;
+      body += `${s.swatchHead ? `<p class="cfg-swatch-head">${esc(s.swatchHead)}</p>` : ""}<div class="swatches" role="radiogroup" aria-labelledby="${id}-title">${sw}</div><p class="swatch-label" aria-live="polite"></p>`;
     }
     if (s.options.length) {
       const priceOf = priceFor(s);

@@ -199,3 +199,9 @@
   .cfg-sum-headline { font-size: 28px; }
   .cfg-sum-full .cfg-summary-media img { width: 100%; max-width: 380px; }
 }
+
+/* Finish step, measured on the source: "Color" label 17/25 600 with 20 px above; swatch list 15 px above,
+   11 px below, 41 px pitch (36 px ring, 28 px swatch); the list stays inactive until a model is chosen. */
+.cfg-swatch-head { padding-top: 20px; font: 600 17px/25px var(--font); letter-spacing: -.022em; }
+.cfg-rail .swatches { gap: 5px; padding: 15px 0 11px; margin-bottom: 0; }
+.cfg-grid:has([data-gate]):not(:has([data-gate] input:checked)) .step:not([data-gate]) .swatches { opacity: .32; pointer-events: none; }
