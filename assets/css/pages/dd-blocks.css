@@ -1,0 +1,56 @@
+/* Shared marketing blocks of buy flows (live mode, assets/js/live/dd-blocks.js). Values measured on the
+   source (iPhone compare: 1296 px plate, 200 px columns, 60 px gap, 28 px inset). */
+
+.dd-live-block { font: 400 12px/16px var(--font); letter-spacing: -.01em; color: var(--text); }
+.dd-live-plate { width: min(1296px, 100% - 2 * var(--gutter)); margin-inline: auto; } /* spec: compare plate 1296 px */
+.dd-live-centered { text-align: center; }
+.dd-live-h2 { font: 600 40px/44px var(--font); letter-spacing: .005em; }
+.dd-live-intro { font: var(--t-intro); letter-spacing: var(--tr-intro); margin-top: 12px; }
+.dd-live-link { display: inline-flex; margin-top: 20px; }
+
+/* Personal setup: grey band, centred copy and picture */
+/* Band height measured on the source: 565 px (spec-level padding fitted to the content). */
+.dd-live-setup { background: var(--page); padding: 180px 0; }
+.dd-live-setup-img { display: block; width: min(708px, 100%); height: auto; margin: 24px auto 0; }
+
+/* Services: picture band with the copy over it */
+.dd-live-services { position: relative; height: 481px; overflow: hidden; background: var(--page); }
+.dd-live-services-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dd-live-services-info { position: relative; padding-top: 80px; text-align: left; }
+.dd-live-services-info .dd-live-intro { max-width: 430px; }
+
+/* Comparison */
+.dd-live-compare { padding: 50px 0 30px; }
+.dd-live-compare-head { padding-bottom: 30px; }
+.dd-live-cmp-wrap { overflow-x: auto; scrollbar-width: none; }
+.dd-live-cmp-wrap::-webkit-scrollbar { display: none; }
+.dd-live-cmp {
+  display: grid; grid-template-columns: repeat(var(--n), 200px); column-gap: 60px; justify-content: center;
+  padding: 0 28px; min-width: max-content; text-align: center;
+}
+.dd-live-row { display: contents; }
+.dd-live-cell { display: flex; flex-direction: column; align-items: center; min-width: 0; padding-bottom: 40px; }
+.dd-live-col { padding-bottom: 0; }
+.dd-live-hero-link { display: block; }
+.dd-live-hero { display: block; width: 200px; height: 256px; object-fit: contain; }
+.dd-live-swatches { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 14px 0 22px; }
+.dd-live-swatch { display: block; width: auto; height: auto; max-width: 138px; max-height: 49px; }
+.dd-live-badge { min-height: 16px; font: 600 12px/16px var(--font); color: var(--badge-new); }
+.dd-live-name { font: 600 24px/28px var(--font); letter-spacing: .009em; margin: 6px 0 26px; }
+.dd-live-name a { color: var(--text); text-decoration: none; }
+.dd-live-subtitle { font: 400 17px/21px var(--font); letter-spacing: -.022em; width: 192px; margin: 2px 4px 0; }
+.dd-live-price { font: 400 14px/18px var(--font); letter-spacing: -.016em; margin: 8px 0 0; padding-bottom: 33px; }
+.dd-live-glyph { margin: 40px 0 9px; color: var(--text); }
+.dd-live-glyph svg.dd-glyph-svg { display: block; height: 56px; width: auto; fill: currentColor; }
+.dd-live-icon { display: block; width: 56px; height: 56px; object-fit: contain; margin: 40px 0 9px; }
+.dd-live-eyebrow { font: 600 28px/32px var(--font); letter-spacing: .007em; margin: 2px 0 7px; }
+.dd-live-feature p { font: 400 12px/16px var(--font); letter-spacing: -.01em; margin: 2px 0 7px; }
+.dd-live-feature p.dd-live-none { color: var(--text-2); }
+.dd-live-sep { width: 200px; height: 0; border: 0; border-top: 1px solid var(--line); margin: 44px 0 6px; }
+
+@media (max-width: 1023px) {
+  .dd-live-h2 { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+  .dd-live-services { height: auto; min-height: 420px; }
+  .dd-live-services-art { position: absolute; }
+}
+.dd-live-compare-foot { padding-top: 36px; text-align: center; }

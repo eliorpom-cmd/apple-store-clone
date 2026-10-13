@@ -123,7 +123,8 @@ export default async function extract() {
 
     return {
       template: "content", kind,
-      hero: { eyebrow: txt(intro?.querySelector("h1")), title: txt(intro?.querySelector("h2")), intro: txt(intro?.querySelector("p")) },
+      hero: { logo: img(intro?.querySelector("h1")), title: txt(intro?.querySelector("h2")), intro: txt(intro?.querySelector("p")) },
+      localNav: { title: txt(document.querySelector(".as-localnav-title")), action: txt(document.querySelector(".as-localnav-action-button")) },
       value: { tabs },
       ways: { title: txt(waysRoot?.querySelector("h2")), intro: txt(waysRoot?.querySelector("p")), tabs: ways },
       reasons: { title: txt(reasons?.querySelector("h2")), rows: reasonRows },

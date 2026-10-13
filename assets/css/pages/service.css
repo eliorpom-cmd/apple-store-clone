@@ -164,6 +164,10 @@
 
 @media (max-width: 734px) {
   .bag-title { font-size: 28px; line-height: 32px; }
+  /* Phone heights measured on the source page at 390 px */
+  .bag-banner { height: 191px; }
+  .bag-help-inner { height: auto; padding: 22px 0; }
+  .bag-spotlight-inner { height: 440px; }
   .bag-actions { flex-direction: column; }
   .bag-line { flex-wrap: wrap; }
   .bag-line-price { width: 100%; text-align: left; padding-left: 144px; }
@@ -186,7 +190,9 @@
 
 .stores-heading { font: 600 40px/44px var(--font); letter-spacing: 0; text-align: center; padding: 118px 0 0; }
 /* Live program sections: centred heads, as on the source page */
-.stores-program-section { padding: 64px 0 64px; margin: 0 calc(50% - 50vw); padding-inline: calc(50vw - 50%); background: var(--page); }
+.stores-program-section { padding: 42px 0 64px; margin: 0 calc(50% - 50vw); padding-inline: calc(50vw - 50%); background: var(--page); }
+.stores-program-medium { flex-direction: column; }
+.stores-program-medium .stores-program-img { width: 100%; max-width: none; max-height: none; margin: 0; }
 .stores-program-section > * { max-width: 980px; margin-inline: auto; }
 .stores-program-head { text-align: center; padding-bottom: 32px; }
 .stores-program-head h2 { font: 600 40px/44px var(--font); letter-spacing: 0; }
@@ -201,7 +207,7 @@
 .stores-program .more { display: inline-block; padding-top: 14px; font: var(--t-body); }
 .stores-program-img { display: block; width: auto; max-width: 100%; max-height: 180px; margin: 0 auto 24px; }
 .stores-program-wide .stores-program-img { width: 50%; max-width: none; max-height: none; height: 100%; margin: 0; object-fit: cover; }
-.stores-list { padding-bottom: 40px; margin-top: -27px; }
+.stores-list { padding-bottom: 0; margin-top: -27px; }
 .stores-list .scroller-track { padding: 0; gap: 36px; scroll-padding-inline: 0; }
 .svc-store {
   flex: none; width: 304px; display: flex; flex-direction: column; color: var(--text); text-decoration: none;
@@ -237,6 +243,12 @@
   .stores-label { font-size: 28px; line-height: 36px; }
 }
 @media (max-width: 734px) {
+  .stores-program-grid { grid-template-columns: 1fr; }
+  .stores-program-wide { flex-direction: column; }
+  .stores-program-copy { padding: 32px 24px; }
+  .stores-program-wide .stores-program-img { width: 100%; height: auto; max-height: none; }
+  .stores-program-section { padding: 48px 0; }
+  .stores-program-head h2 { font-size: 28px; line-height: 32px; }
   .stores-search { flex-wrap: wrap; }
   .stores-label { width: 100%; white-space: normal; }
   .stores-field { flex: 1 1 100%; }

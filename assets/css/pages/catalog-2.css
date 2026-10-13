@@ -273,15 +273,17 @@
 .live-hero .cat2-up-cta { padding-bottom: 0; }
 .cat2-live-sec { padding: 0; }
 .cat2-live-select .cat2-tabs { margin-top: 0; }
-.cat2-live-shelf { padding-top: 176px; } /* measured: gap before the feature-card shelf (its heading is not extracted) */
-.live-faq { padding: 403px 0 0; } /* measured: the FAQ groups start 403 px after the start block */
-.live-faq-title { padding: 16px 0 8px; font: 600 21px/1.1905 var(--font); letter-spacing: .011em; }
-.live-faq .acc-btn { padding: 16px 0; }
+.cat2-live-shelf { padding: 0 0 52px; } /* measured: the shelf ends 109 px below its cards */
+.live-faq { padding: 564px 0 0; } /* measured: the FAQ groups start 403 px after the start block */
+.live-faq-title { padding: 24px 0 16px; font: 600 21px/1.1905 var(--font); letter-spacing: .011em; }
+.live-faq .acc-btn { padding: 20px 0; }
 /* Listing pages (Mac, iPad): five columns and shorter tiles, as measured on the source. */
 .cat2-tiles-listing { grid-template-columns: repeat(5, 1fr); }
-.cat2-tiles-listing .cat2-tile { padding: 40px 0 30px; }
-.cat2-tiles-listing .cat2-tile-image { height: 220px; }
-.cat2-tiles-listing .cat2-tile-title { padding: 24px 16px 0; }
+.cat2-tiles-listing .cat2-tile { padding: 30px 0 20px; }
+.cat2-tiles-listing .cat2-tile-image { height: 200px; }
+.cat2-tiles-listing .cat2-prices { margin-top: 8px; padding: 0 10%; }
+.cat2-tiles-listing .cat2-price { padding-top: 8px; }
+.cat2-tiles-listing .cat2-tile-title { padding: 16px 16px 0; }
 @media (max-width: 1023px) {
   .cat2-tiles-listing { grid-template-columns: repeat(2, 1fr); }
   .cat2-tiles-listing .cat2-tile { padding: 20px 0 28px; }
@@ -292,6 +294,20 @@
 .live-banner--listing .cat2-display { margin-top: 0; }
 /* Phone width: the source stacks its blocks, so the desktop heights do not apply. */
 @media (max-width: 734px) {
-  .cat2-live-sec { min-height: 0 !important; padding: 56px 0; }
-  .cat2-start.live-start { min-height: 0 !important; padding: 64px 0; }
+  /* Heights measured on the source at 390 px: the desktop values do not apply. */
+  .cat2-live-sec { min-height: 0 !important; padding: 64px 0; }
+  .cat2-live-sec .cat2-sec-visual img { width: 80%; }
+  .cat2-start.live-start { min-height: 536px !important; padding: 64px 0; }
+  .live-hero .cat2-up-visual { height: auto !important; }
+  .live-hero-video { width: 100% !important; height: auto !important; }
+  .live-faq { padding-top: 40px; }
 }
+/* Live icons and media taken from the source */
+.live-step-icon { width: 44px; height: 44px; margin: 0 auto 16px; }
+.cat2-bento-icon { display: block; margin-bottom: 16px; }
+.live-hero-video { display: block; max-width: 100%; margin: 0 auto; object-fit: contain; }
+.cat2-swatches img { width: 16px; height: 16px; border-radius: 50%; }
+.cat2-buystrip-grid { grid-template-columns: repeat(3, 1fr); }
+.cat2-buystrip-grid .cat2-bento-card { grid-column: span 1; min-height: 230px; }
+@media (max-width: 734px) { .cat2-buystrip-grid { grid-template-columns: 1fr; } }
+.live-shelf-head { padding: 24px 0 20px; text-align: left; }

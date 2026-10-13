@@ -170,12 +170,12 @@
 .zoom-slide { flex: none; width: 73vw; height: 100%; display: grid; place-items: center; background: var(--page); }
 .zoom-slide:nth-child(n+2) { background: var(--surface); }
 .zoom-slide img { max-width: 70%; max-height: 70%; width: auto; height: auto; object-fit: contain; }
-.zoom-close { position: absolute; top: 20px; left: 20px; width: 36px; height: 36px; border-radius: 50%; background: #e8e8ed; color: var(--text-2); display: grid; place-items: center; z-index: 2; }
+.zoom-close { position: absolute; top: 22px; left: 22px; width: 36px; height: 36px; border-radius: 50%; background: #e8e8ed; color: var(--text-2); display: grid; place-items: center; z-index: 2; }
 .zoom-close svg { width: 20px; height: 20px; }
 .zoom-arrow { position: absolute; top: 50%; translate: 0 -50%; width: 56px; height: 56px; border-radius: 50%; background: rgba(210, 210, 215, .64); color: rgba(0, 0, 0, .56); display: grid; place-items: center; z-index: 2; }
 .zoom-arrow svg { width: 10px; height: 16px; }
 .zoom-prev { left: 18px; }
-.zoom-next { right: calc(27vw - 28px); }
+.zoom-next { right: 17px; }
 .zoom-prev[hidden] { display: none; }
 
 /* Comparison table: two device columns, 245 px wide, 80 px apart (spec measured on the source) */
@@ -250,3 +250,11 @@
 /* Live split layout (Studio Display): the source spaces its glass, stand and AppleCare groups further apart */
 .live-flagship .flagship-split .flagship-steps .step:nth-child(1) { margin-bottom: 170px; }
 .live-flagship .flagship-split .flagship-steps .step { margin-bottom: 127px; }
+
+/* Live grid gallery (main picture that options move between slides): no dots, no paddles, no card */
+.live-main.gallery { height: 501px; background: transparent; border-radius: 0; overflow: hidden; }
+.live-main .dots, .live-main .paddle { display: none; }
+.live-main .gallery-slide { padding: 0; }
+.live-main .gallery-slide > img { width: 450px; max-width: 100%; height: 501px; max-height: none; object-fit: contain; margin: 0 auto; }
+/* Zoom viewer, as on the source (frames 01-open): close at 40 px, next arrow at the right edge of the white panel */
+.zoom-slide img { max-width: 70%; max-height: 70%; }

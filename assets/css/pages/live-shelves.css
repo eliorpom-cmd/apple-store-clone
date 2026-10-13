@@ -22,3 +22,10 @@
 
 /* Titles of the short pictogram cards: the original sets them at about 17 px, not the 21 px card title. */
 .card-icon .card-title { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
+
+/* Live footnotes take the full width of the footer, as on the original (no inner gutter). */
+.live-footnotes { max-width: none; padding: 0; margin: 0; }
+
+/* Category thumbnail band: 62 px under it on desktop, 30 px on mobile (spec 02 §10). */
+.live-pnav { padding-bottom: 62px; }
+@media (max-width: 1023px) { .live-pnav { padding-bottom: 30px; } }

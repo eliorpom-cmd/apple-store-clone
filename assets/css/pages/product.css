@@ -334,7 +334,7 @@ body.product-page { background: #fff; }
   .product-info > .product-price-sub { order: 4; }
   .product-info > .product-finance { order: 5; }
   .product-info > .product-field { order: 6; }
-  .product-info > .product-step:nth-of-type(1) { order: 8; }
+  .product-info > .product-step { order: 8; }
   .product-info > .product-actions { order: 9; }
   .product-info > .product-save { order: 10; }
   .product-info > .product-help { order: 11; }

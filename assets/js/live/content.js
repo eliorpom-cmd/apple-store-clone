@@ -28,7 +28,7 @@ Live.register("content", (data, L) => {
       <div class="ship-faq accordion" data-accordion><div class="acc-item">
         <button class="acc-btn" aria-expanded="${open}">${esc(title)}</button>
         <div class="acc-panel"><div class="acc-panel-inner"><div class="accordion accordion-compact" data-accordion>
-          ${items.map((it, n) => `<div class="acc-item"><button class="acc-btn" aria-expanded="${n === 0}">${esc(it.q)}</button>
+          ${items.map((it, n) => `<div class="acc-item"><button class="acc-btn" aria-expanded="false">${esc(it.q)}</button>
           <div class="acc-panel"><div class="acc-panel-inner"><p>${esc(it.a)}</p></div></div></div>`).join("")}
         </div></div></div></div></div></div></section>`;
   };
@@ -36,8 +36,11 @@ Live.register("content", (data, L) => {
   // ----- Trade-in -----
   const tradein = () => {
     const h = data.hero;
+    const localNav = `<nav class="tradein-localnav" aria-label="${esc(data.localNav?.title || "")}" data-localnav>
+      <div class="tradein-localnav-inner container"><span class="tradein-localnav-title">${esc(data.localNav?.title || "")}</span>
+      <a class="tradein-localnav-action btn" href="#">${esc(data.localNav?.action || "")}</a></div></nav>`;
     const hero = `<header class="content-band content-band-surface content-hero content-hero-tall"><div class="container">
-      ${h.eyebrow ? `<p class="content-eyebrow">${esc(h.eyebrow)}</p>` : `<div class="content-lockup" aria-hidden="true"></div>`}
+      ${h.logo ? `<div class="content-lockup">${img(h.logo, "content-logo")}</div>` : `<div class="content-lockup" aria-hidden="true"></div>`}
       <h1 class="content-display">${esc(h.title)}</h1>
       ${h.intro ? `<p class="content-intro">${esc(h.intro)}</p>` : ""}</div>
       <div class="container">
@@ -112,7 +115,7 @@ Live.register("content", (data, L) => {
           <button class="acc-btn" aria-expanded="false">${esc(it.q)}</button>
           <div class="acc-panel"><div class="acc-panel-inner"><p>${esc(it.a)}</p></div></div></div>`).join("")}</div></div>`).join("")}
     </div></section>`;
-    return { hero, ways, reasons, faq: faqHtml, faqGroups: groups.length };
+    return { localNav, hero, ways, reasons, faq: faqHtml, faqGroups: groups.length };
   };
 
   // ----- Carrier offers -----
@@ -173,7 +176,7 @@ Live.register("content", (data, L) => {
   const main = document.querySelector("main");
   if (!main) return;
   let html;
-  if (data.kind === "trade-in") { const t = tradein(); html = t.hero + t.ways + t.reasons + t.faq; }
+  if (data.kind === "trade-in") { const t = tradein(); html = t.localNav + t.hero + t.ways + t.reasons + t.faq; }
   else if (data.kind === "carrier") { const c = carrier(); html = c.hero + c.offers + c.help + c.faq; }
   else if (data.kind === "shipping") { const s = shipping(); html = s.hero + s.cols + s.faq + s.props; }
   else return;

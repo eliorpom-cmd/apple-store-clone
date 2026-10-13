@@ -16,6 +16,22 @@ export default function extract() {
     return best ? { src: best.currentSrc || best.src, alt: best.alt || "" } : null;
   };
   const abs = (h) => (h ? new URL(h, location.href).href : null);
+  // Icon of an element: an inline SVG (as a data URI) or the image URL of its CSS background or mask.
+  const iconOf = (el) => {
+    if (!el) return null;
+    const svg = el.tagName === "svg" ? el : el.querySelector("svg");
+    if (svg) {
+      const c = svg.cloneNode(true);
+      const r = svg.getBoundingClientRect();
+      if (r.width) { c.setAttribute("width", Math.round(r.width)); c.setAttribute("height", Math.round(r.height)); }
+      if (!c.getAttribute("xmlns")) c.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      return { src: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(c.outerHTML), width: Math.round(r.width), height: Math.round(r.height) };
+    }
+    const cs = getComputedStyle(el);
+    const u = [cs.backgroundImage, cs.maskImage, cs.webkitMaskImage].map((v) => (v && v.match(/url\(["']?([^"')]+)/) || [])[1]).find(Boolean);
+    const r = el.getBoundingClientRect();
+    return u ? { src: abs(u), width: Math.round(r.width), height: Math.round(r.height) } : null;
+  };
   // Skip the no-JS copies of each block, rendered for browsers without scripts and not shown.
   const visibleOnly = (el) => !el.closest("[class*='no-js'], nav, footer, .as-localnav, .as-globalnav, .as-globalfooter");
   const tone = (el) => {
@@ -39,7 +55,8 @@ export default function extract() {
       poster: (() => { const v = header?.querySelector("video"); const src = v?.poster || header?.querySelector(".dd-hero-reduced-motion")?.src; return src ? { src: new URL(src, location.href).href, alt: "" } : null; })(),
       heroHeight: Math.round(header?.querySelector(".dd-video")?.getBoundingClientRect().height || 0),
       text: txt(header?.querySelector(".dd-info p")),
-      steps: [...(header?.querySelectorAll(".dd-grid li") || [])].map((li) => ({ text: txt(li.querySelector("p")) })),
+      steps: [...(header?.querySelectorAll(".dd-grid li") || [])].map((li) => ({ text: txt(li.querySelector("p")), icon: iconOf(li.querySelector(".dd-icon")) })),
+      video: (() => { const v = header?.querySelector("video"); if (!v) return null; const r = v.getBoundingClientRect(); return { src: abs(v.currentSrc || v.querySelector("source")?.getAttribute("src")), poster: abs(v.poster), width: Math.round(r.width), height: Math.round(r.height) }; })(),
       cta: (() => { const a = header?.querySelector(".dd-button a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
       more: (() => { const a = header?.querySelector(".dd-info a, .dd-cta a.more, a.more"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
     };
@@ -110,7 +127,7 @@ export default function extract() {
       logo: img(startEl.querySelector(".dd-logo")),
       cta: (() => { const a = startEl.querySelector("a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
     } : null;
-    return { kind: "upgrade", localnav, intro, tabs, models: models.flat(), sections, faq, faqGroups, selectorTitle, shelf: { head: shelfHead, cards: shelf }, start };
+    return { kind: "upgrade", localnav, intro, tabs, models: models.flat(), sections, faq, faqGroups, selectorTitle, shelf: { head: txt(document.querySelector(".rf-feature-shelf-header")) || shelfHead, cards: shelf }, start };
   }
 
   // Certified refurbished listing: banner, category list, featured tiles.
@@ -150,16 +167,25 @@ export default function extract() {
       name: ([...li.classList].find((c) => /^dd-bento-(?!card)/.test(c)) || "").replace(/^dd-bento-/, ""),
       lines: [...li.querySelectorAll("p, h2, h3")].map((el) => ({ tag: el.tagName.toLowerCase(), text: txt(el) })).filter((l) => l.text),
       img: img(li),
+      // Icons under 30 px are the plus buttons, not the card icon.
+      icon: (ic => (ic && ic.width >= 30 ? ic : null))(iconOf(li.querySelector("svg, [class*='icon']"))),
       bg: tone(li),
       color: getComputedStyle(li).color,
       link: (() => { const a = li.querySelector("a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
     })),
   } : null;
+  // Promo strip that loads on scroll (listing pages): one card per .buystrip-item.
+  const buystrip = [...document.querySelectorAll(".buystrip .buystrip-item")].filter(visibleOnly).map((it) => {
+    const cta = it.querySelector("a");
+    const body = [...it.querySelectorAll("p")].filter((p) => !p.closest(".buystrip-item-cta")).map(txt).filter(Boolean);
+    return { title: txt(it.querySelector("h3, h2")), text: body.join(" "), cta: cta ? { text: txt(cta), href: abs(cta.getAttribute("href")) } : null, img: img(it) };
+  }).filter((c) => c.title);
   // Legal footnotes printed under the page (one line per note).
   const legal = (document.querySelector(".footnotes")?.innerText || "").split("\n").map((l) => l.replace(/\s+/g, " ").trim()).filter(Boolean);
   return {
     kind: "refurb",
     bento,
+    buystrip,
     legal,
     localnav,
     banner: { strip, icon, title: bannerTitle, subtitle: txt(headerEl?.querySelector("p")) },

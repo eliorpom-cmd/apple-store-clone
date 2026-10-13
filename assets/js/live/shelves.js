@@ -68,7 +68,7 @@ Live.shelvesHTML = (shelves) => {
 
 Live.register("shelves", (data, L) => {
   const { esc, link } = L;
-  const pnav = (items) => `<section class="shelf live-shelf" aria-label="Shop by category" style="padding-bottom:62px">
+  const pnav = (items) => `<section class="shelf live-shelf live-pnav" aria-label="Shop by category">
     <div class="scroller" data-scroller><div class="scroller-track pnav-track">${items.map((p) => `<a class="pnav-item" href="${esc(link(p.href))}"><span class="pnav-img">${L.img(p.img)}</span><span>${esc(p.title)}</span></a>`).join("")}</div></div></section>`;
 
   const nav = document.querySelector('[data-shell="nav"]');

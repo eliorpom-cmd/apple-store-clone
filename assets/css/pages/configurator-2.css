@@ -123,10 +123,13 @@ html[data-content="live"] .cfg2-rail .cfg2-summary .summary-title { font: var(--
 html[data-content="live"] .cfg2-rail .cfg2-summary .btn-block { margin-top: 24px; padding: 8px 20px; }
 html[data-content="live"] .cfg2-price-line { padding-top: 24px; max-width: 425px; font: 400 17px/25px var(--font); letter-spacing: -.022em; }
 html[data-content="live"] .cfg2-pill { font: var(--t-note); letter-spacing: var(--tr-note); }
+/* Live mode: rich cards use the source padding (1 px border + 15 px). */
+html[data-content="live"] .cfg2 .option-rich .option-label { padding: 15px; }
 /* Source static cards: the customization blocks of the Mac flow. */
-.cfg2-recon { margin-bottom: 14px; padding: 16px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); }
-.cfg2-recon h3 { margin-bottom: 8px; }
-.cfg2-recon p + p { margin-top: 8px; }
+.cfg2-recon { margin-bottom: 14px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); }
+.cfg2-recon h3 { font: 600 14px/18px var(--font); letter-spacing: -.016em; margin-bottom: 11px; }
+.cfg2-recon p { font: 400 14px/18px var(--font); letter-spacing: -.016em; }
+.cfg2-recon p.t-note { font: 400 12px/16px var(--font); letter-spacing: -.01em; margin-top: 12px; }
 .cfg2 .option-price-line { display: block; }
 
 /* Help card with a photo on top (live mode, source cards with an image). */
@@ -139,49 +142,6 @@ html[data-content="live"] .cfg2-pill { font: var(--t-note); letter-spacing: var(
 /* Source slide images are on white: blend them into the grey gallery box (live mode). */
 html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: multiply; }
 
-/* ---------- Live mode: full-width blocks after the configurator (promo, services, comparison) ---------- */
-.live-block { position: relative; }
-.live-promo { padding: 64px 0; text-align: center; background: var(--page); }
-.live-promo-inner { width: min(980px, 100% - 2 * var(--gutter)); margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
-.live-promo-title { font: 600 40px/44px var(--font); letter-spacing: -.005em; color: var(--text); margin-bottom: 24px; max-width: 745px; }
-.live-promo-text { font: var(--t-body); max-width: 706px; }
-.live-promo-img { max-width: none; margin: 24px 0; }
-.live-link { color: var(--link); font: var(--t-body); letter-spacing: var(--tr-body); margin-top: 24px; }
-.live-backdrop { overflow: hidden; height: 100%; text-align: left; }
-.live-backdrop-img { position: absolute; left: 50%; top: 50%; translate: -50% -50%; max-width: none; }
-.live-backdrop-text { position: absolute; left: calc(50% - 468px); top: 50%; translate: 0 -50%; width: 430px; }
-.live-backdrop-text .live-promo-title { margin-bottom: 16px; font-size: 32px; line-height: 36px; }
-.live-compare { width: min(980px, 100% - 180px); margin: 0 auto; padding: 64px 0 40px; }
-.live-compare-head { margin-bottom: 40px; }
-.live-compare-head .live-promo-title { text-align: center; margin-bottom: 40px; }
-.live-compare-head { text-align: center; }
-.live-cmp-grid, .live-cmp-row { display: grid; grid-template-columns: repeat(var(--cols, 3), 310px); padding-left: 50px; }
-.live-cmp-col { width: 260px; text-align: center; }
-.live-cmp-img { width: 260px; height: 260px; object-fit: contain; max-width: none; margin: 0 auto; }
-.live-cmp-swatches { display: flex; gap: 6px; justify-content: center; min-height: 28px; align-items: center; }
-.live-cmp-swatches img { width: 18px; height: 18px; border-radius: 50%; }
-.live-cmp-badge { display: block; font: var(--t-note); font-weight: 600; color: var(--badge-new); }
-.live-cmp-name { margin: 4px 0 0; font: 600 24px/28px var(--font); letter-spacing: .005em; }
-.live-cmp-price { margin: 8px 0 0; font: var(--t-body); letter-spacing: var(--tr-body); }
-.live-cmp-grid { border-bottom: 1px solid var(--line); padding-bottom: 20px; }
-.live-cmp-cell { width: 260px; padding: 20px 0 24px; text-align: center; }
-.live-cmp-cell svg { width: 25px; height: 25px; display: block; margin: 0 auto 12px; color: var(--text); }
-.live-cmp-cell ul li { font: 400 14px/20px var(--font); letter-spacing: -.016em; margin-bottom: 2px; }
-
-/* Live mode: legal footnote lines under the FAQ. */
-.live-footnotes { width: min(980px, 100% - 180px); margin: 0 auto; padding-bottom: 40px; font: 400 12px/16px var(--font); letter-spacing: -.01em; color: var(--text-2); }
-.live-footnotes ol li { margin-bottom: 12px; }
-
-/* Narrow screens: the comparison fills the width, three equal columns. */
-@media (max-width: 734px) {
-  .live-compare { width: calc(100% - 2 * var(--gutter)); }
-  .live-cmp-grid, .live-cmp-row { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); padding-left: 0; }
-  .live-cmp-col, .live-cmp-cell { width: auto; min-width: 0; padding-right: 6px; }
-  .live-cmp-img { width: 100%; height: auto; }
-  .live-promo-img { width: 100% !important; height: auto !important; max-width: 100%; }
-  .live-cmp-name { font-size: 16px; line-height: 20px; }
-  .live-cmp-cell ul li { font-size: 12px; line-height: 16px; }
-}
 /* ---------- Narrow screens: one column, gallery above the steps ---------- */
 @media (max-width: 1023px) {
   .cfg2-head, .cfg2-layout, .cfg2-summary { width: calc(100% - 2 * var(--gutter)); }

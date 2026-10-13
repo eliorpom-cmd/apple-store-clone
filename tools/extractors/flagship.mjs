@@ -248,5 +248,27 @@ export default function extract() {
     link: (() => { const a = cmp.querySelector(".dd-compare-link a"); return a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null; })(),
   } : null;
 
-  return { template: "flagship", ribbon, head, media, buystrip, chat, steps, applecare, summary, purchaseNote, footnotes, witb, productInfo, faq, compare, promo };
+  // Feature bands: full-width blocks of text and picture (not the Apple Music band, kept as promo).
+  // `after` tells whether the block sits below the comparison table on the source.
+  const cmpTop = cmp ? cmp.getBoundingClientRect().top + scrollY : Infinity;
+  const bandEls = [...document.querySelectorAll(".as-l-fullwidth")].filter((el) => {
+    if (!visible(el) || el.closest(".rf-flagship, .dd-compare, .rc-accordion, .rs-productinfosection, .as-globalfooter, .product-selection-area, .as-localnav, .billboard")) return false;
+    if (el.matches("[class*='apple-music']") || el.querySelector("[class*='apple-music']")) return false;
+    if (el.querySelector("form, fieldset, .rs-productinfosection, .rc-productinfosection, .dd-compare, .rc-accordion, .rf-flagship")) return false;
+    return !!el.querySelector("h2, h3") && el.getBoundingClientRect().height > 150;
+  });
+  const bands = bandEls.map((el) => {
+    const h = el.querySelector("h2, h3");
+    const body = [...el.querySelectorAll("p")].map((p) => txt(p)).filter((t) => t && t !== txt(h));
+    const a = el.querySelector("a[href]");
+    return {
+      title: txt(h),
+      text: body.slice(0, 3),
+      link: a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null,
+      img: imgOf(el),
+      after: el.getBoundingClientRect().top + scrollY > cmpTop,
+    };
+  });
+
+  return { template: "flagship", ribbon, head, media, buystrip, chat, steps, applecare, summary, purchaseNote, footnotes, witb, productInfo, faq, compare, promo, bands };
 }

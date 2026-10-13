@@ -38,7 +38,7 @@ export default function extract() {
     }
     const priceEl = root.querySelector(".form-selector-right-col, .rf-bfe-selector-right-col, [class*='right-col']");
     const pointEls = [...root.querySelectorAll(".price-point")].filter((el) => !el.parentElement.closest(".price-point"));
-    const pointLines = pointEls.map(clean).filter(Boolean);
+    const pointLines = pointEls.filter((el) => el.getBoundingClientRect().width > 0).map(clean).filter(Boolean);
     const full = pointLines.length ? pointLines[0] : clean(root.querySelector(".as-pricepoint-fullprice")) || clean(priceEl);
     const bullets = [...root.querySelectorAll("li")].map(clean).filter(Boolean).slice(0, 6);
     const swatch = root.querySelector(".colornav-swatch");
@@ -71,7 +71,7 @@ export default function extract() {
     return "dimension";
   };
 
-  // Top-level steps only, in document order.
+  // Top-level steps only, in document order. (Prices are visible only on the first step at load.)
   const all = [...document.querySelectorAll(".rf-bfe-step, .rf-bfe-purchase-options")];
   const top = all.filter((s) => !all.some((o) => o !== s && o.contains(s)));
   // Measured box of each visible step: its height and the gap to the next visible step.
@@ -168,78 +168,12 @@ export default function extract() {
     return { q: clean(b), a: clean(panel) };
   }).filter((f) => f.q);
 
-  // Full-width blocks between the configurator and the FAQ: promos, services and the model comparison grid.
-  const blockSel = ".dd-shared-personal-setup, .as-l-fullwidth, .dd-mac-btr-education";
-  const rawBlocks = [...document.querySelectorAll(blockSel)].filter((el) => !el.closest(".rf-bfe, .rf-po-bfe, .rf-bfe-stickybar"));
-  const topBlocks = rawBlocks.filter((el) => !rawBlocks.some((o) => o !== el && o.contains(el)) && el.getBoundingClientRect().height > 0);
-  const extraBox = (el, i) => {
-    const r = el.getBoundingClientRect();
-    const next = topBlocks[i + 1];
-    return { h: Math.round(r.height), gap: next ? Math.max(0, Math.round(next.getBoundingClientRect().top - r.bottom)) : 0 };
-  };
-  // Keep the origin pictogram markup (inline SVG) without ids, so it can be shown in live mode.
-  const glyph = (el) => {
-    const g = el?.querySelector("svg.dd-glyph-svg, svg[class*='glyph']");
-    if (!g) return "";
-    const c = g.cloneNode(true);
-    c.removeAttribute("aria-hidden");
-    c.querySelectorAll("[id]").forEach((n) => n.removeAttribute("id"));
-    return c.outerHTML;
-  };
-  // Space between the bottom of the configurator rail and the first full-width block.
   const railBottom = Math.max(0, ...[...document.querySelectorAll(".rf-bfe-step, .rf-bfe-summary")].filter((e) => !e.closest(".rf-bfe-stickybar")).map((e) => e.getBoundingClientRect().bottom + scrollY));
+  // Later steps are locked at load: the source shows no price text on them, so only the amounts are kept.
+  steps.forEach((st, i) => { if (i > 0) for (const o of [...st.options, ...st.groups.flatMap((g) => g.options)]) o.price = ""; });
   // Rail height in the source: from the top of the rail (first step minus its offset) to the bottom.
   const firstStepTop = shown[0] ? shown[0].getBoundingClientRect().top + scrollY : 0;
   const railMin = Math.max(0, Math.round(railBottom - firstStepTop + railOffset));
-  const blocksLead = topBlocks[0] ? Math.max(0, Math.round(topBlocks[0].getBoundingClientRect().top + scrollY - railBottom)) : 0;
-  const blocks = topBlocks.map((el, i) => {
-    const box = extraBox(el, i);
-    if (el.querySelector(".dd-compare-grid")) {
-      const info = el.querySelector(".dd-compare-info");
-      const columns = [...el.querySelectorAll(".dd-column-header")].map((head) => {
-        const col = head.parentElement;
-        const features = [...col.querySelectorAll(".dd-feature")].map((f) => {
-          const key = [...f.classList].find((c) => c !== "dd-feature" && !c.startsWith("dd-color")) || "";
-          return { key, glyph: glyph(f), items: [...f.querySelectorAll("p")].map(clean) };
-        });
-        return {
-          name: clean(head.querySelector(".dd-product-name")),
-          badge: clean(head.querySelector(".badge")),
-          price: clean(head.querySelector(".dd-compare-price")),
-          image: img(head.querySelector(".dd-compare-image")),
-          swatches: [...head.querySelectorAll(".dd-color-swatch")].map((i) => i.currentSrc || i.src).slice(0, 6),
-          features,
-        };
-      });
-      return { kind: "compare", box, heading: clean(info?.querySelector("h2")), text: clean(info?.querySelector("p")), columns };
-    }
-    const heading = clean(el.querySelector("h2"));
-    const text = clean(el.querySelector("p:not(.dd-link)"));
-    const link = el.querySelector("a");
-    const pic = img(el);
-    const picEl = el.querySelector("img");
-    const picRect = picEl ? picEl.getBoundingClientRect() : null;
-    return {
-      kind: "promo",
-      box,
-      bg: getComputedStyle(el).backgroundColor,
-      heading,
-      text,
-      link: link ? { text: clean(link), href: abs(link.getAttribute("href")) } : null,
-      image: pic ? { ...pic, w: Math.round(picRect.width), h: Math.round(picRect.height) } : null,
-    };
-  });
-
-  // Legal footnotes under the FAQ: their measured height, the lead above them, and the lines.
-  const fnRoot = document.querySelector("#footnotes") || document.querySelector(".rc-footnotelist")?.parentElement;
-  const fnBox = fnRoot ? fnRoot.getBoundingClientRect() : null;
-  const fnLines = fnRoot ? [...new Set([...fnRoot.querySelectorAll(".rc-footnotelist-symbol, .rc-footnotelist-numeric")].map(clean).filter(Boolean))] : [];
-  const contentBottom = Math.max(0, ...[...document.querySelectorAll(".rc-accordion, .as-l-fullwidth, .dd-shared-personal-setup, .rf-bfe-summary")].filter((e) => !e.closest(".rf-bfe-stickybar")).map((e) => e.getBoundingClientRect().bottom + scrollY));
-  const footnotes = fnBox ? {
-    h: Math.round(fnBox.height),
-    lead: Math.max(0, Math.round(fnBox.top + scrollY - contentBottom)),
-    lines: fnLines,
-  } : null;
 
   const stickyName = clean(document.querySelector(".rf-bfe-stickybar h2, .rf-bfe-stickybar [class*='name'], .rf-bfe-stickybar"))
     .split(" ").slice(0, 3).join(" ");
@@ -253,10 +187,7 @@ export default function extract() {
     slides,
     steps,
     railOffset,
-    blocks,
-    blocksLead,
     railMin,
-    footnotes,
     summary,
     faq,
     sticky: { name: stickyName || title },

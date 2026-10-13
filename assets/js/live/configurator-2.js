@@ -81,41 +81,6 @@ Live.register("configurator-2", (data, L) => {
         `<div class="gallery-slide">${sl.caption ? `<p class="gallery-caption">${esc(sl.caption)}</p>` : ""}<img src="${esc(sl.src)}" alt="${esc(sl.alt)}" loading="lazy"></div>`).join("")}</div></div></div>`
     : "";
 
-  // Full-width promo block: centred text and image, or a backdrop image with text beside it.
-  const promoHTML = (b) => {
-    const style = ` style="${b.bg && b.bg !== "rgba(0, 0, 0, 0)" ? `background:${esc(b.bg)};` : ""}min-height:${b.box.h}px;margin-bottom:${b.box.gap}px"`;
-    const linkHTML = b.link ? `<a class="live-link" href="${esc(link(b.link.href))}">${esc(b.link.text)}</a>` : "";
-    const text = b.text ? `<p class="live-promo-text">${esc(b.text)}</p>` : "";
-    if (b.image && b.image.w > 900) {
-      return `<section class="live-block live-promo live-backdrop"${style}>
-        <img class="live-backdrop-img" src="${esc(b.image.src)}" alt="" style="width:${b.image.w}px;height:${b.image.h}px" loading="lazy">
-        <div class="live-backdrop-text"><h2 class="live-promo-title">${esc(b.heading)}</h2>${text}${linkHTML}</div></section>`;
-    }
-    const img = b.image ? `<img class="live-promo-img" src="${esc(b.image.src)}" alt="${esc(b.image.alt)}" style="width:${b.image.w}px;height:${b.image.h}px" loading="lazy">` : "";
-    return `<section class="live-block live-promo"${style}><div class="live-promo-inner">
-      <h2 class="live-promo-title">${esc(b.heading)}</h2>${img}${text}${linkHTML}</div></section>`;
-  };
-
-  // Model comparison grid: one column per model, then one row per feature (rows line up across columns).
-  const compareHTML = (b) => {
-    const cols = b.columns || [];
-    const keys = [...new Set(cols.flatMap((c) => c.features.map((f) => f.key)))];
-    const cell = (c) => c.image ? `<img class="live-cmp-img" src="${esc(c.image.src)}" alt="${esc(c.image.alt)}" loading="lazy">` : "";
-    const cfg = `--cols:${cols.length}`;
-    return `<section class="live-block live-compare" style="margin-bottom:${b.box.gap}px;min-height:${b.box.h}px">
-      <div class="live-compare-head"><h2 class="live-promo-title">${esc(b.heading)}</h2>${b.text ? `<p class="live-promo-text">${esc(b.text)}</p>` : ""}</div>
-      <div class="live-cmp-grid" style="${cfg}">${cols.map((c) => `<div class="live-cmp-col">${cell(c)}
-        <div class="live-cmp-swatches">${c.swatches.map((s) => `<img src="${esc(s)}" alt="">`).join("")}</div>
-        ${c.badge ? `<span class="live-cmp-badge">${esc(c.badge)}</span>` : ""}
-        <h3 class="live-cmp-name">${esc(c.name)}</h3><p class="live-cmp-price">${esc(c.price)}</p></div>`).join("")}</div>
-      ${keys.map((k) => `<div class="live-cmp-row" style="${cfg}">${cols.map((c) => {
-        const f = c.features.find((x) => x.key === k);
-        return `<div class="live-cmp-cell">${f ? `${f.glyph}<ul>${f.items.filter(Boolean).map((i) => `<li>${esc(i)}</li>`).join("")}</ul>` : ""}</div>`;
-      }).join("")}</div>`).join("")}
-    </section>`;
-  };
-  const blocksHTML = (data.blocks || []).map((b) => (b.kind === "compare" ? compareHTML(b) : promoHTML(b))).join("");
-
   const pills = (data.pills || []).map((p) => `<a class="cfg2-pill more-plus" href="${esc(link(p.href))}">${esc(p.text)}</a>`).join("");
   const lines = (data.lines || []).map((l) => `<p class="t-body cfg2-price-line">${esc(l)}</p>`).join("");
   const faq = (data.faq || []).map((f) => `<div class="acc-item">
@@ -151,16 +116,10 @@ Live.register("configurator-2", (data, L) => {
       </div>
       <nav class="cfg2-progress" aria-label="Steps"><div class="cfg2-progress-inner"><ol class="cfg2-dots"></ol></div></nav>
     </div>
-    <div class="live-blocks" style="margin-top:${data.blocksLead || 0}px">${blocksHTML}</div>
     ${faq ? `<section class="cfg2-faq" aria-label="Questions"><h2 class="t-section" style="margin-bottom:24px">Frequently asked questions</h2>
       <div class="accordion accordion-compact" data-accordion>${faq}</div></section>` : ""}
     <div class="pbar" data-pbar><div class="pbar-row"><span class="pbar-name">${esc(data.sticky?.name || data.title)}</span>
       <span class="pbar-price"><span data-total>${fmt(base)}</span></span></div></div>`;
-
-  // Legal footnote lines of the source, under the FAQ, with the measured height.
-  if (data.footnotes?.lines?.length) {
-    root.insertAdjacentHTML("beforeend", `<section class="live-footnotes" style="margin-top:${data.footnotes.lead}px;min-height:${data.footnotes.h}px"><ol>${data.footnotes.lines.map((l) => `<li>${esc(l)}</li>`).join("")}</ol></section>`);
-  }
 
   // Hide the demo-only modal and keep the page title in step with the product.
   document.querySelectorAll(".modal").forEach((m) => m.remove());

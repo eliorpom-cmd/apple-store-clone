@@ -27,9 +27,23 @@ Live.register("flagship", (data, L) => {
   const hasSlides = (data.media?.slides || []).length > 1;
   const split = !!data.head?.centered && hasSlides;
 
+  // Gallery slide for an option: the slide whose alt text shares the most words with the option title.
+  const words = (t) => String(t || "").toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2);
+  const slideFor = (title) => {
+    const w = words(title);
+    let best = -1, score = 0;
+    (data.media?.slides || []).forEach((im, i) => {
+      const alt = words(im.alt);
+      const n = w.filter((x) => alt.includes(x)).length;
+      if (n > score) { score = n; best = i; }
+    });
+    return best;
+  };
+
   // ---- Option markup ----
   const optionHTML = (o, kind, name, dim) => {
-    const attrs = `type="${o.type === "checkbox" ? "checkbox" : "radio"}" name="${esc(name)}" value="${esc(o.value)}" data-price="${priceNum(o.priceText)}" data-label="${esc(o.title)}"${o.checked ? " checked" : ""}`;
+    const slide = slideFor(o.title);
+    const attrs = `type="${o.type === "checkbox" ? "checkbox" : "radio"}" name="${esc(name)}" value="${esc(o.value)}" data-price="${priceNum(o.priceText)}" data-label="${esc(o.title)}"${slide >= 0 ? ` data-gallery-slide="${slide}"` : ""}${o.checked ? " checked" : ""}`;
     if (kind === "applecare") {
       const bullets = o.bullets?.length ? `<ul>${o.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
       const price = o.priceText ? `<span class="option-price">${esc(o.priceText)}</span>` : "";
@@ -68,7 +82,9 @@ Live.register("flagship", (data, L) => {
   };
 
   // The configurator form (steps, then AppleCare as the last step, as on the source).
-  const form = `<form class="flagship-steps" data-configurator data-base="0">
+  // A single price (no "From" / "Buy from") is the base of the total; "From" prices start at 0 until a choice is made.
+  const baseNum = /from/i.test(data.summary?.price || "") ? 0 : priceNum(data.summary?.price);
+  const form = `<form class="flagship-steps" data-configurator data-base="${baseNum}">
       ${(data.steps || []).map(stepHTML).join("")}
       ${data.applecare?.decision ? decisionHTML(data.applecare.decision) : ""}
     </form>`;
@@ -76,18 +92,26 @@ Live.register("flagship", (data, L) => {
   // Summary card: static price text (no JS total on live pages), CTA as on the source.
   const sm = data.summary || {};
   const [sumFirst, sumRest] = splitPrice(sm.price);
+  // Restored after the page scripts ran (components.js writes $0 at start-up); live price kept until a choice is made.
+  const restorePrice = () => {
+    const t = document.querySelector("[data-total]");
+    if (t && !document.querySelector("[data-configurator] input:checked")) t.textContent = sumFirst;
+  };
+  document.addEventListener("DOMContentLoaded", restorePrice);
   const summary = `<div class="flagship-card">
       <p class="live-card-name">${esc(String(data.head?.title || "").replace(/^(Pre-order|Buy)\s+/i, ""))}</p>
-      <p class="summary-price live-price">${esc(sumFirst || "")}</p>
+      <p class="summary-price live-price"><span data-total>${esc(sumFirst || "")}</span></p>
       ${sumRest ? `<p class="live-price-rest">${esc(sumRest)}</p>` : ""}
-      <button class="btn btn-block" type="button" disabled>${esc(sm.cta || "Continue")}</button>
+      <button class="btn btn-block" type="button" data-add-to-bag="bag.html" disabled>${esc(sm.cta || "Continue")}</button>
       ${sm.moment?.title ? `<div class="live-moment"><h3>${esc(sm.moment.title)}</h3><p>${esc(sm.moment.text)}</p><span class="more">${esc(sm.moment.link)}</span></div>` : ""}
     </div>${data.purchaseNote ? `<p class="live-purchase-note">${esc(data.purchaseNote)}</p>` : ""}`;
 
   // ---- Media ----
   const media = split
     ? `<div class="gallery display-gallery" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
-    : `<div class="live-main">${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}"${data.media.mainBox?.h ? ` style="height:${data.media.mainBox.h}px"` : ""}>` : ""}</div>`;
+    : hasSlides
+      ? `<div class="gallery live-main" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
+      : `<div class="live-main">${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}"${data.media.mainBox?.h ? ` style="height:${data.media.mainBox.h}px"` : ""}>` : ""}</div>`;
   const perks = (data.buystrip || []).length
     ? `<ul class="flagship-perks">${data.buystrip.map((b) => `<li class="flagship-perk">${b.icon ? `<span class="live-icon">${b.icon}</span>` : ""}<span>${esc(b.text)}</span></li>`).join("")}</ul>` : "";
   const chat = data.chat?.text ? `<p class="flagship-help"><span><strong>${esc(data.chat.text)}</strong>${data.chat.link ? `<a href="${esc(link(data.chat.link.href))}" class="more-ext">${esc(data.chat.link.text)}</a>` : ""}</span></p>` : "";
@@ -137,7 +161,9 @@ Live.register("flagship", (data, L) => {
 
   // ---- Comparison table: device columns with picture, size, then icon rows ----
   const c = data.compare;
-  const compare = c && c.columns?.length ? `<section class="compare-live" id="compare" aria-label="Compare">
+  const dd = data.ddBlocks?.blocks?.length && typeof Live.ddBlocksHTML === "function" ? data.ddBlocks : null;
+  if (dd) Live.ddDone = true; // this page places the shared blocks itself
+  const compare = dd ? `<div class="live-dd-blocks">${Live.ddBlocksHTML(dd, L)}</div>` : c && c.columns?.length ? `<section class="compare-live" id="compare" aria-label="Compare">
       ${c.title ? `<h2 class="compare-title">${esc(c.title)}</h2>` : ""}
       <div class="compare-cols" style="--n:${c.columns.length}">${c.columns.map((col) => `<div class="compare-col">
         <div class="compare-img">${col.img ? `<img src="${esc(col.img.src)}" alt="${esc(col.img.alt)}">` : ""}</div>
@@ -167,10 +193,20 @@ Live.register("flagship", (data, L) => {
   const barTitle = String(data.head?.title || "").replace(/^(Pre-order|Buy)\s+/i, "");
   const localBar = `<nav class="live-localnav" aria-label="Local"><div class="container"><span class="live-localnav-title">${esc(barTitle)}</span>
       <span class="live-localnav-links"><a href="#details">Overview</a><a href="#compare">Tech Specs</a></span></div></nav>`;
-  // Source order: billboard (Apple TV) before the box, Apple Music band after the comparison.
+  // Feature bands: text and picture, same layout as the promo band.
+  const bandHTML = (b) => `<section class="live-promo">
+      <div class="live-promo-text"><p class="live-promo-title">${esc(b.title)}</p>${(b.text || []).map((t) => `<p class="live-promo-body">${esc(t)}</p>`).join("")}${b.link ? `<a class="more-ext" href="${esc(link(b.link.href))}">${esc(b.link.text)}</a>` : ""}</div>
+      <div class="live-promo-img">${b.img ? `<img src="${esc(b.img.src)}" alt="${esc(b.img.alt)}">` : ""}</div>
+    </section>`;
+  const bands = data.bands || [];
+  const bandsBefore = bands.filter((b) => !b.after).map(bandHTML).join("");
+  const bandsAfter = bands.filter((b) => b.after).map(bandHTML).join("");
+  // Source order: billboard (Apple TV) before the box, feature bands before the product information,
+  // the Apple Music band and the other bands after the comparison, then the FAQ.
   const billboard = pr?.flip ? promo : "";
   const band = pr?.flip ? "" : promo;
-  main.innerHTML = `${localBar}<div class="container">${top}${grid}${zoom}${billboard}${witb}${info}${faq}${compare}</div>${band}<div class="container">${notes}</div>`;
+  const faqHTML = faq;
+  main.innerHTML = `${localBar}<div class="container">${top}${grid}${zoom}${billboard}${bandsBefore}${witb}${info}${compare}</div>${band}${bandsAfter}<div class="container">${faqHTML}${notes}</div>`;
 
   // ---- Zoomable viewer (opens from the thumbnails, arrows and keys move through the slides) ----
   const viewer = main.querySelector(".zoom-viewer");

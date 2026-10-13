@@ -309,3 +309,31 @@
 .ship-props-title { margin-top: 86px; }
 .ship-faq > .acc-item > .acc-panel > .acc-panel-inner { padding-bottom: 0; }
 .ship-faq .accordion-compact .acc-panel-inner { padding-bottom: 16px; }
+
+/* Trade-in lockup: the brand logo image, centred in the space above the title */
+.content-lockup { display: flex; align-items: center; justify-content: center; }
+.content-logo { width: 112px; height: 22px; }
+
+/* Trade-in local bar: sticky 52 px under the global nav, action shown once the hero is out of view */
+.tradein-localnav { position: sticky; top: 0; z-index: 900; height: 52px; background: var(--nav-bg); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid transparent; transition: border-color var(--dur-2) var(--ease-std); }
+.tradein-localnav.is-stuck { border-color: var(--line); }
+.tradein-localnav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+.tradein-localnav-title { font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); }
+.tradein-localnav-action { opacity: 0; font: 400 12px/16px var(--font); letter-spacing: var(--tr-note); padding: 5px 13px; transition: opacity var(--dur-2) var(--ease-std); pointer-events: none; }
+.tradein-localnav.is-stuck .tradein-localnav-action { opacity: 1; pointer-events: auto; }
+
+/* Trade-in at 390 px, measured on the source: full-width product visual, stacked reasons, smaller lockup gap */
+@media (max-width: 734px) {
+  .content-lockup { margin-bottom: 0; }
+  .tradein-gamme { flex-direction: column; align-items: stretch; }
+  .tradein-gamme img { width: 100%; max-width: 100%; height: auto; }
+  .tradein-gamme img.is-small { display: none; }
+  .tradein-steps-head { margin-top: 180px; }
+  .tradein-reasons-row, .tradein-reasons-row-3 { flex-direction: column; display: flex; }
+  .tradein-reason-6 { height: 461px; flex-basis: auto; }
+  .tradein-reason-intro { padding-top: 48px; }
+  .tradein-reason-intro h3 { font-size: 32px; line-height: 36px; }
+  .tradein-reasons-row-3 .tradein-reason-4 .tradein-reason-media img { margin-top: 32px; }
+}
+.ship-props-title { font: 600 48px/52px var(--font); letter-spacing: -.003em; margin-top: 70px; }
+.ship-props { margin-top: 24px; }

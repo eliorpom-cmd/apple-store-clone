@@ -40,11 +40,13 @@ Live.register("catalog-2", (data, L) => {
       const dark = /rgb\((2[0-9][0-9]|1[0-9][0-9]), /.test(c.color || "") && !/rgb\(29, 29, 31\)/.test(c.color);
       return `<div class="cat2-bento-card${/why|applecare/.test(c.name) ? " is-large" : ""}${dark ? " is-dark" : ""}">
         ${c.lines.map((l) => (l.tag === "h2" || l.tag === "h3" ? `<h3 class="cat2-bento-title">${esc(l.text)}</h3>` : `<p class="cat2-bento-text">${esc(l.text)}</p>`)).join("")}
+        ${c.icon ? `<img class="cat2-bento-icon" src="${esc(c.icon.src)}" alt="" style="width:${c.icon.width}px;height:${c.icon.height}px">` : ""}
         ${c.img ? im(c.img, "cat2-bento-img") : ""}
         ${c.link ? `<a class="cat2-bento-link" href="${esc(link(c.link.href))}">${esc(c.link.text)}</a>` : ""}
       </div>`;
     }).join("");
     const bento = data.bento ? `<section class="cat2-bento"><div class="cat2-bento-grid">${bentoCards}</div></section>` : "";
+    const strip = (data.buystrip || []).length ? `<section class="cat2-bento cat2-buystrip"><div class="cat2-bento-grid cat2-buystrip-grid">${data.buystrip.map((c) => `<div class="cat2-bento-card">${c.img ? im(c.img, "cat2-bento-img") : ""}<h3 class="cat2-bento-title">${esc(c.title)}</h3><p class="cat2-bento-text">${esc(c.text)}</p>${c.cta ? `<a class="cat2-bento-link" href="${esc(link(c.cta.href))}">${esc(c.cta.text)}</a>` : ""}</div>`).join("")}</div></section>` : "";
     const legal = (data.legal || []).length ? `<div class="cat2-legal container">${data.legal.map((l) => `<p>${esc(l)}</p>`).join("")}</div>` : "";
     main.innerHTML = `
       <section class="cat2-banner live-banner${cats ? "" : " live-banner--listing"}" aria-label="${esc(b.title)}">
@@ -62,13 +64,14 @@ Live.register("catalog-2", (data, L) => {
         <div class="cat2-tiles cat2-tiles-live${cats ? "" : " cat2-tiles-listing"}">${tiles}</div>
       </section>
       ${bento}
+      ${strip}
       ${legal}`;
     return;
   }
 
   if (data.kind === "upgrade") {
     const it = data.intro || {};
-    const steps = (it.steps || []).map((st) => `<li class="cat2-step"><p>${esc(st.text)}</p></li>`).join("");
+    const steps = (it.steps || []).map((st) => `<li class="cat2-step">${st.icon ? `<img class="live-step-icon" src="${esc(st.icon.src)}" alt="" style="width:${st.icon.width}px;height:${st.icon.height}px">` : ""}<p>${esc(st.text)}</p></li>`).join("");
     const tabs = data.tabs || [];
     const tabBar = tabs.map((t, i) => `<button class="tab" role="tab" id="tab-${i}" aria-controls="panel-${i}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ""}>${esc(t.text)}</button>`).join("");
     const panels = tabs.map((t, i) => {
@@ -126,7 +129,7 @@ Live.register("catalog-2", (data, L) => {
       <section class="cat2-up-hero live-hero" id="top">
         ${it.logo ? im(it.logo, "live-logo") : ""}
         <h1 class="cat2-display">${esc(it.title)}</h1>
-        ${it.poster ? `<div class="cat2-up-visual" ${heroH ? `style="height:${heroH}px"` : ""}>${im(it.poster)}</div>` : ""}
+        ${it.video ? `<div class="cat2-up-visual" style="height:${heroH}px"><video class="live-hero-video" src="${esc(it.video.src)}" poster="${esc(it.video.poster || "")}" style="width:${it.video.width}px;height:${it.video.height}px" autoplay muted loop playsinline></video></div>` : it.poster ? `<div class="cat2-up-visual" ${heroH ? `style="height:${heroH}px"` : ""}>${im(it.poster)}</div>` : ""}
         ${it.text ? `<p class="cat2-up-lede">${esc(it.text)}</p>` : ""}
         <ol id="how" class="cat2-steps">${steps}</ol>
         <div class="cat2-up-cta">${it.cta ? `<a class="btn btn-lg" href="${esc(link(it.cta.href))}">${esc(it.cta.text)}</a>` : ""}</div>
@@ -137,6 +140,7 @@ Live.register("catalog-2", (data, L) => {
         <div class="tabs tabs-pill cat2-tabs" role="tablist" aria-label="Device category" data-tabs>${tabBar}</div>
       </section>
       ${panels}
+      ${data.shelf?.head ? `<section class="container"><h2 class="cat2-h40 live-shelf-head">${esc(data.shelf.head)}</h2></section>` : ""}
       ${shelf}
       ${sectionsAfter}
       ${start}
