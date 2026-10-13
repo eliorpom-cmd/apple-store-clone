@@ -298,7 +298,8 @@
 /* Product-grid mode: filter bar, colour chips, sort, count and pager. */
 .cat-listing { padding: 40px 0 120px; }
 .cat-listbar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding-bottom: 24px; }
-.cat-listbar-filters { position: relative; }
+.cat-listbar-filters { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.cat-listbar-filters .cat-dim { flex-direction: row; align-items: center; }
 .cat-color-options { min-width: 260px; }
 .cat-chip { padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--line); font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); cursor: pointer; }
 .cat-chip[aria-pressed="true"] { background: #000; border-color: #000; color: #fff; }
@@ -330,3 +331,15 @@
   .cat-tile--list, .cat-tile--list.cat-tile--wide { height: auto; grid-column: auto; }
   .cat-tile--list .cat-tile-media { height: 340px; }
 }
+
+/* Product-grid mode: white heading and listing, eyebrow over headline, centred cards with hairlines. */
+.cat-head.cat-head--grid { background: var(--surface); width: auto; margin-inline: 0; padding: 80px max(var(--gutter), calc((100% - 1260px) / 2)) 0; }
+.cat-head--grid h1 { display: flex; flex-direction: column; gap: 8px; font: var(--t-hero); letter-spacing: var(--tr-hero); }
+.cat-head--grid .cat-eyebrow { font: 600 17px/1.2353 var(--font); letter-spacing: var(--tr-body); color: var(--text); }
+.cat-head--grid .cat-headline { font: var(--t-hero); letter-spacing: var(--tr-hero); }
+.cat-listing { background: var(--surface); }
+.cat-filter-static { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--line); font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+.cat-grid--list .cat-tile--list { text-align: center; border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+.cat-tile--list .cat-tile-title, .cat-tile--list .cat-tile-price, .cat-tile--list .cat-badge { text-align: center; }
+.cat-tile--list .cat-tile-price { margin-top: auto; }
+.cat-tile--list .cat-tile-title { font: 400 14px/1.2858 var(--font); letter-spacing: -.016em; }

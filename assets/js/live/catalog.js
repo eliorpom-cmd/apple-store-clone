@@ -61,8 +61,10 @@ Live.register("catalog", (data, L) => {
   const renderGrid = () => {
     const items = data.items || [];
     drop(".cat-chapters", ".cat-gallery", ".cat-picks", ".cat-value", ".cat-index", ".cat-lede");
-    L.text("h1", data.head?.title);
     const head = document.querySelector(".cat-head");
+    if (head) head.classList.add("cat-head--grid");
+    const h1 = document.querySelector("h1");
+    if (h1) h1.innerHTML = `${data.head?.eyebrow ? `<span class="cat-eyebrow">${esc(data.head.eyebrow)}</span>` : ""}<span class="cat-headline">${esc(data.head?.headline || data.head?.title || "")}</span>`;
     const colors = [...new Map(items.flatMap((i) => i.swatches || []).filter((s) => s.name).map((s) => [s.name, s])).keys()];
     const sortOpts = data.sortOptions?.length ? data.sortOptions : ["Featured"];
     const wrap = document.createElement("section");
@@ -71,10 +73,11 @@ Live.register("catalog", (data, L) => {
       <div class="cat-wrap">
         <div class="cat-listbar">
           <div class="cat-listbar-filters">
+            ${(data.filterNames || []).filter((n) => n !== "Color").map((n) => `<span class="cat-filter-static" aria-disabled="true">${esc(n)}</span>`).join("")}
             ${colors.length ? `<div class="cat-dim"><button class="cat-dim-title" type="button" aria-expanded="false" data-color-toggle>Color</button>
               <div class="cat-dim-options cat-color-options" data-color-options>${colors.map((c) => `<button class="cat-chip" type="button" aria-pressed="false" data-color="${esc(c)}">${esc(c)}</button>`).join("")}</div></div>` : ""}
           </div>
-          <label class="cat-sort">${esc("Sort")} <select data-sort>${sortOpts.map((s, i) => `<option value="${i}">${esc(s)}</option>`).join("")}</select></label>
+          <label class="cat-sort">${esc("Sort")}: <select data-sort>${sortOpts.map((s, i) => `<option value="${i}">${esc(s)}</option>`).join("")}</select></label>
           <p class="cat-filter-count" data-listcount aria-live="polite"></p>
         </div>
         <div class="cat-grid cat-grid--list" data-list></div>

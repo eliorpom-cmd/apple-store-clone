@@ -125,6 +125,18 @@ html[data-content="live"] .cfg2-price-line { padding-top: 24px; max-width: 425px
 html[data-content="live"] .cfg2-pill { font: var(--t-note); letter-spacing: var(--tr-note); }
 /* Live mode: rich cards use the source padding (1 px border + 15 px). */
 html[data-content="live"] .cfg2 .option-rich .option-label { padding: 15px; }
+/* Measured desktop step boxes (set inline by the live renderer) apply from 1024 px only. */
+@media (min-width: 1024px) {
+  .cfg2 .step[style*="--box-h"] { min-height: var(--box-h); margin-bottom: var(--box-gap); }
+}
+/* Rail offset and height measured on desktop: from 1024 px only. */
+@media (min-width: 1024px) {
+  .cfg2-rail[style*="--rail-off"] { padding-top: var(--rail-off); min-height: var(--rail-min); }
+}
+/* Phone boxes, measured at 390 px (same extractor on a phone viewport). */
+@media (max-width: 1023px) {
+  .cfg2 .step[style*="--m-h"] { min-height: var(--m-h); margin-bottom: var(--m-gap); }
+}
 /* Source static cards: the customization blocks of the Mac flow. */
 .cfg2-recon { margin-bottom: 14px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); }
 .cfg2-recon h3 { font: 600 14px/18px var(--font); letter-spacing: -.016em; margin-bottom: 11px; }
@@ -154,6 +166,7 @@ html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: m
   .cfg2-rail { padding-bottom: 0; }
 }
 @media (max-width: 734px) {
+  .cfg2-head, .cfg2-layout, .cfg2-summary, .cfg2-faq { width: 87.5%; }
   .cfg2 .step-title { font-size: 21px; line-height: 1.1667; letter-spacing: .009em; }
   .cfg2 .option-big { font-size: 24px; }
   .cfg2-faq .t-section { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; }

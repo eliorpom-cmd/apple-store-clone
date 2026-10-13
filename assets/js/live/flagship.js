@@ -215,8 +215,11 @@ Live.register("flagship", (data, L) => {
     const count = slides.length;
     let index = 0;
     const show = (n) => {
-      index = (n + count) % count;
+      index = Math.max(0, Math.min(count - 1, n));
       track.style.transform = `translateX(${-index * 73}vw)`;
+      // Arrows only where there is something to move to (the source shows a single arrow on the first image).
+      viewer.querySelector(".zoom-prev").hidden = index === 0;
+      viewer.querySelector(".zoom-next").hidden = index === count - 1;
     };
     const open = (n) => { show(n); viewer.hidden = false; document.documentElement.classList.add("modal-open"); viewer.querySelector(".zoom-close").focus({ preventScroll: true }); };
     const close = () => { viewer.hidden = true; document.documentElement.classList.remove("modal-open"); };

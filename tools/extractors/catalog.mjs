@@ -67,7 +67,11 @@ export default async function extract() {
     return {
       template: "catalog",
       kind: "grid",
-      head: { title: txt(document.querySelector("h1")) },
+      head: {
+        title: txt(document.querySelector("h1")),
+        eyebrow: txt(document.querySelector("h1 [class*='eyebrow']")),
+        headline: txt(document.querySelector("h1 [class*='headline']")),
+      },
       filterNames: [...document.querySelectorAll(".rc-filter-button")].map(txt).filter(Boolean),
       sortOptions: [...document.querySelectorAll(".rc-sort-option")].map(txt).filter(Boolean),
       pageCount,

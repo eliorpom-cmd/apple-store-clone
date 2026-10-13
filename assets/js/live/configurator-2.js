@@ -71,7 +71,8 @@ Live.register("configurator-2", (data, L) => {
     const help = (s.helpcards || []).map(helpHTML).join("");
     if (!(title || body || help)) return "";
     // Measured source box: same height and same gap to the next step.
-    const box = s.box ? ` style="min-height:${s.box.h}px;margin-bottom:${s.box.gap}px"` : "";
+    const mb = s.mbox ? `;--m-h:${s.mbox.h}px;--m-gap:${s.mbox.gap}px` : "";
+    const box = s.box ? ` style="--box-h:${s.box.h}px;--box-gap:${s.box.gap}px${mb}"` : "";
     return `<section class="step" id="live-step-${i}" data-dot-label="${esc(s.keyword || s.kind)}"${box}>${title}${body}${help}</section>`;
   }).join("");
 
@@ -102,7 +103,7 @@ Live.register("configurator-2", (data, L) => {
     <div class="cfg2-wrap">
       <div class="cfg2-layout">
         ${gallery}
-        <div class="cfg2-rail" style="padding-top:${data.railOffset || 0}px;min-height:${data.railMin || 0}px">${stepsHTML}
+        <div class="cfg2-rail" style="--rail-off:${data.railOffset || 0}px;--rail-min:${data.railMin || 0}px">${stepsHTML}
           <section class="summary cfg2-summary" aria-label="Summary">
             <div>${summary.title ? `<h2 class="summary-title">${esc(summary.title)}</h2>` : ""}</div>
             <div>

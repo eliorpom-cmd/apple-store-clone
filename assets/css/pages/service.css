@@ -389,18 +389,18 @@
 .gift-icon-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px 30px; padding: 48px 0 0; }
 .gift-icon-grid li { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 80px; font: 600 12px/16px var(--font); letter-spacing: var(--tr-note); text-align: center; }
 .gift-icon-img { width: 60px; height: 60px; object-fit: contain; }
-.gift-ftc { padding: 40px 0 0; }
+.gift-ftc { padding: 40px 0 88px; }
 .gift-ftc p { font: 400 12px/16px var(--font); letter-spacing: var(--tr-note); color: var(--text-2); padding-bottom: 8px; }
 .gift-account { padding-top: 120px; }
-.gift-account > h2 { font: 600 64px/68px var(--font); letter-spacing: -.576px; /* spec 06 §5.4 */ text-align: center; padding-bottom: 0; }
-.gift-row { display: flex; align-items: center; gap: 40px; min-height: 564px; padding: 40px 56px; margin-top: 0; background: var(--page); border-radius: var(--r-card); }
-.gift-row + .gift-row { min-height: 923px; }
+.gift-account > h2 { font: 600 64px/68px var(--font); letter-spacing: -.576px; /* spec 06 §5.4 */ text-align: center; padding-bottom: 72px; }
+.gift-row { display: flex; align-items: stretch; gap: 0; height: 564px; margin-top: 0; overflow: hidden; background: var(--page); border-radius: var(--r-card); }
+.gift-row + .gift-row { height: 923px; }
 .gift-row.is-reversed { flex-direction: row-reverse; }
-.gift-row-info { flex: 1; min-width: 0; }
+.gift-row-info { flex: 1; min-width: 0; padding: 56px; display: flex; flex-direction: column; justify-content: center; }
 .gift-row-info h3 { font: 600 48px/52px var(--font); letter-spacing: 0; }
 .gift-row-info p { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 12px; }
 .gift-row-info .more { display: inline-block; padding-top: 12px; font: var(--t-body); }
-.gift-row-img { width: 50%; height: auto; }
+.gift-row-img { width: 50%; height: 100%; object-fit: cover; }
 .gift-business { position: relative; display: flex; justify-content: flex-end; min-height: 654px; margin-top: 120px; border-radius: var(--r-card); overflow: hidden; background: var(--page); }
 .gift-business-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .gift-business-info { position: relative; width: 490px; padding: 56px; background: var(--surface); }
@@ -425,4 +425,12 @@
   .gift-split { grid-template-columns: 1fr; padding: 32px 24px; margin-top: 80px; }
   .gift-split h2 { font-size: 28px; line-height: 32px; }
   .gift-steps { grid-template-columns: 1fr; margin-top: 80px; padding-bottom: 80px; }
+  /* Phone rows stack: image below or above the text, at its natural ratio (source: rows are taller than 564/923) */
+  .gift-row, .gift-row + .gift-row { height: auto; flex-direction: column; }
+  .gift-row.is-reversed { flex-direction: column-reverse; }
+  .gift-row-info { padding: 40px 24px; }
+  .gift-row-img { width: 100%; height: auto; }
+  .gift-business { min-height: 469px; }
+  .gift-business-info { width: auto; margin: 0 16px 16px; }
+  .gift-account > h2 { font-size: 40px; line-height: 44px; padding-bottom: 40px; }
 }
