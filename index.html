@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store — Demo Store</title>
+  <meta name="description" content="Open-source study of an online store layout: shelves, cards, configurators.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components/shell.css">
+  <link rel="stylesheet" href="assets/css/components/components.css">
+</head>
+<body>
+  <div data-shell="nav" data-ribbon='Pay over time with low monthly installments and flexible terms. <a href="pages/carrier-offers.html" class="more">Learn more</a>||Get credit toward a new device when you trade in an eligible one. <a href="pages/trade-in.html" class="more">See what yours is worth</a>'></div>
+
+  <main>
+    <header class="page-head shell-container">
+      <h1>Store</h1>
+      <div class="page-head-aside">
+        <h2>The best way to buy the things you love.</h2>
+        <p class="links"><a href="pages/help.html" class="more-ext">Talk to a Specialist</a><a href="pages/stores.html" class="more-ext">Find a store</a></p>
+      </div>
+    </header>
+
+    <!-- Product navigation thumbnails -->
+    <section class="shelf" aria-label="Shop by category" style="padding-bottom:62px">
+      <div class="scroller" data-scroller>
+        <div class="scroller-track pnav-track">
+          <a class="pnav-item" href="pages/buy-computer.html"><span class="pnav-img"><img src="assets/img/products/laptop.svg" alt=""></span><span>Computers</span></a>
+          <a class="pnav-item" href="pages/buy-phone.html"><span class="pnav-img"><img src="assets/img/products/phone.svg" alt=""></span><span>Phones</span></a>
+          <a class="pnav-item" href="pages/buy-computer.html"><span class="pnav-img"><img src="assets/img/products/tablet.svg" alt=""></span><span>Tablets</span></a>
+          <a class="pnav-item" href="pages/buy-watch.html"><span class="pnav-img"><img src="assets/img/products/watch.svg" alt=""></span><span>Watches</span></a>
+          <a class="pnav-item" href="pages/buy-headset.html"><span class="pnav-img"><img src="assets/img/products/headset.svg" alt=""></span><span>Headset</span></a>
+          <a class="pnav-item" href="pages/buy-tvbox.html"><span class="pnav-img"><img src="assets/img/products/tvbox.svg" alt=""></span><span>Home</span></a>
+          <a class="pnav-item" href="pages/buy-earbuds.html"><span class="pnav-img"><img src="assets/img/products/earbuds.svg" alt=""></span><span>Earbuds</span></a>
+          <a class="pnav-item" href="pages/accessories.html"><span class="pnav-img"><img src="assets/img/products/tag.svg" alt=""></span><span>Tracker</span></a>
+          <a class="pnav-item" href="pages/accessories.html"><span class="pnav-img"><img src="assets/img/products/case.svg" alt=""></span><span>Accessories</span></a>
+          <a class="pnav-item" href="pages/gift-cards.html"><span class="pnav-img"><img src="assets/img/products/charger.svg" alt=""></span><span>Gift cards</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- The latest -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>The latest.</strong> Take a look at what's new.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card" href="pages/config-phone.html"><div class="card-body"><p class="eyebrow eyebrow-new">New</p><h3 class="card-title">Phone Pro</h3><p class="card-desc">The most capable camera system yet.</p><p class="card-desc">From $999 or $41.62/mo. for 24 mo.</p></div><div class="card-media"><img src="assets/img/products/phone.svg" alt=""></div></a>
+          <a class="card" href="pages/config-phone-duo.html"><div class="card-body"><p class="eyebrow eyebrow-new">Pre-order now</p><h3 class="card-title">Phone Duo</h3><p class="card-desc">Two screens. One phone that opens up.</p><p class="card-desc">From $1999 or $83.29/mo. for 24 mo.</p></div><div class="card-media"><img src="assets/img/products/phone-fold.svg" alt=""></div></a>
+          <a class="card card-dark" href="pages/config-watch.html"><div class="card-body"><p class="eyebrow eyebrow-new">New</p><h3 class="card-title">Watch Ultra</h3><p class="card-desc">Built for the outdoors, tuned for every day.</p><p class="card-desc">From $799</p></div><div class="card-media"><img src="assets/img/products/watch-rugged.svg" alt=""></div></a>
+          <a class="card card-w480" href="pages/config-computer.html"><div class="card-body"><p class="eyebrow eyebrow-new">New</p><h3 class="card-title">Laptop Pro</h3><p class="card-desc">More power in a thinner design.</p><p class="card-desc">From $1599</p></div><div class="card-media"><img src="assets/img/products/laptop.svg" alt=""></div></a>
+          <a class="card" href="pages/buy-earbuds.html"><div class="card-body"><p class="eyebrow">Get ready</p><h3 class="card-title">Earbuds</h3><p class="card-desc">Active noise cancellation in a smaller case.</p><p class="card-desc">From $179</p></div><div class="card-media"><img src="assets/img/products/earbuds.svg" alt=""></div></a>
+          <a class="card" href="pages/buy-display.html"><div class="card-body"><h3 class="card-title">Studio Display</h3><p class="card-desc">A sharper view for creative work.</p><p class="card-desc">From $1599</p></div><div class="card-media"><img src="assets/img/products/display.svg" alt=""></div></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Help -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Help is here.</strong> Whenever and however you need it.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w480" href="#" data-modal-open="m-specialist"><div class="card-body"><p class="eyebrow">Shop with a Specialist</p><h3 class="card-title">Get help choosing the right device, one on one.</h3></div><div class="card-media"><img src="assets/img/products/tablet.svg" alt=""></div></a>
+          <a class="card card-w480" href="pages/stores.html"><div class="card-body"><p class="eyebrow">Visit a store</p><h3 class="card-title">Pick up online orders in person, the same day.</h3></div><div class="card-media"><img src="assets/img/products/display.svg" alt=""></div></a>
+          <a class="card card-w480 card-black" href="pages/today.html"><div class="card-body"><p class="eyebrow">Free sessions</p><h3 class="card-title">Learn something new at an in-store session.</h3></div><div class="card-media"><img src="assets/img/products/headset.svg" alt=""></div></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accessories -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>Accessories.</strong> Essentials that pair perfectly.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <a class="card card-w313" href="pages/accessories.html"><div class="card-body"><h3 class="card-title">Pick up the gear that goes with your new phone.</h3><p class="card-link"><span class="more">Shop all accessories</span></p></div></a>
+          <a class="card card-w313 pcard" href="pages/product-case.html"><p class="eyebrow eyebrow-new">New</p><div class="card-media"><img src="assets/img/products/case.svg" alt=""></div><div class="pcard-swatches"><i style="--c:#2c3e5a"></i><i style="--c:#a34a3c"></i><i style="--c:#d8cfc0"></i><i style="--c:#7d8b6a"></i></div><h3 class="t-card" style="padding-top:16px">Silicone Case with Magnet Ring</h3><p class="pcard-price">$49.00</p></a>
+          <a class="card card-w313 pcard" href="pages/product-charger.html"><div class="card-media"><img src="assets/img/products/charger.svg" alt=""></div><h3 class="t-card" style="padding-top:16px">20W USB-C Power Adapter</h3><p class="pcard-price">$19.00</p></a>
+          <a class="card card-w313 pcard" href="pages/watch-bands.html"><p class="eyebrow eyebrow-new">New</p><div class="card-media"><img src="assets/img/products/band.svg" alt=""></div><div class="pcard-swatches"><i style="--c:#33415c"></i><i style="--c:#c25a3a"></i><i style="--c:#ececec"></i></div><h3 class="t-card" style="padding-top:16px">42mm Sport Loop</h3><p class="pcard-price">$49.00</p></a>
+          <a class="card card-w313 pcard" href="pages/accessories.html"><div class="card-media"><img src="assets/img/products/keyboard.svg" alt=""></div><h3 class="t-card" style="padding-top:16px">Wireless Keyboard</h3><p class="pcard-price">$99.00</p></a>
+          <a class="card card-w313 pcard" href="pages/buy-earbuds.html"><div class="card-media"><img src="assets/img/products/headphones.svg" alt=""></div><h3 class="t-card" style="padding-top:16px">Over-Ear Headphones</h3><p class="pcard-price">$549.00</p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Store difference: short cards with icons -->
+    <section class="shelf">
+      <div class="shelf-head"><h2><strong>The store difference.</strong> Even more reasons to shop with us.</h2></div>
+      <div class="scroller" data-scroller>
+        <div class="scroller-track">
+          <div class="card card-short card-icon"><svg class="card-icon-glyph" viewBox="0 0 36 36" style="color:#0071e3"><rect x="5" y="9" width="26" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15h26" stroke="currentColor" stroke-width="2"/></svg><div class="card-body"><h3 class="t-card">Pay over time, interest-free.</h3><p class="card-desc">Choose monthly installments at checkout.</p></div></div>
+          <div class="card card-short card-icon"><svg class="card-icon-glyph" viewBox="0 0 36 36" style="color:#008009"><path d="M8 18a10 10 0 0 1 17-7l3 3M28 18a10 10 0 0 1-17 7l-3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M28 8v6h-6M8 28v-6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div class="card-body"><h3 class="t-card">Trade in your current device.</h3><p class="card-desc">Get credit toward a new one.</p></div></div>
+          <div class="card card-short card-icon"><svg class="card-icon-glyph" viewBox="0 0 36 36" style="color:#e30000"><path d="M6 12h17v13H6zM23 16h5l3 4v5h-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="11" cy="27" r="2.5" fill="#fff" stroke="currentColor" stroke-width="2"/><circle cx="26" cy="27" r="2.5" fill="#fff" stroke="currentColor" stroke-width="2"/></svg><div class="card-body"><h3 class="t-card">Free delivery.</h3><p class="card-desc">Or pick up at a store near you.</p></div></div>
+          <div class="card card-short card-icon"><svg class="card-icon-glyph" viewBox="0 0 36 36" style="color:#0071e3"><circle cx="18" cy="13" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 29c1.5-5 5.5-8 10-8s8.5 3 10 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div class="card-body"><h3 class="t-card">Set up with a Specialist.</h3><p class="card-desc">Get started with your new device.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick links -->
+    <section class="shell-container" style="padding:20px 0 60px">
+      <h2 class="t-card" style="margin-bottom:24px">Quick Links</h2>
+      <div class="pills">
+        <a class="btn btn-outline" href="pages/help.html">Order Status</a>
+        <a class="btn btn-outline" href="pages/help.html">Shopping Help</a>
+        <a class="btn btn-outline" href="pages/shipping.html">Returns</a>
+        <a class="btn btn-outline" href="pages/bag.html">Your Saves</a>
+      </div>
+    </section>
+
+    <div class="modal" id="m-specialist">
+      <div class="modal-panel">
+        <div class="modal-content">
+          <h2>Shop one on one with a Specialist.</h2>
+          <p class="t-intro">Get help choosing a device, comparing models and finding the right accessories, by video or in a store.</p>
+          <p class="t-body" style="margin-top:24px">Sessions last about 30 minutes and are free. You can share your screen, ask about financing or trade-in, and check out with the Specialist at the end.</p>
+          <p style="margin-top:32px"><a class="btn btn-lg" href="pages/stores.html">Book a session</a></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <ol class="footnotes">
+    <li>Monthly pricing is an example for a 24-month installment plan with 0% APR. Demo content.</li>
+  </ol>
+  <div data-shell="footer"></div>
+
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/components.js"></script>
+</body>
+</html>

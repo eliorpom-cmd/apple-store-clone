@@ -1,0 +1,50 @@
+/* Reset and base typography. */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 106.25%; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font: var(--t-body);
+  letter-spacing: var(--tr-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img, svg, video { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+
+/* Type roles */
+.t-display { font: var(--t-display); letter-spacing: var(--tr-display); }
+.t-hero    { font: var(--t-hero);    letter-spacing: var(--tr-hero); }
+.t-section { font: var(--t-section); letter-spacing: var(--tr-section); }
+.t-step    { font: var(--t-step);    letter-spacing: var(--tr-step); }
+.t-card    { font: var(--t-card);    letter-spacing: var(--tr-card); }
+.t-intro   { font: var(--t-intro);   letter-spacing: var(--tr-intro); }
+.t-body    { font: var(--t-body);    letter-spacing: var(--tr-body); }
+.t-small   { font: var(--t-small);   letter-spacing: var(--tr-small); }
+.t-note    { font: var(--t-note);    letter-spacing: var(--tr-note); }
+.t-muted   { color: var(--text-2); }
+.t-quiet   { color: var(--text-3); }
+
+/* Two-tone section title: first clause in text color, the rest muted */
+.title-2tone { font: var(--t-section); letter-spacing: var(--tr-section); color: var(--text-2); }
+.title-2tone strong { color: var(--text); font-weight: inherit; }
+
+/* Containers */
+.container { width: min(var(--container), 100% - 2 * var(--gutter)); margin-inline: auto; }
+.container-wide { width: min(var(--container-wide) - 280px, 100% - 2 * var(--gutter)); margin-inline: auto; }
+
+@media (max-width: 734px) {
+  .t-hero { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
+  .t-section, .title-2tone { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; }
+  .t-card { font-size: 19px; line-height: 1.2105; letter-spacing: .012em; }
+  .t-intro { font-size: 19px; line-height: 1.4211; letter-spacing: .012em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; scroll-behavior: auto !important; }
+}
