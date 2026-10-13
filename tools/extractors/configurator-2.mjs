@@ -74,18 +74,6 @@ export default function extract() {
   // Top-level steps only, in document order. (Prices are visible only on the first step at load.)
   const all = [...document.querySelectorAll(".rf-bfe-step, .rf-bfe-purchase-options")];
   const top = all.filter((s) => !all.some((o) => o !== s && o.contains(s)));
-  // Measured box of each visible step: its height and the gap to the next visible step.
-  const shown = top.filter((el) => el.getBoundingClientRect().height > 0);
-  const boxes = new Map(shown.map((el, i) => {
-    const r = el.getBoundingClientRect();
-    const next = shown[i + 1];
-    const gap = next ? Math.max(0, Math.round(next.getBoundingClientRect().top - r.bottom)) : 0;
-    return [el, { h: Math.round(r.height), gap }];
-  }));
-  // Offset of the first step from the top of the gallery column.
-  const firstStep = shown[0]?.getBoundingClientRect();
-  const galleryBox = document.querySelector(".rf-bfe-gallery-wrapper")?.getBoundingClientRect();
-  const railOffset = firstStep && galleryBox ? Math.round(firstStep.top - galleryBox.top) : 0;
   const steps = top.map((step) => {
     const kind = kindOf(step);
     const h = header(step);
@@ -117,7 +105,6 @@ export default function extract() {
     return {
       kind,
       hidden,
-      box: boxes.get(step) || null,
       keyword: h.keyword,
       complement: h.complement,
       swatches: swatches.map(option),
@@ -169,12 +156,30 @@ export default function extract() {
   }).filter((f) => f.q);
 
   const railBottom = Math.max(0, ...[...document.querySelectorAll(".rf-bfe-step, .rf-bfe-summary")].filter((e) => !e.closest(".rf-bfe-stickybar")).map((e) => e.getBoundingClientRect().bottom + scrollY));
+  // AppleCare: one card per plan row (title, subline, bullets). The term choices sit in a tray the source keeps closed.
+  steps.forEach((st, i) => {
+    if (st.kind !== "applecare") return;
+    const rows = [...top[i].querySelectorAll(".rf-applecare-option")];
+    st.options = rows.map((row) => {
+      const input = row.querySelector("input[type=radio]");
+      const head = row.querySelector(".rc-dimension-list-header");
+      const text = (head?.innerText || "").trim() ? head.innerText : row.querySelector(".form-selector-label")?.innerText || "";
+      const lines = text.split("\n").map((l) => l.replace(/Footnote\s*\S*/g, "").trim()).filter(Boolean);
+      return {
+        value: input?.value || lines[0] || "",
+        name: lines[0] || "",
+        sub: lines.slice(1).join(" "),
+        price: "",
+        amount: null,
+        bullets: [...row.querySelectorAll("li")].map(clean).filter(Boolean).slice(0, 6),
+        disabled: false,
+        swatch: null,
+        rich: true,
+      };
+    });
+  });
   // Later steps are locked at load: the source shows no price text on them, so only the amounts are kept.
   steps.forEach((st, i) => { if (i > 0) for (const o of [...st.options, ...st.groups.flatMap((g) => g.options)]) o.price = ""; });
-  // Rail height in the source: from the top of the rail (first step minus its offset) to the bottom.
-  const firstStepTop = shown[0] ? shown[0].getBoundingClientRect().top + scrollY : 0;
-  const railMin = Math.max(0, Math.round(railBottom - firstStepTop + railOffset));
-
   const stickyName = clean(document.querySelector(".rf-bfe-stickybar h2, .rf-bfe-stickybar [class*='name'], .rf-bfe-stickybar"))
     .split(" ").slice(0, 3).join(" ");
   return {
@@ -186,10 +191,32 @@ export default function extract() {
     pills,
     slides,
     steps,
-    railOffset,
-    railMin,
     summary,
     faq,
     sticky: { name: stickyName || title },
+  };
+}
+
+// Phone pass (390 x 844, run by the live server): the image carousel each step carries on narrow screens.
+// Same top-level step order as the desktop extract, so the lists line up by index.
+export function extractMobile() {
+  const clean = (el) => {
+    if (!el) return "";
+    const c = el.cloneNode(true);
+    c.querySelectorAll(".visuallyhidden, [class*='visuallyhidden'], .a11y, sup, as-footnote, script, style").forEach((n) => n.remove());
+    return (c.textContent || "").replace(/\s+/g, " ").trim();
+  };
+  const all = [...document.querySelectorAll(".rf-bfe-step, .rf-bfe-purchase-options")];
+  const top = all.filter((s) => !all.some((o) => o !== s && o.contains(s)));
+  return {
+    steps: top.map((step) => {
+      const g = step.querySelector("[class*='gallerymow']");
+      if (!g) return null;
+      const seen = new Set();
+      const slides = [...g.querySelectorAll("img")]
+        .map((i) => ({ src: i.currentSrc || i.src, alt: i.alt || "" }))
+        .filter((i) => i.src && !seen.has(i.src) && seen.add(i.src));
+      return { slides, caption: clean(g.querySelector("[class*='info'], [class*='caption'], [class*='desc']")) };
+    }),
   };
 }

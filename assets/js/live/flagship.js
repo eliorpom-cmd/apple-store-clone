@@ -161,7 +161,8 @@ Live.register("flagship", (data, L) => {
 
   // ---- Comparison table: device columns with picture, size, then icon rows ----
   const c = data.compare;
-  const dd = data.ddBlocks?.blocks?.length && typeof Live.ddBlocksHTML === "function" ? data.ddBlocks : null;
+  // The shared comparison is used when it has product columns; otherwise the local table is.
+  const dd = data.ddBlocks?.blocks?.some((b) => b.type === "compare" && b.columns?.length) && typeof Live.ddBlocksHTML === "function" ? data.ddBlocks : null;
   if (dd) Live.ddDone = true; // this page places the shared blocks itself
   const compare = dd ? `<div class="live-dd-blocks">${Live.ddBlocksHTML(dd, L)}</div>` : c && c.columns?.length ? `<section class="compare-live" id="compare" aria-label="Compare">
       ${c.title ? `<h2 class="compare-title">${esc(c.title)}</h2>` : ""}
@@ -186,6 +187,11 @@ Live.register("flagship", (data, L) => {
 
   // ---- Footnotes ----
   const notes = (data.footnotes || []).length ? `<ol class="footnotes">${data.footnotes.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : "";
+  // Numbered notes go into the footer slot: shell.js shows them above the footer links, as on the source.
+  // The legal text is already in the shell's footer copy line (from content/live/_nav.json), so it is not repeated.
+  if (data.legal) Live.legalDone = true;
+  const footSlot = document.querySelector('[data-shell="footer"]');
+  if (footSlot && notes) footSlot.innerHTML = notes;
 
   const main = document.querySelector("main");
   main.className = "flagship";
@@ -206,7 +212,7 @@ Live.register("flagship", (data, L) => {
   const billboard = pr?.flip ? promo : "";
   const band = pr?.flip ? "" : promo;
   const faqHTML = faq;
-  main.innerHTML = `${localBar}<div class="container">${top}${grid}${zoom}${billboard}${bandsBefore}${witb}${info}${compare}</div>${band}${bandsAfter}<div class="container">${faqHTML}${notes}</div>`;
+  main.innerHTML = `${localBar}<div class="container">${top}${grid}${zoom}${billboard}${bandsBefore}${witb}${info}${compare}</div>${band}${bandsAfter}<div class="container">${faqHTML}</div>`;
 
   // ---- Zoomable viewer (opens from the thumbnails, arrows and keys move through the slides) ----
   const viewer = main.querySelector(".zoom-viewer");

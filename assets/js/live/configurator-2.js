@@ -69,10 +69,13 @@ Live.register("configurator-2", (data, L) => {
     }
     if (s.note) body += `<p class="t-note t-muted" style="margin-top:12px">${esc(s.note)}</p>`;
     const help = (s.helpcards || []).map(helpHTML).join("");
+    // Phone pass: the image carousel of this step (shown below 1024 px only).
+    const mob = data.mobile?.steps?.[data.steps.indexOf(s)];
+    const stepGallery = mob?.slides?.length ? `<div class="cfg2-step-gallery">${mob.caption ? `<p class="cfg2-step-caption">${esc(mob.caption)}</p>` : ""}<div class="gallery" data-gallery="default"><div class="gallery-track">${mob.slides.map((sl) =>
+      `<div class="gallery-slide"><img src="${esc(sl.src)}" alt="${esc(sl.alt)}" loading="lazy"></div>`).join("")}</div></div></div>` : "";
+    body = stepGallery + body;
     if (!(title || body || help)) return "";
-    // Measured source box: same height and same gap to the next step.
-    const mb = s.mbox ? `;--m-h:${s.mbox.h}px;--m-gap:${s.mbox.gap}px` : "";
-    const box = s.box ? ` style="--box-h:${s.box.h}px;--box-gap:${s.box.gap}px${mb}"` : "";
+    const box = "";
     return `<section class="step" id="live-step-${i}" data-dot-label="${esc(s.keyword || s.kind)}"${box}>${title}${body}${help}</section>`;
   }).join("");
 
@@ -103,7 +106,7 @@ Live.register("configurator-2", (data, L) => {
     <div class="cfg2-wrap">
       <div class="cfg2-layout">
         ${gallery}
-        <div class="cfg2-rail" style="--rail-off:${data.railOffset || 0}px;--rail-min:${data.railMin || 0}px">${stepsHTML}
+        <div class="cfg2-rail">${stepsHTML}
           <section class="summary cfg2-summary" aria-label="Summary">
             <div>${summary.title ? `<h2 class="summary-title">${esc(summary.title)}</h2>` : ""}</div>
             <div>

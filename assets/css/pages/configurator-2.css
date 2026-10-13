@@ -125,31 +125,19 @@ html[data-content="live"] .cfg2-price-line { padding-top: 24px; max-width: 425px
 html[data-content="live"] .cfg2-pill { font: var(--t-note); letter-spacing: var(--tr-note); }
 /* Live mode: rich cards use the source padding (1 px border + 15 px). */
 html[data-content="live"] .cfg2 .option-rich .option-label { padding: 15px; }
-/* Measured desktop step boxes (set inline by the live renderer) apply from 1024 px only. */
+/* Live layout constants (desktop): the source rail starts lower than the gallery and its steps are spaced wider. */
 @media (min-width: 1024px) {
-  .cfg2 .step[style*="--box-h"] { min-height: var(--box-h); margin-bottom: var(--box-gap); }
+  html[data-content="live"] .cfg2-rail { padding-top: 223px; }
+  html[data-content="live"] .cfg2 .step { margin-bottom: 148px; }
 }
-/* Rail offset and height measured on desktop: from 1024 px only. */
-@media (min-width: 1024px) {
-  .cfg2-rail[style*="--rail-off"] { padding-top: var(--rail-off); min-height: var(--rail-min); }
-}
-/* Phone boxes, measured at 390 px (same extractor on a phone viewport). */
+/* Per-step galleries (phone pass): shown below 1024 px in place of the single gallery. */
+.cfg2-step-gallery { display: none; }
 @media (max-width: 1023px) {
-  .cfg2 .step[style*="--m-h"] { min-height: var(--m-h); margin-bottom: var(--m-gap); }
+  .cfg2-gallery { display: none; }
+  .cfg2-step-gallery { display: block; margin-bottom: 24px; }
+  .cfg2-step-gallery .gallery { height: 360px; border-radius: 20px; }
+  .cfg2-step-caption { font: var(--t-body); letter-spacing: var(--tr-body); margin-bottom: 16px; }
 }
-/* Source static cards: the customization blocks of the Mac flow. */
-.cfg2-recon { margin-bottom: 14px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); }
-.cfg2-recon h3 { font: 600 14px/18px var(--font); letter-spacing: -.016em; margin-bottom: 11px; }
-.cfg2-recon p { font: 400 14px/18px var(--font); letter-spacing: -.016em; }
-.cfg2-recon p.t-note { font: 400 12px/16px var(--font); letter-spacing: -.01em; margin-top: 12px; }
-.cfg2 .option-price-line { display: block; }
-
-/* Help card with a photo on top (live mode, source cards with an image). */
-.cfg2 .helpcard.helpcard-media { display: flex; align-items: stretch; gap: 0; padding: 0; overflow: hidden; }
-.cfg2 .helpcard-media > img { flex: none; width: 120px; height: 125px; object-fit: cover; border-radius: var(--r-md); }
-.cfg2 .cfg2-help-body { display: flex; flex: 1 1 auto; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; min-width: 0; }
-.cfg2 .cfg2-help-text { display: block; }
-.cfg2 .cfg2-help-text strong { display: block; }
 
 /* Source slide images are on white: blend them into the grey gallery box (live mode). */
 html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: multiply; }
@@ -166,6 +154,10 @@ html[data-content="live"] .cfg2-gallery .gallery-slide > img { mix-blend-mode: m
   .cfg2-rail { padding-bottom: 0; }
 }
 @media (max-width: 734px) {
+  .cfg2-pill { white-space: normal; max-width: 100%; }
+  .cfg2 .option-price, .cfg2 .option-price-line { white-space: normal; max-width: 100%; }
+  .cfg2 .helpcard.helpcard-media { flex-direction: column; }
+  .cfg2 .helpcard-media > img { width: 100%; height: 125px; }
   .cfg2-head, .cfg2-layout, .cfg2-summary, .cfg2-faq { width: 87.5%; }
   .cfg2 .step-title { font-size: 21px; line-height: 1.1667; letter-spacing: .009em; }
   .cfg2 .option-big { font-size: 24px; }

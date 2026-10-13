@@ -252,9 +252,9 @@ export default function extract() {
   // `after` tells whether the block sits below the comparison table on the source.
   const cmpTop = cmp ? cmp.getBoundingClientRect().top + scrollY : Infinity;
   const bandEls = [...document.querySelectorAll(".as-l-fullwidth")].filter((el) => {
-    if (!visible(el) || el.closest(".rf-flagship, .dd-compare, .rc-accordion, .rs-productinfosection, .as-globalfooter, .product-selection-area, .as-localnav, .billboard")) return false;
+    if (!visible(el) || el.closest("[class*='rf-flagship'], .dd-compare, .rc-accordion, .rs-productinfosection, .as-globalfooter, .product-selection-area, .as-localnav, .billboard")) return false;
     if (el.matches("[class*='apple-music']") || el.querySelector("[class*='apple-music']")) return false;
-    if (el.querySelector("form, fieldset, .rs-productinfosection, .rc-productinfosection, .dd-compare, .rc-accordion, .rf-flagship")) return false;
+    if (el.querySelector("form, fieldset, .rs-productinfosection, .rc-productinfosection, .dd-compare, .rc-accordion, [class*='rf-flagship'], [class*='witb']")) return false;
     return !!el.querySelector("h2, h3") && el.getBoundingClientRect().height > 150;
   });
   const bands = bandEls.map((el) => {
