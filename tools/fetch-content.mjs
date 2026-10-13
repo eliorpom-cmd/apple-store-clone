@@ -29,7 +29,13 @@ const PAGES = {
 
 // Runs in the page: turns the shelf layout into plain data.
 function extractShelves() {
-  const txt = (el) => (el?.innerText || "").replace(/\s+/g, " ").trim();
+  // Visible text only: drop screen-reader helpers ("opens in a new window", footnote labels).
+  const txt = (el) => {
+    if (!el) return "";
+    const c = el.cloneNode(true);
+    c.querySelectorAll(".a11y, .visuallyhidden, [class*='visuallyhidden'], sup").forEach((n) => n.remove());
+    return (c.textContent || "").replace(/\s+/g, " ").replace(/\u200d/g, "").trim();
+  };
   const img = (root) => {
     const list = [...root.querySelectorAll("img")].filter((i) => i.currentSrc || i.src);
     const best = list.sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width)[0];
@@ -38,8 +44,12 @@ function extractShelves() {
   const width = (w) => [230, 313, 400, 480, 646, 980].reduce((a, b) => (Math.abs(b - w) < Math.abs(a - w) ? b : a));
   const abs = (h) => (h ? new URL(h, location.href).href : null);
 
-  const ribbon = [...document.querySelectorAll(".rc-ribbon .rc-ribbon-content-item, .rc-ribbon [class*='ribbon-content'] p")]
-    .map((el) => ({ html: el.innerHTML.replace(/\s+/g, " ").trim(), text: txt(el) })).filter((r) => r.text).slice(0, 4);
+  const ribbon = [...document.querySelectorAll(".rc-ribbon .rc-ribbon-content-item, .rc-ribbon [class*='ribbon-content'] p")].map((el) => {
+    const a = el.querySelector("a");
+    const c = el.cloneNode(true);
+    c.querySelectorAll("a").forEach((n) => n.remove());
+    return { text: txt(c), link: a ? { text: txt(a), href: abs(a.getAttribute("href")) } : null };
+  }).filter((r) => r.text).slice(0, 4);
 
   const head = {
     title: txt(document.querySelector("h1")),
@@ -54,9 +64,7 @@ function extractShelves() {
   const shelves = [...document.querySelectorAll(".rs-cardsshelf")].filter((s) => !s.className.includes("productnav")).map((s) => {
     const main = txt(s.querySelector(".rs-cards-shelf-mainheader"));
     const secondary = txt(s.querySelector(".rs-cards-shelf-secondaryheader"));
-    const cards = [...s.querySelectorAll(".rf-cards-scroller-item")].map((item) => {
-      const card = item.firstElementChild;
-      if (!card) return null;
+    const cards = [...s.querySelectorAll(".rf-ccard, .rf-recommcard, .rf-hcard")].filter((c) => !c.parentElement.closest(".rf-ccard, .rf-recommcard, .rf-hcard")).map((card) => {
       const box = (card.querySelector("[class*='-content']") || card).getBoundingClientRect();
       const cls = card.className + " " + (card.querySelector("[class*='-content']")?.className || "");
       const bg = getComputedStyle(card.querySelector("[class*='-content']") || card).backgroundColor;
@@ -71,9 +79,16 @@ function extractShelves() {
         bg,
         eyebrow: q("[class*='eyebrow']"),
         eyebrowNew: !!card.querySelector("[class*='msgtag-orange'], [class*='violator']"),
-        title: q("[class*='content-header']:not([class*='eyebrow']), [class*='content-title'], [class*='card-title'], h3"),
-        desc: q("[class*='content-desc'], [class*='description']"),
-        price: q("[class*='price']"),
+        title: (() => {
+          const el = card.querySelector("[class*='headerlink'], [class*='content-title']") || card.querySelector("[class*='content-header']:not([class*='eyebrow']), [class*='card-title'], h3:not([class*='eyebrow'])");
+          if (!el) return "";
+          const c = el.cloneNode(true);
+          c.querySelectorAll("[class*='eyebrow']").forEach((n) => n.remove());
+          return txt(c);
+        })(),
+        desc: q("[class*='desccontent']") || (card.querySelector("[class*='descprice']") ? "" : q("[class*='content-desc'], [class*='description']")),
+        price: q("[class*='descprice'], [class*='content-price'], [class*='scrim-price']"),
+        imgFull: !!card.querySelector("img[class*='img-full'], [class*='withfullimg']"),
         cta: q("[class*='cta']"),
         swatches: [...card.querySelectorAll("[class*='swatch'] img, [class*='colorimage']")].map((i) => i.currentSrc || i.src).slice(0, 8),
         href: abs(card.querySelector("a")?.getAttribute("href")),
@@ -93,8 +108,8 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, loc
 for (const slug of slugs) {
   await page.goto(ORIGIN + PAGES[slug], { waitUntil: "load", timeout: 90000 }).catch(() => {});
   // Scroll once so lazy images resolve their final source.
-  await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 250)); } scrollTo(0, 0); });
-  await page.waitForSelector(".rf-cards-scroller-item", { timeout: 15000 }).catch(() => {});
+  for (let i = 0; i < 40; i++) { await page.mouse.wheel(0, 500); await page.waitForTimeout(150); }
+  await page.waitForSelector(".rf-cards-scroller-itemview", { timeout: 15000 }).catch(() => {});
   await page.waitForTimeout(800);
   const data = await page.evaluate(extractShelves);
   writeFileSync(`content/live/${slug}.json`, JSON.stringify(data, null, 1));

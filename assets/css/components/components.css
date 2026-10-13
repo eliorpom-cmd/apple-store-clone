@@ -309,3 +309,13 @@ html.modal-open { overflow: hidden; }
 
 /* ---------- Product visual placeholder: colors driven by --product-color ---------- */
 .pv { color: var(--product-color, #c9c9ce); }
+
+/* ---------- Live content mode (content.js) ---------- */
+.live-card .live-full { position: absolute; inset: 0; }
+.live-card .live-full img { width: 100%; height: 100%; max-height: none; max-width: none; object-fit: cover; }
+.live-card .card-body { position: relative; z-index: 1; }
+.live-pcard { justify-content: flex-start; }
+.live-pcard .card-media { flex: none; height: 230px; padding-top: 20px; }
+.live-pcard .card-media img { height: 100%; max-height: 230px; }
+.live-pcard-title { padding-top: 40px; font-size: 17px; line-height: 1.2353; letter-spacing: -.022em; }
+.live-pcard .pcard-price { margin-top: auto; }
