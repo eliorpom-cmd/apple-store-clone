@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400">
+<defs>
+<filter id="display-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="8"/></filter>
+<linearGradient id="display-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+<linearGradient id="display-wall" x1="0" y1="0" x2=".5" y2="1"><stop offset="0" stop-color="#a5c8ff"/><stop offset=".55" stop-color="#c2aaff"/><stop offset="1" stop-color="#6070d8"/></linearGradient>
+<linearGradient id="display-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+</defs>
+<ellipse cx="240" cy="340" rx="160" ry="10" fill="#000" fill-opacity=".22" filter="url(#display-blur)"/>
+<rect x="224" y="280" width="32" height="36" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="224" y="280" width="32" height="36" fill="#000" fill-opacity=".08"/>
+<path d="M178 312H302Q320 312 330 326L336 328Q340 332 334 334H146Q140 332 144 328L150 326Q160 312 178 312Z" style="fill:var(--product-color, #c9c9ce)"/>
+<path d="M178 312H302Q320 312 330 326L336 328Q340 332 334 334H146Q140 332 144 328L150 326Q160 312 178 312Z" fill="url(#display-body)"/>
+<rect x="50" y="40" width="380" height="240" rx="18" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="50" y="40" width="380" height="240" rx="18" fill="url(#display-body)"/>
+<rect x="60" y="50" width="360" height="220" rx="8" fill="#1d1d1f"/>
+<rect x="64" y="54" width="352" height="212" rx="5" fill="url(#display-wall)"/>
+<rect x="64" y="54" width="352" height="212" rx="5" fill="url(#display-glass)"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+<defs>
+<filter id="headphones-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="7"/></filter>
+<linearGradient id="headphones-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+</defs>
+<ellipse cx="200" cy="362" rx="130" ry="10" fill="#000" fill-opacity=".2" filter="url(#headphones-blur)"/>
+<path d="M96 240C96 20 304 20 304 240" fill="none" style="stroke:var(--product-color, #c9c9ce)" stroke-width="22" stroke-linecap="round"/>
+<path d="M96 240C96 20 304 20 304 240" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="4" stroke-linecap="round" transform="translate(-3 0)"/>
+<rect x="66" y="226" width="72" height="110" rx="34" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="66" y="226" width="72" height="110" rx="34" fill="url(#headphones-body)"/>
+<rect x="82" y="250" width="40" height="62" rx="20" fill="#1d1d1f"/>
+<rect x="262" y="226" width="72" height="110" rx="34" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="262" y="226" width="72" height="110" rx="34" fill="url(#headphones-body)"/>
+<rect x="278" y="250" width="40" height="62" rx="20" fill="#1d1d1f"/>
+</svg>

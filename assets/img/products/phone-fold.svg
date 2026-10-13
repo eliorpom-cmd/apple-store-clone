@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+<filter id="phone-fold-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="7"/></filter>
+<linearGradient id="phone-fold-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+<linearGradient id="phone-fold-wall" x1="0" y1="0" x2=".4" y2="1"><stop offset="0" stop-color="#9ec3ff"/><stop offset=".5" stop-color="#b9a6ff"/><stop offset="1" stop-color="#5a68d4"/></linearGradient>
+<linearGradient id="phone-fold-hinge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".5" stop-color="#000" stop-opacity=".35"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+</defs>
+<ellipse cx="200" cy="436" rx="170" ry="12" fill="#000" fill-opacity=".2" filter="url(#phone-fold-blur)"/>
+<rect x="52" y="86" width="142" height="334" rx="24" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="52" y="86" width="142" height="334" rx="24" fill="url(#phone-fold-body)"/>
+<rect x="66" y="100" width="114" height="306" rx="12" fill="#1d1d1f"/>
+<rect x="70" y="104" width="106" height="298" rx="9" fill="url(#phone-fold-wall)"/>
+<rect x="206" y="86" width="142" height="334" rx="24" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="206" y="86" width="142" height="334" rx="24" fill="url(#phone-fold-body)"/>
+<rect x="220" y="100" width="114" height="306" rx="12" fill="#1d1d1f"/>
+<rect x="224" y="104" width="106" height="298" rx="9" fill="url(#phone-fold-wall)"/>
+<rect x="194" y="86" width="12" height="334" fill="url(#phone-fold-hinge)"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500">
+<defs>
+<filter id="desktop-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="8"/></filter>
+<linearGradient id="desktop-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+<linearGradient id="desktop-wall" x1="0" y1="0" x2=".5" y2="1"><stop offset="0" stop-color="#a5c8ff"/><stop offset=".55" stop-color="#c2aaff"/><stop offset="1" stop-color="#6070d8"/></linearGradient>
+<linearGradient id="desktop-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+</defs>
+<ellipse cx="240" cy="410" rx="160" ry="10" fill="#000" fill-opacity=".22" filter="url(#desktop-blur)"/>
+<path d="M214 310H266L276 392H204Z" style="fill:var(--product-color, #c9c9ce)"/>
+<path d="M214 310H266L276 392H204Z" fill="url(#desktop-body)"/>
+<rect x="140" y="384" width="200" height="22" rx="11" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="140" y="384" width="200" height="22" rx="11" fill="url(#desktop-body)"/>
+<rect x="60" y="50" width="360" height="260" rx="24" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="60" y="50" width="360" height="260" rx="24" fill="url(#desktop-body)"/>
+<rect x="70" y="60" width="340" height="230" rx="10" fill="#1d1d1f"/>
+<rect x="74" y="64" width="332" height="222" rx="6" fill="url(#desktop-wall)"/>
+<rect x="74" y="64" width="332" height="222" rx="6" fill="url(#desktop-glass)"/>
+<circle cx="240" cy="296" r="2.5" fill="#fff" fill-opacity=".5"/>
+</svg>

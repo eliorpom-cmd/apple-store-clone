@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500">
+<defs>
+<filter id="laptop-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="7"/></filter>
+<linearGradient id="laptop-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+<linearGradient id="laptop-wall" x1="0" y1="0" x2=".5" y2="1"><stop offset="0" stop-color="#a5c8ff"/><stop offset=".55" stop-color="#c2aaff"/><stop offset="1" stop-color="#6070d8"/></linearGradient>
+<linearGradient id="laptop-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<pattern id="laptop-keys" width="12" height="8" patternUnits="userSpaceOnUse"><rect x="1" y="1" width="10" height="6" rx="2" fill="#000" fill-opacity=".2"/></pattern>
+</defs>
+<ellipse cx="240" cy="338" rx="210" ry="10" fill="#000" fill-opacity=".2" filter="url(#laptop-blur)"/>
+<rect x="112" y="50" width="256" height="220" rx="18" style="fill:var(--product-color, #c9c9ce)"/>
+<rect x="112" y="50" width="256" height="220" rx="18" fill="url(#laptop-body)"/>
+<rect x="124" y="62" width="232" height="196" rx="8" fill="#1d1d1f"/>
+<rect x="128" y="66" width="224" height="188" rx="4" fill="url(#laptop-wall)"/>
+<rect x="128" y="66" width="224" height="188" rx="4" fill="url(#laptop-glass)"/>
+<circle cx="240" cy="64" r="2" fill="#3a3a3c"/>
+<path d="M64 268H416Q424 268 428 276L434 296Q438 318 414 318H66Q42 318 46 296L52 276Q56 268 64 268Z" style="fill:var(--product-color, #c9c9ce)"/>
+<path d="M64 268H416Q424 268 428 276L434 296Q438 318 414 318H66Q42 318 46 296L52 276Q56 268 64 268Z" fill="url(#laptop-body)"/>
+<rect x="216" y="268" width="48" height="8" rx="4" fill="#000" fill-opacity=".2"/>
+<rect x="150" y="277" width="180" height="24" rx="3" fill="url(#laptop-keys)"/>
+<rect x="60" y="306" width="360" height="2" fill="#fff" fill-opacity=".35"/>
+</svg>
