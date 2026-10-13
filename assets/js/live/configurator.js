@@ -106,8 +106,11 @@ Live.register("configurator", (data, L) => {
   </header>`;
 
   // ---------- Steps, summary, in the box, FAQ ----------
+  // A single model is not offered as a choice in the source: its step is left out, and the rail starts higher.
+  const singleModel = data.steps[0]?.options.length === 1;
+  const railSteps = singleModel ? data.steps.slice(1) : data.steps;
   const rail = [], wide = [];
-  data.steps.forEach((s, i) => {
+  railSteps.forEach((s, i) => {
     if (WIDE.test(s.key) || !(s.options.length || s.swatches.length)) {
       wide.push(`<div class="cfg-wide-step">${step(s, i, false)}</div><div class="cfg-wide-aside">${helps(s)}</div>`);
     } else {
@@ -148,7 +151,7 @@ Live.register("configurator", (data, L) => {
   main.innerHTML = `<div class="cfg-wrap">${header}
     <div class="cfg-grid" data-configurator>
       <div class="cfg-stage"><div class="gallery cfg-gallery" data-gallery><div class="gallery-track">${slides}</div></div></div>
-      <div class="cfg-rail">${rail.join("").replace(/(<section class="step)(?![\s\S]*<section class="step)/, '$1 cfg-rail-end')}</div>
+      <div class="cfg-rail${singleModel ? " cfg-rail--single" : data.steps[0]?.options.length ? "" : " cfg-rail--nomodel"}">${rail.join("").replace(/(<section class="step)(?![\s\S]*<section class="step)/, '$1 cfg-rail-end')}</div>
       ${wide.join("")}
     </div>
     ${summary}${witb}${faq}</div>`;

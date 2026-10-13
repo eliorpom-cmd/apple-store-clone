@@ -137,7 +137,7 @@ export default function extract() {
         disabled: !!input?.disabled,
         bullets,
       };
-    }), (o) => o.title);
+    }).filter((o) => !/^(Monthly|Annual) coverage until cancelled$/.test(o.title)), (o) => o.title);
 
     // Help cards ("Need help choosing...") with their image when present.
     // Help cards link to their source overlay (the link sits in the card or right after it).
@@ -152,8 +152,32 @@ export default function extract() {
     }), (h) => h.title);
 
     const step = { key, keyword, rest, swatches, options, helpcards, optional: /applecare|tradein/.test(key) };
-    if (keyword || rest || swatches.length || options.length || helpcards.length) steps.push(step);
+    if (keyword || rest || swatches.length || options.length || helpcards.length) steps.push({ step, anchor: secs[0] });
   }
+
+  // Accessory slots (Apple Pencil, Keyboard) have no analytics section: each is its own step, placed in page order.
+  const slotSeen = new Set();
+  for (const slot of document.querySelectorAll(".rf-bfe-accessory-slot")) {
+    const okey = slot.dataset.observerKey || slot.className;
+    if (slotSeen.has(okey)) continue;
+    slotSeen.add(okey);
+    const h = slot.querySelector("h2, legend");
+    const keyword = text(h?.querySelector("span"));
+    const rest = text(h).replace(keyword, "").trim();
+    const options = uniqueBy([...slot.querySelectorAll("label.form-selector-label")].map((label) => {
+      const full = text(label);
+      const tailAt = full.search(/Buy from|Lease from|\$\d/);
+      const titleEl = label.querySelector(".form-selector-title");
+      const title = (text(titleEl) || (tailAt > 0 ? full.slice(0, tailAt) : full)).split(/Buy from|Lease from/)[0].trim();
+      const right = text(label.querySelector(".form-selector-right-col")) || (tailAt >= 0 ? full.slice(tailAt) : "");
+      return { title, sub: text(label.querySelector(".form-selector-left-col .form-label-small")), lines: priceLines(right), price: priceOf(right), disabled: false, bullets: [] };
+    }), (o) => o.title);
+    const helpcards = uniqueBy([...slot.querySelectorAll(".rc-decisionsection")].map((c) => ({ title: text(c.querySelector(".rc-decisionsection-header")), text: text(c.querySelector(".rc-decisionsection-desc")), img: best(c), href: null })), (x) => x.title);
+    if (options.length) steps.push({ step: { key: "acc_" + okey, keyword, rest, swatches: [], options, helpcards, optional: false }, anchor: slot });
+  }
+  // Page order across the analytics sections and the accessory slots.
+  steps.sort((a, b) => (a.anchor.compareDocumentPosition(b.anchor) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+  const orderedSteps = steps.map((x) => x.step);
 
   // ---------- Summary ----------
   const sum = document.querySelector("[data-analytics-section='summary'], .rf-bfe-summary");
@@ -181,5 +205,5 @@ export default function extract() {
     })), (i) => i.q).filter((i) => i.q),
   };
 
-  return { template: "configurator", ribbon, head, gallery, steps, summary: { ...summary, image: summaryImage, finishImages }, witb, faq };
+  return { template: "configurator", ribbon, head, gallery, steps: orderedSteps, summary: { ...summary, image: summaryImage, finishImages }, witb, faq };
 }

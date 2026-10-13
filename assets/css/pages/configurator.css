@@ -151,3 +151,7 @@
 .cfg-witb-image img { display: block; height: 339px; width: auto; max-width: 100%; object-fit: contain; }
 .cfg-witb-label { font: 400 17px/22px var(--font); letter-spacing: -.022em; padding-top: 14px; margin-bottom: 36px; }
 .cfg-witb-note { font: 400 12px/16px var(--font); letter-spacing: -.01em; color: var(--text); max-width: 980px; margin: 36px auto 0; }
+
+/* Live: the rail offset depends on the first step (measured on the source). */
+.cfg-rail--single { padding-top: 0; }
+.cfg-rail--nomodel { padding-top: 267px; }
