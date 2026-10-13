@@ -13,10 +13,11 @@ import { createReadStream, existsSync, mkdirSync, readFileSync, statSync, writeF
 import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { extname, join, normalize, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import detect from "./extractors/detect.mjs";
 import { scrollThrough } from "./fetch-content.mjs";
 
-const ROOT = resolve(new URL("..", import.meta.url).pathname);
+const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const PORT = Number(process.argv[2] || 4321);
 const ORIGIN = "https://www.apple.com";
 const CACHE = join(ROOT, "content/live/pages");
