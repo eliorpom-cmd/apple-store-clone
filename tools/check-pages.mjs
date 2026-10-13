@@ -10,7 +10,9 @@ import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-const { chromium } = createRequire(join(homedir(), ".cache", "adn-design", "noop.js"))("playwright");
+// Playwright and pngjs: from the project (npm install), else from the shared cache ~/.cache/adn-design.
+const req = (() => { try { createRequire(import.meta.url).resolve("playwright"); return createRequire(import.meta.url); } catch { return createRequire(join(homedir(), ".cache", "adn-design", "noop.js")); } })();
+const { chromium } = req("playwright");
 const live = process.argv.includes("--live");
 const pages = ["index.html", ...readdirSync("pages").filter((f) => f.endsWith(".html")).map((f) => "pages/" + f)];
 const b = await chromium.launch();

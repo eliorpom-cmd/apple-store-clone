@@ -11,7 +11,8 @@ import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-const req = createRequire(join(homedir(), ".cache", "adn-design", "noop.js"));
+// Playwright and pngjs: from the project (npm install), else from the shared cache ~/.cache/adn-design.
+const req = (() => { try { createRequire(import.meta.url).resolve("playwright"); return createRequire(import.meta.url); } catch { return createRequire(join(homedir(), ".cache", "adn-design", "noop.js")); } })();
 const { chromium } = req("playwright");
 const { PNG } = req("pngjs");
 

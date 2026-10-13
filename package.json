@@ -1,0 +1,17 @@
+{
+  "name": "store-clone",
+  "private": true,
+  "description": "Measured rebuild of an online store layout: shell, components, page templates, measurement tools.",
+  "scripts": {
+    "serve": "node tools/live-server.mjs",
+    "check": "node tools/check-pages.mjs",
+    "check:live": "node tools/check-pages.mjs --live",
+    "refresh": "node tools/refresh-live.mjs",
+    "scores": "node tools/scoreboard.mjs",
+    "scores:table": "node tools/scoreboard.mjs --only-table"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0",
+    "pngjs": "^7.0.0"
+  }
+}

@@ -1,8 +1,9 @@
 # Maintenance
 
 Procedures to keep the clone in step with the reference store over time. All commands run from the
-project root, with Node 20+ and Playwright available (`npm i -D playwright && npx playwright install chromium`,
-or the shared cache in `~/.cache/adn-design`).
+project root, with Node 20+. Install once: `npm install && npx playwright install chromium`
+(`package.json` lists Playwright and pngjs). Without it, the tools fall back to the shared cache
+`~/.cache/adn-design` (created by the adn-design skill).
 
 ## Start
 
@@ -17,7 +18,8 @@ Restart: `kill -9 $(lsof -ti tcp:4321 -sTCP:LISTEN)`, wait until the port is fre
 
 1. `node tools/refresh-live.mjs` — re-extract every cached page (≈ 15 min for 60 pages).
    An `ERR` line or a page that renders empty means the source markup changed: see « Extractor broke ».
-2. `node tools/scoreboard.mjs` — re-score every page (≈ 25 min). Read `_analysis/visual/SCORES.md`.
+2. `node tools/scoreboard.mjs` — re-score every page (≈ 25 min) and rewrite `_analysis/visual/SCORES.md`.
+   `--only-table` rebuilds that file from the existing reports without measuring again.
 3. For each page that dropped: open `_analysis/visual/<key>/worst-1.png` (source left, clone right),
    fix the renderer or CSS, then re-run `node tools/scoreboard.mjs <path-filter>`.
 4. `node tools/check-pages.mjs` and `node tools/check-pages.mjs --live` — must print `all pages ok`.
