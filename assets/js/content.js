@@ -32,6 +32,10 @@
     "/shop/product/mwvv3am/a/20w-usb-c-power-adapter": "pages/product-charger.html",
   };
 
+  // Reverse map: local page -> source path (used when a page is opened without ?src=).
+  const SRC_OF = Object.fromEntries(Object.entries(LOCAL).map(([path, file]) => [file.replace(/^pages\//, "").replace(".html", ""), path]));
+  const srcParam = params.get("src");
+
   const getJSON = (url) => {
     const req = new XMLHttpRequest();
     req.open("GET", url, false); // synchronous on purpose: the DOM must be rewritten before shell.js runs
@@ -46,11 +50,15 @@
     root,
     slug,
     // Map a source URL to the local page when one exists.
+    server: false,
     link(href) {
       if (!href) return "#";
       try {
         const u = new URL(href, "https://www.apple.com");
-        const path = u.pathname.replace(/^\/us/, "").replace(/\/$/, "") || "/";
+        if (u.hostname !== "www.apple.com") return u.href;
+        const path = u.pathname.replace(/^\/us(?=\/)/, "").replace(/\/$/, "") || "/";
+        // With the live server, every store page gets its own local page (extracted on demand).
+        if (Live.server && /^\/(store|shop|retail|today)(\/|$)/.test(path)) return "/__go?src=" + encodeURIComponent(path);
         return LOCAL[path] ? root + LOCAL[path] : u.href;
       } catch { return href; }
     },
@@ -70,7 +78,19 @@
   window.Live = Live;
   if (mode !== "live") return;
 
-  const data = getJSON(`${root}content/live/${slug}.json`);
+  // Live server running (tools/live-server.mjs)? Then content comes from it, for any source page.
+  let ping = null;
+  try { ping = sessionStorage.getItem("live-server"); } catch {}
+  if (ping === null) {
+    const r = new XMLHttpRequest();
+    try { r.open("GET", "/__ping", false); r.send(); ping = r.status === 200 && r.responseText === "live" ? "1" : "0"; } catch { ping = "0"; }
+    try { sessionStorage.setItem("live-server", ping); } catch {}
+  }
+  Live.server = ping === "1";
+  const src = srcParam || SRC_OF[slug];
+  const data = Live.server && src
+    ? getJSON("/__live?src=" + encodeURIComponent(src))
+    : getJSON(`${root}content/live/${slug}.json`);
   if (!data) return;
   Live.on = true;
   Live.data = data;
