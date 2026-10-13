@@ -37,14 +37,31 @@ const cleanSrc = (s) => {
   return u.pathname.replace(/^\/us(?=\/)/, "").replace(/\/$/, "") || "/store";
 };
 
+// One shared browser, relaunched if it crashed or was closed.
 let browserP = null;
-const browser = () => (browserP ??= chromium.launch({ headless: true }));
+const browser = async () => {
+  const b = browserP && (await browserP.catch(() => null));
+  if (!b || !b.isConnected()) browserP = chromium.launch({ headless: true });
+  return browserP;
+};
 const inflight = new Map();
 
 async function extract(src, fresh = false) {
   if (!fresh && routes[src] && existsSync(join(CACHE, routes[src].key + ".json"))) return routes[src];
   if (inflight.has(src)) return inflight.get(src);
   const job = (async () => {
+    try { return await run(); }
+    catch (e) {
+      if (!/closed|crash|Target/.test(String(e))) throw e;
+      browserP = null; // force a relaunch, then retry once
+      return await run();
+    }
+  })();
+  inflight.set(src, job);
+  job.finally(() => inflight.delete(src));
+  return job;
+
+  async function run() {
     const b = await browser();
     const page = await b.newPage({ viewport: { width: 1440, height: 900 }, locale: "en-US" });
     try {
@@ -74,10 +91,8 @@ async function extract(src, fresh = false) {
       routes[src] = route; saveRoutes();
       console.log(`extracted ${src} -> ${route.template || "no template"}`);
       return route;
-    } finally { await page.close(); inflight.delete(src); }
-  })();
-  inflight.set(src, job);
-  return job;
+    } finally { await page.close().catch(() => {}); }
+  }
 }
 
 const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".mjs": "text/javascript", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".ico": "image/x-icon" };

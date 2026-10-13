@@ -188,7 +188,7 @@
         s.classList.toggle("is-locked", !open);
         const groups = [...new Set([...s.querySelectorAll("input[type=radio]")].map((r) => r.name))];
         const done = groups.every((n) => form.querySelector(`input[name="${n}"]:checked`));
-        if (!s.dataset.optional && !done) { open = false; complete = false; }
+        if (!s.hasAttribute("data-optional") && !done) { open = false; complete = false; }
         s.querySelectorAll("input:checked").forEach((r) => { total += Number(r.dataset.price || 0); });
         const label = s.querySelector("[data-step-choice]");
         const chosen = s.querySelector("input:checked[data-label]");
