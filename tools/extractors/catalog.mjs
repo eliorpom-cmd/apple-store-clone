@@ -111,7 +111,8 @@ export default async function extract() {
       const card = t.querySelector(".re-productcard-content") || t;
       return {
         kind: "product",
-        size: t.dataset.cardSize || "1x1",
+        // Live panels carry the span as a class (tile-large / tile-medium); data-card-size only exists in the noscript copy.
+        size: /tile-large/.test(t.className) ? "2x2" : /tile-medium/.test(t.className) ? "2x1" : (t.dataset.cardSize || "1x1"),
         img: img(card.querySelector(".re-productcard-content-img")),
         swatches: swatches(card),
         violator: txt(card.querySelector("[class*='violatortext']")),
@@ -148,6 +149,7 @@ export default async function extract() {
       items: uniq([...gal.querySelectorAll(".re-media-card")].map((c) => {
         const a = c.querySelector(".re-media-card-link-container a");
         return {
+          dark: /theme-dark/.test(c.className),
           img: img(c.querySelector(".re-media-card-image-container")),
           badge: txt(c.querySelector(".re-media-card-badge")),
           title: txt(c.querySelector(".re-media-card-content-header")),

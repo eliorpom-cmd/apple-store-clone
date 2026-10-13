@@ -54,6 +54,41 @@ Live.register("catalog", (data, L) => {
       <p class="cat-band-price">${esc(t.price)}</p>
     </a>`;
 
+  // Gallery dot navigation: one dot per card, arrows on both sides; it drives the scroller track.
+  const chevron = (d) => `<svg viewBox="0 0 10 17" aria-hidden="true"><path d="${d === "prev" ? "M8.5 1.5L1.5 8.5l7 7" : "M1.5 1.5l7 7-7 7"}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const galleryDots = (n) => `
+      <div class="cat-dotnav">
+        <button class="cat-dotnav-arrow" type="button" aria-label="Previous" data-dot-step="-1">${chevron("prev")}</button>
+        <div class="cat-dotnav-pill">${Array.from({ length: n }, (_, i) => `<button class="cat-dotnav-dot" type="button" aria-label="Item ${i + 1}" data-dot="${i}"></button>`).join("")}</div>
+        <button class="cat-dotnav-arrow" type="button" aria-label="Next" data-dot-step="1">${chevron("next")}</button>
+      </div>`;
+  const wireGalleryDots = (root) => {
+    const track = root?.querySelector(".scroller-track");
+    const nav = root?.querySelector(".cat-dotnav");
+    if (!track || !nav) return;
+    const dots = [...nav.querySelectorAll("[data-dot]")];
+    const [prev, next] = nav.querySelectorAll("[data-dot-step]");
+    const cards = [...track.children];
+    const current = () => {
+      const x = track.scrollLeft;
+      return cards.reduce((best, c, i) => Math.abs(c.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft) - x) < Math.abs(cards[best].offsetLeft - parseFloat(getComputedStyle(track).paddingLeft) - x) ? i : best, 0);
+    };
+    const go = (i) => track.scrollTo({ left: cards[i].offsetLeft - parseFloat(getComputedStyle(track).paddingLeft), behavior: "smooth" });
+    const update = () => {
+      const i = current();
+      dots.forEach((d, k) => d.setAttribute("aria-current", String(k === i)));
+      prev.disabled = i === 0; next.disabled = i === cards.length - 1;
+    };
+    nav.addEventListener("click", (e) => {
+      const d = e.target.closest("[data-dot]");
+      const st = e.target.closest("[data-dot-step]");
+      if (d) go(Number(d.dataset.dot));
+      else if (st && !st.disabled) go(Math.min(cards.length - 1, Math.max(0, current() + Number(st.dataset.dotStep))));
+    });
+    track.addEventListener("scroll", update, { passive: true });
+    update();
+  };
+
   // Remove demo blocks that a data kind replaces.
   const drop = (...sels) => sels.forEach((s) => document.querySelectorAll(s).forEach((n) => n.remove()));
 
@@ -168,7 +203,7 @@ Live.register("catalog", (data, L) => {
     }
     if (picksSection && data.gallery?.items?.length) {
       const cards = data.gallery.items.map((i) => `
-          <div class="card cat-media-card">
+          <div class="card cat-media-card${i.dark ? " is-dark" : ""}">
             <div class="cat-media-img">${L.img(i.img)}</div>
             <div class="cat-media-body">
               ${i.badge ? `<p class="cat-badge">${esc(i.badge)}</p>` : ""}
@@ -178,9 +213,10 @@ Live.register("catalog", (data, L) => {
             </div>
           </div>`);
       picksSection.insertAdjacentHTML("beforebegin", `
-    <section class="cat-gallery">
-      <div class="cat-wrap"><h2 class="cat-h2">${twoTone(data.gallery.title)}</h2>${scroller(cards)}</div>
+    <section class="cat-gallery${cards.length > 1 ? " has-dots" : ""}">
+      <div class="cat-wrap"><h2 class="cat-h2">${twoTone(data.gallery.title)}</h2>${scroller(cards)}${cards.length > 1 ? galleryDots(cards.length) : ""}</div>
     </section>`);
+      wireGalleryDots(document.querySelector(".cat-gallery"));
     }
 
     // Value props: each card opens a modal with the overlay text fetched from the source.
@@ -249,7 +285,8 @@ Live.register("catalog", (data, L) => {
           ${s.link?.text ? `<a class="more" href="${esc(link(s.link.href))}">${esc(s.link.text)}</a>` : ""}
         </div>`;
       }
-      if (item.kind === "marketing") return `<div class="cat-band-mkt cat-band-mkt--${item.pos}">${L.img(item.img)}</div>`;
+      // Marketing images are eager: a lazy image stays blank in full-page captures.
+      if (item.kind === "marketing") return `<div class="cat-band-mkt cat-band-mkt--${item.pos}">${L.img(item.img, 'fetchpriority="high"').replace('loading="lazy"', 'loading="eager"')}</div>`;
       return bandTile(item);
     };
     const anchor = document.querySelector(".cat-empty");

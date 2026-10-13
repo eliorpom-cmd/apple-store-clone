@@ -11,7 +11,7 @@
 .cat-h1, .cat-head h1 { font: var(--t-hero); letter-spacing: var(--tr-hero); }
 .cat-head h1 { font: var(--t-display); letter-spacing: var(--tr-display); }
 .cat-lede { font: var(--t-intro); letter-spacing: var(--tr-intro); color: var(--text-2); padding-top: 12px; max-width: 620px; }
-.cat-h2 { font: 600 48px/1.08 var(--font); letter-spacing: -.003em; color: var(--text-2); }
+.cat-h2 { font: 600 48px/1.08 var(--font-display); letter-spacing: -.003em; color: var(--text-2); }
 .cat-h2 strong { color: var(--text); font-weight: 600; }
 
 /* ---------- Accessories: picks section ---------- */
@@ -225,17 +225,33 @@
 .cat-chapter-icon { height: 78px; display: flex; align-items: center; }
 .cat-chapter-icon img { height: 78px; width: auto; max-width: none; }
 
-/* Gallery: wide media cards, text top left, image bottom right. */
-.cat-gallery { padding: 0 0 144px; }
+/* Gallery: wide media cards, full-bleed image with the text on top left (measured on the source:
+   section padding-bottom 56 + platter padding-bottom 30, card 1260x680, text column 486 wide with 48 padding). */
+.cat-gallery { padding: 0 0 86px; background: var(--surface); }
 .cat-gallery .cat-h2 { padding: 60px 0 62px; }
-.cat-gallery .scroller-track { padding-bottom: 0; }
-.cat-media-card { position: relative; width: 1260px; height: 680px; flex: none; }
-.cat-media-img { position: absolute; right: 0; bottom: 0; width: 62%; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
-.cat-media-img img { width: auto; height: auto; max-height: 100%; max-width: 100%; }
-.cat-media-body { position: relative; z-index: 1; max-width: 420px; padding: 48px 56px; }
-.cat-media-title { padding-top: 6px; font: var(--t-section); letter-spacing: var(--tr-section); }
-.cat-media-desc { padding-top: 12px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); }
-.cat-media-body .more { display: inline-block; padding-top: 12px; }
+.cat-gallery { --cat-edge: max(var(--gutter), (100vw - 1260px) / 2); }
+.cat-gallery.has-dots { padding-bottom: 56px; }
+/* The card row bleeds to the viewport edges and the next card peeks in, as on the source. */
+.cat-gallery .scroller { margin-inline: calc(-1 * var(--cat-edge)); }
+.cat-gallery .scroller-track { padding: 16px var(--cat-edge) 0; scroll-padding-inline: var(--cat-edge); }
+.cat-gallery .paddle { display: none; }
+/* Dot navigation (source: 136 x 38 pill, 36 px arrow buttons 15 px away, 50 px below the cards). */
+.cat-dotnav { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 50px; }
+.cat-dotnav-pill { display: flex; align-items: center; justify-content: center; height: 38px; padding: 0 20px; border-radius: 999px; background: rgba(210, 210, 215, .64); }
+.cat-dotnav-dot { position: relative; width: 24px; height: 24px; }
+.cat-dotnav-dot::after { content: ""; position: absolute; left: 9px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: rgba(0, 0, 0, .42); }
+.cat-dotnav-dot[aria-current="true"]::after { background: var(--text); }
+.cat-dotnav-arrow { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(210, 210, 215, .64); color: rgba(0, 0, 0, .56); }
+.cat-dotnav-arrow svg { width: 10px; height: 17px; }
+.cat-dotnav-arrow:disabled { opacity: .42; cursor: default; }
+.cat-media-card { position: relative; width: 1260px; height: 680px; flex: none; box-shadow: none; background: var(--page); color: rgba(0, 0, 0, .88); }
+.cat-media-card.is-dark { color: #fff; }
+.cat-media-img { position: absolute; inset: 0; }
+.cat-media-img img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.cat-media-body { position: relative; z-index: 1; width: 486px; padding: 48px; }
+.cat-media-title { font: var(--t-section); letter-spacing: var(--tr-section); }
+.cat-media-desc { padding-top: 13.6px; font: 400 17px/21px var(--font); letter-spacing: -.022em; }
+.cat-media-body .more { display: inline-block; padding-top: 14px; }
 
 /* Value props: white band with a card row. */
 .cat-value { background: var(--surface); padding: 120px 0; }
@@ -284,15 +300,35 @@
 
 /* Watch bands live grid: 1080 px wide, three 360 px columns, header and marketing among the tiles. */
 .cat-section .cat-wrap { width: min(1080px, 100% - 2 * var(--gutter)); }
-.cat-section .cat-band-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 0; padding: 0; }
-.cat-section .cat-band { margin: 0 5px; min-height: 512px; }
-.cat-band-head { margin: 0 5px; padding: 28px 16px 24px; text-align: center; background: var(--surface); border-radius: var(--r-card); }
-.cat-band-head .cat-collection-title { font: var(--t-step); letter-spacing: var(--tr-step); }
-.cat-band-head .cat-collection-sub { font: var(--t-small); letter-spacing: var(--tr-small); }
-.cat-band-mkt { height: 837px; margin: 0 5px; overflow: hidden; border-radius: var(--r-card); }
+.cat-section { padding-bottom: 0; }
+.cat-section:last-of-type { padding-bottom: 45px; } /* source: the last collection ends 45 px below its last row */ /* source sections touch: each one adds its own 50 px on top */
+.cat-section .cat-band-grid { grid-template-columns: repeat(3, 360px); grid-auto-rows: 522px; gap: 0; margin-top: 0; padding: 0; }
+/* A section with a marketing image starts with a 320 px header row beside it. */
+.cat-section .cat-band-grid:has(.cat-band-mkt--left, .cat-band-mkt--right) { grid-template-rows: 320px; }
+/* The full-width marketing banner is 535 px tall and owns the first row. */
+.cat-section .cat-band-grid:has(.cat-band-mkt--full) { grid-template-rows: 535px; }
+/* Source boxes: header 360x320, tile 360x522 (5 px padding around the card), marketing 710x837 with a 5 px margin. */
+.cat-section .cat-band { margin: 5px; height: 512px; min-height: 0; }
+/* Header cell (source): content block centred in the 310 px box, 32 px above the title and 40 px on each side;
+   title 25.5/37.5 semibold, "New colors" badge above it, subtitle 17/25 with 13.6 px above. */
+.cat-band-head { display: flex; flex-direction: column; justify-content: center; margin: 5px; height: 310px; padding: 0 40px; text-align: center; overflow: hidden; }
+.cat-band-head > :first-child { margin-top: 32px; }
+.cat-band-head .cat-badge { margin: 48px 0 7px; line-height: 14px; }
+.cat-band-head .cat-collection-title { font: 600 25.5px/37.5px var(--font); letter-spacing: -.374px; }
+.cat-band-head .cat-collection-sub { padding-top: 13.6px; font: 400 17px/25px var(--font); letter-spacing: -.374px; color: var(--text); }
+.cat-band-mkt { height: 837px; margin: 0 5px 5px; overflow: hidden; border-radius: var(--r-card); }
 .cat-band-mkt--left, .cat-band-mkt--right { grid-column: span 2; grid-row: span 2; }
 .cat-band-mkt--full { grid-column: span 3; height: 535px; margin: 0; border-radius: 0; }
 .cat-band-mkt img { width: 100%; height: 100%; object-fit: cover; }
+/* Below the 1080 px grid width the columns shrink and the boxes size to their content. */
+@media (max-width: 1139px) {
+  .cat-section .cat-band-grid, .cat-section .cat-band-grid:has(.cat-band-mkt--left, .cat-band-mkt--right), .cat-section .cat-band-grid:has(.cat-band-mkt--full) { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: auto; }
+}
+@media (max-width: 734px) {
+  .cat-section .cat-band-grid, .cat-section .cat-band-grid:has(.cat-band-mkt--left, .cat-band-mkt--right), .cat-section .cat-band-grid:has(.cat-band-mkt--full) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cat-band-mkt--left, .cat-band-mkt--right, .cat-band-mkt--full { grid-column: span 2; grid-row: auto; height: 360px; }
+  .cat-section .cat-band, .cat-band-head { height: auto; min-height: 320px; }
+}
 .cat-section .cat-band-media { height: 335px; }
 
 /* Product-grid mode: filter bar, colour chips, sort, count and pager. */
