@@ -196,4 +196,4 @@
 /* Live mode legal notes (content.js): long terms above the footer directory. */
 .live-legal p, .live-legal li { margin-bottom: .8em; }
 .live-legal ol { list-style: decimal; padding-left: 17px; }
-.live-legal a { text-decoration: underline; }
+.live-legal a { text-decoration: underline; overflow-wrap: anywhere; }

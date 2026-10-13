@@ -102,6 +102,16 @@ async function extract(src, fresh = false) {
             c.querySelectorAll("*").forEach((n) => { for (const a of [...n.attributes]) if (a.name !== "href") n.removeAttribute(a.name); });
             return c.innerHTML.replace(/\s+/g, " ").trim();
           });
+          // Optional phone pass: an extractor may export extractMobile() for content that only exists in the
+          // phone layout (for example per-step galleries in buy flows). Stored as data.mobile.
+          if (typeof mod.extractMobile === "function") {
+            await page.setViewportSize({ width: 390, height: 844 });
+            await page.goto(ORIGIN + src, { waitUntil: "load", timeout: 90000 });
+            await page.waitForTimeout(1500);
+            await scrollThrough(page);
+            data.mobile = await page.evaluate(mod.extractMobile);
+            await page.setViewportSize({ width: 1440, height: 900 });
+          }
           const navFile = join(ROOT, "content/live/_nav.json");
           if (!existsSync(navFile)) writeFileSync(navFile, JSON.stringify(await page.evaluate(extractNav), null, 1));
           Object.assign(data, { template: found.template, source: ORIGIN + src, fetched: new Date().toISOString() });
