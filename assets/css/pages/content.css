@@ -1,6 +1,7 @@
 /* Content pages: trade-in, carrier-offers, shipping-pickup.
    Prefixes: .content-* (shared by the three pages), .tradein-*, .carrier-*, .ship-*.
-   Shared components (tabs, accordion, gallery, buttons) come from components.css and are not restyled here. */
+   Shared components (tabs, accordion, gallery, buttons) come from components.css and are not restyled here.
+   Source of measured values: the origin pages at 1440 px and 390 px (heights, offsets, widths); each section header names what was measured. */
 
 /* ---------- Shared page pieces ---------- */
 .content-band { padding: 80px 0; }
@@ -8,7 +9,7 @@
 .content-band-page { background: var(--page); }
 
 .content-hero { padding: 72px 0 0; text-align: center; }
-.content-eyebrow { font: 600 28px/32px var(--font-display); letter-spacing: .007em; color: var(--text); padding-bottom: 8px; }
+.content-eyebrow { font: var(--t-section); letter-spacing: var(--tr-section); color: var(--text); padding-bottom: 8px; }
 /* Hero title: 64/68 on desktop, 48 px on mobile (spec 06 §0.2) */
 .content-display { font: 600 64px/68px var(--font-display); letter-spacing: -.009em; color: var(--text); text-wrap: balance; }
 .content-intro { max-width: 840px; margin: 24px auto 0; font: var(--t-intro); letter-spacing: var(--tr-intro); color: var(--text); }
@@ -16,7 +17,6 @@
 /* Section title: two tones, first clause dark, the rest grey (spec 06 §1a.3) */
 .content-title { font: 600 40px/44px var(--font-display); letter-spacing: -.003em; color: var(--text-2); text-align: center; }
 .content-title strong { color: var(--text); font-weight: 600; }
-.content-title-left { text-align: left; }
 .content-lead { max-width: 840px; margin: 16px auto 0; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text-2); text-align: center; }
 
 /* Small link line under a block */
@@ -91,20 +91,16 @@
 .tradein-status { margin-top: 32px; text-align: center; font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); }
 
 /* ---------- Trade-in: online / in store switch and steps ---------- */
-.tradein-switch { display: flex; justify-content: center; margin-top: 40px; }
-.tradein-panels-steps { width: min(980px, 100%); margin: 48px auto 0; }
+
+.tradein-panels-steps { width: min(var(--container), 100%); margin: 48px auto 0; }
 .tradein-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.tradein-step { background: var(--surface); border-radius: var(--r-card); overflow: hidden; }
+
 .tradein-step-art { display: grid; place-items: center; height: 229px; background: var(--line-2); color: var(--text); }
 .tradein-step-art svg { width: 120px; height: 120px; }
-.tradein-step-body { padding: 32px; }
-.tradein-step-label { font: 400 14px/20px var(--font); letter-spacing: -.016em; color: var(--text-2); text-transform: uppercase; }
-.tradein-step-title { font: var(--t-step); letter-spacing: var(--tr-step); color: var(--text); padding-top: 8px; }
-.tradein-step-text { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 12px; }
 
 /* ---------- Trade-in: question carousel ---------- */
-.tradein-qa-title { margin-bottom: 0; }
-.tradein-qa-gallery { width: min(980px, 100%); margin: 40px auto 0; background: none; border-radius: 0; overflow: visible; }
+
+.tradein-qa-gallery { width: min(var(--container), 100%); margin: 40px auto 0; background: none; border-radius: 0; overflow: visible; }
 .tradein-qa-gallery .gallery-track { overflow: hidden; border-radius: var(--r-card); }
 .tradein-qa-gallery .gallery-slide { display: block; padding: 0 0 104px; }
 .tradein-qa-gallery .paddle { top: auto; bottom: 8px; translate: none; transform: none; width: 56px; height: 56px; }
@@ -134,31 +130,27 @@
 .carrier-offers-list { padding-top: 48px; }
 .carrier-filter { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 0 auto; }
 .carrier-filter .tab { min-height: 56px; padding: 8px 22px; border-radius: var(--r-pill); }
-.carrier-filter .tab[aria-selected="true"] { color: #fff; }
+.carrier-filter .tab[aria-selected="true"] { color: var(--on-dark); }
 
-.carrier-block { margin: 80px auto 0; width: min(980px, 100%); }
+.carrier-block { margin: 80px auto 0; width: min(var(--container), 100%); }
 .carrier-block:first-of-type { margin-top: 64px; }
-.carrier-name { font: 600 21px/25px var(--font-display); letter-spacing: .011em; color: var(--text); }
-.carrier-title { font: 600 24px/28px var(--font-display); letter-spacing: .007em; color: var(--text); padding-top: 16px; }
+.carrier-name { font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); }
+.carrier-title { font: var(--t-step); letter-spacing: .007em; color: var(--text); padding-top: 16px; }
 .carrier-note { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 8px; }
 .carrier-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 24px; margin-top: 24px; border-bottom: 1px solid var(--line); }
-.carrier-row {
-  display: flex; justify-content: space-between; align-items: center; gap: 12px;
-  padding: 14px 0; border-top: 1px solid var(--line); color: var(--text); text-decoration: none;
-}
+
 .carrier-row:hover { text-decoration: none; }
-.carrier-row-name { display: block; font: var(--t-body-tight); letter-spacing: var(--tr-body); font-weight: 600; }
-.carrier-row-credit { display: block; font: var(--t-body-tight); letter-spacing: var(--tr-body); color: var(--text-2); }
+
 .carrier-row svg { flex: none; width: 20px; height: 20px; color: var(--text); }
-.carrier-cta { display: flex; justify-content: center; margin-top: 60px; }
+
 /* Source "button-super": 56 px high, 30 px side padding */
-.carrier-cta { margin-bottom: 23px; }
+.carrier-cta { display: flex; justify-content: center; margin-top: 60px; margin-bottom: 23px; }
 .carrier-cta .btn { padding: 17px 30px; font-size: 17px; line-height: 22px; }
 
 .carrier-help { padding: 96px 0; }
 .carrier-help-card {
   display: flex; align-items: center; justify-content: space-between; gap: 40px;
-  width: min(980px, 100%); height: 466px; margin: 24px auto 0; padding: 0 64px;
+  width: min(var(--container), 100%); height: 466px; margin: 24px auto 0; padding: 0 64px;
   background: var(--surface); border-radius: var(--r-card); overflow: hidden;
 }
 .carrier-help-card + .carrier-help-card { margin-top: 20px; }
@@ -179,16 +171,16 @@
 .ship-col .more { display: inline-block; padding-top: 16px; }
 
 /* ---------- Shipping: FAQ (one big accordion holding a compact list) ---------- */
-.ship-faq { width: min(980px, 100%); margin: 0 auto; padding-top: 80px; }
+.ship-faq { width: min(var(--container), 100%); margin: 0 auto; padding-top: 80px; }
 .ship-faq > .acc-item > .acc-btn { font: 600 32px/36px var(--font-display); letter-spacing: .004em; color: var(--text); padding: 0 0 32px; }
 .ship-faq > .acc-item > .acc-btn svg { width: 24px; height: 14px; color: var(--text-3); }
-.ship-faq > .acc-item > .acc-panel > .acc-panel-inner { max-width: none; padding-bottom: 8px; }
+
 .ship-faq .accordion-compact { border-bottom: 1px solid var(--line); }
 .ship-faq .accordion-compact .acc-item { border-top: 0; border-bottom: 1px solid var(--line); }
 .ship-faq .accordion-compact .acc-item:first-child { border-top: 1px solid var(--line); }
 .ship-faq .accordion-compact .acc-btn { padding: 17px 0; align-items: center; }
 .ship-faq .accordion-compact .acc-btn svg { width: 14px; height: 9px; color: var(--text-3); }
-.ship-faq .accordion-compact .acc-panel-inner { max-width: none; padding-bottom: 28px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
+
 .ship-faq .accordion-compact .acc-panel-inner p { font: inherit; }
 
 /* ---------- Responsive ---------- */
@@ -248,34 +240,30 @@
 /* Carrier offers (live): logo above the title, hero illustration */
 /* Source: logo 35 px high (CDN image is 2x), 20 px above the title */
 .carrier-logo { display: block; height: 35px; width: auto; margin-bottom: 20px; }
-.carrier-hero-img { width: 120px; height: auto; margin: 0 auto 24px; }
 
 /* Delivery and pickup (live): value props with their glyphs */
-.ship-props { display: flex; gap: 20px; margin-top: 48px; }
+
 .ship-prop { flex: 1; min-width: 0; padding: 32px; background: var(--surface); border-radius: var(--r-card); }
 .ship-prop-icon { width: 48px; height: 48px; margin-bottom: 24px; }
-.ship-prop h3 { font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); }
+
 .ship-prop p { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 8px; }
 .ship-prop .more { display: inline-block; padding-top: 12px; }
 .ship-gamme-single { display: block; }
-.ship-hero-img { width: min(800px, 100%); height: auto; margin: 56px auto 0; }
 
 /* Space kept for the brand lockup that the source shows as an image above the title */
-.content-lockup { height: 40px; margin-bottom: 56px; }
+
 /* Trade-in hero keeps the space before the next band, as the source does */
 .content-hero.content-hero-tall { padding-bottom: 104px; }
 /* Spacing measured on the source: panel heading, question carousel, reasons title */
 .tradein-steps-head { margin-top: 96px; margin-bottom: 48px; }
-.tradein-qa-title { margin-top: 96px; }
+
 .tradein-qa-gallery { margin-top: 140px; }
-.tradein-reasons-title { text-align: center; }
+
 /* Wide reason cards: the illustration fills the card and the text sits on top of it, as in the source */
 .tradein-reason-6 { position: relative; height: 567px; }
 .tradein-reason-6 .tradein-reason-media { position: absolute; inset: 0; }
 .tradein-reason-6 .tradein-reason-media img { width: 100%; height: 100%; object-fit: cover; }
-.tradein-reason-6 .tradein-reason-body { position: relative; color: #fff; }
-.tradein-reason-6 .tradein-reason-body h3 { color: #fff; }
-.tradein-reason-6 .tradein-reason-body p { color: #fff; }
+
 .tradein-reason-4 .tradein-reason-media img { width: 88px; height: auto; margin: 56px auto 0; }
 /* FAQ topic pills and tighter question rows, measured on the source */
 .tradein-faq-filter { margin: 48px auto 0; }
@@ -284,27 +272,26 @@
 /* Recycling row: a text column without background, then two tall cards (measured on the source) */
 .tradein-reason-6 { height: 624px; }
 .tradein-reasons-row-3 { display: grid; grid-template-columns: 1fr 313px 313px; gap: 20px; align-items: stretch; }
-.tradein-reasons-row-3 .tradein-reason { min-height: 620px; }
+
 .tradein-reason-intro { padding-top: 96px; }
-.tradein-reason-intro h3 { font: 600 48px/52px var(--font-display); letter-spacing: -.003em; color: var(--text); }
+.tradein-reason-intro h3 { font: var(--t-hero); letter-spacing: var(--tr-hero); color: var(--text); }
 .tradein-reason-intro p { font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); padding-top: 16px; }
 .tradein-reason-intro .btn { margin-top: 24px; }
-.tradein-reasons-row-3 .tradein-reason-4 .tradein-reason-body { padding: 32px 28px; }
-.tradein-reasons-row-3 .tradein-reason-4 .tradein-reason-body p { font: var(--t-small); letter-spacing: var(--tr-small); }
+
 /* Carrier offers (live), measured on the source: taller hero illustration, wider gap between operator blocks */
-.carrier-hero-img { height: 120px; width: auto; margin: 0 auto 32px; }
+
 .carrier-offers-list .carrier-block { margin-top: 74px; }
 .carrier-offers-list .carrier-block:first-of-type { margin-top: 83px; }
 /* Carrier and shipping FAQ rows, measured on the source */
 .ship-faq .accordion-compact .acc-btn { padding: 14px 0; }
 .ship-faq > .acc-item > .acc-btn { padding: 0 0 24px; }
-.carrier-hero-img { margin-top: 40px; }
+.carrier-hero-img { height: 120px; width: auto; margin: 0 auto 32px; margin-top: 40px; }
 /* Operator rows and block titles, measured on the source (row 80 px, title 25.5 px) */
-.carrier-row { padding: 14px 0 16px; border-top: 0; border-bottom: 1px solid var(--line); }
+.carrier-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--text); text-decoration: none; padding: 14px 0 16px; border-top: 0; border-bottom: 1px solid var(--line); }
 .carrier-row:nth-child(-n+3) { border-top: 1px solid var(--line); }
 .carrier-grid { border-bottom: 0; margin-top: 17px; }
-.carrier-row-name { font-size: 19px; line-height: 23px; }
-.carrier-row-credit { line-height: 25px; }
+.carrier-row-name { display: block; font: var(--t-body-tight); letter-spacing: var(--tr-body); font-weight: 600; font-size: 19px; line-height: 23px; }
+.carrier-row-credit { display: block; font: var(--t-body-tight); letter-spacing: var(--tr-body); color: var(--text-2); line-height: 25px; }
 .carrier-offers-list .carrier-title { font: 600 25.5px/37.5px var(--font-display); padding-top: 0; }
 .carrier-offers-list .carrier-note { padding-top: 13.6px; }
 @media (min-width: 1069px) {
@@ -312,28 +299,24 @@
   .carrier-grid { grid-template-columns: repeat(3, 310px); column-gap: 26px; margin-inline: -1px; }
 }
 /* Delivery and pickup, measured on the source: wide hero visual, FAQ before the help block, larger titles */
-.ship-hero-img { width: 950px; max-width: 100%; margin-top: 70px; }
-.ship-props-title { text-align: center; padding-top: 0; }
-.ship-prop h3 { font: var(--t-section); letter-spacing: var(--tr-section); }
+.ship-hero-img { height: auto; margin: 56px auto 0; width: 950px; max-width: 100%; margin-top: 70px; }
+
+.ship-prop h3 { color: var(--text); font: var(--t-section); letter-spacing: var(--tr-section); }
 .ship-faq > .acc-item > .acc-btn { font: 600 25.5px/30px var(--font-display); }
 .ship-faq .accordion-compact .acc-btn { font: 600 19.89px/24px var(--font); letter-spacing: -.01em; padding: 15px 0; }
 .ship-gamme img.ship-hero-img { width: 950px; max-width: 100%; height: auto; }
 .ship-faq-band { padding: 20px 0 64px; }
-.ship-props-title { margin-top: 86px; }
-.ship-faq > .acc-item > .acc-panel > .acc-panel-inner { padding-bottom: 0; }
-.ship-faq .accordion-compact .acc-panel-inner { padding-bottom: 16px; }
+
+.ship-faq > .acc-item > .acc-panel > .acc-panel-inner { max-width: none; padding-bottom: 0; }
+.ship-faq .accordion-compact .acc-panel-inner { max-width: none; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); padding-bottom: 16px; }
 
 /* Trade-in lockup: the brand logo image, centred in the space above the title */
-.content-lockup { display: flex; align-items: center; justify-content: center; }
+.content-lockup { height: 40px; margin-bottom: 56px; display: flex; align-items: center; justify-content: center; }
 .content-logo { width: 112px; height: 22px; }
 
-/* Trade-in local bar: sticky 52 px under the global nav, action shown once the hero is out of view */
-.tradein-localnav { position: sticky; top: 0; z-index: 900; height: 52px; background: var(--nav-bg); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid transparent; transition: border-color var(--dur-2) var(--ease-std); }
-.tradein-localnav.is-stuck { border-color: var(--line); }
-.tradein-localnav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
-.tradein-localnav-title { font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); }
-.tradein-localnav-action { opacity: 0; font: 400 12px/16px var(--font); letter-spacing: var(--tr-note); padding: 5px 13px; transition: opacity var(--dur-2) var(--ease-std); pointer-events: none; }
-.tradein-localnav.is-stuck .tradein-localnav-action { opacity: 1; pointer-events: auto; }
+/* Trade-in local bar: the shared .localbar; its action shows once the hero is out of view (.is-stuck set by pages/trade-in.js) */
+.tradein-localbar-action { opacity: 0; font: var(--t-note); letter-spacing: var(--tr-note); padding: 5px 13px; transition: opacity var(--dur-2) var(--ease-std); pointer-events: none; }
+.tradein-localbar.is-stuck .tradein-localbar-action { opacity: 1; pointer-events: auto; }
 
 /* Trade-in at 390 px, measured on the source: full-width product visual, stacked reasons, smaller lockup gap */
 @media (max-width: 734px) {
@@ -348,28 +331,28 @@
   .tradein-reason-intro h3 { font-size: 32px; line-height: 36px; }
   .tradein-reasons-row-3 .tradein-reason-4 .tradein-reason-media img { margin-top: 32px; }
 }
-.ship-props-title { font: 600 48px/52px var(--font-display); letter-spacing: -.003em; margin-top: 70px; }
-.ship-props { margin-top: 24px; }
+.ship-props-title { text-align: center; padding-top: 0; font: var(--t-hero); letter-spacing: var(--tr-hero); margin-top: 70px; }
+.ship-props { display: flex; gap: 20px; margin-top: 24px; }
 
 /* Trade-in "two easy ways" block, measured on the source (1440 px) */
 .tradein-ways { padding-top: 104px; padding-bottom: 0; }
 .tradein-ways-title { font: 600 64px/68px var(--font-display); letter-spacing: normal; color: var(--text); }
 .tradein-ways-intro { max-width: 745px; margin: 34px auto 0; font: 400 24px/32px var(--font-display); letter-spacing: .011em; color: var(--text); }
-.tradein-switch { margin-top: 62px; }
+.tradein-switch { display: flex; justify-content: center; margin-top: 62px; }
 .tradein-switch.tabs-segmented { display: flex; width: 401px; margin-inline: auto; background: var(--surface); }
 .tradein-switch .tab { flex: 1; padding: 32px 0; text-align: center; }
 .tradein-panels-steps { margin-top: 0; padding-top: 40px; }
 .tradein-steps-head { margin-top: 80px; margin-bottom: 35px; }
 .tradein-steps { padding-block: 5px; }
-.tradein-step { border-radius: 10px; }
+.tradein-step { background: var(--surface); overflow: hidden; border-radius: 10px; }
 .tradein-step-art { display: flex; justify-content: flex-start; height: 235px; background: var(--surface); }
 .tradein-step-art img { display: block; width: 375px; max-width: none; height: 228px; }
 .tradein-step-body { padding: 36px; }
 .tradein-step-label { font: 600 17px/25px var(--font); letter-spacing: -.374px; color: var(--text-2); text-transform: none; }
-.tradein-step-title { font: 600 28px/32px var(--font-display); letter-spacing: .196px; padding-top: 0; margin: 5.6px 0 11.2px; }
-.tradein-step-text { padding-top: 0; }
+.tradein-step-title { color: var(--text); font: var(--t-section); letter-spacing: .196px; padding-top: 0; margin: 5.6px 0 11.2px; }
+.tradein-step-text { font: var(--t-body); letter-spacing: var(--tr-body); color: var(--text); padding-top: 0; }
 /* Quick answers block starts right under the cards: 98 px top padding, 28/32 title, carousel 53 px below */
-.tradein-qa-title { margin-top: 0; padding-top: 98px; font-size: 28px; line-height: 32px; }
+.tradein-qa-title { margin-bottom: 0; margin-top: 0; padding-top: 98px; font-size: 28px; line-height: 32px; }
 .tradein-qa-gallery { margin-top: 53px; }
 @media (max-width: 1068px) {
   .tradein-ways-title { font-size: 48px; line-height: 52px; }
@@ -385,14 +368,14 @@
 }
 
 /* Trade-in reasons, measured on the source: 1010 px grid (cards 485 / 317 px wide, 5 px vertical gutter), wider title */
-.tradein-reasons-title { margin: 0 -35px 63px; font: 600 64px/68px var(--font-display); letter-spacing: normal; }
+.tradein-reasons-title { text-align: center; margin: 0 -35px 63px; font: 600 64px/68px var(--font-display); letter-spacing: normal; }
 .tradein-reasons-row { gap: 0; margin: 0 -15px; }
 .tradein-reasons-row .tradein-reason, .tradein-reasons-row .tradein-reason-intro { margin: 5px 10px; }
 .tradein-reasons-row ~ .tradein-reasons-row { margin-top: 80px; }
 .tradein-reason-6 { height: 649px; border-radius: 20px; }
-.tradein-reason-6 .tradein-reason-body { padding: 48px 40px 0; }
-.tradein-reason-6 .tradein-reason-body h3 { letter-spacing: .196px; }
-.tradein-reason-6 .tradein-reason-body p { padding-top: 11.2px; }
+.tradein-reason-6 .tradein-reason-body { position: relative; color: var(--on-dark); padding: 48px 40px 0; }
+.tradein-reason-6 .tradein-reason-body h3 { color: var(--on-dark); letter-spacing: .196px; }
+.tradein-reason-6 .tradein-reason-body p { color: var(--on-dark); padding-top: 11.2px; }
 .tradein-reasons-row-3 { grid-template-columns: repeat(3, 1fr); }
 .tradein-reasons-row-3 .tradein-reason { height: 498px; min-height: 0; border-radius: 14px; padding: 60px 30px; }
 .tradein-reasons-row-3 .tradein-reason-4 .tradein-reason-media img { display: block; width: 136px; height: 130px; margin: 0 auto 34px; object-fit: contain; }
@@ -402,7 +385,7 @@
 .tradein-reasons-row-3 .tradein-reason-4 .more, .tradein-reasons-row-3 .tradein-reason-4 .more-plus { display: flex; margin-top: 13.6px; font: 600 17px/25px var(--font); letter-spacing: -.374px; }
 .tradein-reasons-row-3 .tradein-reason-intro { height: 498px; padding: 0 44px 0 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
 .tradein-reasons-row-3 .tradein-reason-intro h3 { letter-spacing: normal; max-width: 259px; }
-.tradein-reasons-row-3 .tradein-reason-intro p { font: 400 17px/25px var(--font); letter-spacing: -.374px; padding: 13.6px 21.8px 0 0; }
+.tradein-reasons-row-3 .tradein-reason-intro p { font: var(--t-body); letter-spacing: -.374px; padding: 13.6px 21.8px 0 0; }
 .tradein-reasons-row-3 .tradein-reason-intro .btn { margin-top: 23.8px; }
 @media (max-width: 1068px) {
   .tradein-reasons-title { margin-inline: 0; font-size: 48px; line-height: 52px; }

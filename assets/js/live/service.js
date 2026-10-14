@@ -11,11 +11,11 @@ Live.register("service", (data, L) => {
   const navBar = (nav) => {
     if (!nav) return "";
     const links = (nav.links || []).map((l) => `<a href="${esc(link(l.href))}"${l.current ? ' aria-current="page"' : ""}>${esc(l.text)}</a>`).join("");
-    const action = nav.action && nav.action.text ? `<a class="svc-pill-link" href="${esc(link(nav.action.href))}">${esc(nav.action.text)}</a>` : "";
-    const menu = nav.menu ? `<span class="svc-localnav-menu">${esc(nav.menu)}</span>` : "";
-    return `<div class="svc-localnav"><div class="container svc-localnav-inner">
-      <p class="svc-localnav-title">${esc(nav.title)}</p>
-      <nav class="svc-localnav-links" aria-label="Section">${links}${menu}${action}</nav></div></div>`;
+    const action = nav.action && nav.action.text ? `<a class="localbar-action" href="${esc(link(nav.action.href))}">${esc(nav.action.text)}</a>` : "";
+    const menu = nav.menu ? `<span class="svc-localbar-menu">${esc(nav.menu)}</span>` : "";
+    return `<nav class="localbar localbar-ruled" aria-label="Section"><div class="localbar-inner">
+      <p class="localbar-title">${esc(nav.title)}</p>
+      <div class="localbar-links">${links}${menu}${action}</div></div></nav>`;
   };
 
   const render = {

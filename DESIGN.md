@@ -70,6 +70,8 @@ Pas de mode sombre : le site source n'en a pas.
 | Note, nav, pied | 12 px | 12 px | 400 | 1.3334 | −0.01 em | `--t-note` |
 | Eyebrow / badge | 12 px | 12 px | 600 | 1.3334 | −0.01 em | `--t-note` |
 
+Tailles relatives admises : exposants 0.6 em (prix) et 0.75 em (notes), flèche de lien externe 0.85 em.
+
 Mesure des paragraphes : 60–75 ch. Tracking positif au-dessus de 19 px, négatif en dessous (optique SF).
 
 ## Espace et mise en page
@@ -145,6 +147,42 @@ Code : `assets/css/components/card.css`
 - Couleurs vives hors `--action`, `--link`, `--badge-new`, `--promo`, `--success`.
 - Échelles au survol supérieures à 1.01.
 - Tout texte, image, police ou logo copié d'Apple (projet open source).
+
+## Annexe — couleurs hors jetons
+
+Valeurs que les jetons ne couvrent pas, listées pour que `extract.mjs --against DESIGN.md` ne signale aucun écart.
+Une nouvelle couleur en dur doit être ajoutée ici, ou remplacée par un jeton.
+
+### Couleurs mesurées sans jeton (CSS)
+
+Chaque valeur porte un commentaire dans son fichier : mesure de la source, ou illustration du mode démo (`service.css`, `product.css`).
+
+- `catalog-2.css` : `#7230c1` `#762fbc` `#a4257d` `#f10000` `#ff0300`
+- `catalog.css` : `#eeeeee` `#f0f4fd` `#fdfaf1`
+- `category.css` : `#01ddff` `#3f313b` `#635b61` `#d8d6d8` `#e9f5fc`
+- `components.css` : `#c9c9ce`
+- `product.css` : `#c7c7cc`
+- `service.css` : `#33415c` `#a34a3c` `#d8cfc0`
+
+### Teintes du contenu démo
+
+Couleurs des produits fictifs (pastilles de couleur, `--product-color`, aplats des visuels SVG maison). Ce
+sont des données de démo, pas du design : elles n'ont pas de jeton. Une couleur déjà listée plus haut n'est pas répétée.
+
+- `index.html` : `#2c3e5a` `#7d8b6a` `#c25a3a` `#ececec`
+- `pages/accessories.html` : `#0b0b0d` `#0b0b0e` `#2b3140` `#2c2c2e` `#3a3a3c` `#3b3f46` `#5a68d4` `#6b6b3a` `#7a2e4d` `#7fa6d6` `#9ec3ff` `#b6663e` `#b8b5ac` `#b9a6ff` `#d8cfb8`
+- `pages/buy-computer.html` : `#5c6785` `#dbe6f2` `#f1c6d0` `#f1e2c6` `#f2e26a` `#f2f2f2`
+- `pages/buy-earbuds.html` : `#c9826b`
+- `pages/buy-phone.html` : `#5b6b4a` `#6b2a35` `#7a2f3f` `#9fc3a7` `#c9c2b5` `#d9d4e8`
+- `pages/buy-watch.html` : `#2b2a26` `#c9b9a0` `#d6c7ae` `#d8d8dc`
+- `pages/components.html` : `#d5e3d8` `#dcd8ea` `#dfe5ee` `#e2e2e4` `#e8dccf` `#e9f0ea` `#eceaf4` `#eef1f6` `#f1f1f1` `#f4ede6`
+- `pages/config-computer.html` : `#e3e4e8`
+- `pages/config-phone-duo.html` : `#050508` `#1a1a22` `#2f3a4a` `#5b5b66` `#f1efe9` `#f6efd9`
+- `pages/config-phone.html` : `#2b2c2f` `#a7b8a4` `#d8c3a5` `#d9dadf`
+- `pages/product-case.html` : `#2b3440` `#3c3c40` `#5b1f2e` `#6b6a4a` `#a8336e` `#cddbea`
+- `pages/upgrade.html` : `#4a2c35` `#8e44ad` `#8fa3c8` `#9aa7b4` `#9bd3ae` `#a8c7e0` `#c5cde0` `#c8dcf0` `#c9b48a` `#c9ccd3` `#c9d8c5` `#c9e2d4` `#d6c7e8` `#d8d4cc` `#e8d9c4` `#e8e4dc` `#e9e9ee` `#f0c8b8` `#f2c94c` `#f2d6c9`
+- `pages/watch-bands.html` : `#2e4d3c` `#2f6f8f` `#3e6b4f` `#4a4f57` `#5b4a7a` `#5f6b78` `#6c7a89` `#9aa3ad` `#bfe3d2` `#c8ccd2` `#c9d96b` `#d4b26a` `#d9a3a0` `#d9b45a` `#e0572f` `#f08a6c` `#f2c4d4`
+- visuels SVG (`assets/img/products/`) : `#050506` `#2a2e27` `#2c2c31` `#3a4a6b` `#3b3f38` `#48484a` `#5b6253` `#6070d8` `#6e7fa0` `#8c9cbc` `#a5c8ff` `#c2aaff` `#c9ced8` `#dfe3ea` `#e8d9c2`
 
 ## Tokens
 

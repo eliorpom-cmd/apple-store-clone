@@ -4,16 +4,16 @@
 Live.register("catalog-2", (data, L) => {
   const { esc, link, img } = L;
   const main = document.querySelector("main");
-  const bar = document.querySelector(".cat2-localnav-inner");
+  const bar = document.querySelector(".localbar-inner");
 
   // Local nav: source title on the left, source local links (or action) on the right.
   const links = (data.localnav?.links || []).filter((l) => l.text);
   if (bar) {
-    bar.innerHTML = `<p class="cat2-localnav-title">${esc(data.localnav?.title)}</p>
-      <nav class="cat2-localnav-links" aria-label="${esc(data.localnav?.title)}">
-        ${links.map((l) => `<a class="cat2-localnav-anchors" href="${esc(link(l.href))}"${l.current ? ' aria-current="true"' : ""}>${esc(l.text)}</a>`).join("")}
+    bar.innerHTML = `<p class="localbar-title">${esc(data.localnav?.title)}</p>
+      <div class="localbar-links">
+        ${links.map((l) => `<a class="localbar-anchor" href="${esc(link(l.href))}"${l.current ? ' aria-current="true"' : ""}>${esc(l.text)}</a>`).join("")}
         ${data.localnav?.action ? `<a class="btn" href="#">${esc(data.localnav.action)}</a>` : ""}
-      </nav>`;
+      </div>`;
   }
 
   // Source image: one <img> per product visual, no color overrides.

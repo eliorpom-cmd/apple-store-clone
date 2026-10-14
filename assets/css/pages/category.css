@@ -54,7 +54,7 @@
 /* Main part of a two-tone shelf title, highlighted. */
 .edu-mark { background: #01ddff; color: var(--text); font-weight: 600; } /* source: education highlight, no token */
 /* Tinted cards. Colours chosen by eye, not measured on the source. */
-.card-tint-blue { background: #e9f5fc; }
+.card-tint-blue { background: #e9f5fc; } /* source: light blue education card, no token */
 .card-tint-gray { background: var(--line-2); }
 
 /* Education: small helpers */

@@ -1,6 +1,7 @@
 /* Catalog pages 2: certified refurbished (pages/refurbished.html) and upgrade program (pages/upgrade.html).
    Shared pieces (buttons, tabs, scroller, accordion, shell) come from components.css.
-   Values missing from tokens.css are measured from the source and cite their spec section. */
+   Values missing from tokens.css are measured from the source and cite their spec section.
+   Source of measured values: the origin pages at 1440 px and 390 px (heights, offsets, widths); each section header names what was measured. */
 
 /* ---------- Type roles used by both pages ---------- */
 .cat2-display { font: 600 64px/1.0625 var(--font-display); letter-spacing: -.009em; } /* spec 05 §0, headline 64 px */
@@ -14,25 +15,15 @@
   .cat2-h40 { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
 }
 
-/* ---------- Local nav (sticky, 52 px). Not a shared component. ---------- */
-/* data-catbar on the element toggles .is-stuck (border once stuck). */
-.cat2-localnav {
-  position: sticky; top: 0; z-index: 1000; height: 52px;
-  background: var(--nav-bg);
-  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid transparent; transition: border-color .5s;
-}
-.cat2-localnav.is-stuck { border-color: var(--line); }
-.cat2-localnav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 100%; }
-.cat2-localnav-title { font: 600 19px/1.2105 var(--font); letter-spacing: .012em; color: var(--text); }
-.cat2-localnav-links { display: flex; align-items: center; gap: 24px; font: var(--t-note); letter-spacing: var(--tr-note); }
-.cat2-localnav-links a { color: var(--text); white-space: nowrap; }
-.cat2-localnav-links a:hover { color: var(--text-2); text-decoration: none; }
-.cat2-localnav-links a[aria-current="true"] { box-shadow: inset 0 -1px 0 var(--text); }
-.cat2-localnav-menu { display: inline-flex; align-items: center; gap: 6px; color: var(--text); font: var(--t-note); letter-spacing: var(--tr-note); }
-.cat2-localnav-menu svg { width: 11px; height: 11px; }
+/* ---------- Local bar: the shared .localbar component, with the measured differences of these pages ---------- */
+/* Source: title 19 px, links 24 px apart, bar above the 900 default so it stays over the tile hover layers. */
+.cat2-localbar { z-index: 1000; }
+.cat2-localbar .localbar-title { font: 600 19px/1.2105 var(--font); letter-spacing: .012em; }
+.cat2-localbar .localbar-links { gap: 24px; }
+.cat2-localbar-menu { display: inline-flex; align-items: center; gap: 6px; color: var(--text); }
+.cat2-localbar-menu svg { width: 11px; height: 11px; }
 @media (max-width: 734px) {
-  .cat2-localnav-anchors { display: none; }
+  .localbar-anchor { display: none; }
 }
 
 /* ---------- Refurbished: banner ---------- */
@@ -137,7 +128,7 @@
 .cat2-up-lede { max-width: 680px; margin: 48px auto 0; font: var(--t-intro); letter-spacing: var(--tr-intro); }
 .cat2-steps {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
-  max-width: 980px; margin: 64px auto 0;
+  max-width: var(--container); margin: 64px auto 0;
 }
 .cat2-step { display: flex; flex-direction: column; align-items: center; }
 .cat2-step svg { width: 44px; height: 44px; margin-bottom: 16px; }
@@ -152,12 +143,12 @@
 .cat2-sel-intro { padding-top: 80px; }
 .cat2-sel-intro h2 { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; }
 .cat2-sel-intro p { max-width: 480px; margin-top: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
-/* Tab row starts at max(22px, (100vw - 980px) / 2), matching the 980 px container (spec 05 §4.1) */
-.cat2-tabs { margin: 48px max(22px, calc((100vw - 980px) / 2)) 0; padding-top: 0; }
+/* Tab row starts at max(gutter, (100vw - container) / 2), matching the 980 px container (spec 05 §4.1) */
+.cat2-tabs { margin: 48px max(var(--gutter), calc((100vw - var(--container)) / 2)) 0; padding-top: 0; }
 .cat2-tabs .tab { font: var(--t-small); letter-spacing: var(--tr-small); }
 .cat2-track {
-  gap: 30px; padding: 0 max(22px, calc(50vw - 490px)) 64px; /* spec 05 §4.1: --container-offset */
-  scroll-padding-inline: max(22px, calc(50vw - 490px));
+  gap: 30px; padding: 0 max(var(--gutter), calc((100vw - var(--container)) / 2)) 64px; /* spec 05 §4.1: --container-offset */
+  scroll-padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2));
 }
 .cat2-model {
   flex: none; width: 232.5px; display: flex; flex-direction: column; align-items: center; text-align: center;
@@ -167,17 +158,17 @@
 .cat2-model-visual.has-swatches { margin-bottom: 0; }
 .cat2-model-visual img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
 .cat2-swatches { display: flex; justify-content: center; gap: 6px; margin: 0 0 24px; }
-.cat2-swatches i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12); }
+.cat2-swatches i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px var(--ink-12); }
 .cat2-model-badge { min-height: 1.3334em; margin-bottom: 8px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--badge-new); white-space: nowrap; }
 .cat2-model-title { margin-bottom: 8px; font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; }
 .cat2-model-sub { max-width: 200px; min-height: 2lh; margin-bottom: 16px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .cat2-model-price { max-width: 282px; margin-bottom: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .cat2-model-btn { margin: 8px 0; }
 .cat2-model-features { width: 100%; margin: 80px 0 0; border-top: 2px solid var(--line); text-align: start; }
-.cat2-model-features dd { margin-inline-start: 0; }
+
 .cat2-model-features > div { padding-top: 32px; }
 .cat2-model-features dt { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
-.cat2-model-features dd { margin: 5px 0 0; font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
+.cat2-model-features dd { margin-inline-start: 0; margin: 5px 0 0; font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
 @media (max-width: 1023px) {
   .cat2-tabs { margin: 24px var(--gutter) 0; }
   .cat2-tabs { gap: 4px; }
@@ -197,8 +188,8 @@
 .cat2-sec--light { background: var(--surface); }
 .cat2-sec--page { background: var(--page); }
 .cat2-sec--grad { background: linear-gradient(180deg, var(--surface) 0%, var(--line-2) 100%); }
-.cat2-sec--dark { min-height: 610px; background: #1d1d1f; color: #f5f5f7; display: flex; align-items: center; } /* spec 05 §4.1, ~610 px */
-.cat2-sec--dark h2 { color: #fff; }
+.cat2-sec--dark { min-height: 610px; background: var(--dark); color: var(--page); display: flex; align-items: center; } /* spec 05 §4.1, ~610 px */
+.cat2-sec--dark h2 { color: var(--on-dark); }
 .cat2-sec-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
 .cat2-sec-inner h2 { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; }
 .cat2-sec-inner p { max-width: 420px; margin-top: 24px; font: var(--t-body); letter-spacing: var(--tr-body); }
@@ -231,13 +222,13 @@
 
 /* ---------- Refurbished: promo cards under the tiles (live mode renders them from the source) ---------- */
 .cat2-bento { padding: 0 0 45px; background: var(--page); }
-.cat2-bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; width: min(980px, 100% - 2 * var(--gutter)); margin: 0 auto; }
+.cat2-bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; width: min(var(--container), 100% - 2 * var(--gutter)); margin: 0 auto; }
 .cat2-bento-card {
   grid-column: span 2; position: relative; display: flex; flex-direction: column; min-height: 293px; /* spec-free: measured on source */
   padding: 28px; overflow: hidden; background: var(--surface); border-radius: var(--r-card);
 }
 .cat2-bento-card.is-large { grid-column: span 3; min-height: 620px; }
-.cat2-bento-card.is-dark { background: #000; color: #fff; }
+.cat2-bento-card.is-dark { background: var(--black); color: var(--on-dark); }
 .cat2-bento-title { font: var(--t-section); letter-spacing: var(--tr-section); }
 .cat2-bento-text { padding-top: 8px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .cat2-bento-img { display: block; width: 100%; height: auto; max-height: 300px; margin-top: auto; object-fit: contain; }
@@ -252,35 +243,30 @@
 /* ---------- Live mode: source banner strip is centred and clipped, icon keeps its source size ---------- */
 .live-strip-wrap { display: flex; justify-content: center; overflow: hidden; }
 .live-strip { flex: none; max-width: none; }
-.live-icon { margin: 0 auto; }
+
 .live-banner { padding-top: 0; padding-bottom: 44px; }
 .live-banner .cat2-display { margin-top: 20px; }
-.live-icon { margin-top: 20px; }
+.live-icon { margin: 0 auto; margin-top: 20px; }
 .cat2-tiles-live .cat2-tile-image { height: 267px; }
 
 /* ---------- Live mode: upgrade page order and blocks taken from the source ---------- */
 .cat2-live-select { padding-top: 0; } /* the selector title follows the last explanatory block directly */
-.cat2-live-select .cat2-tabs { margin-inline: 0; }
+
 .cat2-feature { flex: none; }
 .cat2-feature .card-media img { max-height: 180px; }
-.live-hero .cat2-step { padding-top: 60px; }
-.live-hero .cat2-up-cta { padding-bottom: 150px; }
-.live-hero { padding-bottom: 150px; }
-.live-hero .cat2-steps { margin-top: 6px; min-height: 187px; }
-.live-hero .cat2-up-cta { margin-top: 0; height: 199px; }
-.live-hero .cat2-up-cta { padding-bottom: 0; }
-.cat2-live-select .cat2-tabs { margin-top: 61px; margin-bottom: 94px; } /* title 88 px, tab bar 61 px below it, panels 94 px below the bar (measured) */
+
+.cat2-live-select .cat2-tabs { margin-inline: 0; margin-top: 61px; margin-bottom: 94px; } /* title 88 px, tab bar 61 px below it, panels 94 px below the bar (measured) */
 .cat2-live-select h2 { margin: 0; max-width: 420px; } /* the source title wraps to two lines */
 .live-track { padding-bottom: 153px; } /* measured: panel ends 89 px lower than the cards */
 .cat2-live-shelf { padding: 0 0 155px; } /* measured: the shelf ends 155 px below its cards */
 /* FAQ band (measured on the source): white, starts 120 px under the start block, 60 px bottom padding */
 .live-faq { padding: 120px 0 60px; background: var(--surface); }
-.live-faq .live-faq-head { margin: 0 0 58px; font: 600 48px/52px var(--font-display); letter-spacing: -.144px; text-align: center; color: var(--text); }
+.live-faq .live-faq-head { margin: 0 0 58px; font: var(--t-hero); letter-spacing: -.144px; text-align: center; color: var(--text); }
 .live-faq-pills { display: flex; flex-wrap: wrap; justify-content: center; padding-bottom: 55px; }
 .live-faq-pill { margin: 7px 7px 8px; padding: 10px 20px; border: 1px solid var(--text); border-radius: 20px; background: none; color: var(--text); font: 400 17px/21.86px var(--font); letter-spacing: -.224px; cursor: pointer; }
 .live-faq-pill[aria-selected="true"] { background: var(--text); color: var(--surface); }
 .live-faq-group { margin-bottom: 48px; }
-.live-faq-title { margin-bottom: 4px; font: 600 28px/32px var(--font-display); letter-spacing: .196px; color: var(--text); }
+.live-faq-title { margin-bottom: 4px; font: var(--t-section); letter-spacing: .196px; color: var(--text); }
 .live-faq .accordion, .live-faq .acc-item { border-color: transparent; }
 .live-faq .acc-btn { padding: 17px 0; font: 600 17px/21px var(--font); letter-spacing: -.374px; }
 /* Listing pages (Mac, iPad): three columns of 354 px from x = 309 (measured), the left 300 px hold the filter column */
@@ -305,13 +291,13 @@
 .live-listing-strip { position: absolute; left: 389px; top: 0; width: 1440px; height: 480px; max-width: none; object-fit: cover; }
 .live-listing-inner { position: relative; height: 100%; }
 .live-listing-text { position: absolute; left: 0; top: 191px; width: 417px; }
-.live-listing-title { font: 600 48px/52px var(--font-display); letter-spacing: -.003em; width: 334px; }
-.live-listing-sub { margin-top: 16px; font: 400 21px/29px var(--font-display); letter-spacing: .011em; }
-.live-listing-link { display: inline-block; margin-top: 8px; font: 400 21px/29px var(--font-display); }
+.live-listing-title { font: var(--t-hero); letter-spacing: var(--tr-hero); width: 334px; }
+.live-listing-sub { margin-top: 16px; font: var(--t-intro); letter-spacing: var(--tr-intro); }
+.live-listing-link { display: inline-block; margin-top: 8px; font: var(--t-intro); }
 /* Listing filter bar (source: 67 px high, filter toggle at 105 px, sort label ending 105 px from the right edge, 1 px rule under it) */
 .live-listing-page { background: var(--surface); }
 .live-listing-bar { height: 67px; box-sizing: border-box; box-shadow: 0 1px 0 var(--line); position: relative; z-index: 1; }
-.live-listing-bar-inner { display: flex; justify-content: space-between; align-items: flex-start; height: 100%; padding: 20px 105px 0; font: 400 12px/16px var(--font); letter-spacing: -.12px; color: var(--text); }
+.live-listing-bar-inner { display: flex; justify-content: space-between; align-items: flex-start; height: 100%; padding: 20px 105px 0; font: var(--t-note); letter-spacing: -.12px; color: var(--text); }
 .live-listing-filter { display: inline-flex; align-items: center; margin-top: 1px; white-space: nowrap; }
 .live-listing-filter svg { width: 21px; height: 21px; margin: -2px 0 0 -1px; fill: none; }
 .live-listing-sortlabel { display: inline-flex; align-items: center; gap: 4px; margin-top: 5px; white-space: nowrap; }
@@ -325,7 +311,7 @@
 .live-facet-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 8px 8px 0; font: 600 17px/21px var(--font); letter-spacing: -.374px; color: var(--text); text-align: left; background: none; border: 0; cursor: pointer; }
 .live-facet-btn::after { content: ""; width: 7px; height: 7px; margin-right: 6px; border: solid var(--text-3); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translateY(-2px); }
 .live-facet.is-open .live-facet-btn::after { transform: rotate(-135deg) translateY(-2px); }
-.live-facet-list { display: none; margin: 0; padding: 15px 0 0; list-style: none; font: 400 14px/20px var(--font); letter-spacing: -.224px; }
+.live-facet-list { display: none; margin: 0; padding: 15px 0 0; list-style: none; font: var(--t-small); letter-spacing: -.224px; }
 .live-facet.is-open .live-facet-list { display: block; }
 .live-facet-list li { padding: 5px 10px 5px 0; margin-bottom: 3px; }
 .live-facet-list li:first-child { margin-top: 3px; }
@@ -337,8 +323,8 @@
 .live-tile-image { display: flex; align-items: center; justify-content: center; height: 254px; }
 .live-tile-image img { width: 247px; height: 247px; object-fit: contain; mix-blend-mode: multiply; }
 .live-tile-title { box-sizing: border-box; min-height: 85px; margin: 0; padding: 45px 53px 0; font: 600 14px/20px var(--font); letter-spacing: -.224px; }
-.live-tile-price { margin: 2px 0 -4px; font: 400 14px/20px var(--font); letter-spacing: -.224px; }
-.live-tile-was { margin: 5px 0 0; font: 400 12px/16px var(--font); letter-spacing: -.12px; color: var(--text-3); }
+.live-tile-price { margin: 2px 0 -4px; font: var(--t-small); letter-spacing: -.224px; }
+.live-tile-was { margin: 5px 0 0; font: var(--t-note); letter-spacing: -.12px; color: var(--text-3); }
 .live-tile-was span { color: var(--text); }
 @media (max-width: 1068px) {
   .live-listing-bar-inner { padding-inline: var(--gutter); }
@@ -367,24 +353,26 @@
 .live-sec-visual { display: block; }
 .live-sec-visual img { position: absolute; max-width: none; width: auto; height: auto; }
 .live-sec h2 { font: 600 40px/44px var(--font-display); letter-spacing: 0; }
-.live-sec p { font: 400 17px/25px var(--font); letter-spacing: -.022em; max-width: none; }
+.live-sec p { font: var(--t-body); letter-spacing: var(--tr-body); max-width: none; }
 
 /* Products: purple-to-red gradient title, text left, product group right */
-.live-sec-products { min-height: 701px; background: #fff; }
+.live-sec-products { min-height: 701px; background: var(--surface); }
 .live-sec-products .live-sec-inner { height: 701px; }
 .live-sec-products .live-sec-text { left: 0; top: 210px; width: 396px; }
-.live-sec-products h2 { background: linear-gradient(90deg, #7230c1 0%, #f10000 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* source: the upgrade page paints this heading and the closing band with its own purple-to-red brand gradient (no token) */
+
 .live-sec-products p { margin-top: 13.6px; }
-.live-sec-products h2 { max-width: 330px; } /* the source title wraps after "products" */
-.live-sec-products .live-sec-visual { left: 0; top: 0; width: 980px; height: 701px; }
+/* source: the upgrade page paints this heading and the closing band with its own purple-to-red brand gradient (no token) */
+.live-sec-products h2 { background: linear-gradient(90deg, #7230c1 0%, #f10000 100%); -webkit-background-clip: text; background-clip: text; color: transparent; max-width: 330px; } /* the source title wraps after "products" */
+.live-sec-products .live-sec-visual { left: 0; top: 0; width: var(--container); height: 701px; }
 .live-sec-products .live-sec-visual img { left: 433px; top: 46px; width: 859px; height: 555px; }
 
 /* Lease: black, photo bleeds from the left edge, white text */
-.live-sec-lease { min-height: 700px; background: #000; color: #fff; }
+.live-sec-lease { min-height: 700px; background: var(--black); color: var(--on-dark); }
 .live-sec-lease .live-sec-inner { height: 700px; }
-.live-sec-lease h2 { color: #fff; }
-.live-sec-lease p { color: #f5f5f7; margin-top: 13.6px; }
-.live-sec-lease h2 { max-width: 290px; } /* the source title wraps after "the" */
+
+.live-sec-lease p { color: var(--page); margin-top: 13.6px; }
+.live-sec-lease h2 { color: var(--on-dark); max-width: 290px; } /* the source title wraps after "the" */
 .live-sec-lease b { font-weight: 600; }
 /* Source paragraph widths (right padding classes): 408 / 347 / 388 px */
 .live-sec-lease p:nth-of-type(2) { max-width: 347px; }
@@ -394,35 +382,37 @@
 .live-sec-lease .live-sec-visual img { left: 0; top: 0; width: 1698px; height: 700px; object-fit: cover; }
 
 /* Process: magenta-to-purple gradient, photo left, text right */
-.live-sec-process { min-height: 702px; background: linear-gradient(45deg, #a4257d 0%, #762fbc 100%); color: #fff; }
+/* source: the process band uses a magenta-to-violet gradient (no token) */
+.live-sec-process { min-height: 702px; background: linear-gradient(45deg, #a4257d 0%, #762fbc 100%); color: var(--on-dark); }
 .live-sec-process .live-sec-inner { height: 702px; }
-.live-sec-process h2 { color: #fff; }
-.live-sec-process p { color: #fff; margin-top: 13.6px; }
+.live-sec-process h2 { color: var(--on-dark); }
+.live-sec-process p { color: var(--on-dark); margin-top: 13.6px; }
 .live-sec-process .live-sec-text { left: 556px; top: 137px; width: 392px; }
-.live-sec-process .live-sec-visual { left: 0; top: 0; width: 980px; height: 702px; }
+.live-sec-process .live-sec-visual { left: 0; top: 0; width: var(--container); height: 702px; }
 .live-sec-process .live-sec-visual img { left: 18px; top: 200px; width: 377px; height: 502px; }
 
 /* AppleCare: grey band, product group left, text right */
-.live-sec-applecare { min-height: 501px; background: #f5f5f7; }
+.live-sec-applecare { min-height: 501px; background: var(--page); }
 .live-sec-applecare .live-sec-inner { height: 501px; }
 .live-sec-applecare .live-sec-text { left: 556px; top: 140px; width: 408px; }
-.live-sec-applecare .live-sec-visual { left: 0; top: 0; width: 980px; height: 501px; }
+.live-sec-applecare .live-sec-visual { left: 0; top: 0; width: var(--container); height: 501px; }
 .live-sec-applecare .live-sec-visual img { left: -2px; top: 141px; width: 461px; height: 219px; }
 
 /* iPhone program note: white, centred text block */
-.live-sec-iphone { min-height: 350px; background: #fff; }
+.live-sec-iphone { min-height: 350px; background: var(--surface); }
 .live-sec-iphone .live-sec-inner { height: 350px; }
 .live-sec-iphone .live-sec-text { left: 196px; top: 115px; width: 588px; text-align: center; }
 .live-sec-iphone h2 { font: 600 25.5px/37.5px var(--font-display); letter-spacing: 0; }
 .live-sec-iphone p { margin-top: 12px; font-size: 17px; line-height: 25px; }
-.live-sec-iphone .live-sec-link { display: block; margin-top: 16px; text-align: center; font: 400 14px/20px var(--font); letter-spacing: -.016em; }
+.live-sec-iphone .live-sec-link { display: block; margin-top: 16px; text-align: center; font: var(--t-small); letter-spacing: var(--tr-small); }
 
 /* ---------- Live closing block: gradient band, logo, 64 px title and button at measured offsets ---------- */
 /* Full-bleed gradient band; the content keeps its absolute positions inside the 980 px container */
+/* source: white veil over the purple-to-red brand gradient */
 .live-start-band { background: linear-gradient(180deg, rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, 0) 50%), linear-gradient(45deg, #7230c1 0%, #ff0300 100%); }
-.live-start { position: relative; height: 700px; color: #fff; }
+.live-start { position: relative; height: 700px; color: var(--on-dark); }
 .live-start-logo { position: absolute; left: 431px; top: 225px; width: 118px; height: 26px; }
-.live-start-title { position: absolute; left: 245px; top: 251px; width: 490px; font: 600 64px/68px var(--font-display); letter-spacing: -.009em; color: #fff; text-align: center; }
+.live-start-title { position: absolute; left: 245px; top: 251px; width: 490px; font: 600 64px/68px var(--font-display); letter-spacing: -.009em; color: var(--on-dark); text-align: center; }
 .live-start-cta { position: absolute; left: 405px; top: 419px; width: 170px; height: 56px; padding: 0; line-height: 56px; font: 400 21px/56px var(--font-display); border-radius: var(--r-pill); }
 
 /* ---------- Live media: step icons, card icons, hero video, swatches, promo strip ---------- */
@@ -435,26 +425,27 @@
 .live-shelf-head { padding: 24px 0 20px; text-align: left; }
 
 /* ---------- Live promo cards: photo cards fill the card with white text; small cards show the icon above the title; round plus in the corner ---------- */
-.cat2-bento-card:not(.is-large) .cat2-bento-title { font: 600 28px/32px var(--font-display); letter-spacing: .007em; }
+.cat2-bento-card:not(.is-large) .cat2-bento-title { font: var(--t-section); letter-spacing: var(--tr-section); }
 .cat2-bento-card:not(.is-large) .cat2-bento-icon { margin-bottom: 20px; }
 .cat2-bento-card:not(.is-large)::after {
   content: "+"; position: absolute; right: 22px; bottom: 22px; width: 30px; height: 30px; border-radius: 50%;
-  background: #1d1d1f; color: #fff; font: 400 22px/28px var(--font-display); text-align: center;
+  background: var(--dark); color: var(--on-dark); font: 400 22px/28px var(--font-display); text-align: center;
 }
-.cat2-bento-card.is-photo { color: #fff; background: #1d1d1f; }
+.cat2-bento-card.is-photo { color: var(--on-dark); background: var(--dark); }
 .cat2-bento-card.is-photo .cat2-bento-img { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; margin: 0; }
 .cat2-bento-card.is-photo > :not(.cat2-bento-img) { position: relative; z-index: 1; }
-.cat2-bento-card.is-photo .cat2-bento-title { font: 600 28px/32px var(--font-display); letter-spacing: .007em; }
-.cat2-bento-card.is-photo .cat2-bento-text { color: #fff; }
+.cat2-bento-card.is-photo .cat2-bento-title { font: var(--t-section); letter-spacing: var(--tr-section); }
+.cat2-bento-card.is-photo .cat2-bento-text { color: var(--on-dark); }
 
 /* Phone width: the source stacks its blocks, so the desktop offsets do not apply. */
 @media (max-width: 734px) {
-  .live-sec { min-height: 0 !important; padding: 64px 0; }
-  .live-sec-inner { height: auto !important; }
-  .live-sec-text, .live-sec-visual { position: static; width: auto !important; height: auto !important; left: auto !important; top: auto !important; }
-  .live-sec-visual img { position: static; width: 80% !important; height: auto !important; left: auto !important; top: auto !important; margin: 16px auto 0; }
-  .live-sec-products .live-sec-visual img, .live-sec-process .live-sec-visual img, .live-sec-applecare .live-sec-visual img { width: 90% !important; }
-  .live-sec-lease .live-sec-visual img { width: 100% !important; }
+  /* Stacked layout: every rule below repeats the desktop selector depth and comes later, so no override flag is needed. */
+  .live-sec { min-height: 0; padding: 64px 0; }
+  .live-sec .live-sec-inner { height: auto; }
+  .live-sec .live-sec-text, .live-sec .live-sec-visual { position: static; width: auto; height: auto; left: auto; top: auto; }
+  .live-sec .live-sec-visual img { position: static; width: 80%; height: auto; left: auto; top: auto; margin: 16px auto 0; }
+  .live-sec-products .live-sec-visual img, .live-sec-process .live-sec-visual img, .live-sec-applecare .live-sec-visual img { width: 90%; height: auto; left: auto; top: auto; }
+  .live-sec-lease .live-sec-visual img { width: 100%; height: auto; left: auto; top: auto; }
   .live-sec-inner { padding: 0 var(--gutter); }
   .live-start { height: auto; min-height: 536px; padding: 64px var(--gutter); }
   .live-start-logo, .live-start-title, .live-start-cta { position: static; width: auto; height: auto; margin-bottom: 24px; font-size: 40px; line-height: 44px; }
@@ -463,20 +454,20 @@
 }
 
 /* ---------- Live upgrade hero, measured on the source (1440 px) ---------- */
-.live-hero { padding: 55px 0 150px; background: var(--surface); }
+.live-hero { padding-bottom: 150px; padding: 55px 0 150px; background: var(--surface); }
 .live-hero .live-logo { display: block; height: 32px; width: auto; margin: 0 auto; }
 .live-hero h1 { max-width: 627px; margin: 8px auto 0; font: 600 64px/68px var(--font-display); letter-spacing: -.576px; }
 .live-hero .cat2-up-visual { margin-top: 0; padding-top: 40px; box-sizing: border-box; }
 .live-hero .cat2-up-lede { max-width: 725px; margin: 0 auto; padding-top: 40px; font: 600 21px/29px var(--font-display); letter-spacing: .231px; color: var(--text); }
-.live-hero .cat2-steps { max-width: 980px; margin: 48px auto 0; padding: 0; min-height: 0; gap: 0; }
+.live-hero .cat2-steps { margin-top: 6px; max-width: var(--container); margin: 48px auto 0; padding: 0; min-height: 0; gap: 0; }
 .live-hero .cat2-step { padding-top: 0; }
 .live-hero .live-step-icon { margin: 0 auto; }
 .live-hero .cat2-step p { padding-top: 6px; font: 600 21px/29px var(--font-display); letter-spacing: .231px; color: var(--text); }
 .live-hero .cat2-step:nth-child(1) p { max-width: 235px; }
 .live-hero .cat2-step:nth-child(3) p { padding-inline: 39px; }
-.live-hero .cat2-up-cta { gap: 0; height: auto; padding-top: 78px; margin-top: 0; }
+.live-hero .cat2-up-cta { padding-bottom: 0; gap: 0; height: auto; padding-top: 78px; margin-top: 0; }
 .live-hero .cat2-up-cta .btn { height: 56px; padding: 17px 30px; font-size: 17px; line-height: 22px; }
-.live-hero-how { display: inline-flex; align-items: center; gap: 6px; margin-top: 40px; color: var(--link); font: 400 17px/25px var(--font); letter-spacing: -.374px; }
+.live-hero-how { display: inline-flex; align-items: center; gap: 6px; margin-top: 40px; color: var(--link); font: var(--t-body); letter-spacing: -.374px; }
 .live-hero-how svg { width: 17px; height: 17px; }
 @media (max-width: 734px) {
   .live-hero { padding: 40px var(--gutter) 64px; }

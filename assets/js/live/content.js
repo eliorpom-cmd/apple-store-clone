@@ -36,9 +36,9 @@ Live.register("content", (data, L) => {
   // ----- Trade-in -----
   const tradein = () => {
     const h = data.hero;
-    const localNav = `<nav class="tradein-localnav" aria-label="${esc(data.localNav?.title || "")}" data-localnav>
-      <div class="tradein-localnav-inner container"><span class="tradein-localnav-title">${esc(data.localNav?.title || "")}</span>
-      <a class="tradein-localnav-action btn" href="#">${esc(data.localNav?.action || "")}</a></div></nav>`;
+    const localNav = `<nav class="localbar tradein-localbar" aria-label="${esc(data.localNav?.title || "")}" data-localnav>
+      <div class="localbar-inner"><span class="localbar-title">${esc(data.localNav?.title || "")}</span>
+      <a class="tradein-localbar-action btn" href="#">${esc(data.localNav?.action || "")}</a></div></nav>`;
     const hero = `<header class="content-band content-band-surface content-hero content-hero-tall"><div class="container">
       ${h.logo ? `<div class="content-lockup">${img(h.logo, "content-logo")}</div>` : `<div class="content-lockup" aria-hidden="true"></div>`}
       <h1 class="content-display">${esc(h.title)}</h1>
