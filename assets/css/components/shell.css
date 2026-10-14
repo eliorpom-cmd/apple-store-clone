@@ -3,11 +3,11 @@
 
 :root {
   --nav-h: 44px;
-  --nav-link: rgba(0, 0, 0, .8);
-  --nav-link-hover: #000;
-  --nav-ink-2: #333336;
-  --nav-panel: #fafafc;
-  --curtain: rgba(232, 232, 237, .4);
+  --nav-link: var(--ink-80);
+  --nav-link-hover: var(--black);
+  --nav-ink-2: var(--nav-ink-2);
+  --nav-panel: var(--surface-2);
+  --curtain: var(--curtain);
 }
 @media (max-width: 833px) { :root { --nav-h: 48px; } }
 
@@ -37,7 +37,7 @@
 .gnav-bag { position: relative; }
 .gnav-badge {
   position: absolute; right: 2px; bottom: 11px; min-width: 1.3em; height: 1.3em; padding: 0 .3em;
-  border-radius: 1em; background: var(--text); color: #fff; font-size: 10px; line-height: 1.3em; text-align: center;
+  border-radius: 1em; background: var(--text); color: var(--on-dark); font-size: 10px; line-height: 1.3em; text-align: center;
   transform: scale(0); transition: transform .3s var(--ease-flyout), opacity var(--dur-2);
 }
 .gnav-badge.has-count { transform: scale(1); }
@@ -52,7 +52,7 @@
   opacity: 0;
   transition: height 250ms var(--ease-std) 120ms, opacity 1ms linear 370ms;
 }
-.gnav.is-open .gnav-flyout { pointer-events: auto; opacity: 1; transition: height 250ms var(--ease-std), opacity 1ms; }
+.gnav.is-open .gnav-flyout { height: var(--flyout-h, var(--nav-h)); pointer-events: auto; opacity: 1; transition: height 250ms var(--ease-std), opacity 1ms; } /* --flyout-h: set by shell.js */
 .gnav-flyout-inner { max-width: 1024px; margin: var(--nav-h) auto 0; padding: 40px 22px 84px; display: none; }
 .gnav-flyout-inner.is-current { display: flex; }
 .gnav-group { max-width: 25%; padding: 0 44px 52px 0; }
@@ -65,7 +65,7 @@
   color: var(--nav-ink-2); font: 600 12px/1.3334 var(--font); letter-spacing: -.01em;
 }
 .gnav-group-elevated a { font: 600 24px/1.1667 var(--font-display); letter-spacing: .009em; padding-block: 11px 11px; margin-bottom: -10px; }
-.gnav-flyout a:hover { color: #000; text-decoration: none; }
+.gnav-flyout a:hover { color: var(--black); text-decoration: none; }
 .gnav-flyout li { display: block; }
 /* Staggered entrance: delay set inline per item (--d) by shell.js */
 .gnav-fly-item {
@@ -117,12 +117,12 @@
   .gnav.is-menu .gnav-icon .gnav-link { opacity: 0; pointer-events: none; }
   .gnav-menutrigger { display: flex; width: 48px; height: 48px; align-items: center; justify-content: center; opacity: .8; transition: opacity .32s; }
   .gnav-menutrigger:hover { opacity: 1; }
-  .gnav-menutrigger line { stroke: #000; stroke-width: 1.2; stroke-linecap: round; transition: all var(--dur-2) cubic-bezier(.42, 0, .58, 1); transform-origin: 9px 9px; }
+  .gnav-menutrigger line { stroke: var(--black); stroke-width: 1.2; stroke-linecap: round; transition: all var(--dur-2) cubic-bezier(.42, 0, .58, 1); transform-origin: 9px 9px; }
   .gnav.is-menu .gnav-menutrigger .bread-top { transform: translateY(4px) rotate(45deg); }
   .gnav.is-menu .gnav-menutrigger .bread-bottom { transform: translateY(-3px) rotate(-45deg); }
   .gnav-flyout-inner { flex-direction: column; padding: 18px 48px 60px; }
   .gnav-group, .gnav-group-elevated { max-width: none; padding: 0 0 32px; }
-  .gnav.is-menu .gnav-flyout { height: 100dvh !important; overflow-y: auto; }
+  .gnav.is-menu.is-open .gnav-flyout, .gnav.is-menu .gnav-flyout { height: 100dvh; overflow-y: auto; }
   .gnav-mobile-list a { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; padding: 7.5px 0; margin: 0; display: block; }
   .gnav-group a { font: 600 17px/1.4706 var(--font); letter-spacing: -.022em; }
   .gnav-group-elevated a { font: 600 28px/1.1429 var(--font-display); }
@@ -147,36 +147,36 @@
 
 /* ---------- Footer ---------- */
 .gfoot {
-  background: var(--page); color: rgba(0, 0, 0, .56);
+  background: var(--page); color: var(--control-icon);
   font: var(--t-note); letter-spacing: var(--tr-note);
 }
 .gfoot-inner { max-width: 980px; margin: 0 auto; padding: 0 22px 20px; }
-.gfoot a { color: rgba(0, 0, 0, .72); }
-.gfoot-notes { padding: 17px 0 11px; border-bottom: 1px solid rgba(0, 0, 0, .16); }
+.gfoot a { color: var(--ink-72); }
+.gfoot-notes { padding: 17px 0 11px; border-bottom: 1px solid var(--ink-16); }
 .gfoot-notes p + p { margin-top: .8em; }
 .gfoot-crumbs { display: flex; align-items: center; gap: 10px; padding: 17px 0; }
-.gfoot-crumbs svg { width: 14px; height: 14px; color: rgba(0, 0, 0, .88); }
-.gfoot-crumbs .sep { width: 6px; height: 10px; color: rgba(0, 0, 0, .48); }
+.gfoot-crumbs svg { width: 14px; height: 14px; color: var(--ink-88); }
+.gfoot-crumbs .sep { width: 6px; height: 10px; color: var(--ink-48); }
 .gfoot-dir { display: flex; padding-bottom: 28px; }
 .gfoot-col { flex: 1 1 20%; }
 .gfoot-section + .gfoot-section { margin-top: 24px; }
-.gfoot-title { display: block; width: 100%; text-align: left; color: rgba(0, 0, 0, .88); font-weight: 600; margin: 0 20px .8em 0; cursor: default; }
+.gfoot-title { display: block; width: 100%; text-align: left; color: var(--ink-88); font-weight: 600; margin: 0 20px .8em 0; cursor: default; }
 .gfoot-title svg { display: none; }
 .gfoot-list li { margin: 0 20px .8em 0; }
 .gfoot-list li:last-child { margin-bottom: 0; }
-.gfoot-shop { padding-bottom: 19px; margin-bottom: 16px; border-bottom: 1px solid rgba(0, 0, 0, .16); }
+.gfoot-shop { padding-bottom: 19px; margin-bottom: 16px; border-bottom: 1px solid var(--ink-16); }
 .gfoot-shop a { color: var(--link); text-decoration: underline; }
 .gfoot-legal { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 0; }
 .gfoot-copy { margin-right: 30px; }
 .gfoot-legal ul { display: flex; flex-wrap: wrap; }
-.gfoot-legal li + li { border-left: 1px solid rgba(0, 0, 0, .48); margin-left: 6px; padding-left: 6px; }
+.gfoot-legal li + li { border-left: 1px solid var(--ink-48); margin-left: 6px; padding-left: 6px; }
 .gfoot-locale { margin-left: auto; }
 @media (max-width: 1023px) { .gfoot-copy { width: 100%; margin: 0 0 4px; } }
 @media (max-width: 833px) {
   .gfoot-inner { padding: 0 16px 20px; }
   .gfoot-dir { flex-direction: column; padding-bottom: 12px; }
   .gfoot-section + .gfoot-section { margin-top: 0; }
-  .gfoot-section { border-bottom: 1px solid rgba(0, 0, 0, .16); }
+  .gfoot-section { border-bottom: 1px solid var(--ink-16); }
   .gfoot-title { display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 10px 0; font-weight: 400; cursor: pointer; }
   .gfoot-title svg { display: block; width: 11px; height: 11px; transition: transform .3s ease; }
   .gfoot-section.is-open .gfoot-title svg { transform: rotate(180deg); }

@@ -21,6 +21,20 @@
   --black: #000000;
   --nav-bg: rgba(250, 250, 252, .8);
   --scrim: rgba(0, 0, 0, .48);
+  --on-dark: #ffffff;                 /* text and icons on dark or blue surfaces */
+  --control-bg: rgba(210, 210, 215, .64);   /* round arrows, dot pills (galleries, carousels) */
+  --control-bg-hover: hsla(240, 7%, 88%, .7);
+  --control-icon: rgba(0, 0, 0, .56);
+  /* Inks and glass (measured on the source; translucent black text and frosted grounds) */
+  --ink-88: rgba(0, 0, 0, .88); --ink-80: rgba(0, 0, 0, .8); --ink-72: rgba(0, 0, 0, .72); --ink-64: rgba(0, 0, 0, .64);
+  --ink-54: rgba(0, 0, 0, .54); --ink-48: rgba(0, 0, 0, .48); --ink-42: rgba(0, 0, 0, .42); --ink-24: rgba(0, 0, 0, .24);
+  --ink-20: rgba(0, 0, 0, .2); --ink-16: rgba(0, 0, 0, .16); --ink-12: rgba(0, 0, 0, .12); --ink-10: rgba(0, 0, 0, .1); --ink-08: rgba(0, 0, 0, .08);
+  --white-92: rgba(255, 255, 255, .92); --white-80: rgba(255, 255, 255, .8); --white-48: rgba(255, 255, 255, .48);
+  --glass: rgba(232, 232, 237, .72); --glass-hover: rgba(220, 220, 226, .8); --curtain: rgba(232, 232, 237, .4);
+  --dark-hover: #272729; --dark-active: #18181a; --light-active: #ededf2;
+  --eyebrow: #424245; --badge-new-on-dark: #ff791b; --nav-ink-2: #333336;
+  --line-hover: #8f8f94; --field-line: rgba(134, 134, 139, .42);
+  --close-bg: #e8e8ed; --close-bg-hover: #ececf0; --close-bg-active: #dfdfe4;
 
   /* Type */
   --font: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;

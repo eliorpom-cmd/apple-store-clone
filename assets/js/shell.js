@@ -141,7 +141,7 @@
     nav.querySelectorAll(".gnav-item").forEach((li) => li.classList.remove("is-active"));
     if (trigger) { trigger.setAttribute("aria-expanded", "true"); trigger.closest(".gnav-item")?.classList.add("is-active"); }
     const h = mobile.matches ? window.innerHeight : Math.min(panel.offsetHeight + nav.querySelector(".gnav-content").offsetHeight, window.innerHeight - 88);
-    flyout.style.height = h + "px";
+    flyout.style.setProperty("--flyout-h", h + "px");
     nav.classList.add("is-open");
     nav.classList.toggle("is-switching", switching);
     if (switching) setTimeout(() => nav.classList.remove("is-switching"), 420);
@@ -152,7 +152,7 @@
   const close = () => {
     if (current === null) return;
     nav.classList.remove("is-open", "is-menu", "is-switching");
-    flyout.style.height = "";
+    flyout.style.removeProperty("--flyout-h");
     curtain.classList.remove("is-on");
     nav.querySelectorAll("[aria-expanded]").forEach((a) => a.setAttribute("aria-expanded", "false"));
     nav.querySelectorAll(".gnav-item").forEach((li) => li.classList.remove("is-active"));

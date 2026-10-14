@@ -14,7 +14,7 @@ import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { extractNav, scrollThrough } from "./fetch-content.mjs";
+import { extractNav, scrollThrough } from "./lib/source-page.mjs";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const PORT = Number(process.argv[2] || 4321);

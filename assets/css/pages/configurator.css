@@ -75,10 +75,10 @@
 /* Round replay button, 34 px, bottom right of the slide (spec 03 §4.1) */
 .fold-replay {
   position: absolute; right: 20px; bottom: 20px; z-index: 1; width: 34px; height: 34px; display: grid; place-items: center;
-  border-radius: 50%; background: rgba(210, 210, 215, .64); color: rgba(0, 0, 0, .56);
+  border-radius: 50%; background: var(--control-bg); color: var(--control-icon);
   -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); transition: background-color .1s linear;
 }
-.fold-replay:hover { background: rgba(210, 210, 215, .85); }
+.fold-replay:hover { background: var(--control-bg-hover); }
 .fold-replay svg { width: 24px; height: 24px; }
 @media (prefers-reduced-motion: reduce) {
   .pf-right { animation: none; transform: none; }
@@ -112,7 +112,7 @@
 /* ---------- Mobile gallery: horizontal scroll with snap, next slide peeking (spec 03 §6.2) ---------- */
 @media (max-width: 1023px) {
   .cfg-gallery { overflow: visible; background: none; border-radius: 0; }
-  .cfg-gallery .gallery-track { transform: none !important; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; gap: 12px; scrollbar-width: none; }
+  .cfg-gallery .gallery-track { transform: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; gap: 12px; scrollbar-width: none; }
   .cfg-gallery .gallery-track::-webkit-scrollbar { display: none; }
   .cfg-gallery .gallery-slide { flex: 0 0 87.5%; scroll-snap-align: start; border-radius: 20px; background: var(--page); }
   .cfg-gallery .dots { bottom: 8px; }

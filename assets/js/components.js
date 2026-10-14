@@ -110,7 +110,7 @@
     g.append(prev, next, dots);
     const go = (n) => {
       i = Math.max(0, Math.min(slides.length - 1, n));
-      track.style.transform = `translateX(${-100 * i}%)`;
+      track.style.setProperty("--slide-x", `${-100 * i}%`);
       prev.disabled = i === 0; next.disabled = i === slides.length - 1;
       [...dots.children].forEach((d, k) => d.setAttribute("aria-current", k === i));
     };
