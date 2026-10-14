@@ -23,6 +23,9 @@ Live.register("flagship", (data, L) => {
   const ribbonHTML = ribbon ? `<div class="live-ribbon"><p>${esc(ribbon.text)}${ribbon.link ? ` <a class="more-plus" href="${esc(link(ribbon.link.href))}">${esc(ribbon.link.text)}</a>` : ""}</p></div>` : "";
   document.body.classList.add("live-flagship");
 
+  // Product family from the source URL: it picks the hero picture box in flagship.css (AirPods, HomePod, TV).
+  const family = (String(data.source || "").match(/\/buy-(airpods|homepod|tv)\//) || [, ""])[1];
+
   const hasSlides = (data.media?.slides || []).length > 1;
   const split = !!data.head?.centered && hasSlides;
 
@@ -112,7 +115,7 @@ Live.register("flagship", (data, L) => {
     ? `<div class="gallery display-gallery" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
     : hasSlides && !data.media?.main
       ? `<div class="gallery live-main" data-gallery><div class="gallery-track">${data.media.slides.map((im) => `<div class="gallery-slide"><img src="${esc(im.src)}" alt="${esc(im.alt)}"></div>`).join("")}</div></div>`
-      : `<div class="live-main"${data.media?.mainBox?.h ? ` style="min-height:${data.media.mainBox.h}px"` : ""}>${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}"${data.media.mainImgBox?.w ? ` style="width:${data.media.mainImgBox.w}px"` : ""}>` : ""}</div>`;
+      : `<div class="live-main" data-family="${family}">${data.media?.main ? `<img src="${esc(data.media.main.src)}" alt="${esc(data.media.main.alt)}">` : ""}</div>`;
   const perks = (data.buystrip || []).length
     ? `<ul class="flagship-perks">${data.buystrip.map((b) => `<li class="flagship-perk">${b.icon ? `<span class="live-icon">${b.icon}</span>` : ""}<span>${esc(b.text)}</span></li>`).join("")}</ul>` : "";
   const chat = data.chat?.text ? `<p class="flagship-help"><span><strong>${esc(data.chat.text)}</strong>${data.chat.link ? `<a href="${esc(link(data.chat.link.href))}" class="more-ext">${esc(data.chat.link.text)}</a>` : ""}</span></p>` : "";
@@ -208,8 +211,8 @@ Live.register("flagship", (data, L) => {
   main.className = "flagship";
   // Local bar: product name on the left, two anchors on the right (sticky under the global nav).
   const barTitle = String(data.head?.title || "").replace(/^(Pre.order|Buy)\s+/i, "");
-  const localBar = `<nav class="live-localnav" aria-label="Local"><div class="container"><span class="live-localnav-title">${esc(barTitle)}</span>
-      <span class="live-localnav-links"><a href="#details">Overview</a><a href="#compare">Tech Specs</a></span></div></nav>`;
+  const localBar = `<nav class="localbar localbar-ruled" aria-label="Local"><div class="localbar-inner"><p class="localbar-title">${esc(barTitle)}</p>
+      <div class="localbar-links"><a href="#details">Overview</a><a href="#compare">Tech Specs</a></div></div></nav>`;
   // Feature bands: text and picture, same layout as the promo band.
   const bandHTML = (b) => `<section class="live-promo">
       <div class="live-promo-text"><p class="live-promo-title">${esc(b.title)}</p>${(b.text || []).map((t) => `<p class="live-promo-body">${esc(t)}</p>`).join("")}${b.link ? `<a class="more-ext" href="${esc(link(b.link.href))}">${esc(b.link.text)}</a>` : ""}</div>

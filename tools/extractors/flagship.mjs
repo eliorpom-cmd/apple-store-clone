@@ -84,14 +84,8 @@ export default function extract() {
   let slides = [...document.querySelectorAll(".as-zoomable-gallery-item")].map((li) => imgOf(li)).filter(Boolean);
   if (!slides.length) slides = [...document.querySelectorAll(".rf-accessory-inline-cardgallery-item, .rc-inline-gallery-item")].map((li) => imgOf(li)).filter(Boolean);
   const mainImg = imgOf(document.querySelector(".rf-flagship-image-wrapper, .rf-flagship-media"));
-  // Box of the main picture as rendered on the source (height kept for the local layout).
-  const mainBox = (() => { const w = document.querySelector(".rf-flagship-image-wrapper, .rf-flagship-media"); const r = w?.getBoundingClientRect(); return r ? { w: Math.round(r.width), h: Math.round(r.height) } : null; })();
-  // Rendered width of the main picture (the source sizes it with script, so it cannot come from the CSS alone).
-  const mainImgBox = (() => { const i = document.querySelector(".rf-flagship-main-image"); const r = i?.getBoundingClientRect(); return r && r.width ? { w: Math.round(r.width) } : null; })();
   const media = {
     main: mainImg,
-    mainBox,
-    mainImgBox,
     thumbs: thumbs.length ? thumbs : [],
     slides: slides.length ? slides : (mainImg ? [mainImg] : []),
   };
