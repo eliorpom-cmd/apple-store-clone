@@ -308,8 +308,48 @@
 .live-listing-title { font: 600 48px/52px var(--font-display); letter-spacing: -.003em; width: 334px; }
 .live-listing-sub { margin-top: 16px; font: 400 21px/29px var(--font-display); letter-spacing: .011em; }
 .live-listing-link { display: inline-block; margin-top: 8px; font: 400 21px/29px var(--font-display); }
-.live-listing-sort { display: flex; justify-content: space-between; align-items: center; height: 67px; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text); }
-.live-listing-sort span { white-space: nowrap; }
+/* Listing filter bar (source: 67 px high, filter toggle at 105 px, sort label ending 105 px from the right edge, 1 px rule under it) */
+.live-listing-page { background: var(--surface); }
+.live-listing-bar { height: 67px; box-sizing: border-box; box-shadow: 0 1px 0 var(--line); position: relative; z-index: 1; }
+.live-listing-bar-inner { display: flex; justify-content: space-between; align-items: flex-start; height: 100%; padding: 20px 105px 0; font: 400 12px/16px var(--font); letter-spacing: -.12px; color: var(--text); }
+.live-listing-filter { display: inline-flex; align-items: center; margin-top: 1px; white-space: nowrap; }
+.live-listing-filter svg { width: 21px; height: 21px; margin: -2px 0 0 -1px; fill: none; }
+.live-listing-sortlabel { display: inline-flex; align-items: center; gap: 4px; margin-top: 5px; white-space: nowrap; }
+.live-listing-sortlabel svg { width: 7px; height: 5px; }
+/* Facet column (238 px) and bordered tile grid (3 x 354 px) */
+.live-listing-body { display: flex; align-items: flex-start; max-width: 1440px; margin: 0 auto; padding: 0 70px; }
+.live-facets { flex: 0 0 238px; box-sizing: border-box; padding: 40px 24px 0 35px; }
+.live-facets > ul { margin: 0; padding: 0; list-style: none; }
+.live-facet { border-top: 1px solid var(--line); }
+.live-facet:first-child { border-top: 0; }
+.live-facet-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 8px 8px 0; font: 600 17px/21px var(--font); letter-spacing: -.374px; color: var(--text); text-align: left; background: none; border: 0; cursor: pointer; }
+.live-facet-btn::after { content: ""; width: 7px; height: 7px; margin-right: 6px; border: solid var(--text-3); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translateY(-2px); }
+.live-facet.is-open .live-facet-btn::after { transform: rotate(-135deg) translateY(-2px); }
+.live-facet-list { display: none; margin: 0; padding: 15px 0 0; list-style: none; font: 400 14px/20px var(--font); letter-spacing: -.224px; }
+.live-facet.is-open .live-facet-list { display: block; }
+.live-facet-list li { padding: 5px 10px 5px 0; margin-bottom: 3px; }
+.live-facet-list li:first-child { margin-top: 3px; }
+.live-facet-list li.is-off { opacity: .3; }
+.live-tiles { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; list-style: none; border-left: 1px solid var(--line); }
+.live-tile { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+.live-tile:nth-child(3n) { border-right: 0; }
+.live-tile a { display: block; box-sizing: border-box; height: 100%; padding: 38px 0 20px; text-align: center; color: var(--text); }
+.live-tile-image { display: flex; align-items: center; justify-content: center; height: 254px; }
+.live-tile-image img { width: 247px; height: 247px; object-fit: contain; mix-blend-mode: multiply; }
+.live-tile-title { box-sizing: border-box; min-height: 85px; margin: 0; padding: 45px 53px 0; font: 600 14px/20px var(--font); letter-spacing: -.224px; }
+.live-tile-price { margin: 2px 0 -4px; font: 400 14px/20px var(--font); letter-spacing: -.224px; }
+.live-tile-was { margin: 5px 0 0; font: 400 12px/16px var(--font); letter-spacing: -.12px; color: var(--text-3); }
+.live-tile-was span { color: var(--text); }
+@media (max-width: 1068px) {
+  .live-listing-bar-inner { padding-inline: var(--gutter); }
+  .live-facets { display: none; }
+  .live-listing-body { padding: 0; }
+  .live-tiles { grid-template-columns: repeat(2, 1fr); border-left: 0; }
+  .live-tile:nth-child(3n) { border-right: 1px solid var(--line); }
+  .live-tile:nth-child(2n) { border-right: 0; }
+  .live-tile-image img { width: 80%; height: auto; max-width: 247px; }
+  .live-tile-title { padding-inline: 16px; }
+}
 
 /* ---------- Live landing: category and featured spacing (measured on the source) ---------- */
 .live-banner--listing { margin-top: -96px; padding-bottom: 0; }
@@ -321,7 +361,7 @@
 
 /* ---------- Live upgrade blocks: layout per source block (positions measured on the source, 1440 px) ---------- */
 /* Each block is a 980 px container; offsets below are relative to that container's left and top edge. */
-.live-sec { position: relative; padding: 0; display: block; }
+.live-sec { position: relative; padding: 0; display: block; overflow-x: clip; } /* the wide lease photo bleeds past the 1440 px viewport */
 .live-sec-inner { position: relative; display: block; height: 100%; }
 .live-sec-text, .live-sec-visual { position: absolute; }
 .live-sec-visual { display: block; }

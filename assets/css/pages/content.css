@@ -414,3 +414,8 @@
   .tradein-reason-6 { height: 461px; }
   .tradein-reasons-row-3 .tradein-reason, .tradein-reasons-row-3 .tradein-reason-intro { height: auto; }
 }
+
+/* Shipping value cards stack on small screens instead of overflowing the viewport */
+@media (max-width: 734px) {
+  .ship-props { flex-direction: column; }
+}
