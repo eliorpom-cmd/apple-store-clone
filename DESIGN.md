@@ -128,8 +128,11 @@ Code : `assets/css/components/card.css`
 
 ## Médias et icônes
 
-- **Visuels produit** : SVG dessinés pour le projet (appareils stylisés, dégradés), aux proportions
-  des visuels d'origine. Aucune photo d'Apple.
+- **Visuels produit (mode démo)** : emplacements d'image assumés, aux proportions des visuels d'origine :
+  hachures neutres à 45° (`#76767f`, opacité 6–7 %), halo flou dans la couleur du produit (`--product-color`
+  quand la page la fournit, sinon une teinte par famille), pastille blanche « <Produit> · image » centrée,
+  masquée sous 160 px de large. Aucun dessin d'appareil, aucune photo d'Apple. Fichiers : `assets/img/products/*.svg`
+  (régénérés par script) et quelques SVG inline (configurateurs, accessoires, bracelets) qui suivent la pastille choisie.
 - **Icônes** : SVG maison, trait 1.5 px, 16–24 px (recherche, sac, chevron, fermer, plus).
 - **Pas de logo** : un monogramme générique occupe la place du logo dans la nav.
 
@@ -166,7 +169,7 @@ Chaque valeur porte un commentaire dans son fichier : mesure de la source, ou il
 
 ### Teintes du contenu démo
 
-Couleurs des produits fictifs (pastilles de couleur, `--product-color`, aplats des visuels SVG maison). Ce
+Couleurs des produits fictifs (pastilles de couleur, `--product-color`, halos des emplacements d'image). Ce
 sont des données de démo, pas du design : elles n'ont pas de jeton. Une couleur déjà listée plus haut n'est pas répétée.
 
 - `index.html` : `#2c3e5a` `#7d8b6a` `#c25a3a` `#ececec`

@@ -63,15 +63,7 @@
 .cfg-faq { width: min(980px, 100%); margin: 0 auto; padding-bottom: 96px; }
 .cfg-faq-title { font: var(--t-section); letter-spacing: var(--tr-section); margin-bottom: 24px; }
 
-/* ---------- Duo: animated fold demo (first gallery slide, replaces the video of spec 03 §5.1) ---------- */
-/* The right half swings over the hinge at x = 200: scaleX(-1) lays it on the left half (closed),
-   scaleX(1) opens it flat. Loop: closed hold, open, open hold, close. */
-.pf-right { transform-box: view-box; transform-origin: 200px 250px; animation: pf-fold 4s ease-in-out infinite; }
-@keyframes pf-fold {
-  0%, 15% { transform: scaleX(-1); }
-  50%, 80% { transform: scaleX(1); }
-  100% { transform: scaleX(-1); }
-}
+/* ---------- Duo: video placeholder (first gallery slide) ---------- */
 /* Round replay button, 34 px, bottom right of the slide (spec 03 §4.1) */
 .fold-replay {
   position: absolute; right: 20px; bottom: 20px; z-index: 1; width: 34px; height: 34px; display: grid; place-items: center;
@@ -80,9 +72,6 @@
 }
 .fold-replay:hover { background: var(--control-bg-hover); }
 .fold-replay svg { width: 24px; height: 24px; }
-@media (prefers-reduced-motion: reduce) {
-  .pf-right { animation: none; transform: none; }
-}
 
 /* ---------- Mobile (spec 03 §6.2): gallery first, then one column ---------- */
 @media (max-width: 1023px) {

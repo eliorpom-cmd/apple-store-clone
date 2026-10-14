@@ -1,18 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400">
-<defs>
-<filter id="display-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="8"/></filter>
-<linearGradient id="display-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
-<linearGradient id="display-wall" x1="0" y1="0" x2=".5" y2="1"><stop offset="0" stop-color="#a5c8ff"/><stop offset=".55" stop-color="#c2aaff"/><stop offset="1" stop-color="#6070d8"/></linearGradient>
-<linearGradient id="display-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
-</defs>
-<ellipse cx="240" cy="340" rx="160" ry="10" fill="#000" fill-opacity=".22" filter="url(#display-blur)"/>
-<rect x="224" y="280" width="32" height="36" style="fill:var(--product-color, #c9c9ce)"/>
-<rect x="224" y="280" width="32" height="36" fill="#000" fill-opacity=".08"/>
-<path d="M178 312H302Q320 312 330 326L336 328Q340 332 334 334H146Q140 332 144 328L150 326Q160 312 178 312Z" style="fill:var(--product-color, #c9c9ce)"/>
-<path d="M178 312H302Q320 312 330 326L336 328Q340 332 334 334H146Q140 332 144 328L150 326Q160 312 178 312Z" fill="url(#display-body)"/>
-<rect x="50" y="40" width="380" height="240" rx="18" style="fill:var(--product-color, #c9c9ce)"/>
-<rect x="50" y="40" width="380" height="240" rx="18" fill="url(#display-body)"/>
-<rect x="60" y="50" width="360" height="220" rx="8" fill="#1d1d1f"/>
-<rect x="64" y="54" width="352" height="212" rx="5" fill="url(#display-wall)"/>
-<rect x="64" y="54" width="352" height="212" rx="5" fill="url(#display-glass)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" role="img" aria-label="Display image placeholder">
+  <defs>
+    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
+    <radialGradient id="ga"><stop offset="0" stop-color="#a5c8ff" stop-opacity=".9"/><stop offset="1" stop-color="#a5c8ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gb"><stop offset="0" stop-color="#c2aaff" stop-opacity=".75"/><stop offset="1" stop-color="#c2aaff" stop-opacity="0"/></radialGradient>
+    <clipPath id="frame"><rect width="480" height="400" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="480" height="400" fill="url(#hatch)"/>
+    <circle cx="201.6" cy="180" r="168" fill="url(#ga)"/>
+    <circle cx="288" cy="231.99999999999997" r="152" fill="url(#gb)"/>
+  </g>
+  <style>@media (max-width: 160px) { .label { display: none; } }</style>
+  <g class="label"><rect x="125.5" y="172.5" width="229" height="55" rx="27.5" fill="#fff" fill-opacity=".92"/>
+  <text x="240" y="200" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="24" fill="#1d1d1f"><tspan font-weight="600">Display</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
 </svg>

@@ -1,20 +1,6 @@
 // Configurator page behavior (spec 03). Step locking, prices and the swatch-to-gallery link come from
-// assets/js/components.js; this file adds the fold-demo replay, the live-mode gate and the mobile gallery dots.
+// assets/js/components.js; this file adds the live-mode gate and the mobile gallery dots.
 (() => {
-  // ---------- Fold demo replay (demo mode) ----------
-  const replay = document.querySelector("[data-fold-replay]");
-  if (replay) {
-    const parts = [...document.querySelectorAll("[data-fold-demo] .pf-right")];
-    // Restart the fold cycle: clear the animation, force a reflow, then let the stylesheet apply it again.
-    replay.addEventListener("click", () => {
-      parts.forEach((el) => {
-        el.style.animation = "none";
-        void el.getBoundingClientRect();
-        el.style.animation = "";
-      });
-    });
-  }
-
   // ---------- Live mode: the first choice is optional for the chain, so Add to Bag needs it as well ----------
   const gates = [...document.querySelectorAll("[data-gate]")];
   const buttons = [...document.querySelectorAll("[data-add-to-bag]")];

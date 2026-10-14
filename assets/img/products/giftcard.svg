@@ -1,22 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Gift card image placeholder">
   <defs>
-    <!-- Card body: soft diagonal gradient, no brand colours -->
-    <linearGradient id="giftcard-body" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#dfe3ea"/>
-    </linearGradient>
+    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
+    <radialGradient id="ga"><stop offset="0" stop-color="#6e7fa0" stop-opacity=".9"/><stop offset="1" stop-color="#6e7fa0" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gb"><stop offset="0" stop-color="#f2c94c" stop-opacity=".75"/><stop offset="1" stop-color="#f2c94c" stop-opacity="0"/></radialGradient>
+    <clipPath id="frame"><rect width="300" height="300" rx="18"/></clipPath>
   </defs>
-  <g transform="translate(6 -12.6) scale(0.6)">
-  <!-- Soft ground shadow -->
-  <ellipse cx="240" cy="438" rx="150" ry="14" fill="#000" opacity=".12"/>
-  <!-- Card -->
-  <rect x="120" y="150" width="240" height="150" rx="16" fill="url(#giftcard-body)" stroke="#c9ced8" stroke-width="2"/>
-  <!-- Ribbon across the card -->
-  <rect x="222" y="150" width="36" height="150" fill="#6e7fa0"/>
-  <rect x="120" y="215" width="240" height="20" fill="#6e7fa0"/>
-  <!-- Bow -->
-  <path d="M240 150 C200 105 165 110 178 138 C186 156 222 152 240 150 Z" fill="#8c9cbc"/>
-  <path d="M240 150 C280 105 315 110 302 138 C294 156 258 152 240 150 Z" fill="#8c9cbc"/>
-  <circle cx="240" cy="150" r="9" fill="#6e7fa0"/>
+  <g clip-path="url(#frame)">
+    <rect width="300" height="300" fill="url(#hatch)"/>
+    <circle cx="126" cy="135" r="126" fill="url(#ga)"/>
+    <circle cx="180" cy="174" r="114" fill="url(#gb)"/>
   </g>
+  <style>@media (max-width: 160px) { .label { display: none; } }</style>
+  <g class="label"><rect x="53" y="129.5" width="194" height="41" rx="20.5" fill="#fff" fill-opacity=".92"/>
+  <text x="150" y="150" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="18" fill="#1d1d1f"><tspan font-weight="600">Gift card</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
 </svg>

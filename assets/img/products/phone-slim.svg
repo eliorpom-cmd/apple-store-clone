@@ -1,17 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
-<defs>
-<filter id="phone-slim-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="7"/></filter>
-<linearGradient id="phone-slim-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
-<radialGradient id="phone-slim-lens" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#5b5b66"/><stop offset=".35" stop-color="#1a1a22"/><stop offset="1" stop-color="#050508"/></radialGradient>
-</defs>
-<ellipse cx="206" cy="462" rx="110" ry="12" fill="#000" fill-opacity=".2" filter="url(#phone-slim-blur)"/>
-<rect x="140" y="56" width="140" height="400" rx="40" fill="#000" fill-opacity=".22"/>
-<rect x="130" y="50" width="140" height="400" rx="40" style="fill:var(--product-color, #c9c9ce)"/>
-<rect x="130" y="50" width="140" height="400" rx="40" fill="url(#phone-slim-body)"/>
-<rect x="132" y="52" width="136" height="396" rx="38" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>
-<rect x="150" y="84" width="100" height="34" rx="17" fill="#000" fill-opacity=".14" stroke="#fff" stroke-opacity=".3"/>
-<circle cx="234" cy="101" r="11" fill="#0b0b0e"/>
-<circle cx="234" cy="101" r="8" fill="url(#phone-slim-lens)"/>
-<circle cx="231" cy="98" r="2" fill="#fff" fill-opacity=".35"/>
-<circle cx="164" cy="101" r="3.5" fill="#f6efd9" fill-opacity=".8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="Phone image placeholder">
+  <defs>
+    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
+    <radialGradient id="ga"><stop offset="0" stop-color="#7fa6d6" stop-opacity=".9"/><stop offset="1" stop-color="#7fa6d6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gb"><stop offset="0" stop-color="#c8dcf0" stop-opacity=".75"/><stop offset="1" stop-color="#c8dcf0" stop-opacity="0"/></radialGradient>
+    <clipPath id="frame"><rect width="400" height="500" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="400" height="500" fill="url(#hatch)"/>
+    <circle cx="168" cy="225" r="168" fill="url(#ga)"/>
+    <circle cx="240" cy="290" r="152" fill="url(#gb)"/>
+  </g>
+  <style>@media (max-width: 160px) { .label { display: none; } }</style>
+  <g class="label"><rect x="100.5" y="222.5" width="199" height="55" rx="27.5" fill="#fff" fill-opacity=".92"/>
+  <text x="200" y="250" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="24" fill="#1d1d1f"><tspan font-weight="600">Phone</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
 </svg>

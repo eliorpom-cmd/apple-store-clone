@@ -1,13 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
-<defs>
-<filter id="tag-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="8"/></filter>
-<linearGradient id="tag-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
-</defs>
-<ellipse cx="150" cy="286" rx="100" ry="10" fill="#000" fill-opacity=".2" filter="url(#tag-blur)"/>
-<circle cx="150" cy="160" r="110" fill="#000" fill-opacity=".2"/>
-<circle cx="150" cy="148" r="110" style="fill:var(--product-color, #c9c9ce)"/>
-<circle cx="150" cy="148" r="110" fill="url(#tag-body)"/>
-<circle cx="150" cy="148" r="78" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2"/>
-<circle cx="150" cy="148" r="76" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2"/>
-<circle cx="150" cy="58" r="8" fill="#000" fill-opacity=".25"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Tag image placeholder">
+  <defs>
+    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
+    <radialGradient id="ga"><stop offset="0" stop-color="#c9d96b" stop-opacity=".9"/><stop offset="1" stop-color="#c9d96b" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gb"><stop offset="0" stop-color="#9aa3ad" stop-opacity=".75"/><stop offset="1" stop-color="#9aa3ad" stop-opacity="0"/></radialGradient>
+    <clipPath id="frame"><rect width="300" height="300" rx="18"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="300" height="300" fill="url(#hatch)"/>
+    <circle cx="126" cy="135" r="126" fill="url(#ga)"/>
+    <circle cx="180" cy="174" r="114" fill="url(#gb)"/>
+  </g>
+  <style>@media (max-width: 160px) { .label { display: none; } }</style>
+  <g class="label"><rect x="86.5" y="129.5" width="127" height="41" rx="20.5" fill="#fff" fill-opacity=".92"/>
+  <text x="150" y="150" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="18" fill="#1d1d1f"><tspan font-weight="600">Tag</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
 </svg>

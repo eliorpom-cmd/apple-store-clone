@@ -1,15 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
-<defs>
-<filter id="headphones-blur" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="7"/></filter>
-<linearGradient id="headphones-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
-</defs>
-<ellipse cx="200" cy="362" rx="130" ry="10" fill="#000" fill-opacity=".2" filter="url(#headphones-blur)"/>
-<path d="M96 240C96 20 304 20 304 240" fill="none" style="stroke:var(--product-color, #c9c9ce)" stroke-width="22" stroke-linecap="round"/>
-<path d="M96 240C96 20 304 20 304 240" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="4" stroke-linecap="round" transform="translate(-3 0)"/>
-<rect x="66" y="226" width="72" height="110" rx="34" style="fill:var(--product-color, #c9c9ce)"/>
-<rect x="66" y="226" width="72" height="110" rx="34" fill="url(#headphones-body)"/>
-<rect x="82" y="250" width="40" height="62" rx="20" fill="#1d1d1f"/>
-<rect x="262" y="226" width="72" height="110" rx="34" style="fill:var(--product-color, #c9c9ce)"/>
-<rect x="262" y="226" width="72" height="110" rx="34" fill="url(#headphones-body)"/>
-<rect x="278" y="250" width="40" height="62" rx="20" fill="#1d1d1f"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Headphones image placeholder">
+  <defs>
+    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
+    <radialGradient id="ga"><stop offset="0" stop-color="#7fa6d6" stop-opacity=".9"/><stop offset="1" stop-color="#7fa6d6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gb"><stop offset="0" stop-color="#d9a3a0" stop-opacity=".75"/><stop offset="1" stop-color="#d9a3a0" stop-opacity="0"/></radialGradient>
+    <clipPath id="frame"><rect width="400" height="400" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="400" height="400" fill="url(#hatch)"/>
+    <circle cx="168" cy="180" r="168" fill="url(#ga)"/>
+    <circle cx="240" cy="231.99999999999997" r="152" fill="url(#gb)"/>
+  </g>
+  <style>@media (max-width: 160px) { .label { display: none; } }</style>
+  <g class="label"><rect x="63" y="172.5" width="274" height="55" rx="27.5" fill="#fff" fill-opacity=".92"/>
+  <text x="200" y="200" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="24" fill="#1d1d1f"><tspan font-weight="600">Headphones</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
 </svg>
