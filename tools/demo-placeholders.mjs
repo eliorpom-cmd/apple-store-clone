@@ -77,8 +77,10 @@ for (const page of PAGES) {
     if (!label || !/(image|video)/.test(body) || !/fill="#e8e8ed"|-hatch"/.test(body)) return m;
     const aria = (open.match(/aria-label="([^"]*)"/) || [])[1] || "";
     // Configurator slides: "Phone Pro, front" -> "front". Cards: the product title next to the slot.
-    let detail = aria.includes(",") ? aria.split(",").pop().trim() : "";
-    if (!detail) {
+    // Already generated: keep the detail in brackets. Else "Phone Pro, front" -> "front".
+    const own = aria.match(/ (?:image|video) \((.*)\)$/);
+    let detail = own ? own[1] : !/ (image|video)$/.test(aria) && aria.includes(",") ? aria.split(",").pop().trim() : "";
+    if (!detail && !own) {
       const after = d.slice(d.indexOf(m) + m.length, d.indexOf(m) + m.length + 1500);
       const title = (after.match(/<(?:h3|p)[^>]*class="[^"]*(?:name|title)[^"]*"[^>]*>([^<]*)/) || [])[1] || "";
       detail = title.replace(/\s+[–-]\s+/, ", ").trim().toLowerCase();
