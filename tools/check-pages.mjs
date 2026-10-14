@@ -14,7 +14,9 @@ import { join } from "node:path";
 const req = (() => { try { createRequire(import.meta.url).resolve("playwright"); return createRequire(import.meta.url); } catch { return createRequire(join(homedir(), ".cache", "adn-design", "noop.js")); } })();
 const { chromium } = req("playwright");
 const live = process.argv.includes("--live");
-const pages = ["index.html", ...readdirSync("pages").filter((f) => f.endsWith(".html")).map((f) => "pages/" + f)];
+const html = (dir) => readdirSync(dir).filter((f) => f.endsWith(".html")).map((f) => dir + "/" + f);
+// The kit has no live mode: its pages are checked in demo runs only.
+const pages = ["index.html", ...html("pages"), ...(live ? [] : ["kit/index.html", ...html("kit/examples")])];
 const b = await chromium.launch();
 let bad = 0;
 for (const pg of pages) {

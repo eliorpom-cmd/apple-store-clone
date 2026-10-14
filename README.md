@@ -1,5 +1,10 @@
 # Apple Store clone (2026)
 
+[![Check and deploy demo](https://github.com/eliorpom-cmd/apple-store-clone/actions/workflows/site.yml/badge.svg)](https://github.com/eliorpom-cmd/apple-store-clone/actions/workflows/site.yml)
+
+**Live demo: [eliorpom-cmd.github.io/apple-store-clone](https://eliorpom-cmd.github.io/apple-store-clone/)** (demo mode,
+fictional content) · [component kit](https://eliorpom-cmd.github.io/apple-store-clone/kit/)
+
 A 1:1 rebuild of Apple's online store (`apple.com/store`, the `/shop/...` pages, `/retail`, `/today`), reverse
 engineered in October 2026 and written as clean, maintainable code. Plain HTML, CSS and JavaScript, no build step.
 
@@ -64,7 +69,8 @@ into `content/live/` (git-ignored), and the local template renders it. This is h
 with the source. Nothing extracted is ever committed.
 
 Keep the live mode on your own machine. Do not deploy it: a public copy would imitate the source site and
-republish its content.
+republish its content. The pages only switch to live mode on `localhost`; on any other host they stay in demo
+mode.
 
 ## How the code is organised
 

@@ -9,6 +9,8 @@
   try { if (params.get("content")) localStorage.setItem("content-mode", params.get("content")); } catch {}
   let mode = "demo";
   try { mode = localStorage.getItem("content-mode") || "demo"; } catch {}
+  // Live content only exists on the local machine: any other host (the public demo) stays in demo mode.
+  if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) mode = "demo";
 
   const inPages = location.pathname.includes("/pages/");
   const root = inPages ? "../" : "";
