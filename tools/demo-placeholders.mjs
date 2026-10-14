@@ -35,11 +35,11 @@ function pill(w, h, label, detail, fs, word = "image") {
   <text text-anchor="middle" font-family="${FONT}" font-size="${n(size)}" fill="#1d1d1f"><tspan x="${n(w / 2)}" y="${n(y0 + size * 1.45)}">${line1}</tspan>${sub ? `<tspan x="${n(w / 2)}" y="${n(y0 + size * 2.65)}" font-size="${n(size * 0.85)}" fill="#6e6e73">${xml(sub)}</tspan>` : ""}</text>`;
 }
 
-// File version: below 200 px wide the full pill would be unreadable, so a larger short pill (label only) replaces it.
+// File version: below 130 px wide the full pill would be unreadable, so a larger short pill (label only) replaces it.
 function fileSVG(w, h, label, detail) {
   const s = Math.min(w, h);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${xml(label)} image${detail ? ` (${xml(detail)})` : ""}">
-  <style>.short { display: none; } @media (max-width: 200px) { .full { display: none; } .short { display: inline; } }</style>
+  <style>.short { display: none; } @media (max-width: 130px) { .full { display: none; } .short { display: inline; } }</style>
   <g class="full">${pill(w, h, label, detail, s * 0.065)}</g>
   <g class="short">${pill(w, h, label, "", h * 0.14, "")}</g>
 </svg>

@@ -4,6 +4,7 @@
 @layer kit.tokens, kit.base, kit.components;
 @import url("tokens.css");
 @import url("base.css");
+@import url("components/nav.css");
 @import url("components/button.css");
 @import url("components/headings.css");
 @import url("components/card.css");
@@ -12,3 +13,9 @@
 @import url("components/configurator.css");
 @import url("components/gallery.css");
 @import url("components/summary.css");
+@import url("components/tabs.css");
+@import url("components/modal.css");
+@import url("components/carousel.css");
+@import url("components/compare.css");
+@import url("components/in-the-box.css");
+@import url("components/footer.css");

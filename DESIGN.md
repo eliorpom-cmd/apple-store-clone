@@ -130,7 +130,7 @@ Code : `assets/css/components/card.css`
 
 - **Visuels produit (mode démo)** : fond transparent (les visuels d'origine sont détourés) et une seule pastille
   centrée `#e8e8ed` : « <Produit> image » en `--text`, détail en dessous en `--text-2` (« (ink sport strap) »,
-  « (front) », texte alternatif de l'image). Sous 200 px de large, pastille courte avec le seul nom. Aucun dessin
+  « (front) », texte alternatif de l'image). Sous 130 px de large, pastille courte avec le seul nom. Aucun dessin
   d'appareil, aucune photo d'Apple. Généré par `node tools/demo-placeholders.mjs` (fichiers `assets/img/products/`
   et SVG inline des configurateurs, accessoires, bracelets) : relancer après avoir changé un texte alternatif ou un titre.
 - **Icônes** : SVG maison, trait 1.5 px, 16–24 px (recherche, sac, chevron, fermer, plus).

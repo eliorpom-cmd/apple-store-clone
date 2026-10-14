@@ -1,6 +1,7 @@
 /* Store kit — base: a light reset scoped to the kit, type roles and layout helpers. */
 @layer kit.base {
   .kit, .kit *, .kit *::before, .kit *::after { box-sizing: border-box; }
+  body.kit { margin: 0; }
   .kit { font: var(--kit-fs-body) / var(--kit-lh-body) var(--kit-font); letter-spacing: var(--kit-tr-body);
     color: var(--kit-text); background: var(--kit-page); -webkit-font-smoothing: antialiased; }
   .kit :where(h1, h2, h3, h4, p, ul, ol, figure) { margin: 0; }

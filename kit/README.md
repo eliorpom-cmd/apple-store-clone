@@ -11,7 +11,8 @@ rewritten so they adapt to any page instead of reproducing one page pixel for pi
 - **Easy to override.** Everything sits in cascade layers (`kit.tokens < kit.base < kit.components`):
   your own CSS wins without `!important`.
 
-Open `index.html` to see every component.
+Open `index.html` for the core components and `examples/` for the global nav, footer, modal, tabs, carousel,
+comparator and box contents.
 
 ## Use it
 
@@ -57,6 +58,13 @@ Change one component through its knobs:
 | Gallery | `kit-gallery`, `__track`, `__slide` | `data-kit-gallery` (`="compact"`): arrows and dots |
 | Summary | `kit-summary`, `__title`, `__price`, `__fine` | — |
 | Accordion | `kit-accordion`, `__item`, `__button`, `__panel` | `data-kit-accordion` |
+| Global nav | `kit-nav` (`--sticky`), `__bar`, `__logo`, `__list`, `__link`, `__tools`, `__burger`, `__flyout`, `__panel` (`--wide`), `__group` (`--lead`) | `data-kit-nav`: flyouts on hover/focus, search, bag, mobile menu (`KitNav.open/close/badge`) |
+| Footer | `kit-footer`, `__notes`, `__crumbs`, `__dir`, `__col`, `__section`, `__title`, `__list`, `__shop`, `__legal` | `data-kit-footer`: directory collapses on narrow footers |
+| Modal | `<dialog class="kit-modal">` (`--wide`), `__panel`, `__close`, `__content`, `__title`, `__foot` | `data-kit-modal-open="id"` (`KitModal.open/close`) |
+| Tabs | `kit-tabs` (`--line`, `--pill`, `--segmented`), `kit-tab`, `kit-tab-panel` | `data-kit-tabs`: arrows, Home, End (`KitTabs.select`) |
+| Autoplay carousel | `kit-carousel`, `__viewport`, `__track`, `__slide` | `data-kit-carousel`: timed dots, play/pause, pauses on hover, focus and off screen |
+| Model comparator | `kit-compare` (`--roomy`, `--cols`), `__head`, `__grid`, `__row`, `__name`, `__price`, `__icon`, `__value` | — |
+| What's in the box | `kit-box`, `__title`, `__items`, `__item`, `__visual`, `__label`, `__note` | — |
 
 Each CSS file starts with the markup it expects.
 
