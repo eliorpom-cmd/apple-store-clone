@@ -1,4 +1,4 @@
-// Extras for the configurator pages (Laptop Pro, Watch Ultra). Load after components.js.
+// Extras for the configurator pages (PearBook Pro, Pear Watch Ultra). Load after components.js.
 //   [data-gallery="compact"]  moves arrows and dots into one pill under the image
 //   [data-gallery="split"]    same row, but each arrow is its own circle beside the dot pill
 //   .cfg2-dots               one dot per .step; hidden steps hide their dot; the current step is stretched

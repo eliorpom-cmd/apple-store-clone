@@ -13,7 +13,7 @@ timing and colour was measured on the rendered pages, then rebuilt from scratch:
 - a visual diff against the live source for every page: 62 pages, all at 97/100 or above, mean 98.2.
 
 The repository ships **only the shell**: layout, components, page templates and placeholder content
-("Demo Store", generic products, labelled image placeholders). No Apple text, image or font is included.
+("Pear Store", fictional products such as jPhone, jPad, PearBook and Pear Watch, labelled image placeholders). No Apple text, image or font is included.
 
 > This is an independent study project. It is not affiliated with, endorsed by, or connected to Apple Inc.
 > Apple, iPhone, iPad, Mac and the other product names mentioned in code comments and tools are trademarks of

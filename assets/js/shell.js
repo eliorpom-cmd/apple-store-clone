@@ -7,13 +7,13 @@
   // Navigation model: label, flyout groups (first group is "elevated": large links).
   const NAV = [
     ["Store", [["Shop", [["Shop the latest", "index.html"], ["Phones", "pages/buy-phone.html"], ["Computers", "pages/buy-computer.html"], ["Watches", "pages/buy-watch.html"], ["Accessories", "pages/accessories.html"]]], ["Quick links", [["Find a store", "pages/stores.html"], ["Order status", "pages/help.html"], ["Financing", "pages/carrier-offers.html"], ["Trade in", "pages/trade-in.html"]]], ["Shop special stores", [["Certified refurbished", "pages/refurbished.html"], ["Education", "pages/education.html"], ["Upgrade program", "pages/upgrade.html"]]]]],
-    ["Computers", [["Explore computers", [["Laptop Air", "pages/config-computer.html"], ["Laptop Pro", "pages/config-computer.html"], ["Desktop", "pages/config-computer.html"], ["Mini", "pages/config-computer.html"], ["Displays", "pages/buy-display.html"]]], ["Shop", [["Shop computers", "pages/buy-computer.html"], ["Accessories", "pages/accessories.html"]]], ["More", [["Compare", "pages/buy-computer.html"], ["Support", "pages/help.html"]]]]],
-    ["Tablets", [["Explore tablets", [["Tablet Pro", "pages/buy-computer.html"], ["Tablet Air", "pages/buy-computer.html"], ["Tablet mini", "pages/buy-computer.html"]]], ["Shop", [["Shop tablets", "pages/buy-computer.html"], ["Accessories", "pages/accessories.html"]]]]],
-    ["Phones", [["Explore phones", [["Phone Pro", "pages/config-phone.html"], ["Phone Duo", "pages/config-phone-duo.html"], ["Phone Air", "pages/config-phone.html"], ["Phone", "pages/config-phone.html"]]], ["Shop", [["Shop phones", "pages/buy-phone.html"], ["Accessories", "pages/accessories.html"], ["Carrier offers", "pages/carrier-offers.html"]]], ["More", [["Trade in", "pages/trade-in.html"], ["Support", "pages/help.html"]]]]],
-    ["Watches", [["Explore watches", [["Watch Series", "pages/config-watch.html"], ["Watch Ultra", "pages/config-watch.html"], ["Watch SE", "pages/config-watch.html"]]], ["Shop", [["Shop watches", "pages/buy-watch.html"], ["Bands", "pages/watch-bands.html"]]]]],
-    ["Spatial", [["Explore spatial", [["Headset", "pages/buy-headset.html"]]], ["Shop", [["Shop headset", "pages/buy-headset.html"], ["Accessories", "pages/accessories.html"]]]]],
-    ["Audio", [["Explore audio", [["Earbuds", "pages/buy-earbuds.html"], ["Headphones", "pages/buy-earbuds.html"], ["Speakers", "pages/buy-earbuds.html"]]], ["Shop", [["Shop audio", "pages/buy-earbuds.html"], ["Accessories", "pages/accessories.html"]]]]],
-    ["Home", [["Explore home", [["TV box", "pages/buy-tvbox.html"], ["Speaker mini", "pages/buy-earbuds.html"]]], ["Shop", [["Shop home", "pages/buy-tvbox.html"]]]]],
+    ["Computers", [["Explore computers", [["PearBook Air", "pages/config-computer.html"], ["PearBook Pro", "pages/config-computer.html"], ["jMac", "pages/config-computer.html"], ["Mini", "pages/config-computer.html"], ["Displays", "pages/buy-display.html"]]], ["Shop", [["Shop computers", "pages/buy-computer.html"], ["Accessories", "pages/accessories.html"]]], ["More", [["Compare", "pages/buy-computer.html"], ["Support", "pages/help.html"]]]]],
+    ["jPad", [["Explore all jPad", [["jPad Pro", "pages/buy-computer.html"], ["jPad Air", "pages/buy-computer.html"], ["jPad mini", "pages/buy-computer.html"]]], ["Shop", [["Shop tablets", "pages/buy-computer.html"], ["Accessories", "pages/accessories.html"]]]]],
+    ["jPhone", [["Explore all jPhone", [["jPhone 18 Pro", "pages/config-phone.html"], ["jPhone Duo", "pages/config-phone-duo.html"], ["jPhone Air", "pages/config-phone.html"], ["Phone", "pages/config-phone.html"]]], ["Shop", [["Shop phones", "pages/buy-phone.html"], ["Accessories", "pages/accessories.html"], ["Carrier offers", "pages/carrier-offers.html"]]], ["More", [["Trade in", "pages/trade-in.html"], ["Support", "pages/help.html"]]]]],
+    ["Watch", [["Explore all Pear Watch", [["Pear Watch Series", "pages/config-watch.html"], ["Pear Watch Ultra", "pages/config-watch.html"], ["Pear Watch SE", "pages/config-watch.html"]]], ["Shop", [["Shop watches", "pages/buy-watch.html"], ["Bands", "pages/watch-bands.html"]]]]],
+    ["Vision", [["Explore Vision", [["Pear Vision Pro", "pages/buy-headset.html"]]], ["Shop", [["Shop headset", "pages/buy-headset.html"], ["Accessories", "pages/accessories.html"]]]]],
+    ["PearPods", [["Explore all PearPods", [["PearPods 5", "pages/buy-earbuds.html"], ["PearPods Max 2", "pages/buy-earbuds.html"], ["Speakers", "pages/buy-earbuds.html"]]], ["Shop", [["Shop audio", "pages/buy-earbuds.html"], ["Accessories", "pages/accessories.html"]]]]],
+    ["TV & Home", [["Explore TV & Home", [["Pear TV 4K", "pages/buy-tvbox.html"], ["HomePear mini", "pages/buy-earbuds.html"]]], ["Shop", [["Shop home", "pages/buy-tvbox.html"]]]]],
     ["Entertainment", [["Explore", [["Gift cards", "pages/gift-cards.html"], ["Events", "pages/today.html"]]]]],
     ["Accessories", [["Shop accessories", [["All accessories", "pages/accessories.html"], ["Cases", "pages/product-case.html"], ["Chargers", "pages/product-charger.html"], ["Watch bands", "pages/watch-bands.html"]]]]],
     ["Support", [["Explore support", [["Help", "pages/help.html"], ["Shipping & pickup", "pages/shipping.html"], ["Find a store", "pages/stores.html"]]], ["More", [["Site map", "pages/sitemap.html"]]]]],
@@ -161,7 +161,7 @@
   };
   const closeSoon = () => { clearTimeout(closeTimer); closeTimer = setTimeout(close, 120); };
 
-  // Desktop: hover opens flyouts; leaving the nav closes after 120ms.
+  // jMac: hover opens flyouts; leaving the nav closes after 120ms.
   nav.querySelectorAll("[data-flyout]").forEach((li) => {
     li.addEventListener("mouseenter", () => { if (!mobile.matches && matchMedia("(hover: hover)").matches) open(li.dataset.flyout, li.querySelector("a")); });
   });
