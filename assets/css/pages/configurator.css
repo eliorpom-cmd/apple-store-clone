@@ -99,32 +99,8 @@
   .cfg-box-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* ---------- Live mode (assets/js/live/configurator.js): source images instead of drawn visuals ---------- */
-/* Source photos fill the 711 px box edge to edge (cover), so live slides drop the 40 px padding. */
-.cfg-gallery .gallery-slide:has(.cfg-live-media) { padding: 0; }
-.cfg-gallery .gallery-slide > img.cfg-live-media, .cfg-gallery .gallery-slide > video.cfg-live-media {
-  width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover;
-}
-.swatch-live span::before { display: none; }
-.swatch-live span img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-.cfg-box-live li img { display: block; height: 140px; width: auto; max-width: 100%; margin: 0 auto 12px; object-fit: contain; }
-.cfg-info { margin: 0 0 40px; }
-
-/* ---------- Wide steps (live mode): full-width choices in the left column, help cards on the right ---------- */
-.cfg-wide-step { min-width: 0; }
-.cfg-wide-aside { align-self: start; margin-top: 56px; min-width: 0; }
-.cfg-wide-aside .helpcard { margin-top: 0; }
-.cfg-wide-step .options.cfg-cards-c .option-label { min-height: 153px; }
-.cfg-wide-step { padding-bottom: 62px; }
-.cfg-wide-step .options.options-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } /* gap between wide sections, measured on the source */
-.cfg-swatch-step { margin-bottom: 256px; } /* live: the source leaves this space under the finish step */
-.cfg-rail-end { margin-bottom: 262px; } /* live: gap between the rail and the first wide section */
-.cfg-intro { max-width: 540px; margin-top: 12px; font: var(--t-body-tight); letter-spacing: var(--tr-body); }
-/* Live video: the source frame is landscape and shown whole, centred in the box. */
-.cfg-gallery .gallery-slide > video.cfg-live-video { width: 100%; height: auto; max-height: 100%; object-fit: contain; }
-
-/* ---------- Live mode: links, thumbnails and the summary photo ---------- */
-.helpcard, .cfg-pill { text-decoration: none; color: var(--text); } /* live links keep the text color */
+/* ---------- Help cards (links), thumbnails and the summary photo ---------- */
+.helpcard, .cfg-pill { text-decoration: none; color: var(--text); }
 .helpcard-img { padding: 0 16px 0 0; align-items: center; }
 .helpcard-thumb { flex: none; width: 120px; height: 125px; border-radius: var(--r-md); overflow: hidden; background: var(--surface); }
 .helpcard-thumb img { width: 100%; height: 100%; object-fit: cover; }
@@ -142,61 +118,12 @@
   .cfg-gallery .dots { bottom: 8px; }
 }
 
-/* ---------- What's in the box (live): centred title, items as half-width columns (source measures) ---------- */
 
-/* Live: the rail offset depends on the first step (measured on the source). */
-.cfg-rail--single { padding-top: 0; }
-.cfg-rail--nomodel { padding-top: 267px; }
-
-/* Guided steps (Vision fit, optical inserts). Source: .rf-vq-banner, .rf-bfe-vq (spec 03 §4.11). */
-.cfg-guided { margin: 0 0 max(60px, 50vh - 360px); }
-.cfg-guided-title { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; }
-.cfg-guided-desc { font: 600 17px/1.2353 var(--font); letter-spacing: -.022em; color: var(--text-2); padding: 10px 0 11px; }
-.cfg-guided-info { font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); padding: 10px 0 17px; }
-.cfg-guided-btn { margin-top: 14px; border-radius: var(--r-md); }
-.cfg-guided-foot { margin-top: 28px; text-align: center; font: var(--t-small); letter-spacing: var(--tr-small); }
-.cfg-guided-foot .more-plus { font: inherit; }
-.cfg-guided .helpcard { margin-top: 20px; }
-.cfg-guided.is-disabled .cfg-guided-title, .cfg-guided.is-disabled .cfg-guided-info, .cfg-guided-help.is-disabled { opacity: .32; pointer-events: none; }
-.cfg-guided.is-disabled .cfg-guided-btn { opacity: .42; }
-
-/* Rail step spacing: --cfg-step-gap is the source's inline value (live), else the spec default. */
+/* Rail step spacing (spec default). */
 .cfg-rail .step, .cfg-rail .cfg-guided { margin-bottom: var(--cfg-step-gap, max(60px, 50vh - 360px)); }
-
-/* Summary, full width (iPhone): three columns at x 100 / 531 / 1012 in the source (380 / 400 / 328 px). */
-.cfg-sum-full { display: grid; grid-template-columns: 380px 400px 328px; justify-content: space-between; max-width: 1240px; margin: 0 auto; padding: 39px 0 60px; border-top: 1px solid var(--line); }
-.cfg-sum-headline { font: 600 38px/1.21 var(--font-display); letter-spacing: .004em; margin-bottom: 40px; } /* 38/46 measured */
-.cfg-sum-full .cfg-summary-media img { width: 380px; height: auto; }
-.cfg-sum-price p { font: var(--t-body-tight); letter-spacing: var(--tr-body); }
-.cfg-sum-full .cfg-sum-price p + p { margin-top: 5px; }
-.cfg-sum-full .more-plus { margin-top: 24px; }
-.cfg-sum-save { margin-top: 62px; font: var(--t-small); letter-spacing: var(--tr-small); }
-.cfg-sum-save-title { font-weight: 600; }
-.cfg-sum-save-links { display: flex; gap: 28px; margin-top: 8px; }
-.cfg-sum-link { color: var(--link); font: inherit; }
-.cfg-sum-link::before { content: ""; display: inline-block; width: 13px; height: 13px; margin-right: 8px; vertical-align: -1px; border: 1.2px solid currentColor; border-radius: 3px; }
-.cfg-sum-avail li { font: var(--t-small); padding: 8px 0 8px 30px; position: relative; }
-.cfg-sum-avail li::before { content: ""; position: absolute; left: 0; top: 7px; width: 20px; height: 20px; border: 1.2px solid var(--text); border-radius: 4px; }
-.cfg-sum-col3 .cfg-sum-btn { margin-top: 48px; height: 44px; padding: 0; font: 400 14px/44px var(--font); }
-/* Summary in the rail (iPad, Vision): name 17/600, price 28/600, 44 px button, save block. */
-.cfg-sum-rail { padding-top: 0; }
-.cfg-sum-product { font: 600 17px/1.47 var(--font); letter-spacing: -.022em; }
-.cfg-sum-rail .cfg-sum-price { margin-top: 54px; }
-.cfg-sum-rail .cfg-sum-price p { font: 600 28px/1.1429 var(--font-display); letter-spacing: .007em; }
-.cfg-sum-rail .cfg-sum-btn { margin-top: 45px; height: 44px; padding: 0; font: 400 14px/44px var(--font); }
-.cfg-sum-rail .cfg-sum-save { margin-top: 32px; }
-.cfg-sum-rail:has(.cfg-sum-btn:disabled) .cfg-sum-product, .cfg-sum-rail:has(.cfg-sum-btn:disabled) .cfg-sum-price, .cfg-sum-rail:has(.cfg-sum-btn:disabled) .cfg-sum-save { opacity: .32; }
-@media (max-width: 1023px) {
-  .cfg-sum-full { grid-template-columns: 1fr; gap: 32px; padding: 32px 22px; }
-  .cfg-sum-headline { font-size: 28px; }
-  .cfg-sum-full .cfg-summary-media img { width: 100%; max-width: 380px; }
-}
 
 /* Finish step, measured on the source: "Color" label 17/25 600 with 20 px above; swatch list 15 px above,
    11 px below, 41 px pitch (36 px ring, 28 px swatch); the list stays inactive until a model is chosen. */
 .cfg-swatch-head { padding-top: 20px; font: 600 17px/25px var(--font); letter-spacing: -.022em; }
 .cfg-rail .swatches { gap: 5px; padding: 15px 0 11px; margin-bottom: 0; }
 .cfg-grid:has([data-gate]):not(:has([data-gate] input:checked)) .step:not([data-gate]) .swatches { opacity: .32; pointer-events: none; }
-
-/* Live: a rail step with the source's own bottom margin (configurator.js), except the last one. */
-html[data-content="live"] .cfg-rail .step[style*="--step-mb"]:not(.cfg-rail-end) { margin-bottom: var(--step-mb); }
