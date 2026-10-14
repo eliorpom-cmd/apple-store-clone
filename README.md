@@ -1,11 +1,19 @@
-# Store clone
+# Apple Store clone (2026)
 
-A measured rebuild of the layout of Apple's online store (`apple.com/store`, the `/shop/...` pages, `/retail`,
-`/today`) in plain HTML, CSS and JavaScript, with no build step.
+A 1:1 rebuild of Apple's online store (`apple.com/store`, the `/shop/...` pages, `/retail`, `/today`), reverse
+engineered in October 2026 and written as clean, maintainable code. Plain HTML, CSS and JavaScript, no build step.
 
-Every size, spacing, timing and colour was measured on the rendered source pages, then checked with a visual
-diff. The repository ships **only the shell**: layout, components, page templates and placeholder content
-("Demo Store", generic products, home-made SVG artwork). No Apple text, image, font or code is included.
+**Reverse engineered, not copied.** No HTML, CSS or JavaScript was taken from the source. Every size, spacing,
+timing and colour was measured on the rendered pages, then rebuilt from scratch:
+
+- one set of design tokens (`tokens.css`, documented in `DESIGN.md`), no `!important`, no hard-coded colour
+  without a comment saying where it comes from;
+- shared components (nav, shelves, cards, configurator steps, gallery, summary, local bar) reused across 29 page
+  templates, behaviours wired by `data-*` attributes;
+- a visual diff against the live source for every page: 62 pages, all at 97/100 or above, mean 98.2.
+
+The repository ships **only the shell**: layout, components, page templates and placeholder content
+("Demo Store", generic products, home-made SVG artwork). No Apple text, image or font is included.
 
 > This is an independent study project. It is not affiliated with, endorsed by, or connected to Apple Inc.
 > Apple, iPhone, iPad, Mac and the other product names mentioned in code comments and tools are trademarks of

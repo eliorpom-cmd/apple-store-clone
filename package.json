@@ -1,7 +1,7 @@
 {
-  "name": "store-clone",
+  "name": "apple-store-clone",
   "private": true,
-  "description": "Measured rebuild of an online store layout: shell, components, page templates, measurement tools.",
+  "description": "Apple Store clone (2026): 1:1 reverse-engineered rebuild in clean vanilla HTML/CSS/JS, measured page by page.",
   "scripts": {
     "serve": "node tools/live-server.mjs",
     "check": "node tools/check-pages.mjs",
