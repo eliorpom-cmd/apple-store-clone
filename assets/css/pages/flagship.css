@@ -104,7 +104,8 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1023px) {
-  .flagship-grid, .flagship-split { grid-template-columns: 1fr; row-gap: 48px; }
+  .flagship-grid, .flagship-split { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
+  .flagship-media { min-width: 0; }
   .flagship-gallery { height: 420px; }
   .display-gallery { margin-inline: auto; }
   .flagship-side { max-width: 560px; margin-inline: auto; width: 100%; }
@@ -327,3 +328,16 @@
 .live-flagship .witb-item { display: block; }
 .live-flagship .witb-image { background: var(--surface-2); }
 .live-flagship .witb-label { padding: 20px 15px 50px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); text-align: center; }
+
+/* Narrow viewports: the live hero picture keeps its source size only while the 490 px column exists */
+@media (max-width: 1023px) {
+  .live-flagship .flagship-media > .live-main img { max-width: 100%; }
+}
+
+/* Live board, narrow viewports: the 1070 px picture with the absolutely placed text only exists on desktop;
+   below the 1070 px canvas, the picture is fluid and the text follows it. */
+@media (max-width: 1069px) {
+  .live-board { width: 100%; height: auto; margin-left: 0; transform: none; }
+  .live-board-img img { position: static; display: block; width: 100%; height: auto; }
+  .live-board-info { position: static; width: auto; padding: 30px var(--gutter); }
+}
