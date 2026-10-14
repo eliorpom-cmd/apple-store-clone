@@ -9,6 +9,9 @@
 //   data-kit-modal-open  opens the <dialog class="kit-modal"> with that id (window.KitModal)
 //   data-kit-carousel    autoplay carousel with timed dots and play/pause (window.KitCarousel)
 //   data-kit-footer      footer directory collapses into an accordion on narrow footers
+//   data-kit-ribbon      promo ribbon: rotates its messages with arrows when there is more than one
+//   data-kit-bag         bag page: quantity, remove, line totals, subtotal and total, empty state (window.KitBag)
+//   data-kit-stores      store finder: filters the store cards as you type
 (() => {
   const chevron = (dir) => `<svg viewBox="0 0 12 20" aria-hidden="true"><path d="${dir === "prev" ? "M10 2L2 10l8 8" : "M2 2l8 8-8 8"}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const arrow = (dir, label) => {
@@ -369,5 +372,85 @@
       if (compact) t.setAttribute("aria-expanded", t.getAttribute("aria-expanded") !== "true");
     }));
     new ResizeObserver(([e]) => sync(e.contentRect.width <= 734)).observe(footer);
+  });
+})();
+
+// ===== ribbon =====
+// data-kit-ribbon: the first .kit-ribbon__msg is current; with several messages, arrows step through them.
+(() => {
+  const chevron = (d) => `<svg viewBox="0 0 10 16" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  document.querySelectorAll("[data-kit-ribbon]").forEach((ribbon) => {
+    const msgs = [...ribbon.querySelectorAll(".kit-ribbon__msg")];
+    if (!msgs.length) return;
+    let i = 0;
+    msgs[0].classList.add("is-current");
+    ribbon.setAttribute("data-kit-ready", "");
+    if (msgs.length < 2) return;
+    const show = (n) => { msgs[i].classList.remove("is-current"); i = (n + msgs.length) % msgs.length; msgs[i].classList.add("is-current"); };
+    const inner = ribbon.querySelector(".kit-ribbon__inner") || ribbon;
+    [["prev", "Previous", "M8 1L2 8l6 7", -1], ["next", "Next", "M2 1l6 7-6 7", 1]].forEach(([side, label, d, step]) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = `kit-ribbon__arrow kit-ribbon__arrow--${side}`; b.setAttribute("aria-label", label);
+      b.innerHTML = chevron(d);
+      b.addEventListener("click", () => show(i + step));
+      inner.append(b);
+    });
+  });
+})();
+
+// ===== bag =====
+// data-kit-bag: each .kit-bag__line carries data-price; a [data-kit-bag-qty] select sets its quantity and
+// [data-kit-bag-remove] removes it. Totals are written into [data-kit-bag-line], [data-kit-bag-subtotal] and
+// [data-kit-bag-total], formatted with data-currency (default USD) and the page language. When no line is left,
+// data-state="empty" shows the empty part. Fires "kit-bag:change" with { count, total } on every change.
+(() => {
+  const init = (bag) => {
+    const money = new Intl.NumberFormat(document.documentElement.lang || "en-US", { style: "currency", currency: bag.dataset.currency || "USD" });
+    const update = () => {
+      const lines = [...bag.querySelectorAll(".kit-bag__line")];
+      let total = 0, count = 0;
+      lines.forEach((line) => {
+        const qty = Number(line.querySelector("[data-kit-bag-qty]")?.value || 1);
+        const sum = Number(line.dataset.price || 0) * qty;
+        total += sum; count += qty;
+        const out = line.querySelector("[data-kit-bag-line]");
+        if (out) out.textContent = money.format(sum);
+      });
+      bag.querySelectorAll("[data-kit-bag-subtotal], [data-kit-bag-total]").forEach((el) => (el.textContent = money.format(total)));
+      bag.dataset.state = lines.length ? "full" : "empty";
+      bag.dispatchEvent(new CustomEvent("kit-bag:change", { bubbles: true, detail: { count, total } }));
+    };
+    bag.addEventListener("change", (e) => { if (e.target.matches("[data-kit-bag-qty]")) update(); });
+    bag.addEventListener("click", (e) => {
+      const remove = e.target.closest("[data-kit-bag-remove]");
+      if (!remove) return;
+      remove.closest(".kit-bag__line")?.remove();
+      update();
+    });
+    update();
+  };
+  document.querySelectorAll("[data-kit-bag]").forEach(init);
+  window.KitBag = { init };
+})();
+
+// ===== stores =====
+// data-kit-stores: typing in the search input hides the .kit-store cards whose text (plus data-search) does not
+// contain every typed word, and shows .kit-stores__none when nothing is left.
+(() => {
+  const norm = (t) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  document.querySelectorAll("[data-kit-stores]").forEach((root) => {
+    const input = root.querySelector('input[type="search"]');
+    const stores = [...root.querySelectorAll(".kit-store")];
+    const none = root.querySelector(".kit-stores__none");
+    if (!input) return;
+    const text = new Map(stores.map((s) => [s, norm(s.textContent + " " + (s.dataset.search || ""))]));
+    input.addEventListener("input", () => {
+      const words = norm(input.value).split(/\s+/).filter(Boolean);
+      let shown = 0;
+      stores.forEach((s) => { const hit = words.every((w) => text.get(s).includes(w)); s.hidden = !hit; shown += hit; });
+      if (none) none.hidden = shown > 0;
+      // The shelf arrows depend on the row width: let them recompute.
+      root.querySelector(".kit-shelf__track")?.dispatchEvent(new Event("scroll"));
+    });
   });
 })();

@@ -21,7 +21,12 @@
     display: block; width: 100%; letter-spacing: var(--kit-tr-body); }
   .kit-btn--secondary { --btn-bg: transparent; --btn-fg: var(--kit-link); --btn-fg-hover: var(--kit-on-dark); --btn-border: var(--kit-link); }
   .kit-btn--dark { --btn-bg: var(--kit-surface-dark); --btn-bg-hover: var(--kit-dark-hover); --btn-bg-active: var(--kit-dark-active); }
+  .kit-btn--outline { --btn-bg: transparent; --btn-bg-hover: var(--kit-dark-hover); --btn-bg-active: var(--kit-dark-active);
+    --btn-fg: var(--kit-text); --btn-fg-hover: var(--kit-on-dark); --btn-border: var(--kit-text); }
   .kit-btn--light { --btn-bg: var(--kit-page); --btn-bg-hover: var(--kit-surface); --btn-bg-active: var(--kit-light-active); --btn-fg: var(--kit-text); }
+
+  /* A wrapping row of buttons (quick links, actions). */
+  .kit-btn-row { display: flex; flex-wrap: wrap; gap: var(--kit-space-2); }
 
   .kit-link-more { color: var(--kit-link); white-space: nowrap; }
   .kit-link-more::after { content: " ›"; }

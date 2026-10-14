@@ -15,6 +15,11 @@
     font-size: var(--kit-fs-small); line-height: var(--kit-lh-small); letter-spacing: var(--kit-tr-small); }
   /* The aside is right-aligned only when it sits next to the title. */
   @container page-head (min-width: 760px) { .kit-page-head__aside { text-align: right; } }
+  /* Under 1024 px the header stacks, tighter, with a card-size subtitle (as measured). */
+  @media (max-width: 1023px) { .kit-page-head { flex-direction: column; padding-block: 56px var(--kit-space-7); } }
+  @container page-head (max-width: 1023px) {
+    .kit-page-head__aside h2 { font: 600 var(--kit-fs-card) / var(--kit-lh-card) var(--kit-font-display); letter-spacing: var(--kit-tr-card); }
+  }
 
   .kit-section-head {
     padding: 0 var(--kit-edge) var(--kit-space-2); max-width: calc(var(--kit-container) + 2 * var(--kit-edge));

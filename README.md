@@ -46,6 +46,12 @@ Reusable kit and mobile layout:
 container queries and cascade layers, documented in [`kit/README.md`](kit/README.md) and shown in `kit/index.html`.
 Start there to build your own store pages; the clone pages keep the measured values of the original.
 
+The kit is checked against the clone: the store home rebuilt with kit classes only
+([`kit/examples/store.html`](https://eliorpom-cmd.github.io/apple-store-clone/kit/examples/store.html)) scores 99/100
+against the clone page at 1440 px and 97/100 at 390 px. It also adds what the clone pages hard-code: a rotating
+promo ribbon, a bag page with live totals and a store finder with search
+([example](https://eliorpom-cmd.github.io/apple-store-clone/kit/examples/ribbon-bag-stores.html)).
+
 ## Run it
 
 ```sh
