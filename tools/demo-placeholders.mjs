@@ -1,38 +1,99 @@
-// Rewrites assets/img/products/*.svg as image placeholders (hatched frame, colour halo, label). Run: node tools/demo-placeholders.mjs
-import { readFileSync, writeFileSync, readdirSync } from "fs";
-const dir = "assets/img/products";
-// Label and halo colours per file (two hues per category, picked to read as the product family).
-const META = {
-  phone: ["Phone", "#5a68d4", "#9ec3ff"], "phone-slim": ["Phone", "#7fa6d6", "#c8dcf0"], "phone-fold": ["Phone", "#b9a6ff", "#5a68d4"],
-  laptop: ["Laptop", "#f1c6d0", "#a5c8ff"], desktop: ["Desktop", "#c2aaff", "#f2e26a"], display: ["Display", "#a5c8ff", "#c2aaff"],
-  mini: ["Mini", "#9aa7b4", "#c5cde0"], keyboard: ["Keyboard", "#c9ccd3", "#8fa3c8"], tablet: ["Tablet", "#9bd3ae", "#a8c7e0"],
-  watch: ["Watch", "#e0572f", "#f08a6c"], "watch-rugged": ["Watch", "#d4b26a", "#e0572f"], band: ["Band", "#f2c4d4", "#2f6f8f"],
-  earbuds: ["Earbuds", "#c8ccd2", "#9ec3ff"], headphones: ["Headphones", "#7fa6d6", "#d9a3a0"], speaker: ["Speaker", "#b6663e", "#d8cfb8"],
-  headset: ["Headset", "#8fa3c8", "#d6c7e8"], tvbox: ["TV box", "#5b5b66", "#9ec3ff"], tag: ["Tag", "#c9d96b", "#9aa3ad"],
-  case: ["Case", "#7a2e4d", "#f0c8b8"], charger: ["Charger", "#c9c9ce", "#a8c7e0"], giftcard: ["Gift card", "#6e7fa0", "#f2c94c"],
+// Demo-mode product visuals: a transparent frame with one centred pill, "<Product> image (detail)".
+// Source images are mostly cut-outs on a transparent background, so the placeholder marks nothing but the label.
+//   node tools/demo-placeholders.mjs
+// 1. Rewrites assets/img/products/<kind>.svg (no detail) and <kind>--<detail>.svg (one file per detail in use).
+// 2. Points every <img> of the demo pages to the file that carries its detail: the alt text when there is one,
+//    else the view of a gallery slide (front, back, side…).
+// 3. Rewrites the inline placeholders of the configurators, accessories and band pages the same way.
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+
+const DIR = "assets/img/products";
+const PAGES = ["index.html", ...readdirSync("pages").filter((f) => f.endsWith(".html")).map((f) => `pages/${f}`)];
+const KIND = {
+  phone: "Phone", "phone-slim": "Phone", "phone-fold": "Phone", laptop: "Laptop", desktop: "Desktop", display: "Display",
+  mini: "Mini", keyboard: "Keyboard", tablet: "Tablet", watch: "Watch", "watch-rugged": "Watch", band: "Band",
+  earbuds: "Earbuds", headphones: "Headphones", speaker: "Speaker", headset: "Headset", tvbox: "TV box", tag: "Tag",
+  case: "Case", charger: "Charger", giftcard: "Gift card",
 };
-for (const f of readdirSync(dir).filter((f) => f.endsWith(".svg"))) {
-  const key = f.replace(".svg", ""); const m = META[key]; if (!m) { console.log("skip", f); continue; }
-  const [, , w, h] = readFileSync(`${dir}/${f}`, "utf8").match(/viewBox="([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+)"/).slice(1).map(Number);
-  const [label, a, b] = m; const s = Math.min(w, h); const fs = Math.round(s * 0.06); const r = Math.round(s * 0.06);
-  const pw = Math.round(fs * (label.length * 0.62 + 5.2)); const ph = Math.round(fs * 2.3);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label} image placeholder">
-  <defs>
-    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
-    <radialGradient id="ga"><stop offset="0" stop-color="${a}" stop-opacity=".9"/><stop offset="1" stop-color="${a}" stop-opacity="0"/></radialGradient>
-    <radialGradient id="gb"><stop offset="0" stop-color="${b}" stop-opacity=".75"/><stop offset="1" stop-color="${b}" stop-opacity="0"/></radialGradient>
-    <clipPath id="frame"><rect width="${w}" height="${h}" rx="${r}"/></clipPath>
-  </defs>
-  <g clip-path="url(#frame)">
-    <rect width="${w}" height="${h}" fill="url(#hatch)"/>
-    <circle cx="${w * 0.42}" cy="${h * 0.45}" r="${s * 0.42}" fill="url(#ga)"/>
-    <circle cx="${w * 0.6}" cy="${h * 0.58}" r="${s * 0.38}" fill="url(#gb)"/>
-  </g>
-  <style>@media (max-width: 160px) { .label { display: none; } }</style>
-  <g class="label"><rect x="${(w - pw) / 2}" y="${(h - ph) / 2}" width="${pw}" height="${ph}" rx="${ph / 2}" fill="#fff" fill-opacity=".92"/>
-  <text x="${w / 2}" y="${h / 2}" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="${fs}" fill="#1d1d1f"><tspan font-weight="600">${label}</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
+const VIEWS = ["front", "back", "side", "close-up", "in use", "detail"];
+const FONT = `-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif`;
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const xml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const n = (v) => +v.toFixed(1);
+
+// One pill centred in a w × h frame: "<Label> image" on the first line, the detail in grey on a second line.
+// Widths are estimated from the text (system font, ~0.56 em per character).
+function pill(w, h, label, detail, fs, word = "image") {
+  const head = word ? `${label} ${word}` : label;
+  const sub = detail ? `(${detail})` : "";
+  let size = fs;
+  const width = () => Math.max(head.length, sub.length * 0.85) * size * 0.56 + size * 2.4;
+  while (width() > w * 0.92 && size > 6) size -= 0.5;
+  const pw = n(width()), ph = n(size * (sub ? 3.4 : 2.2)), y0 = (h - ph) / 2;
+  const line1 = `<tspan font-weight="600">${xml(label)}</tspan>${word ? ` ${word}` : ""}`;
+  return `<rect x="${n((w - pw) / 2)}" y="${n(y0)}" width="${pw}" height="${ph}" rx="${n(Math.min(ph / 2, size * 1.1))}" fill="#e8e8ed"/>
+  <text text-anchor="middle" font-family="${FONT}" font-size="${n(size)}" fill="#1d1d1f"><tspan x="${n(w / 2)}" y="${n(y0 + size * 1.45)}">${line1}</tspan>${sub ? `<tspan x="${n(w / 2)}" y="${n(y0 + size * 2.65)}" font-size="${n(size * 0.85)}" fill="#6e6e73">${xml(sub)}</tspan>` : ""}</text>`;
+}
+
+// File version: below 200 px wide the full pill would be unreadable, so a larger short pill (label only) replaces it.
+function fileSVG(w, h, label, detail) {
+  const s = Math.min(w, h);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${xml(label)} image${detail ? ` (${xml(detail)})` : ""}">
+  <style>.short { display: none; } @media (max-width: 200px) { .full { display: none; } .short { display: inline; } }</style>
+  <g class="full">${pill(w, h, label, detail, s * 0.065)}</g>
+  <g class="short">${pill(w, h, label, "", h * 0.14, "")}</g>
 </svg>
 `;
-  writeFileSync(`${dir}/${f}`, svg);
 }
-console.log("done");
+
+// Inline version (large slots only): the full pill.
+const inlineBody = (w, h, label, detail, word) => pill(w, h, label, detail, Math.min(w, h) * 0.065, word);
+
+const viewBoxOf = (kind) => readFileSync(`${DIR}/${kind}.svg`, "utf8").match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/).slice(1).map(Number);
+const sizes = Object.fromEntries(Object.keys(KIND).map((k) => [k, viewBoxOf(k)]));
+const files = new Map(); // file name -> [kind, detail]
+for (const k of Object.keys(KIND)) files.set(`${k}.svg`, [k, ""]);
+
+for (const page of PAGES) {
+  let d = readFileSync(page, "utf8");
+
+  // <img> placeholders: detail from the alt text, else from the slide position inside a gallery.
+  let slide = -1, slideAt = -1e9;
+  d = d.replace(/class="gallery-track"|class="gallery-slide[^"]*"|<img src="([^"]*img\/products\/)([a-z-]+?)(?:--[a-z0-9-]+)?\.svg"([^>]*)>/g, (m, base, kind, rest, at) => {
+    if (m === 'class="gallery-track"') { slide = -1; return m; }
+    if (m.startsWith('class="gallery-slide')) { slide++; slideAt = at; return m; }
+    if (!KIND[kind]) return m;
+    const alt = (rest.match(/alt="([^"]*)"/) || [])[1] || "";
+    // A slide image sits right after its slide opening tag.
+    const inSlide = at - slideAt < 200;
+    const detail = alt ? alt.replace(/\.$/, "") : inSlide ? VIEWS[slide % VIEWS.length] : "";
+    const file = detail ? `${kind}--${slug(detail)}.svg` : `${kind}.svg`;
+    files.set(file, [kind, detail.toLowerCase().startsWith(KIND[kind].toLowerCase()) ? detail : detail.toLowerCase()]);
+    return `<img src="${base}${file}"${rest}>`;
+  });
+  // Inline placeholders: <svg …viewBox="0 0 w h" … aria-label="…">…<text>…</text>…</svg> written by this tool.
+  d = d.replace(/(<svg\b[^>]*viewBox="0 0 (\d+) (\d+)"[^>]*>)([\s\S]*?)<\/svg>/g, (m, open, w, h, body) => {
+    const label = (body.match(/<tspan font-weight="600">([^<]*)<\/tspan>/) || [])[1];
+    if (!label || !/(image|video)/.test(body) || !/fill="#e8e8ed"|-hatch"/.test(body)) return m;
+    const aria = (open.match(/aria-label="([^"]*)"/) || [])[1] || "";
+    // Configurator slides: "Phone Pro, front" -> "front". Cards: the product title next to the slot.
+    let detail = aria.includes(",") ? aria.split(",").pop().trim() : "";
+    if (!detail) {
+      const after = d.slice(d.indexOf(m) + m.length, d.indexOf(m) + m.length + 1500);
+      const title = (after.match(/<(?:h3|p)[^>]*class="[^"]*(?:name|title)[^"]*"[^>]*>([^<]*)/) || [])[1] || "";
+      detail = title.replace(/\s+[–-]\s+/, ", ").trim().toLowerCase();
+    }
+    const video = /\bvideo</.test(body);
+    const cleanOpen = open.replace(/\s*aria-label="[^"]*"/, "").replace(/>$/, ` aria-label="${xml(label)} ${video ? "video" : "image"}${detail ? ` (${xml(detail)})` : ""}">`);
+    const inner = inlineBody(+w, +h, label, detail, video ? "video" : "image");
+    return `${cleanOpen}\n  ${inner}\n</svg>`;
+  });
+
+  writeFileSync(page, d);
+}
+
+for (const [file, [kind, detail]] of files) {
+  const [w, h] = sizes[kind];
+  writeFileSync(`${DIR}/${file}`, fileSVG(w, h, KIND[kind], detail));
+}
+console.log(`${files.size} files written`);

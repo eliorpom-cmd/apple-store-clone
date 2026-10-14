@@ -1,16 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" role="img" aria-label="Desktop image placeholder">
-  <defs>
-    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
-    <radialGradient id="ga"><stop offset="0" stop-color="#c2aaff" stop-opacity=".9"/><stop offset="1" stop-color="#c2aaff" stop-opacity="0"/></radialGradient>
-    <radialGradient id="gb"><stop offset="0" stop-color="#f2e26a" stop-opacity=".75"/><stop offset="1" stop-color="#f2e26a" stop-opacity="0"/></radialGradient>
-    <clipPath id="frame"><rect width="480" height="500" rx="29"/></clipPath>
-  </defs>
-  <g clip-path="url(#frame)">
-    <rect width="480" height="500" fill="url(#hatch)"/>
-    <circle cx="201.6" cy="225" r="201.6" fill="url(#ga)"/>
-    <circle cx="288" cy="290" r="182.4" fill="url(#gb)"/>
-  </g>
-  <style>@media (max-width: 160px) { .label { display: none; } }</style>
-  <g class="label"><rect x="101.5" y="216.5" width="277" height="67" rx="33.5" fill="#fff" fill-opacity=".92"/>
-  <text x="240" y="250" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="29" fill="#1d1d1f"><tspan font-weight="600">Desktop</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 500" role="img" aria-label="Desktop image">
+  <style>.short { display: none; } @media (max-width: 200px) { .full { display: none; } .short { display: inline; } }</style>
+  <g class="full"><rect x="89" y="215.7" width="302" height="68.6" rx="34.3" fill="#e8e8ed"/>
+  <text text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="31.2" fill="#1d1d1f"><tspan x="240" y="260.9"><tspan font-weight="600">Desktop</tspan> image</tspan></text></g>
+  <g class="short"><rect x="20.4" y="173.6" width="439.2" height="152.9" rx="76.5" fill="#e8e8ed"/>
+  <text text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="69.5" fill="#1d1d1f"><tspan x="240" y="274.3"><tspan font-weight="600">Desktop</tspan></tspan></text></g>
 </svg>

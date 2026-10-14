@@ -128,11 +128,11 @@ Code : `assets/css/components/card.css`
 
 ## Médias et icônes
 
-- **Visuels produit (mode démo)** : emplacements d'image assumés, aux proportions des visuels d'origine :
-  hachures neutres à 45° (`#76767f`, opacité 6–7 %), halo flou dans la couleur du produit (`--product-color`
-  quand la page la fournit, sinon une teinte par famille), pastille blanche « <Produit> · image » centrée,
-  masquée sous 160 px de large. Aucun dessin d'appareil, aucune photo d'Apple. Fichiers : `assets/img/products/*.svg`
-  (régénérés par script) et quelques SVG inline (configurateurs, accessoires, bracelets) qui suivent la pastille choisie.
+- **Visuels produit (mode démo)** : fond transparent (les visuels d'origine sont détourés) et une seule pastille
+  centrée `#e8e8ed` : « <Produit> image » en `--text`, détail en dessous en `--text-2` (« (ink sport strap) »,
+  « (front) », texte alternatif de l'image). Sous 200 px de large, pastille courte avec le seul nom. Aucun dessin
+  d'appareil, aucune photo d'Apple. Généré par `node tools/demo-placeholders.mjs` (fichiers `assets/img/products/`
+  et SVG inline des configurateurs, accessoires, bracelets) : relancer après avoir changé un texte alternatif ou un titre.
 - **Icônes** : SVG maison, trait 1.5 px, 16–24 px (recherche, sac, chevron, fermer, plus).
 - **Pas de logo** : un monogramme générique occupe la place du logo dans la nav.
 

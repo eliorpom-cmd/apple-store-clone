@@ -1,16 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="TV box image placeholder">
-  <defs>
-    <pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#76767f" fill-opacity=".07"/><rect width="8" height="16" fill="#76767f" fill-opacity=".06"/></pattern>
-    <radialGradient id="ga"><stop offset="0" stop-color="#5b5b66" stop-opacity=".9"/><stop offset="1" stop-color="#5b5b66" stop-opacity="0"/></radialGradient>
-    <radialGradient id="gb"><stop offset="0" stop-color="#9ec3ff" stop-opacity=".75"/><stop offset="1" stop-color="#9ec3ff" stop-opacity="0"/></radialGradient>
-    <clipPath id="frame"><rect width="400" height="300" rx="18"/></clipPath>
-  </defs>
-  <g clip-path="url(#frame)">
-    <rect width="400" height="300" fill="url(#hatch)"/>
-    <circle cx="168" cy="135" r="126" fill="url(#ga)"/>
-    <circle cx="240" cy="174" r="114" fill="url(#gb)"/>
-  </g>
-  <style>@media (max-width: 160px) { .label { display: none; } }</style>
-  <g class="label"><rect x="119.5" y="129.5" width="161" height="41" rx="20.5" fill="#fff" fill-opacity=".92"/>
-  <text x="200" y="150" dy=".35em" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="18" fill="#1d1d1f"><tspan font-weight="600">TV box</tspan><tspan fill="#6e6e73"> · image</tspan></text></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="TV box image">
+  <style>.short { display: none; } @media (max-width: 200px) { .full { display: none; } .short { display: inline; } }</style>
+  <g class="full"><rect x="111.1" y="128.6" width="177.8" height="42.9" rx="21.4" fill="#e8e8ed"/>
+  <text text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19.5" fill="#1d1d1f"><tspan x="200" y="156.8"><tspan font-weight="600">TV box</tspan> image</tspan></text></g>
+  <g class="short"><rect x="79" y="103.8" width="241.9" height="92.4" rx="46.2" fill="#e8e8ed"/>
+  <text text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="42" fill="#1d1d1f"><tspan x="200" y="164.7"><tspan font-weight="600">TV box</tspan></tspan></text></g>
 </svg>
