@@ -8,7 +8,7 @@
 .pcard-name + .pcard-price { padding-top: 10px; }
 .pcard .pcard-info { margin-top: 12px; }
 
-/* ---------- Recommendation card: orange badge, tall image, price at the bottom (spec 02 §6.4) ---------- */
+/* ---------- Recommendation card: orange badge, tall image, price at the bottom ---------- */
 .recomm { padding: 28px; }
 .recomm-badge {
   position: absolute; top: 41px; left: 28px; z-index: 1;
@@ -20,19 +20,20 @@
 .recomm .card-title { padding-top: 16px; }
 .recomm .pcard-info { margin-top: auto; }
 
-/* ---------- Video card: play button and caption under the image (spec 02 §6.1) ---------- */
+/* ---------- Video card: play button and caption under the image ---------- */
 .video-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 20px 28px 28px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .play-cta {
   flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
-  background: #635b61; color: #e8e8ed;
+  background: #635b61; /* source: play button on the dark video card */
+  color: var(--line-2);
 }
 .play-cta svg { width: 12px; height: 14px; margin-left: 2px; }
-.card-dark .play-cta { background: #d8d6d8; color: #3f313b; }
+.card-dark .play-cta { background: #d8d6d8; color: #3f313b; } /* source: play button on the light-on-dark card */
 
 /* Check mark used in the tips card (decorative, action colour) */
 .tips-glyph { width: 180px; height: 180px; margin: auto; color: var(--action); }
 
-/* ---------- Guide modal: numbered list of five steps (spec 02 §8) ---------- */
+/* ---------- Guide modal: numbered list of five steps ---------- */
 .guide-steps { counter-reset: guide-step; margin-top: 32px; }
 .guide-steps li { position: relative; padding: 24px 0 0 56px; border-top: 1px solid var(--line-2); }
 .guide-steps li + li { margin-top: 24px; }
@@ -44,15 +45,15 @@
 .guide-steps h3 { font: var(--t-card); letter-spacing: var(--tr-card); }
 .guide-steps p { padding-top: 6px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 
-/* ---------- Education variant (spec 02 §2.9) ---------- */
+/* ---------- Education variant ---------- */
 /* Black header band with the page title in white. */
-.edu-band { background: var(--black); color: #fff; }
+.edu-band { background: var(--black); color: var(--on-dark); }
 .edu-band .page-head { padding: 72px 0 64px; }
-.edu-band h1 { color: #fff; }
+.edu-band h1 { color: var(--on-dark); }
 .edu-band .page-head-aside .links a { color: var(--link-on-dark); }
-/* Main part of a two-tone shelf title, highlighted (spec 02 §5). */
-.edu-mark { background: #01ddff; color: var(--text); font-weight: 600; }
-/* Tinted cards. Colours chosen by eye: not measured on the source (spec 02 §12.6). */
+/* Main part of a two-tone shelf title, highlighted. */
+.edu-mark { background: #01ddff; color: var(--text); font-weight: 600; } /* source: education highlight, no token */
+/* Tinted cards. Colours chosen by eye, not measured on the source. */
 .card-tint-blue { background: #e9f5fc; }
 .card-tint-gray { background: var(--line-2); }
 

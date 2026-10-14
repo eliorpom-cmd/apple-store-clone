@@ -2,7 +2,7 @@
    Shared parts (buttons, options, swatches, gallery, accordion, cards, scroller,
    availability, more-plus links) come from components.css and are not restyled here.
    This file holds the page layout and the pieces only these pages use.
-   Values with a "spec 04" comment come from _analysis/specs/04-achat-simple-et-fiches.md. */
+   Pixel values were measured on the source page at 1440 px; a comment says so where it is not obvious. */
 
 /* Hidden SVG sprite that holds the case artwork; each <use> is painted with the selected color. */
 .product-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -10,25 +10,17 @@
 /* ---------- Shared layout ---------- */
 .product-container { width: min(980px, 100% - 2 * var(--gutter)); margin-inline: auto; }
 
-/* Local bar under the global nav: category title on the left, one link on the right. spec 04 §0 */
-.product-localbar {
-  position: sticky; top: 0; z-index: 1000; height: 52px;
-  background: rgba(255, 255, 255, .8); border-bottom: 1px solid var(--line-2);
-  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
-}
-.product-localbar-row { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-.product-localbar-title { font: var(--t-card); letter-spacing: var(--tr-card); color: var(--text); }
-.product-localbar-link {
-  display: inline-flex; align-items: center; gap: 4px;
-  font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text);
-}
-.product-localbar-link:hover { color: var(--text-2); text-decoration: none; }
+/* Local bar under the global nav: the shared .localbar (components.css), with the measured product-page tweaks.
+   Source: translucent white ground, 14 px link with an optional chevron. */
+.product-page .localbar { --localbar-bg: var(--white-80); border-bottom-color: var(--line-2); } /* source: rule always shown under the product bar */
+.product-localbar-link { display: inline-flex; align-items: center; gap: 4px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .product-localbar-link svg { width: 10px; height: 6px; }
+@media (max-width: 734px) { .product-page .localbar-title { font-size: 19px; } }
 
 /* Thin rule between the buy block and the details. */
 .product-rule { border: 0; border-top: 1px solid var(--line); margin: 64px 0 0; }
 
-/* ---------- Main block: text column left (327 px at x 230), gallery right (605 px column, 512 px image). spec 04 §3.1 ---------- */
+/* ---------- Main block: text column left (327 px at x 230), gallery right (605 px column, 512 px image) */
 .product-main {
   display: grid; grid-template-columns: 327px 605px; justify-content: space-between; align-items: start;
   padding-top: 50px; /* source: the column starts 50 px under the local nav (or under the 44 px global nav) */
@@ -47,12 +39,12 @@
 
 .product-info { width: 327px; margin: 0; }
 .product-info .eyebrow { box-sizing: border-box; min-height: 24px; padding-bottom: 4px; font: 600 17px/20px var(--font); letter-spacing: var(--tr-body); }
-.product-title { font: 600 32px/1.125 var(--font-display); letter-spacing: .004em; color: var(--text); } /* spec 04 §0 */
+.product-title { font: 600 32px/1.125 var(--font-display); letter-spacing: .004em; color: var(--text); } /* */
 .product-price { font: var(--t-body); padding-top: 14px; }
-.product-price-sub { font: var(--t-body); letter-spacing: var(--tr-body); padding-top: 32px; }
+.product-price-sub { font: var(--t-body); letter-spacing: var(--tr-body); padding: 0; }
 .product-finance { padding-top: 20px; }
 
-/* Group titles above swatches and options: 17 / 1.471 / 600. spec 04 §0 */
+/* Group titles above swatches and options: 17 / 1.471 / 600 */
 .product-group-title {
   font: 600 17px/1.4706 var(--font); letter-spacing: var(--tr-body); color: var(--text);
   margin: 32px 0 12px;
@@ -61,15 +53,11 @@
 .product-step { margin: 0; }
 .product-models { grid-template-columns: 1fr; gap: 10px; margin-top: 0; }
 
-/* Buy buttons: full column width, 36 px tall (the .btn default), small radius. spec 04 §0 */
+/* Buy buttons: full column width, 36 px tall (the .btn default), small radius */
 .product-actions { display: grid; gap: 12px; margin-top: 28px; }
 .product-actions .btn { display: block; width: 100%; border-radius: var(--r-md); padding: 8px 15px; }
-.product-availability { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
-.product-availability svg { color: var(--text); }
-.product-availability p { font: var(--t-small); letter-spacing: var(--tr-small); }
-.product-availability strong { font-weight: 600; }
 
-/* "Need a moment?" block with the save link. spec 04 §0 */
+/* "Need a moment?" block with the save link */
 .product-save { margin-top: 24px; font: var(--t-small); letter-spacing: var(--tr-small); }
 .product-save-title { font: 600 14px/1.4286 var(--font); letter-spacing: -.016em; }
 .product-save-text { padding: 0 20px 8px 0; }
@@ -83,7 +71,7 @@
 .product-help svg { flex: none; width: 20px; height: 20px; color: var(--text); }
 .product-help strong { font-weight: 600; }
 
-/* ---------- Details accordion: title on the left, content in the 735 px column. spec 04 §3.2 ---------- */
+/* ---------- Details accordion: title on the left, content in the 735 px column */
 .product-details .accordion { border-bottom: 1px solid var(--line); }
 .product-details .acc-btn { font: 600 32px/1.125 var(--font-display); letter-spacing: .004em; padding: 32px 0; color: var(--text); }
 .product-details .acc-panel-inner { max-width: none; padding: 0 0 45px 245px; }
@@ -91,7 +79,7 @@
 .product-details .acc-panel-inner.product-panels { padding: 0 0 20px; }
 .product-details .acc-panel-inner p + p { margin-top: 1em; }
 
-/* Compatibility list in 235 px columns. spec 04 §3.2 */
+/* Compatibility list in 235 px columns */
 .product-compat { display: grid; grid-template-columns: repeat(3, 235px); gap: 0; }
 .product-compat li { padding-bottom: 6px; color: var(--text); }
 .product-compat li:hover { color: var(--link); }
@@ -99,7 +87,7 @@
 
 /* ---------- Recommendations: centered title, 313 px cards in a scroller that bleeds to the right ---------- */
 .product-recs { --shelf-edge: max(22px, calc(50% - 490px)); /* left edge = container edge (230 px at 1440) */ margin-top: 0; }
-.product-recs-title { font: var(--t-section); letter-spacing: var(--tr-section); text-align: center; padding: 50px 0 60px; /* source heading box: 50 above, 60 below */ }
+.product-recs-title { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; text-align: center; padding: 50px 0 60px; /* source heading box: 50 above, 60 below */ }
 
 /* ---------- Gift card page ---------- */
 .gc-main {
@@ -112,16 +100,16 @@
 .gc-card {
   position: relative; width: 340px; aspect-ratio: 1.586 / 1; border-radius: var(--r-card); padding: 24px;
   display: flex; flex-direction: column; justify-content: space-between; color: var(--text);
-  background: linear-gradient(135deg, #fafafc 0%, #e8e8ed 48%, #c7c7cc 100%);
+  background: linear-gradient(135deg, var(--surface-2) 0%, var(--line-2) 48%, #c7c7cc 100%); /* demo artwork; #c7c7cc has no token */
   box-shadow: var(--shadow-card-hover); transition: background-color var(--dur-3) linear;
 }
 /* Physical card: dark gradient with a second card behind it, drawn in CSS only. */
 .gc-card.is-physical {
-  color: #fff; background: linear-gradient(135deg, #6e6e73 0%, #1d1d1f 60%, #000 100%);
+  color: var(--on-dark); background: linear-gradient(135deg, var(--text-2) 0%, var(--text) 60%, var(--black) 100%);
 }
 .gc-card.is-physical::before {
   content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
-  background: linear-gradient(135deg, #f5f5f7 0%, #d2d2d7 100%);
+  background: linear-gradient(135deg, var(--page) 0%, var(--line) 100%);
   transform: translate(-16px, 14px) rotate(-6deg);
 }
 .gc-card-brand { font: 600 12px/1.3334 var(--font); letter-spacing: var(--tr-note); }
@@ -163,7 +151,7 @@
 }
 .gc-amount input::placeholder { color: var(--text-3); }
 
-/* Recipient form: floating labels, 12 px radius, 1 px #86868b border (var(--text-3)), blue focus. */
+/* Recipient form: floating labels, 12 px radius, 1 px border (var(--text-3)), blue focus. */
 .gc-recipient { margin-top: 36px; }
 .gc-field { position: relative; margin-top: 15px; }
 .gc-field input, .gc-field textarea {
@@ -186,7 +174,7 @@
 }
 .gc-field-area textarea:focus + label, .gc-field-area textarea:not(:placeholder-shown) + label { top: 9px; }
 
-/* Summary: light surface, price line, select button, save block. spec 04 §5.2 */
+/* Summary: light surface, price line, select button, save block */
 .gc-summary { margin-top: 21px; padding: 30px 30px 12px; background: var(--surface-2); border-radius: var(--r-md); }
 .gc-summary-line { display: flex; justify-content: space-between; gap: 16px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 .gc-summary-line + .gc-summary-line { padding-top: 6px; }
@@ -205,7 +193,6 @@
   .product-main { grid-template-columns: minmax(0, 1fr); padding-top: 32px; }
   .product-info { grid-column: 1; grid-row: 1; width: 100%; }
   .product-media { grid-column: 1; grid-row: 2; width: 100%; max-width: 512px; justify-self: center; }
-  .product-info { width: 100%; }
   .product-details .acc-panel-inner { padding-left: 0; }
   .product-compat { grid-template-columns: 1fr; }
   .gc-main { grid-template-columns: minmax(0, 1fr); column-gap: 0; padding-top: 24px; }
@@ -213,7 +200,7 @@
   .gc-card { width: min(340px, 100%); }
 }
 
-/* Phone width: 390 px target, 16 px gutter, type scaled as spec 04 §0. */
+/* Phone width: 390 px target, 16 px gutter, type scaled as */
 @media (max-width: 734px) {
   .product-recs { --shelf-edge: 16px; }
   .product-recs-title { padding-top: 0; }
@@ -221,27 +208,25 @@
   .product-details .acc-btn { font-size: 24px; line-height: 1.1667; letter-spacing: .009em; padding: 24px 0; }
   .product-details .acc-panel-inner { padding-bottom: 30px; }
   .product-rule { margin-top: 48px; }
-  .product-localbar-title { font-size: 19px; }
   .gc-title { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
   .gc-options { grid-template-columns: 1fr; }
   .gc-card-amount { font-size: 32px; }
 }
 
 /* ---------- Page background: the source product and gift card pages are white ---------- */
-body.product-page { background: #fff; }
+body.product-page { background: var(--surface); }
 
 /* ---------- Live pages (rendered by assets/js/live/product.js) ---------- */
 /* Thumbnails under the image replace the dots, as on the source page. */
 .product-thumbed .dots { display: none; }
-.product-thumbed .gallery-slide { padding: 0; }
 .product-thumbed .gallery-slide > img { width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; }
 .product-thumbs { display: flex; justify-content: center; gap: 16px; padding-top: 4px; }
 .product-thumb { width: 46px; padding: 15px 4px 0; border-bottom: 2px solid transparent; }
 .product-thumb img { width: 38px; height: auto; margin: 0 auto; }
-.product-thumb:hover { border-bottom-color: rgba(0, 0, 0, .64); }
+.product-thumb:hover { border-bottom-color: rgba(0, 0, 0, .64); } /* source: black at 64 % */
 .product-thumb.is-current { border-bottom-color: var(--text-2); }
 
-/* Size and model dropdown: 12 px label above the value, 12 px radius, 1 px border. spec 04 §3.2 */
+/* Size and model dropdown: 12 px label above the value, 12 px radius, 1 px border */
 .product-field { margin-top: 52px; }
 .product-select { position: relative; display: block; height: 56px; border: 1px solid var(--text-3); border-radius: var(--r-md); background: var(--surface); }
 .product-select:focus-within { border-color: var(--action); box-shadow: 0 0 0 1px var(--action); }
@@ -257,7 +242,7 @@ body.product-page { background: #fff; }
 /* Color swatches made of images: the image is the swatch fill. */
 .swatch .product-swatch-img::before { background: var(--swatch) center / cover no-repeat; }
 
-/* Accordion panels: title column 245 px, content column 735 px, rule between panels. spec 04 §4 */
+/* Accordion panels: title column 245 px, content column 735 px, rule between panels */
 /* The rule between panels only spans the content column (x 245 to the right edge), as on the source. */
 .product-panel {
   display: grid; grid-template-columns: 245px 735px; padding: 44px 0;
@@ -303,7 +288,7 @@ body.product-page { background: #fff; }
 .gc-design .option-label img { width: 100%; height: 100%; object-fit: cover; }
 .gc-form .product-step[data-optional] .product-group-title { margin-top: 36px; }
 
-/* Cross-sell banner (live): grey platter, heading 40 px, text left of the image. spec 04 §3.2 */
+/* Cross-sell banner (live): grey platter, heading 40 px, text left of the image */
 .product-banner { margin: 50px 0 -46px; /* source: banner starts 50 px under the buy column */ background: var(--page); }
 .product-banner-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; min-height: 480px; }
 .product-banner-text { text-align: center; padding: 48px 24px; }
@@ -315,9 +300,6 @@ body.product-page { background: #fff; }
   .product-banner-row { grid-template-columns: 1fr; min-height: 0; }
   .product-banner-title { font-size: 32px; line-height: 1.125; letter-spacing: .004em; }
 }
-
-/* Recommendations title: 40 px, centered, as on the source page. */
-.product-recs-title { font: 600 40px/1.1 var(--font-display); letter-spacing: 0; }
 
 /* Gallery arrows appear on hover only, as on the source page (live pages). */
 .product-thumbed .paddle { opacity: 0; pointer-events: none; }
@@ -344,12 +326,8 @@ body.product-page { background: #fff; }
 
 /* Recommendations pager: three dots under the row, first one current (source: dot navigation). */
 .product-recs-dots { display: flex; justify-content: center; gap: 12px; padding: 4px 0 0; }
-.product-recs-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(0, 0, 0, .24); }
+.product-recs-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(0, 0, 0, .24); } /* source: inactive dot */
 .product-recs-dots i.is-current { background: var(--text); }
-
-/* Legal footnotes at the foot of the page (live). */
-.product-legal { padding: 48px 0 40px; background: var(--page); }
-.product-legal p { font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); padding-bottom: .9em; }
 
 /* Phone width (live): the buy column is dissolved so the gallery sits between the size dropdown and the colors. */
 @media (max-width: 1023px) {
@@ -385,7 +363,6 @@ body.product-page { background: #fff; }
    (empty fulfilment row 20 px + 35 px), 16 px between the two buttons. */
 .product-info .product-actions { margin-top: 30px; padding-top: 55px; border-top: 1px solid var(--line); gap: 16px; }
 /* Monthly price: "or" line (4 px above, 5 px below) then the instalment line, as two source blocks. */
-.product-price-sub { padding: 0; }
 .product-price-or { padding: 4px 0 5px; }
 .product-price-sub + .product-finance { padding-top: 8px; }
 .product-price-sub ~ .product-field { margin-top: 50px; }

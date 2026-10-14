@@ -1,20 +1,16 @@
 /* Catalog pages: accessories and watch bands.
    Page-only styles. Shared pieces (tabs, sticky bar pattern, tokens) come from the component files. */
 
-/* The hidden attribute must win over the display rules below (tiles, sections, panels). */
-[hidden] { display: none !important; }
-
-/* ---------- Shared layout ---------- */
+/* ---------- Shared layout (px values measured on the source) ---------- */
 .cat-wrap { width: min(1260px, 100% - 2 * var(--gutter)); margin-inline: auto; }
 .cat-head { padding: 80px 0 0; }
 .cat-head.cat-wrap { padding-inline: 0; position: relative; }
-.cat-h1, .cat-head h1 { font: var(--t-hero); letter-spacing: var(--tr-hero); }
 .cat-head h1 { font: var(--t-display); letter-spacing: var(--tr-display); }
 .cat-lede { font: var(--t-intro); letter-spacing: var(--tr-intro); color: var(--text-2); padding-top: 12px; max-width: 620px; }
 .cat-h2 { font: 600 48px/1.08 var(--font-display); letter-spacing: -.003em; color: var(--text-2); }
 .cat-h2 strong { color: var(--text); font-weight: 600; }
 
-/* ---------- Accessories: picks section ---------- */
+/* ---------- Accessories: picks section (px values measured on the source) ---------- */
 .cat-picks { background: var(--page); padding: 144px 0; }
 .cat-picks .cat-wrap > .cat-h2 { padding-inline: 0; }
 
@@ -31,7 +27,7 @@
   transition: color .12s ease-out;
 }
 .cat-pills .tab:hover { color: var(--text); text-decoration: none; }
-.cat-pills .tab[aria-selected="true"] { background: #000; color: #fff; transition: color .16s ease-in .16s; }
+.cat-pills .tab[aria-selected="true"] { background: var(--black); color: var(--on-dark); transition: color .16s ease-in .16s; }
 
 /* Product tile grid: 4 columns, 3 below 1069 px, 2 below 735 px. */
 .cat-grid {
@@ -40,7 +36,7 @@
 }
 .cat-tile {
   position: relative; display: flex; flex-direction: column; height: 460px;
-  padding: 28px; overflow: hidden; border-radius: 28px; background: var(--surface);
+  padding: 28px; overflow: hidden; border-radius: var(--r-modal); background: var(--surface);
   color: var(--text); text-decoration: none;
   transition: all .3s cubic-bezier(0, 0, .5, 1);
 }
@@ -49,7 +45,7 @@
 .cat-tile--large { grid-column: span 2; grid-row: span 2; height: 940px; }
 @media (hover: hover) {
   .cat-tile:hover, .cat-band:hover {
-    box-shadow: 2px 4px 16px rgba(0, 0, 0, .16); transform: scale3d(1.01, 1.01, 1.01);
+    box-shadow: var(--shadow-card-hover); transform: scale3d(1.01, 1.01, 1.01);
   }
 }
 
@@ -61,7 +57,7 @@
 .cat-dots { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
 .cat-dots i {
   width: 12px; height: 12px; border-radius: 50%; background: var(--c);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); /* source: hairline ring on swatches */
 }
 
 .cat-badge { margin-top: 28px; font: 600 12px/1.3334 var(--font); letter-spacing: var(--tr-note); color: var(--badge-new); }
@@ -74,7 +70,7 @@
 .cat-tile-price { margin-top: auto; padding-top: 12px; font: 400 14px/1.2858 var(--font); letter-spacing: -.016em; }
 .cat-tile-fin { display: block; font: var(--t-note); letter-spacing: var(--tr-note); color: var(--text-2); }
 
-/* ---------- Watch bands: hero ---------- */
+/* ---------- Watch bands: hero (px values measured on the source) ---------- */
 .cat-bands-hero { background: var(--page); height: 480px; overflow: hidden; } /* measured: filter bar starts 524 px from the top, nav 44 px */
 .cat-bands-hero-inner {
   width: min(1260px, 100% - 2 * var(--gutter)); height: 100%; margin-inline: auto;
@@ -84,15 +80,15 @@
 .cat-bands-strip-item { height: 100%; flex: none; padding: 40px 0; }
 .cat-bands-strip-item > svg { height: 100%; width: auto; }
 
-/* ---------- Watch bands: sticky filter bar ---------- */
+/* ---------- Watch bands: sticky filter bar (px values measured on the source) ---------- */
 .cat-filter {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(255, 255, 255, .88);
+  background: color-mix(in srgb, var(--surface) 88%, transparent); /* source: white at 88 % over the page */
   -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--line);
 }
 .cat-filter-inner {
-  width: min(980px, 100% - 2 * var(--gutter)); margin-inline: auto; min-height: 56px;
+  width: min(var(--container), 100% - 2 * var(--gutter)); margin-inline: auto; min-height: 56px;
   display: flex; align-items: center; gap: 24px; padding: 12px 0;
 }
 .cat-filter-toggle {
@@ -125,11 +121,12 @@
 .cat-filter-reset { white-space: nowrap; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--link); }
 .cat-filter-reset:hover { text-decoration: underline; }
 
-/* ---------- Watch bands: collections ---------- */
-.cat-section { padding: 50px 0; background: var(--page); }
-.cat-section--blue { background: #f0f4fd; }   /* spec 05 §2.1: blue theme */
-.cat-section--yellow { background: #fdfaf1; } /* spec 05 §2.1: yellow theme */
-.cat-section--silver { background: #eee; }    /* spec 05 §2.1: grey collection */
+/* ---------- Watch bands: collections (px values measured on the source) ---------- */
+.cat-section { padding: 50px 0 0; background: var(--page); } /* each section adds its own 50 px on top; the last one adds 45 px below */
+/* Collection grounds, measured on the source (no token: each is a one-off tint). */
+.cat-section--blue { background: #f0f4fd; }   /* source: blue collection */
+.cat-section--yellow { background: #fdfaf1; } /* source: yellow collection */
+.cat-section--silver { background: #eee; }    /* source: grey collection */
 .cat-collection-head {
   width: min(610px, 100%); margin: 0 auto; padding: 28px 0 24px; text-align: center;
   background: var(--surface); border-radius: var(--r-card);
@@ -199,7 +196,7 @@
   .cat-filter-count { margin-left: auto; }
   .cat-filter-reset { width: 100%; text-align: left; order: 3; }
 
-  .cat-section { padding: 30px 0; }
+  .cat-section { padding: 30px 0 0; }
   .cat-band-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; margin-top: 16px; }
   .cat-band { padding: 12px 12px 16px; }
   .cat-band-media { height: 180px; }
@@ -208,13 +205,12 @@
   .cat-collection-sub { font-size: 19px; }
 }
 
-/* ---------- Live mode: source images and static filter labels ---------- */
+/* ---------- Live mode: source images (px values measured on the source) ---------- */
 .cat-tile-media > img, .cat-band-media > img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
 .cat-dots i img { width: 100%; height: 100%; border-radius: 50%; }
 .cat-dots i { background: none; }
-.cat-opt-static { padding: 5px 9px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 
-/* ---------- Live mode: header links, chapter icons, gallery, value props, index ---------- */
+/* ---------- Live mode: header links, chapter icons, gallery, value props, index (px values measured on the source) ---------- */
 .cat-head-links { position: absolute; right: 0; top: 96px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font: var(--t-small); letter-spacing: var(--tr-small); }
 
 /* Chapter icons: centred row, icon 78 px max (60 px on small screens). */
@@ -237,15 +233,15 @@
 .cat-gallery .paddle { display: none; }
 /* Dot navigation (source: 136 x 38 pill, 36 px arrow buttons 15 px away, 50 px below the cards). */
 .cat-dotnav { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 50px; }
-.cat-dotnav-pill { display: flex; align-items: center; justify-content: center; height: 38px; padding: 0 20px; border-radius: 999px; background: rgba(210, 210, 215, .64); }
+.cat-dotnav-pill { display: flex; align-items: center; justify-content: center; height: 38px; padding: 0 20px; border-radius: var(--r-pill); background: var(--control-bg); }
 .cat-dotnav-dot { position: relative; width: 24px; height: 24px; }
-.cat-dotnav-dot::after { content: ""; position: absolute; left: 9px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: rgba(0, 0, 0, .42); }
+.cat-dotnav-dot::after { content: ""; position: absolute; left: 9px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: rgba(0, 0, 0, .42); } /* source: inactive dot */
 .cat-dotnav-dot[aria-current="true"]::after { background: var(--text); }
-.cat-dotnav-arrow { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(210, 210, 215, .64); color: rgba(0, 0, 0, .56); }
+.cat-dotnav-arrow { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--control-bg); color: var(--control-icon); }
 .cat-dotnav-arrow svg { width: 10px; height: 17px; }
 .cat-dotnav-arrow:disabled { opacity: .42; cursor: default; }
-.cat-media-card { position: relative; width: 1260px; height: 680px; flex: none; box-shadow: none; background: var(--page); color: rgba(0, 0, 0, .88); }
-.cat-media-card.is-dark { color: #fff; }
+.cat-media-card { position: relative; width: 1260px; height: 680px; flex: none; box-shadow: none; background: var(--page); color: rgba(0, 0, 0, .88); } /* source: card text is black at 88 % */
+.cat-media-card.is-dark { color: var(--on-dark); }
 .cat-media-img { position: absolute; inset: 0; }
 .cat-media-img img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 .cat-media-body { position: relative; z-index: 1; width: 486px; padding: 48px; }
@@ -285,7 +281,7 @@
 
 /* Promo tiles: full-bleed image, eyebrow and headline over it. */
 .cat-tile--promo { padding: 0; color: var(--text); }
-.cat-tile--promo.is-dark { color: #fff; background: var(--dark); }
+.cat-tile--promo.is-dark { color: var(--on-dark); background: var(--dark); }
 .cat-promo-media { position: absolute; inset: 0; }
 .cat-promo-media img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; }
 .cat-promo-text { position: absolute; left: 28px; right: 28px; top: 28px; z-index: 1; }
@@ -300,8 +296,7 @@
 
 /* Watch bands live grid: 1080 px wide, three 360 px columns, header and marketing among the tiles. */
 .cat-section .cat-wrap { width: min(1080px, 100% - 2 * var(--gutter)); }
-.cat-section { padding-bottom: 0; }
-.cat-section:last-of-type { padding-bottom: 45px; } /* source: the last collection ends 45 px below its last row */ /* source sections touch: each one adds its own 50 px on top */
+.cat-section:last-of-type { padding-bottom: 45px; } /* source: the last collection ends 45 px below its last row */
 .cat-section .cat-band-grid { grid-template-columns: repeat(3, 360px); grid-auto-rows: 522px; gap: 0; margin-top: 0; padding: 0; }
 /* A section with a marketing image starts with a 320 px header row beside it. */
 .cat-section .cat-band-grid:has(.cat-band-mkt--left, .cat-band-mkt--right) { grid-template-rows: 320px; }
@@ -314,7 +309,7 @@
 .cat-band-head { display: flex; flex-direction: column; justify-content: center; margin: 5px; height: 310px; padding: 0 40px; text-align: center; overflow: hidden; }
 .cat-band-head > :first-child { margin-top: 32px; }
 .cat-band-head .cat-badge { margin: 48px 0 7px; line-height: 14px; }
-.cat-band-head .cat-collection-title { font: 600 25.5px/37.5px var(--font); letter-spacing: -.374px; }
+.cat-band-head .cat-collection-title { font: 600 25.5px/37.5px var(--font-display); letter-spacing: -.374px; }
 .cat-band-head .cat-collection-sub { padding-top: 13.6px; font: 400 17px/25px var(--font); letter-spacing: -.374px; color: var(--text); }
 .cat-band-mkt { height: 837px; margin: 0 5px 5px; overflow: hidden; border-radius: var(--r-card); }
 .cat-band-mkt--left, .cat-band-mkt--right { grid-column: span 2; grid-row: span 2; }
@@ -332,20 +327,19 @@
 .cat-section .cat-band-media { height: 335px; }
 
 /* Product-grid mode: filter bar, colour chips, sort, count and pager. */
-.cat-listing { padding: 40px 0 120px; }
+.cat-listing { padding: 120px 0; }
 .cat-listbar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding-bottom: 24px; }
 .cat-listbar-filters { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .cat-listbar-filters .cat-dim { flex-direction: row; align-items: center; }
 .cat-color-options { min-width: 260px; }
 .cat-chip { padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--line); font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); cursor: pointer; }
-.cat-chip[aria-pressed="true"] { background: #000; border-color: #000; color: #fff; }
+.cat-chip[aria-pressed="true"] { background: var(--black); border-color: var(--black); color: var(--on-dark); }
 .cat-sort { display: inline-flex; align-items: center; gap: 8px; font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 .cat-sort select { font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 6px 10px; }
 .cat-listbar .cat-filter-count { margin-left: auto; }
-.cat-grid--list { margin-top: 0; }
 .cat-pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin-top: 40px; }
 .cat-pager-btn, .cat-pager-num { min-width: 36px; height: 36px; padding: 0 12px; border-radius: var(--r-pill); font: var(--t-small); letter-spacing: var(--tr-small); color: var(--link); }
-.cat-pager-num[aria-current="true"] { background: #000; color: #fff; }
+.cat-pager-num[aria-current="true"] { background: var(--black); color: var(--on-dark); }
 .cat-pager-btn:disabled { color: var(--text-3); cursor: default; }
 @media (max-width: 734px) {
   .cat-dim-options { position: static; width: auto; max-width: none; box-shadow: none; padding: 0; background: none; }
@@ -354,7 +348,6 @@
 }
 
 /* Product-grid cards on the source: edge to edge, three 480 px columns, large card two columns wide. */
-.cat-listing { padding-top: 120px; }
 .cat-listing .cat-wrap { width: 100%; padding-inline: 0; }
 .cat-listing .cat-listbar { width: min(1260px, 100% - 2 * var(--gutter)); margin-inline: auto; min-height: 52px; padding-bottom: 0; }
 .cat-grid--list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 0; }
@@ -372,10 +365,11 @@
 .cat-head.cat-head--grid { background: var(--surface); width: auto; margin-inline: 0; padding: 80px max(var(--gutter), calc((100% - 1260px) / 2)) 0; }
 .cat-head--grid h1 { display: flex; flex-direction: column; gap: 8px; font: var(--t-hero); letter-spacing: var(--tr-hero); }
 .cat-head--grid .cat-eyebrow { font: 600 17px/1.2353 var(--font); letter-spacing: var(--tr-body); color: var(--text); }
-.cat-head--grid .cat-headline { font: var(--t-hero); letter-spacing: var(--tr-hero); }
 .cat-listing { background: var(--surface); }
 .cat-filter-static { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--line); font: var(--t-small); letter-spacing: var(--tr-small); color: var(--text-2); }
 .cat-grid--list .cat-tile--list { text-align: center; border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
 .cat-tile--list .cat-tile-title, .cat-tile--list .cat-tile-price, .cat-tile--list .cat-badge { text-align: center; }
-.cat-tile--list .cat-tile-price { margin-top: auto; }
 .cat-tile--list .cat-tile-title { font: 400 14px/1.2858 var(--font); letter-spacing: -.016em; }
+
+/* The hidden attribute wins over the display rules above (tiles, bands, sections, panels, reset button). */
+body [hidden] { display: none; }

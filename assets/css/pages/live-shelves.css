@@ -26,6 +26,6 @@
 /* Live footnotes take the full width of the footer, as on the original (no inner gutter). */
 .live-footnotes { max-width: none; padding: 0; margin: 0; }
 
-/* Category thumbnail band: 62 px under it on desktop, 30 px on mobile (spec 02 §10). */
+/* Category thumbnail band: 62 px under it on desktop, 30 px on mobile. */
 .live-pnav { padding-bottom: 62px; }
 @media (max-width: 1023px) { .live-pnav { padding-bottom: 30px; } }

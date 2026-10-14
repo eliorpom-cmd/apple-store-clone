@@ -8,10 +8,10 @@ Live.register("product", (data, L) => {
   const bookmark = '<svg viewBox="0 0 12 16" aria-hidden="true"><path d="M1 1h10v14L6 11 1 15z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
 
   // Localbar, shared by both kinds: section title on the left, one link on the right.
-  const localbar = (nav) => nav?.title ? `<nav class="product-localbar" aria-label="Section">
-      <div class="product-container product-localbar-row">
-        <span class="product-localbar-title">${esc(nav.title)}</span>
-        ${nav.link ? `<a class="product-localbar-link" href="${esc(link(nav.link.href))}">${esc(nav.link.text || nav.title)}</a>` : ""}
+  const localbar = (nav) => nav?.title ? `<nav class="localbar" aria-label="Section" data-catbar>
+      <div class="localbar-inner">
+        <p class="localbar-title">${esc(nav.title)}</p>
+        ${nav.link ? `<div class="localbar-links"><a class="product-localbar-link" href="${esc(link(nav.link.href))}">${esc(nav.link.text || nav.title)}</a></div>` : ""}
       </div></nav>` : "";
 
   // Image family of a product: "MK944" for the navy case, from its gallery and swatch URLs.
