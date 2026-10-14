@@ -112,7 +112,11 @@ a.card:hover, .card:hover { text-decoration: none; }
 .card-icon .card-icon-glyph { position: absolute; top: 22px; left: 28px; width: 36px; height: 36px; }
 
 /* Product card: eyebrow, title, image, swatches, price + buy button */
-.pcard { justify-content: space-between; padding: 28px; }
+.pcard { position: relative; justify-content: space-between; padding: 28px; }
+/* Whole-card link: the title link stretches over the card; buttons inside stay on top. */
+.card-link { color: inherit; }
+.card-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.pcard .btn { position: relative; z-index: 1; }
 .pcard .card-title { padding: 0 0 9px; }
 .pcard .card-media { flex: 1; align-items: center; overflow: hidden; }
 .pcard-swatches { display: flex; justify-content: center; gap: 6px; padding-top: 24px; }

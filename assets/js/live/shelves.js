@@ -36,7 +36,7 @@ Live.shelvesHTML = (shelves) => {
       const cta = c.cta ? `<a class="btn" href="${href}">${esc(c.cta)}</a>` : "";
       return `<article class="card${w || " card-w313"} pcard live-pcard${tone}">
         <div class="pcard-head">${eyebrow}</div>${c.kind === "recomm" ? swatches(c.swatches) + media(c) : media(c) + swatches(c.swatches)}
-        <h3 class="pcard-name live-pcard-title">${esc(c.title)}</h3>
+        <h3 class="pcard-name live-pcard-title">${c.href ? `<a class="card-link" href="${href}">${esc(c.title)}</a>` : esc(c.title)}</h3>
         <div class="pcard-info">${c.price ? `<p class="pcard-price">${esc(c.price)}</p>` : ""}${cta}</div></article>`;
     }
 
@@ -47,7 +47,9 @@ Live.shelvesHTML = (shelves) => {
     const body = `<div class="card-body">${eyebrow}<h3 class="card-title${c.short ? " t-card" : ""}">${title}</h3>${c.desc ? `<p class="card-desc">${esc(c.desc)}</p>` : ""}${c.price ? `<p class="card-desc">${esc(c.price)}</p>` : ""}</div>`;
     const bg = c.bg && !c.dark && !["rgb(255, 255, 255)", "rgba(0, 0, 0, 0)"].includes(c.bg) ? ` style="background:${esc(c.bg)}"` : "";
     const cls = [`card${w}`, tone, c.short ? "card-short" : "", full ? "card-full" : "", isIcon ? "card-icon" : ""].join(" ").replace(/\s+/g, " ");
-    return `<a class="${cls.trim()}" href="${href}"${bg}>${isIcon || full ? media(c) : ""}${body}${!full && !isIcon ? media(c) : ""}</a>`;
+    // A card without a source URL opens an overlay on the source: render it as a plain block, not a dead link.
+    const tag = c.href ? "a" : "div";
+    return `<${tag} class="${cls.trim()}"${c.href ? ` href="${href}"` : ""}${bg}>${isIcon || full ? media(c) : ""}${body}${!full && !isIcon ? media(c) : ""}</${tag}>`;
   };
 
   // Group consecutive cards by column: a single card stands alone, several cards stack in a column.

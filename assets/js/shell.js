@@ -2,7 +2,7 @@
 // Every page includes <div data-shell="nav"></div> at the top and <div data-shell="footer"></div> at the bottom.
 (() => {
   const root = document.currentScript?.src.replace(/assets\/js\/shell\.js.*$/, "") || "/";
-  const url = (p) => (/^(https?:|#)/.test(p) ? p : root + p);
+  const url = (p) => (/^(https?:|#|\/)/.test(p) ? p : root + p);
 
   // Navigation model: label, flyout groups (first group is "elevated": large links).
   const NAV = [

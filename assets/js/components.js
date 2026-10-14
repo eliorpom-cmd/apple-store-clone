@@ -12,6 +12,14 @@
   const CLOSE = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
   const CHEV_DOWN = '<svg viewBox="0 0 17 10" aria-hidden="true"><path d="M1.5 1.5l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+  // ---------- Placeholder links ----------
+  // href="#" marks an action the clone does not implement (overlay, save, video on the source):
+  // clicking it must not jump back to the top of the page.
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href="#"]');
+    if (a) e.preventDefault();
+  });
+
   // ---------- Scroller ----------
   document.querySelectorAll("[data-scroller]").forEach((root) => {
     const track = root.querySelector(".scroller-track");

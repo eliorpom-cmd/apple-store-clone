@@ -32,6 +32,33 @@
     "/shop/product/mwvv3am/a/20w-usb-c-power-adapter": "pages/product-charger.html",
   };
 
+  // Marketing page -> store page that sells the same product (live mode). Exact pages first, then families.
+  const STORE_PAGES = {
+    "/macbook-neo": "/shop/buy-mac/macbook-neo", "/macbook-air": "/shop/buy-mac/macbook-air",
+    "/macbook-pro": "/shop/buy-mac/macbook-pro", "/imac": "/shop/buy-mac/imac", "/mac-mini": "/shop/buy-mac/mac-mini",
+    "/mac-studio": "/shop/buy-mac/mac-studio", "/displays": "/shop/buy-mac/studio-display",
+    "/ipad-pro": "/shop/buy-ipad/ipad-pro", "/ipad-air": "/shop/buy-ipad/ipad-air", "/ipad-mini": "/shop/buy-ipad/ipad-mini",
+    "/ipad-11": "/shop/buy-ipad", "/apple-pencil": "/shop/accessories/all", "/ipad-keyboards": "/shop/accessories/all",
+    "/iphone-duo": "/shop/buy-iphone/iphone-duo", "/iphone-18-pro": "/shop/buy-iphone/iphone-18-pro",
+    "/iphone-air": "/shop/buy-iphone/iphone-air", "/iphone-17": "/shop/buy-iphone/iphone-17",
+    "/iphone-17e": "/shop/buy-iphone/iphone-17e", "/iphone-16": "/shop/buy-iphone/iphone-16",
+    "/apple-watch-series-12": "/shop/buy-watch/apple-watch", "/apple-watch-ultra-4": "/shop/buy-watch/apple-watch-ultra",
+    "/apple-watch-se-3": "/shop/buy-watch/apple-watch-se", "/apple-watch-hermes": "/shop/buy-watch/apple-watch-hermes",
+    "/apple-watch-nike": "/shop/buy-watch/apple-watch", "/apple-vision-pro": "/shop/buy-vision/apple-vision-pro",
+    "/airpods-5": "/shop/buy-airpods/airpods-5", "/airpods-pro": "/shop/buy-airpods/airpods-pro-3",
+    "/airpods-max": "/shop/buy-airpods/airpods-max-2", "/homepod-mini": "/shop/buy-homepod/homepod-mini",
+    "/apple-tv-4k": "/shop/buy-tv/apple-tv-4k", "/apple-homeview": "/shop/buy-home/apple-homeview",
+    "/homepod-2nd-generation": "/shop/buy-home", "/home": "/shop/buy-home", "/support": "/shop/help",
+  };
+  const STORE_FAMILIES = [["/mac", "/shop/buy-mac"], ["/ipad", "/shop/buy-ipad"], ["/iphone", "/shop/buy-iphone"],
+    ["/watch", "/shop/buy-watch"], ["/airpods", "/shop/goto/airpods/accessories"], ["/tv-home", "/shop/buy-home"]];
+  const storePath = (path) => {
+    const top = "/" + (path.split("/")[1] || "");
+    if (STORE_PAGES[top]) return STORE_PAGES[top];
+    const fam = STORE_FAMILIES.find(([m]) => top === m);
+    return fam ? fam[1] : path;
+  };
+
   // Reverse map: local page -> source path (used when a page is opened without ?src=).
   const SRC_OF = Object.fromEntries(Object.entries(LOCAL).map(([path, file]) => [file.replace(/^pages\//, "").replace(".html", ""), path]));
   const srcParam = params.get("src");
@@ -55,8 +82,11 @@
       if (!href) return "#";
       try {
         const u = new URL(href, "https://www.apple.com");
+        if (u.hostname === "support.apple.com" && Live.server) return "/__go?src=" + encodeURIComponent("/shop/help");
         if (u.hostname !== "www.apple.com") return u.href;
-        const path = u.pathname.replace(/^\/us(?=\/)/, "").replace(/\/$/, "") || "/";
+        let path = u.pathname.replace(/^\/us(?=\/)/, "").replace(/\/$/, "") || "/";
+        // Marketing pages are not cloned: send them to the matching store page instead of the source site.
+        if (Live.server) path = storePath(path);
         // With the live server, every store page gets its own local page (extracted on demand).
         if (Live.server && /^\/(store|shop|retail|today)(\/|$)/.test(path)) return "/__go?src=" + encodeURIComponent(path);
         return LOCAL[path] ? root + LOCAL[path] : u.href;
