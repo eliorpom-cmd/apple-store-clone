@@ -29,7 +29,7 @@
   }
 
   const ICON = {
-    logo: '<svg viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6.2" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="7" r="2.4" fill="currentColor"/></svg>',
+    logo: '<svg viewBox="5 2 14 20.5" aria-hidden="true"><path fill="currentColor" d="M12 6.2c-2.1 0-3.2 1.8-3.4 3.7-.2 1.6-2.9 2.9-2.9 6.4 0 3.4 2.8 5.7 6.3 5.7s6.3-2.3 6.3-5.7c0-3.5-2.7-4.8-2.9-6.4-.2-1.9-1.3-3.7-3.4-3.7Z"/><path fill="currentColor" d="M12.3 5.6c1.1-2.4 3.3-3.4 5.4-3-.7 2.2-2.9 3.5-5.4 3Z"/><path fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" d="M11.9 6.3c0-1.3-.3-2.4-.9-3.3"/></svg>',
     search: '<svg viewBox="0 0 15 44" aria-hidden="true"><circle cx="6.5" cy="21" r="5.3" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M10.4 25l4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
     bag: '<svg viewBox="0 0 14 44" aria-hidden="true"><path d="M1.5 17.5h11v12a1.5 1.5 0 0 1-1.5 1.5H3a1.5 1.5 0 0 1-1.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M4.5 17.5v-1a2.5 2.5 0 0 1 5 0v1" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
     arrow: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 5h8M5.5 1.5L9 5 5.5 8.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',

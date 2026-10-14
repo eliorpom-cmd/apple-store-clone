@@ -32,7 +32,7 @@
 .gnav-link:hover, .gnav-item.is-active > .gnav-link { color: var(--nav-link-hover); text-decoration: none; }
 .gnav.is-open .gnav-item:not(.is-active):not(.gnav-icon) > .gnav-link { color: var(--nav-link); }
 .gnav-logo { width: 30px; justify-content: center; }
-.gnav-logo svg { width: 14px; height: 14px; }
+.gnav-logo svg { width: 14px; height: 20px; } /* pear mark, drawn for the demo store */
 .gnav-icon svg { width: 15px; height: 44px; }
 .gnav-bag { position: relative; }
 .gnav-badge {

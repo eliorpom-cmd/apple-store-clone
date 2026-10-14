@@ -19,6 +19,12 @@ The repository ships **only the shell**: layout, components, page templates and 
 > Apple, iPhone, iPad, Mac and the other product names mentioned in code comments and tools are trademarks of
 > Apple Inc.
 
+## Reusable kit
+
+`kit/` holds the reusable version: the same tokens and components with no hard-coded values, fluid type,
+container queries and cascade layers, documented in [`kit/README.md`](kit/README.md) and shown in `kit/index.html`.
+Start there to build your own store pages; the clone pages keep the measured values of the original.
+
 ## Run it
 
 ```sh

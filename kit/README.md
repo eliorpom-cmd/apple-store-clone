@@ -1,0 +1,67 @@
+# Store kit
+
+Reusable CSS and JS components extracted from the measured store clone: the same sizes, rhythm and motion,
+rewritten so they adapt to any page instead of reproducing one page pixel for pixel.
+
+- **No build step.** Link one stylesheet and one script.
+- **No hard-coded values in components.** Every colour, size, space, radius and duration is a token
+  (`css/tokens.css`) or a knob of the component (a custom property such as `--card-w`).
+- **Fluid.** Display type scales with `clamp()` between the compact (≤ 734 px) and full (≥ 1068 px) layouts;
+  shelves switch card sizes with container queries, so a component adapts to the slot you give it.
+- **Easy to override.** Everything sits in cascade layers (`kit.tokens < kit.base < kit.components`):
+  your own CSS wins without `!important`.
+
+Open `index.html` to see every component.
+
+## Use it
+
+```html
+<link rel="stylesheet" href="kit/css/kit.css">
+<body class="kit">
+  …
+  <script src="kit/js/kit.js" defer></script>
+</body>
+```
+
+`class="kit"` on a container scopes the reset and base type to it, so the kit can live inside an existing page.
+
+## Customise
+
+Change a token for the whole page:
+
+```css
+:root { --kit-action: #2d6a4f; --kit-radius-lg: 24px; --kit-font: "Inter", sans-serif; }
+```
+
+Change one component through its knobs:
+
+```css
+.my-promo .kit-card { --card-w: 480px; --card-h: 360px; --card-pad: 40px; }
+.kit-gallery { --gallery-ratio: 1; --gallery-bg: var(--kit-surface); }
+.kit-localbar { --localbar-top: 44px; }   /* when a global nav stays above it */
+```
+
+## Components
+
+| Component | Classes | Behaviour (`kit.js`) |
+|---|---|---|
+| Button, links, eyebrow | `kit-btn` (`--large`, `--block`, `--secondary`, `--dark`, `--light`), `kit-link-more`, `kit-eyebrow` | — |
+| Page header | `kit-page-head`, `__title`, `__aside`, `__links` | — |
+| Section heading (two tones) | `kit-section-head` with `<strong>` | — |
+| Content card | `kit-card` (`--dark`, `--black`, `--short`, `--cover`), `__body`, `__title`, `__text`, `__media`, `__link` | — |
+| Product card | `kit-card kit-product`, `__name`, `__swatches`, `__info`, `__price` | — |
+| Shelf (card row) | `kit-shelf`, `__track` | `data-kit-shelf`: arrows |
+| Local bar | `kit-localbar`, `__inner`, `__title`, `__links`, `__action` | `data-kit-sticky`: bottom rule once stuck |
+| Configurator step and options | `kit-step`, `__title`, `kit-options` (`--2`, `--3`), `kit-option`, `__label`, `__name`, `__sub`, `__price`, `kit-help` | — |
+| Colour swatches | `kit-swatches`, `kit-swatch`, `kit-swatches__label` | `data-kit-swatches`: names the checked colour |
+| Gallery | `kit-gallery`, `__track`, `__slide` | `data-kit-gallery` (`="compact"`): arrows and dots |
+| Summary | `kit-summary`, `__title`, `__price`, `__fine` | — |
+| Accordion | `kit-accordion`, `__item`, `__button`, `__panel` | `data-kit-accordion` |
+
+Each CSS file starts with the markup it expects.
+
+## Kit and clone
+
+The clone (`pages/`, `assets/`) reproduces the reference store at 97–99/100 and keeps its measured values on
+purpose. The kit takes the same values as defaults, but lays them out with flex, grid, `clamp()` and container
+queries. Build new pages with the kit; read the clone to see how the original arranges them.
