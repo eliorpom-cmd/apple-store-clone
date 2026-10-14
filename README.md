@@ -19,6 +19,22 @@ The repository ships **only the shell**: layout, components, page templates and 
 > Apple, iPhone, iPad, Mac and the other product names mentioned in code comments and tools are trademarks of
 > Apple Inc.
 
+## Screenshots
+
+Demo mode (fictional "Pear Store" content, as shipped in this repository):
+
+| Store home | Global nav menu |
+|---|---|
+| ![Store home in demo mode](docs/screenshots/demo-store.png) | ![Computers menu open](docs/screenshots/demo-nav.png) |
+| **Configurator** | **Accessories** |
+| ![Phone configurator](docs/screenshots/demo-configurator.png) | ![Accessories grid](docs/screenshots/demo-accessories.png) |
+
+Reusable kit and mobile layout:
+
+| Kit components | Model comparator | Mobile (390 px) |
+|---|---|---|
+| ![Kit showcase](docs/screenshots/kit-showcase.png) | ![Model comparator](docs/screenshots/kit-compare.png) | ![Store home on a phone](docs/screenshots/demo-mobile.png) |
+
 ## Reusable kit
 
 `kit/` holds the reusable version: the same tokens and components with no hard-coded values, fluid type,
