@@ -3,3 +3,7 @@ adn-check/
 node_modules/
 .DS_Store
 content/live/
+
+# Maintainer-only notes (personal, never published)
+CLAUDE.local.md
+JOURNAL.md

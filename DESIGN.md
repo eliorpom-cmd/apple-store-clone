@@ -1,164 +1,163 @@
 # Store clone — Design
 
-> Page gris très clair `#f5f5f7`, texte presque noir `#1d1d1f`, cartes blanches arrondies à 18 px
-> qui défilent à l'horizontale, un seul bleu `#0071e3` pour l'action, titres en deux tons
-> (noir puis gris `#6e6e73`), nav translucide de 44 px collée en haut.
+> Very light grey page `#f5f5f7`, near-black text `#1d1d1f`, white cards rounded at 18 px that scroll
+> horizontally, a single blue `#0071e3` for actions, two-tone headings (black then grey `#6e6e73`),
+> a 44 px translucent nav stuck to the top.
 
-- **Surface** : site statique HTML + CSS + JS vanilla, sans build
-- **Registre** : apple-like (ajouté au corpus adn-design : `apple.com/store`)
-- **Gestes** : titre en deux tons · rangées de cartes défilantes coupées par le bord droit
-- **Origine** : rétro-ingénierie du rendu de apple.com/store et de 52 pages secondaires, mesurée le 2026-10-13
-  (styles calculés, feuilles CSS, captures 1440 / 390 px, interactions filmées). Valeurs seulement :
-  aucun code, texte, image, police ni logo d'Apple n'est repris.
-- **Mis à jour** : 2026-10-13
-- **Fichiers de tokens** : `assets/css/tokens.css`
-- **Specs détaillées par gabarit** : `_analysis/specs/` (locales, non publiées : elles citent le balisage d'origine)
+- **Surface**: static site, vanilla HTML + CSS + JS, no build
+- **Register**: apple-like
+- **Signature moves**: two-tone heading · card shelves that scroll and get cut by the right edge
+- **Origin**: reverse-engineered from the rendering of apple.com/store and 52 secondary pages, measured on
+  2026-10-13 (computed styles, stylesheets, screenshots at 1440 / 390 px, recorded interactions). Values only:
+  no Apple code, text, image, font or logo is reused.
+- **Updated**: 2026-10-13
+- **Token file**: `assets/css/tokens.css`
 
-## Principes
+## Principles
 
-1. Deux fonds seulement : `--page` (#f5f5f7) pour les pages et `--surface` (#fff) pour les cartes et
-   les zones de choix. Le noir `#000` / `#1d1d1f` sert de fond aux cartes sombres, jamais à la page.
-2. Le bleu `--action` (#0071e3) est réservé à l'action (bouton principal, sélection, focus). Les liens
-   sont `--link` (#0066cc). Aucune autre couleur vive hors badges (`--badge-new` orange, `--promo` rouge).
-3. Les titres de section sont en deux tons dans la même ligne : la première proposition en `--text`,
-   la suite en `--text-2`. Graisse 600 pour les deux.
-4. Le contenu tient dans un conteneur de 980 px (pages de texte) ou suit le bord gauche du
-   conteneur de 1440 px avec un débord à droite (rangées défilantes). Les cartes ne se centrent pas.
-5. Tout ce qui bouge le fait en 240–400 ms ; les survols de cartes en 300 ms
-   `cubic-bezier(0, 0, .5, 1)` avec une échelle de 1.01, jamais plus.
+1. Two backgrounds only: `--page` (#f5f5f7) for pages and `--surface` (#fff) for cards and choice areas.
+   Black `#000` / `#1d1d1f` is a background for dark cards, never for the page.
+2. Blue `--action` (#0071e3) is reserved for actions (primary button, selection, focus). Links are
+   `--link` (#0066cc). No other bright colour outside badges (`--badge-new` orange, `--promo` red).
+3. Section headings are two-tone on one line: the first clause in `--text`, the rest in `--text-2`.
+   Weight 600 for both.
+4. Content sits in a 980 px container (text pages) or follows the left edge of the 1440 px container and
+   overflows on the right (scrolling shelves). Cards are never centred.
+5. Everything that moves does so in 240–400 ms; card hovers in 300 ms `cubic-bezier(0, 0, .5, 1)` with a
+   scale of 1.01, never more.
 
-## Couleurs
+## Colours
 
-| Nom | Valeur | Token | Rôle |
+| Name | Value | Token | Role |
 |---|---|---|---|
-| Page | `#f5f5f7` | `--page` | fond des pages, pied de page |
-| Surface | `#ffffff` | `--surface` | cartes, options, panneaux |
-| Surface atténuée | `#fafafc` | `--surface-2` | fond de nav (à 80 %), zones secondaires |
-| Ligne | `#d2d2d7` | `--line` | séparateurs, bordure des options au repos |
-| Ligne douce | `#e8e8ed` | `--line-2` | fonds de puces, encadré financement |
-| Texte | `#1d1d1f` | `--text` | titres, corps |
-| Texte 2 | `#6e6e73` | `--text-2` | 2e ton des titres, descriptions |
-| Texte 3 | `#86868b` | `--text-3` | mentions, notes |
-| Action | `#0071e3` · survol `#0076df` · pressé `#006edb` | `--action` | bouton principal, option sélectionnée, focus |
-| Lien | `#0066cc` (sur sombre `#2997ff`) | `--link` | liens texte « En savoir plus › » |
-| Nouveau | `#b64400` | `--badge-new` | badge « Nouveau » au-dessus d'un nom |
-| Promo | `#e30000` | `--promo` | prix barré, offre |
-| Succès | `#008009` | `--success` | disponibilité, livraison |
-| Sombre | `#1d1d1f` / `#000` | `--dark` / `--black` | cartes sombres, bouton neutre |
+| Page | `#f5f5f7` | `--page` | page background, footer |
+| Surface | `#ffffff` | `--surface` | cards, options, panels |
+| Dimmed surface | `#fafafc` | `--surface-2` | nav background (at 80 %), secondary areas |
+| Line | `#d2d2d7` | `--line` | separators, option border at rest |
+| Soft line | `#e8e8ed` | `--line-2` | chip backgrounds, financing box |
+| Text | `#1d1d1f` | `--text` | headings, body |
+| Text 2 | `#6e6e73` | `--text-2` | second tone of headings, descriptions |
+| Text 3 | `#86868b` | `--text-3` | fine print, notes |
+| Action | `#0071e3` · hover `#0076df` · pressed `#006edb` | `--action` | primary button, selected option, focus |
+| Link | `#0066cc` (on dark `#2997ff`) | `--link` | text links "Learn more ›" |
+| New | `#b64400` | `--badge-new` | "New" badge above a name |
+| Promo | `#e30000` | `--promo` | struck-through price, offer |
+| Success | `#008009` | `--success` | availability, delivery |
+| Dark | `#1d1d1f` / `#000` | `--dark` / `--black` | dark cards, neutral button |
 
-Pas de mode sombre : le site source n'en a pas.
+No dark mode: the source site has none.
 
-## Typographie
+## Typography
 
-- **Familles** : pile système `-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif`.
-  Sur Mac et iOS elle rend la police système (rendu identique au site source) sans redistribuer de
-  fichier ; ailleurs, Inter (OFL) en fallback, chargée depuis Google Fonts.
-- **Base** : `html { font-size: 106.25% }` → 1 rem = 17 px.
+- **Families**: system stack `-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif`.
+  On Mac and iOS it renders the system font (same rendering as the source site) without redistributing any
+  font file; elsewhere, Inter (OFL) as fallback, loaded from Google Fonts.
+- **Base**: `html { font-size: 106.25% }` → 1 rem = 17 px.
 
-| Rôle | Desktop | Mobile | Graisse | Interlignage | Tracking | Token |
+| Role | Desktop | Mobile | Weight | Line height | Tracking | Token |
 |---|---|---|---|---|---|---|
-| Titre de page Store / catégorie | 80 px | 48 px | 600 | 1.05 | −0.015 em | `--t-display` |
-| Titre configurateur, modale | 48 px | 32 px | 600 | 1.0835 | −0.003 em | `--t-hero` |
-| Titre de section | 28 px | 24 px | 600 | 1.1429 | 0.007 em | `--t-section` |
-| Titre de carte (grande) | 28 px | 24 px | 600 | 1.1429 | 0.007 em | `--t-section` |
-| Titre de carte | 21 px | 19 px | 600 | 1.1905 | 0.011 em | `--t-card` |
-| Titre d'étape | 24 px | 21 px | 600 | 1.1667 | 0.009 em | `--t-step` |
+| Store / category page title | 80 px | 48 px | 600 | 1.05 | −0.015 em | `--t-display` |
+| Configurator title, modal | 48 px | 32 px | 600 | 1.0835 | −0.003 em | `--t-hero` |
+| Section heading | 28 px | 24 px | 600 | 1.1429 | 0.007 em | `--t-section` |
+| Card title (large) | 28 px | 24 px | 600 | 1.1429 | 0.007 em | `--t-section` |
+| Card title | 21 px | 19 px | 600 | 1.1905 | 0.011 em | `--t-card` |
+| Step title | 24 px | 21 px | 600 | 1.1667 | 0.009 em | `--t-step` |
 | Intro | 21 px | 19 px | 400 | 1.381 | 0.011 em | `--t-intro` |
-| Corps | 17 px | 17 px | 400 | 1.4706 | −0.022 em | `--t-body` |
-| Corps serré (prix, options) | 17 px | 17 px | 400/600 | 1.2353 | −0.022 em | `--t-body-tight` |
-| Petit | 14 px | 14 px | 400 | 1.4286 | −0.016 em | `--t-small` |
-| Note, nav, pied | 12 px | 12 px | 400 | 1.3334 | −0.01 em | `--t-note` |
+| Body | 17 px | 17 px | 400 | 1.4706 | −0.022 em | `--t-body` |
+| Tight body (prices, options) | 17 px | 17 px | 400/600 | 1.2353 | −0.022 em | `--t-body-tight` |
+| Small | 14 px | 14 px | 400 | 1.4286 | −0.016 em | `--t-small` |
+| Note, nav, footer | 12 px | 12 px | 400 | 1.3334 | −0.01 em | `--t-note` |
 | Eyebrow / badge | 12 px | 12 px | 600 | 1.3334 | −0.01 em | `--t-note` |
 
-Tailles relatives admises : exposants 0.6 em (prix) et 0.75 em (notes), flèche de lien externe 0.85 em.
+Allowed relative sizes: superscripts 0.6 em (prices) and 0.75 em (notes), external-link arrow 0.85 em.
 
-Mesure des paragraphes : 60–75 ch. Tracking positif au-dessus de 19 px, négatif en dessous (optique SF).
+Paragraph measure: 60–75 ch. Positive tracking above 19 px, negative below (SF optical sizing).
 
-## Espace et mise en page
+## Space and layout
 
-- **Unité** : 4 px (valeurs observées 8 · 12 · 16 · 20 · 24 · 32 · 40 · 52 · 64 · 80 · 96)
-- **Conteneur** : 980 px pour le texte ; pages Store : marge latérale `--shelf-edge` = 22 px sous 1024,
-  `calc(-268.46px + 28.365vw)` de 1024 à 1440, 140 px au-delà. Configurateurs : 1260 px (galerie 872 + 60 + rail 328).
-- **Gouttière** : 22 px (desktop), 16 px sous 734 px
-- **Points de rupture** : 1440 (marge 140 px) · 1069 (indicateur de progression) · 1023 (mobile des pages Store) · 833 (nav mobile 48 px) · 734 (pages de contenu) px
-- **Cartes défilantes** : `scroll-snap-type: x mandatory`, gouttière 20 px, haut 16 px, bas 40 px ; 46 px entre rangées (28 mobile)
+- **Unit**: 4 px (observed values 8 · 12 · 16 · 20 · 24 · 32 · 40 · 52 · 64 · 80 · 96)
+- **Container**: 980 px for text; Store pages: side margin `--shelf-edge` = 22 px below 1024,
+  `calc(-268.46px + 28.365vw)` from 1024 to 1440, 140 px above. Configurators: 1260 px (gallery 872 + 60 + rail 328).
+- **Gutter**: 22 px (desktop), 16 px below 734 px
+- **Breakpoints**: 1440 (140 px margin) · 1069 (progress indicator) · 1023 (Store pages mobile) · 833 (48 px mobile nav) · 734 (content pages) px
+- **Scrolling cards**: `scroll-snap-type: x mandatory`, 20 px gutter, 16 px top, 40 px bottom; 46 px between shelves (28 on mobile)
 
-## Formes et profondeur
+## Shapes and depth
 
-| Élément | Arrondi | Bordure | Ombre |
+| Element | Radius | Border | Shadow |
 |---|---|---|---|
-| Carte | 18 px | aucune | `--shadow-card` repos · `--shadow-card-hover` survol |
-| Option à choisir | 12 px | 1 px `--text-3` · survol `#8f8f94` · 2 px `--action` sélectionnée | aucune |
-| Petite carte, vignette | 15 px | | |
-| Modale | 18 px (haut seulement en mobile, feuille) | | voile `rgba(0,0,0,.48)` |
-| Bouton | capsule `980px` · bouton bloc 12 px | | |
-| Galerie, carte d'aide | 18 px · 12 px | | fond `--page` |
-| Pastille de couleur | 50 % | anneau 2 px `--action` à 3 px d'écart | |
+| Card | 18 px | none | `--shadow-card` at rest · `--shadow-card-hover` on hover |
+| Choice option | 12 px | 1 px `--text-3` · hover `#8f8f94` · 2 px `--action` when selected | none |
+| Small card, thumbnail | 15 px | | |
+| Modal | 18 px (top only on mobile, sheet) | | scrim `rgba(0,0,0,.48)` |
+| Button | pill `980px` · block button 12 px | | |
+| Gallery, help card | 18 px · 12 px | | `--page` background |
+| Colour swatch | 50 % | 2 px `--action` ring with a 3 px gap | |
 | Focus | | | `0 0 0 4px rgba(0,125,250,.6)` |
 
-## Mouvement
+## Motion
 
-- **Standard** : `cubic-bezier(.4, 0, .6, 1)` 240 ms (nav, menus) — `--ease-std` `--dur-2`
-- **Carte au survol** : 300 ms `cubic-bezier(0, 0, .5, 1)`, `scale(1.01)` + ombre `--shadow-card-hover`
-- **Menu déroulant de la nav** : hauteur animée 320 ms ; entrées en cascade, chacune `opacity` +
-  `translateY(-8px → 0)`, durée `min(160ms + 20ms × rang inverse, 240ms)`
-- **Modale** : fondu seul, 100 ms `ease-in-out`, aucun déplacement
-- **Accordéon** : hauteur 300 ms `ease-in-out`, chevron tourne de 180°
-- **Flèches de rangée** : apparition au survol `scale(.8 → 1)` 500 ms ease-in + opacité 700 ms `cubic-bezier(.15,0,.2,1)`
-- **Étapes du configurateur** : verrouillées à opacité .32 tant que l'étape précédente n'est pas choisie
-- **Défilement des rangées** : flèches → `scroll-behavior: smooth` d'une page de cartes
-- **Réduit** : sous `prefers-reduced-motion: reduce`, durées à 0 sauf les fondus (120 ms)
+- **Standard**: `cubic-bezier(.4, 0, .6, 1)` 240 ms (nav, menus) — `--ease-std` `--dur-2`
+- **Card hover**: 300 ms `cubic-bezier(0, 0, .5, 1)`, `scale(1.01)` + `--shadow-card-hover`
+- **Nav flyout**: height animated over 320 ms; items cascade in, each `opacity` +
+  `translateY(-8px → 0)`, duration `min(160ms + 20ms × reverse index, 240ms)`
+- **Modal**: fade only, 100 ms `ease-in-out`, no movement
+- **Accordion**: height 300 ms `ease-in-out`, chevron rotates 180°
+- **Shelf arrows**: appear on hover with `scale(.8 → 1)` 500 ms ease-in + opacity 700 ms `cubic-bezier(.15,0,.2,1)`
+- **Configurator steps**: locked at opacity .32 until the previous step has a choice
+- **Shelf scrolling**: arrows → `scroll-behavior: smooth` by one page of cards
+- **Reduced**: under `prefers-reduced-motion: reduce`, durations drop to 0 except fades (120 ms)
 
-## Composants
+## Components
 
-Code de référence : `assets/css/components/components.css` + `assets/js/components.js`. Résumé :
+Reference code: `assets/css/components/components.css` + `assets/js/components.js`. Summary:
 
-### Bouton
-Capsule `980px`, fond `--action`, texte blanc 14 px, padding 8 × 15 px (36 px de haut) ; grand : 17 px.
-Survol `#0076df`, pressé `#006edb`, désactivé opacité 0.42, transitions 100 ms linear. Variantes :
-secondaire (contour 1 px `--link`, survol plein), neutre (`#1d1d1f`, survol `#272729`), contour neutre
-(pilules de liens rapides), bloc « Ajouter au sac » (largeur 100 %, 44 px de haut, arrondi 12 px).
-Code : `assets/css/components/button.css`
+### Button
+Pill `980px`, `--action` background, white 14 px text, 8 × 15 px padding (36 px tall); large: 17 px.
+Hover `#0076df`, pressed `#006edb`, disabled opacity 0.42, 100 ms linear transitions. Variants:
+secondary (1 px `--link` outline, filled on hover), neutral (`#1d1d1f`, hover `#272729`), neutral outline
+(quick-link pills), "Add to Bag" block (100 % wide, 44 px tall, 12 px radius).
+Code: `assets/css/components/button.css`
 
-### Carte de rangée
-`--surface`, arrondi 18 px, `--shadow-card`, 500 px de haut ; largeurs 313 · 400 · 480 · 646 px
-(309 × 450 en mobile) ; courtes 240 px. Padding 28 px, eyebrow 12 px 600, titre `--t-section`, image
-collée en bas. Survol : échelle 1.01 + ombre, 300 ms `cubic-bezier(0, 0, .5, 1)`.
-Code : `assets/css/components/card.css`
+### Shelf card
+`--surface`, 18 px radius, `--shadow-card`, 500 px tall; widths 313 · 400 · 480 · 646 px
+(309 × 450 on mobile); short cards 240 px. 28 px padding, 12 px 600 eyebrow, `--t-section` title, image
+pinned to the bottom. Hover: scale 1.01 + shadow, 300 ms `cubic-bezier(0, 0, .5, 1)`.
+Code: `assets/css/components/card.css`
 
-## Médias et icônes
+## Media and icons
 
-- **Visuels produit (mode démo)** : fond transparent (les visuels d'origine sont détourés) et une seule pastille
-  centrée `#e8e8ed` : « <Produit> image » en `--text`, détail en dessous en `--text-2` (« (ink sport strap) »,
-  « (front) », texte alternatif de l'image). Sous 130 px de large, pastille courte avec le seul nom. Aucun dessin
-  d'appareil, aucune photo d'Apple. Généré par `node tools/demo-placeholders.mjs` (fichiers `assets/img/products/`
-  et SVG inline des configurateurs, accessoires, bracelets) : relancer après avoir changé un texte alternatif ou un titre.
-- **Icônes** : SVG maison, trait 1.5 px, 16–24 px (recherche, sac, chevron, fermer, plus).
-- **Pas de logo** : un monogramme générique occupe la place du logo dans la nav.
+- **Product visuals (demo mode)**: transparent background (the original visuals are cut out) and a single centred
+  `#e8e8ed` pill: "<Product> image" in `--text`, detail below in `--text-2` ("(ink sport strap)", "(front)",
+  the image's alt text). Under 130 px wide, a short pill with the name only. No device drawing, no Apple photo.
+  Generated by `node tools/demo-placeholders.mjs` (files in `assets/img/products/` and inline SVG in
+  configurators, accessories, bands): re-run it after changing an alt text or a title.
+- **Icons**: custom SVG, 1.5 px stroke, 16–24 px (search, bag, chevron, close, plus).
+- **No logo**: a generic monogram (a pear) takes the logo's place in the nav.
 
-## À faire
+## Do
 
-- Titres de section en deux tons (`<strong>` noir + reste en `--text-2`) sur toutes les rangées.
-- Rangées défilantes alignées sur le bord gauche du contenu et coupées par le bord droit de l'écran.
-- Une seule couleur d'action par écran : `--action`.
-- Prix et options dans des cartes blanches à bordure 1 px, sélection = bordure 2 px bleue.
+- Two-tone section headings (`<strong>` in black + the rest in `--text-2`) on every shelf.
+- Scrolling shelves aligned to the content's left edge and cut by the right edge of the screen.
+- One action colour per screen: `--action`.
+- Prices and options in white cards with a 1 px border; selection = 2 px blue border.
 
-## À éviter
+## Don't
 
-- Ombres portées marquées : rien au-delà de `--shadow-card-hover`.
-- Arrondis hors échelle : 5 · 8 · 12 · 15 · 18 · 28 px, cercle et capsule seulement.
-- Couleurs vives hors `--action`, `--link`, `--badge-new`, `--promo`, `--success`.
-- Échelles au survol supérieures à 1.01.
-- Tout texte, image, police ou logo copié d'Apple (projet open source).
+- Heavy drop shadows: nothing beyond `--shadow-card-hover`.
+- Radii outside the scale: 5 · 8 · 12 · 15 · 18 · 28 px, circle and pill only.
+- Bright colours outside `--action`, `--link`, `--badge-new`, `--promo`, `--success`.
+- Hover scales above 1.01.
+- Any text, image, font or logo copied from Apple (open-source project).
 
-## Annexe — couleurs hors jetons
+## Appendix — colours outside tokens
 
-Valeurs que les jetons ne couvrent pas, listées pour que `extract.mjs --against DESIGN.md` ne signale aucun écart.
-Une nouvelle couleur en dur doit être ajoutée ici, ou remplacée par un jeton.
+Values the tokens do not cover, listed so that a design-drift check (every hex in the code must appear in this
+file) reports nothing. A new hard-coded colour must be added here, or replaced by a token.
 
-### Couleurs mesurées sans jeton (CSS)
+### Measured colours without a token (CSS)
 
-Chaque valeur porte un commentaire dans son fichier : mesure de la source, ou illustration du mode démo (`service.css`, `product.css`).
+Each value carries a comment in its file: a measurement of the source, or a demo-mode illustration (`service.css`, `product.css`).
 
 - `catalog-2.css` : `#7230c1` `#762fbc` `#a4257d` `#f10000` `#ff0300`
 - `catalog.css` : `#eeeeee` `#f0f4fd` `#fdfaf1`
@@ -167,10 +166,10 @@ Chaque valeur porte un commentaire dans son fichier : mesure de la source, ou il
 - `product.css` : `#c7c7cc`
 - `service.css` : `#33415c` `#a34a3c` `#d8cfc0`
 
-### Teintes du contenu démo
+### Demo content tints
 
-Couleurs des produits fictifs (pastilles de couleur, `--product-color`, halos des emplacements d'image). Ce
-sont des données de démo, pas du design : elles n'ont pas de jeton. Une couleur déjà listée plus haut n'est pas répétée.
+Colours of the fictional products (colour swatches, `--product-color`, image-slot halos). They are demo data, not
+design: they have no token. A colour already listed above is not repeated.
 
 - `index.html` : `#2c3e5a` `#7d8b6a` `#c25a3a` `#ececec`
 - `pages/accessories.html` : `#0b0b0d` `#0b0b0e` `#2b3140` `#2c2c2e` `#3a3a3c` `#3b3f46` `#5a68d4` `#6b6b3a` `#7a2e4d` `#7fa6d6` `#9ec3ff` `#b6663e` `#b8b5ac` `#b9a6ff` `#d8cfb8`
